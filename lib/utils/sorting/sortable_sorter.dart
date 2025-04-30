@@ -4,9 +4,6 @@ import 'package:flutter_recruitment_task/utils/sorting/sortable.dart';
 import 'column_sort_criteria.dart';
 
 class SortableSorter<T extends Sortable> {
-
-  // In case new data was received but sort criteria have not changed the new data will be sorted with the same order
-  // as the last sorting order chosen by the user - it is saved here.
   List<SortCriteria>? _sortCriteriaList = [];
 
   void sortColumns(List<T>? listToSort, {final List<SortCriteria>? sortCriteriaList}) {
@@ -15,6 +12,8 @@ class SortableSorter<T extends Sortable> {
     _sortCriteriaList = sortCriteriaList;
 
     if (_sortCriteriaList == null) return;
+
+    validateSortCriteria(listToSort[0], sortCriteriaList!);
 
     listToSort.sort(_compare);
   }
@@ -35,5 +34,15 @@ class SortableSorter<T extends Sortable> {
       if (result != 0) return result;
     }
     return 0;
+  }
+
+  void validateSortCriteria(Sortable listToSortElement, final List<SortCriteria> sortCriteriaList) {
+    var nSortableFields = listToSortElement.getSortableFields().length;
+    var nSortCriteria = sortCriteriaList.length;
+    var sortedType = listToSortElement.runtimeType.toString();
+    assert(nSortCriteria <= nSortableFields,
+        "Forbidden attempt at sorting list of $sortedType"
+            " having $nSortableFields sortable fields"
+            " with $nSortCriteria sort criteria");
   }
 }

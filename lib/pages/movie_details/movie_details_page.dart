@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
 
+// TODO - why stateful? refactor to stateless?
 class MovieDetailsPage extends StatefulWidget {
-  const MovieDetailsPage({super.key});
+  final String budget;
+  final String revenue;
+
+  const MovieDetailsPage(this.budget, this.revenue, {super.key});
 
   @override
   MovieDetailsPageState createState() => MovieDetailsPageState();
 }
 
 class MovieDetailsPageState extends State<MovieDetailsPage> {
-  final _details = [
-    MovieDetails(title: 'Budget', content: '\$2400000'),
-    MovieDetails(title: 'Revenue', content: '\$10000000'),
-    MovieDetails(title: 'Should I watch it today?', content: 'Yes!'),
-  ];
+  List<MovieDetails> _details = [];
 
   @override
   void initState() {
     super.initState();
+    _details = [
+      MovieDetails(title: 'Budget', content: '\$${widget.budget}'),
+      MovieDetails(title: 'Revenue', content: '\$${widget.revenue}'),
+      MovieDetails(title: 'Should I watch it today?', content: _getIsWorthwhile()),
+    ];
+  }
+
+  String _getIsWorthwhile() {
+    var revenue = int.parse(widget.revenue);
+    var budget = int.parse(widget.budget);
+    // TODO replace arbitrary criteria 1000000 with dynamic one
+    return (revenue - budget) > 1000000 ? 'Yes!' : 'No...';
   }
 
   @override
