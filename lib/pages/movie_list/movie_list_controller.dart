@@ -44,6 +44,7 @@ class MovieListController {
     context.goNamed(
       routeMovieDetails,
       pathParameters: {
+        paramMovieTitle: fetchedMovie.title.toString(),
         paramMovieBudget: fetchedMovie.budget.toString(),
         paramMovieRevenue: fetchedMovie.revenue.toString(),
       },

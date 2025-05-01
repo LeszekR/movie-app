@@ -1,9 +1,9 @@
 class MovieDetails {
-  final String title;
+  final String label;
   final String content;
 
   MovieDetails({
-    required this.title,
+    required this.label,
     required this.content,
   });
 }

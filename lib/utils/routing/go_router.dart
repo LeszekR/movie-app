@@ -13,9 +13,10 @@ final _router = GoRouter(
         name: routeMovieDetails,
         path: pathMovieDetails,
         builder: (context, state) {
+          final String title = state.pathParameters[paramMovieTitle]!;
           final String budget = state.pathParameters[paramMovieBudget]!;
           final String revenue = state.pathParameters[paramMovieRevenue]!;
-          return MovieDetailsPage(budget, revenue);
+          return MovieDetailsPage(title, budget, revenue);
         }),
   ],
 );
