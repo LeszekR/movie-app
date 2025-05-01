@@ -6,6 +6,9 @@ import 'package:flutter_recruitment_task/services/api_service.dart';
 import 'package:flutter_recruitment_task/utils/sorting/column_sort_criteria.dart';
 import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
 import 'package:flutter_recruitment_task/utils/sorting/sortable_sorter.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../utils/routing/go_router_const_strings.dart';
 
 class MovieListPage extends StatefulWidget {
   const MovieListPage({super.key});
@@ -31,9 +34,10 @@ class MovieListPageState extends State<MovieListPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.movie_creation_outlined),
-              onPressed: () {
-                //TODO implement navigation
-              },
+              // onPressed: () {
+              //   //TODO implement navigation
+              // },
+              onPressed: _openMovieDetails(context),
             ),
           ],
           title: Text('Movie Browser'),
@@ -70,7 +74,6 @@ class MovieListPageState extends State<MovieListPage> {
         itemBuilder: (context, index) => MovieCard(
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
-          onTap: () {},
         ),
         itemCount: movies.length,
       );
@@ -78,7 +81,6 @@ class MovieListPageState extends State<MovieListPage> {
   void _onSearchBoxSubmitted(String text) {
     setState(() {
       if (text.isNotEmpty) {
-        // _movieList = apiService.searchMovies(text);
         _movieList = apiService.searchMovies(text).then((movies) {
           _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
           return Future.value(movies);
@@ -87,5 +89,17 @@ class MovieListPageState extends State<MovieListPage> {
         _movieList = Future.value([]);
       }
     });
+  }
+
+  GestureTapCallback? _openMovieDetails(BuildContext context) {
+    // TODO replace dummies with actual data from the webservice
+    var budget = '5000000';
+    var revenue = '8000000';
+    return () {
+      context.goNamed(
+        routeMovieDetails,
+        pathParameters: {paramMovieBudget: budget, paramMovieRevenue: revenue},
+      );
+    };
   }
 }
