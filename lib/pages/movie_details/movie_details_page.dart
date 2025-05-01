@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
 
-// TODO - why stateful? refactor to stateless?
+// TODO refactor? MovieDetailsPage to StatelessWidget?
+
 class MovieDetailsPage extends StatefulWidget {
   final String budget;
   final String revenue;

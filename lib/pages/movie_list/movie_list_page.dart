@@ -24,9 +24,12 @@ class MovieListPageState extends State<MovieListPage> {
 
   final SortableSorter<Movie> _movieSorter = SortableSorter();
   final List<SortCriteria> _sortCriteriaList = [
-    SortCriteria(1, ESortDirection.desc),
-    SortCriteria(0, ESortDirection.asc),
+    SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
+    SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
+
+  var selectedMovieBudget_DUMMY = '5000000';
+  var selectedMovieRevenue_DUMMY = '8000000';
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -78,10 +81,10 @@ class MovieListPageState extends State<MovieListPage> {
         itemCount: movies.length,
       );
 
-  void _onSearchBoxSubmitted(String text) {
+  void _onSearchBoxSubmitted(String query) {
     setState(() {
-      if (text.isNotEmpty) {
-        _movieList = apiService.searchMovies(text).then((movies) {
+      if (query.isNotEmpty) {
+        _movieList = apiService.searchMovies(query).then((movies) {
           _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
           return Future.value(movies);
         });
@@ -92,13 +95,10 @@ class MovieListPageState extends State<MovieListPage> {
   }
 
   GestureTapCallback? _openMovieDetails(BuildContext context) {
-    // TODO replace dummies with actual data from the webservice
-    var budget = '5000000';
-    var revenue = '8000000';
     return () {
       context.goNamed(
         routeMovieDetails,
-        pathParameters: {paramMovieBudget: budget, paramMovieRevenue: revenue},
+        pathParameters: {paramMovieBudget: selectedMovieBudget_DUMMY, paramMovieRevenue: selectedMovieRevenue_DUMMY},
       );
     };
   }

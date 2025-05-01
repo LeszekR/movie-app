@@ -24,11 +24,11 @@ class SortableSorter<T extends Sortable> {
 
     for (var sortCriteria in _sortCriteriaList!) {
       if (sortCriteria.sortDirection == ESortDirection.asc) {
-        firstValue = a.getSortableFields()[sortCriteria.fieldIndex];
-        secondValue = b.getSortableFields()[sortCriteria.fieldIndex];
+        firstValue = a.getSortableFields()[sortCriteria.fieldKey];
+        secondValue = b.getSortableFields()[sortCriteria.fieldKey];
       } else {
-        firstValue = b.getSortableFields()[sortCriteria.fieldIndex];
-        secondValue = a.getSortableFields()[sortCriteria.fieldIndex];
+        firstValue = b.getSortableFields()[sortCriteria.fieldKey];
+        secondValue = a.getSortableFields()[sortCriteria.fieldKey];
       }
       result = firstValue.compareTo(secondValue);
       if (result != 0) return result;

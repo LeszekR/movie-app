@@ -36,6 +36,5 @@ class MovieCard extends StatelessWidget {
       );
 
   GestureTapCallback? _onTap(BuildContext context) {
-    // TODO implement fetching data and passing it to MoveDetails button
   }
 }

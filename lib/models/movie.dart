@@ -9,6 +9,9 @@ class Movie implements Sortable{
   final double voteAverage;
   final int id;
 
+  static String keyTitle = 'title';
+  static String keyVoteAverage = 'voteAverage';
+
   Movie({
     required this.title,
     required this.voteAverage,
@@ -18,8 +21,8 @@ class Movie implements Sortable{
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   @override
-  List getSortableFields() {
-    return [title, voteAverage];
+  Map<String, dynamic> getSortableFields() {
+    return {keyTitle: title, keyVoteAverage: voteAverage};
   }
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
