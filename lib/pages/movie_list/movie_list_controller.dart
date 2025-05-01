@@ -37,10 +37,8 @@ class MovieListController {
 
   void openMovieDetails(BuildContext context, Movie? fetchedMovie, int movieId) {
     if (fetchedMovie == null) {
-      print("Failed to fetch movie with id: $movieId");
       return;
     }
-    print("Found movie with id: $movieId");
     context.goNamed(
       routeMovieDetails,
       pathParameters: {

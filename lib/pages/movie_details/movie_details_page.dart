@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 
 import '../../utils/now_inject.dart';
 
-// TODO refactor? MovieDetailsPage to StatelessWidget?
 
 class MovieDetailsPage extends StatefulWidget {
+
+  // TODO refactor? MovieDetailsPage to StatelessWidget?
+
   final NowInject nowInject;
   final String title;
   final String budget;
@@ -27,31 +29,24 @@ class MovieDetailsPage extends StatefulWidget {
 class MovieDetailsPageState extends State<MovieDetailsPage> {
   String _title = "";
   List<MovieDetails> _details = [];
+  var _amountDollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
   int _interestingProfits = 1000000;
-  var formatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
   @override
   void initState() {
     super.initState();
     _title = widget.title;
     _details = [
-      MovieDetails(label: 'Budget', content: _makeDollarAmountString('500')),
-      MovieDetails(label: 'Revenue', content: _makeDollarAmountString('5000000')),
-      // MovieDetails(label: 'Budget', content: _makeDollarAmountString(widget.budget)),
-      // MovieDetails(label: 'Revenue', content: _makeDollarAmountString(widget.revenue)),
+      MovieDetails(label: 'Budget', content: _makeDollarAmountString(widget.budget)),
+      MovieDetails(label: 'Revenue', content: _makeDollarAmountString(widget.revenue)),
       MovieDetails(label: 'Should I watch it today?', content: _getIsWorthwhile()),
     ];
   }
 
   String _makeDollarAmountString(String amountString) {
     var amount = int.parse(amountString);
-
-    // debug only
-    // amount += (Random().nextDouble() * 3000000 + 2000000).round();
-
     if (amount <= 0) return '\$ 0';
-
-    return formatter.format(amount);
+    return _amountDollarFormatter.format(amount);
   }
 
   String _getIsWorthwhile() {

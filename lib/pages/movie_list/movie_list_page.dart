@@ -95,6 +95,5 @@ class MovieListPageState extends State<MovieListPage> {
     setState(() {
       _movieId = id;
     });
-    print('Selected Movie ID: $_movieId');
   }
 }
