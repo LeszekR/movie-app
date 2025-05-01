@@ -17,6 +17,8 @@ I always use static const string instead of hardcoded string ids because:
 - hardcoded string ids used in multiple code places WILL result in typo errors and waste of time for
   debugging them
 - using variables in place of typing allows using intellisense for those ids
+- in case of key-strings like ```static String keyId = 'movieId'``` I prefixed them with class id to
+  prevent accidental wrong use
 
 ### Separate files for GoRouter and routing const strings
 
@@ -75,6 +77,7 @@ I try to achieve this with the following naming approach:
 
 - changed ```apiService.searchMovies(text)``` to ```apiService.searchMovies(query)``` to keep the
   arg ```query``` consistent with API arg name (readability)
+-
 
 ### ??? MovieDetailsPage refactored to StatelessWidget ???
 

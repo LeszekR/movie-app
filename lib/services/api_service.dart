@@ -23,7 +23,7 @@ class ApiService {
     return movieList.results;
   }
 
-  Future<Movie?> movie(String movieId) async {
+  Future<Movie?> movie(int movieId) async {
     final parameters = {
       'api_key': apiKey,
     };
@@ -32,6 +32,8 @@ class ApiService {
 
     final response = await http.get(endpoint);
     final json = jsonDecode(response.body);
-    return Movie.fromJson(json);
+    var fetchedMovie = Movie.fromJson(json);
+
+    return fetchedMovie;
   }
 }

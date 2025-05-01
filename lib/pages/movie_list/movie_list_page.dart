@@ -19,7 +19,7 @@ class MovieListPage extends StatefulWidget {
 class MovieListPageState extends State<MovieListPage> {
   MovieListController? controller;
   Future<List<Movie>> _movieList = Future.value([]);
-  int? _selectedMovieId;
+  int? _movieId;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class MovieListPageState extends State<MovieListPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.movie_creation_outlined),
-              onPressed: controller!.openMovieDetails(context),
+              onPressed: _onOpenMovieDetailsTap,
             ),
           ],
           title: Text('Movie Browser'),
@@ -77,6 +77,14 @@ class MovieListPageState extends State<MovieListPage> {
         itemCount: movies.length,
       );
 
+  void _onOpenMovieDetailsTap() async {
+    if (_movieId == null) return;
+    var fetchedMovie = await controller!.fetchMovie(_movieId!);
+    if (fetchedMovie == null) return;
+    if (!mounted) return;
+    controller!.openMovieDetails(context, fetchedMovie, _movieId!);
+  }
+
   void _onSearchBoxSubmitted(String query) {
     setState(() {
       _movieList = controller!.onSearchBoxSubmitted(query);
@@ -85,8 +93,8 @@ class MovieListPageState extends State<MovieListPage> {
 
   void _onMovieTap(int id) {
     setState(() {
-      _selectedMovieId = id;
+      _movieId = id;
     });
-    print('Selected Movie ID: $_selectedMovieId');
+    print('Selected Movie ID: $_movieId');
   }
 }

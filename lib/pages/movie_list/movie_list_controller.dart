@@ -20,9 +20,6 @@ class MovieListController {
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
 
-  var selectedMovieBudget_DUMMY = '5000000';
-  var selectedMovieRevenue_DUMMY = '8000000';
-
   Future<List<Movie>> onSearchBoxSubmitted(String query) {
     if (query.isNotEmpty) {
       return apiService!.searchMovies(query).then((movies) {
@@ -34,12 +31,22 @@ class MovieListController {
     }
   }
 
-  GestureTapCallback? openMovieDetails(BuildContext context) {
-    return () {
-      context.goNamed(
-        routeMovieDetails,
-        pathParameters: {paramMovieBudget: selectedMovieBudget_DUMMY, paramMovieRevenue: selectedMovieRevenue_DUMMY},
-      );
-    };
+  Future<Movie?> fetchMovie(int movieId) async {
+    return apiService!.movie(movieId);
+  }
+
+  void openMovieDetails(BuildContext context, Movie? fetchedMovie, int movieId) {
+    if (fetchedMovie == null) {
+      print("Failed to fetch movie with id: $movieId");
+      return;
+    }
+    print("Found movie with id: $movieId");
+    context.goNamed(
+      routeMovieDetails,
+      pathParameters: {
+        paramMovieBudget: fetchedMovie.budget.toString(),
+        paramMovieRevenue: fetchedMovie.revenue.toString(),
+      },
+    );
   }
 }
