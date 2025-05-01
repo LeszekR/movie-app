@@ -6,7 +6,8 @@ final _router = GoRouter(
     GoRoute(
       name: routeHome,
       path: pathHome,
-      builder: (context, state) => MovieListPage(),
+      // TODO - DI
+      builder: (context, state) => MovieListPage(apiService: ApiService()),
     ),
     GoRoute(
         name: routeMovieDetails,

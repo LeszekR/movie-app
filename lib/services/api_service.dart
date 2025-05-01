@@ -22,4 +22,16 @@ class ApiService {
 
     return movieList.results;
   }
+
+  Future<Movie?> movie(String movieId) async {
+    final parameters = {
+      'api_key': apiKey,
+    };
+
+    final endpoint = Uri.https(baseUrl, '/3/movie/$movieId', parameters);
+
+    final response = await http.get(endpoint);
+    final json = jsonDecode(response.body);
+    return Movie.fromJson(json);
+  }
 }

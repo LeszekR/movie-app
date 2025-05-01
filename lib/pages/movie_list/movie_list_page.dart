@@ -3,33 +3,30 @@ import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/services/api_service.dart';
-import 'package:flutter_recruitment_task/utils/sorting/column_sort_criteria.dart';
-import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
-import 'package:flutter_recruitment_task/utils/sorting/sortable_sorter.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../utils/routing/go_router_const_strings.dart';
+import 'movie_list_controller.dart';
 
 class MovieListPage extends StatefulWidget {
-  const MovieListPage({super.key});
+  final ApiService apiService;
+
+  // TODO - DI
+  const MovieListPage({super.key, required this.apiService});
 
   @override
   MovieListPageState createState() => MovieListPageState();
 }
 
 class MovieListPageState extends State<MovieListPage> {
-  final apiService = ApiService();
-
+  MovieListController? controller;
   Future<List<Movie>> _movieList = Future.value([]);
+  int? _selectedMovieId;
 
-  final SortableSorter<Movie> _movieSorter = SortableSorter();
-  final List<SortCriteria> _sortCriteriaList = [
-    SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
-    SortCriteria(Movie.keyTitle, ESortDirection.asc),
-  ];
-
-  var selectedMovieBudget_DUMMY = '5000000';
-  var selectedMovieRevenue_DUMMY = '8000000';
+  @override
+  void initState() {
+    super.initState;
+    // TODO - DI
+    controller = MovieListController(widget.apiService);
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,10 +34,7 @@ class MovieListPageState extends State<MovieListPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.movie_creation_outlined),
-              // onPressed: () {
-              //   //TODO implement navigation
-              // },
-              onPressed: _openMovieDetails(context),
+              onPressed: controller!.openMovieDetails(context),
             ),
           ],
           title: Text('Movie Browser'),
@@ -75,31 +69,24 @@ class MovieListPageState extends State<MovieListPage> {
           color: Colors.grey.shade300,
         ),
         itemBuilder: (context, index) => MovieCard(
+          id: movies[index].id,
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
+          onTap: _onMovieTap,
         ),
         itemCount: movies.length,
       );
 
   void _onSearchBoxSubmitted(String query) {
     setState(() {
-      if (query.isNotEmpty) {
-        _movieList = apiService.searchMovies(query).then((movies) {
-          _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
-          return Future.value(movies);
-        });
-      } else {
-        _movieList = Future.value([]);
-      }
+      _movieList = controller!.onSearchBoxSubmitted(query);
     });
   }
 
-  GestureTapCallback? _openMovieDetails(BuildContext context) {
-    return () {
-      context.goNamed(
-        routeMovieDetails,
-        pathParameters: {paramMovieBudget: selectedMovieBudget_DUMMY, paramMovieRevenue: selectedMovieRevenue_DUMMY},
-      );
-    };
+  void _onMovieTap(int id) {
+    setState(() {
+      _selectedMovieId = id;
+    });
+    print('Selected Movie ID: $_selectedMovieId');
   }
 }
