@@ -6,15 +6,18 @@ final _router = GoRouter(
     GoRoute(
       name: routeHome,
       path: pathHome,
-      builder: (context, state) => MovieListPage(),
+      // TODO - DI
+      builder: (context, state) => MovieListPage(apiService: ApiService()),
     ),
     GoRoute(
         name: routeMovieDetails,
         path: pathMovieDetails,
         builder: (context, state) {
+          final String title = state.pathParameters[paramMovieTitle]!;
           final String budget = state.pathParameters[paramMovieBudget]!;
           final String revenue = state.pathParameters[paramMovieRevenue]!;
-          return MovieDetailsPage(budget, revenue);
+          // TODO - DI
+          return MovieDetailsPage(NowInject(), title, budget, revenue);
         }),
   ],
 );

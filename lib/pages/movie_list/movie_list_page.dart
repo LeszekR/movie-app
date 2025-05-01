@@ -3,30 +3,30 @@ import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/services/api_service.dart';
-import 'package:flutter_recruitment_task/utils/sorting/column_sort_criteria.dart';
-import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
-import 'package:flutter_recruitment_task/utils/sorting/sortable_sorter.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../utils/routing/go_router_const_strings.dart';
+import 'movie_list_controller.dart';
 
 class MovieListPage extends StatefulWidget {
-  const MovieListPage({super.key});
+  final ApiService apiService;
+
+  // TODO - DI
+  const MovieListPage({super.key, required this.apiService});
 
   @override
   MovieListPageState createState() => MovieListPageState();
 }
 
 class MovieListPageState extends State<MovieListPage> {
-  final apiService = ApiService();
-
+  MovieListController? controller;
   Future<List<Movie>> _movieList = Future.value([]);
+  int? _movieId;
 
-  final SortableSorter<Movie> _movieSorter = SortableSorter();
-  final List<SortCriteria> _sortCriteriaList = [
-    SortCriteria(1, ESortDirection.desc),
-    SortCriteria(0, ESortDirection.asc),
-  ];
+  @override
+  void initState() {
+    super.initState;
+    // TODO - DI
+    controller = MovieListController(widget.apiService);
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -34,10 +34,7 @@ class MovieListPageState extends State<MovieListPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.movie_creation_outlined),
-              // onPressed: () {
-              //   //TODO implement navigation
-              // },
-              onPressed: _openMovieDetails(context),
+              onPressed: _onOpenMovieDetailsTap,
             ),
           ],
           title: Text('Movie Browser'),
@@ -72,34 +69,32 @@ class MovieListPageState extends State<MovieListPage> {
           color: Colors.grey.shade300,
         ),
         itemBuilder: (context, index) => MovieCard(
+          id: movies[index].id,
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
+          onTap: _onMovieTap,
         ),
         itemCount: movies.length,
       );
 
-  void _onSearchBoxSubmitted(String text) {
+  void _onOpenMovieDetailsTap() async {
+    if (_movieId == null) return;
+    var fetchedMovie = await controller!.fetchMovie(_movieId!);
+    if (fetchedMovie == null) return;
+    if (!mounted) return;
+    controller!.openMovieDetails(context, fetchedMovie, _movieId!);
+  }
+
+  void _onSearchBoxSubmitted(String query) {
     setState(() {
-      if (text.isNotEmpty) {
-        _movieList = apiService.searchMovies(text).then((movies) {
-          _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
-          return Future.value(movies);
-        });
-      } else {
-        _movieList = Future.value([]);
-      }
+      _movieList = controller!.onSearchBoxSubmitted(query);
     });
   }
 
-  GestureTapCallback? _openMovieDetails(BuildContext context) {
-    // TODO replace dummies with actual data from the webservice
-    var budget = '5000000';
-    var revenue = '8000000';
-    return () {
-      context.goNamed(
-        routeMovieDetails,
-        pathParameters: {paramMovieBudget: budget, paramMovieRevenue: revenue},
-      );
-    };
+  void _onMovieTap(int id) {
+    setState(() {
+      _movieId = id;
+    });
+    print('Selected Movie ID: $_movieId');
   }
 }

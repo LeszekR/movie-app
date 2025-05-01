@@ -1,40 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
+import 'package:intl/intl.dart';
 
-// TODO - why stateful? refactor to stateless?
+import '../../utils/now_inject.dart';
+
+// TODO refactor? MovieDetailsPage to StatelessWidget?
+
 class MovieDetailsPage extends StatefulWidget {
+  final NowInject nowInject;
+  final String title;
   final String budget;
   final String revenue;
 
-  const MovieDetailsPage(this.budget, this.revenue, {super.key});
+  const MovieDetailsPage(
+    this.nowInject,
+    this.title,
+    this.budget,
+    this.revenue, {
+    super.key,
+  });
 
   @override
   MovieDetailsPageState createState() => MovieDetailsPageState();
 }
 
 class MovieDetailsPageState extends State<MovieDetailsPage> {
+  String _title = "";
   List<MovieDetails> _details = [];
+  int _interestingProfits = 1000000;
+  var formatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
   @override
   void initState() {
     super.initState();
+    _title = widget.title;
     _details = [
-      MovieDetails(title: 'Budget', content: '\$${widget.budget}'),
-      MovieDetails(title: 'Revenue', content: '\$${widget.revenue}'),
-      MovieDetails(title: 'Should I watch it today?', content: _getIsWorthwhile()),
+      MovieDetails(label: 'Budget', content: _makeDollarAmountString('500')),
+      MovieDetails(label: 'Revenue', content: _makeDollarAmountString('5000000')),
+      // MovieDetails(label: 'Budget', content: _makeDollarAmountString(widget.budget)),
+      // MovieDetails(label: 'Revenue', content: _makeDollarAmountString(widget.revenue)),
+      MovieDetails(label: 'Should I watch it today?', content: _getIsWorthwhile()),
     ];
   }
 
+  String _makeDollarAmountString(String amountString) {
+    var amount = int.parse(amountString);
+
+    // debug only
+    // amount += (Random().nextDouble() * 3000000 + 2000000).round();
+
+    if (amount <= 0) return '\$ 0';
+
+    return formatter.format(amount);
+  }
+
   String _getIsWorthwhile() {
+    var isSunday = widget.nowInject.weekday() == 7;
+
     var revenue = int.parse(widget.revenue);
     var budget = int.parse(widget.budget);
-    // TODO replace arbitrary criteria 1000000 with dynamic one
-    return (revenue - budget) > 1000000 ? 'Yes!' : 'No...';
+    var isProfitSatisfactory = (revenue - budget) > _interestingProfits;
+
+    return isSunday && isProfitSatisfactory ? 'Yes!' : 'No...';
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text(_title),
+          backgroundColor: Colors.amberAccent.shade400,
+        ),
         body: ListView.separated(
           separatorBuilder: (context, index) => Container(
             height: 1.0,
@@ -46,7 +81,7 @@ class MovieDetailsPageState extends State<MovieDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  _details[index].title,
+                  _details[index].label,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: 8.0),

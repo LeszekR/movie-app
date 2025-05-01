@@ -8,14 +8,18 @@ part of 'movie.dart';
 
 Movie _$MovieFromJson(Map<String, dynamic> json) {
   return Movie(
-    title: json['title'] as String,
-    voteAverage: (json['vote_average'] as num).toDouble(),
-    id: json['id'] as int,
+    id: json[Movie.keyId] as int,
+    title: json[Movie.keyTitle] as String,
+    voteAverage: (json[Movie.keyVoteAverage] as num).toDouble(),
+    budget: json[Movie.keyBudget] ?? 0,
+    revenue: json[Movie.keyRevenue] ?? 0,
   );
 }
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
-      'title': instance.title,
-      'vote_average': instance.voteAverage,
-      'id': instance.id,
+      Movie.keyId: instance.id,
+      Movie.keyTitle: instance.title,
+      Movie.keyVoteAverage: instance.voteAverage,
+      Movie.keyBudget: instance.budget,
+      Movie.keyRevenue: instance.revenue,
     };
