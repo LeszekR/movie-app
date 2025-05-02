@@ -3,6 +3,8 @@ import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/services/api_service.dart';
+import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
+import 'package:provider/provider.dart';
 
 import 'movie_list_controller.dart';
 
@@ -17,53 +19,47 @@ class MovieListPage extends StatefulWidget {
 }
 
 class MovieListPageState extends State<MovieListPage> {
-  MovieListController? controller;
-  Future<List<Movie>> _movieList = Future.value([]);
-  int? _movieId;
+  MovieListController? _controller;
+  ScrollController? _scrollController;
+  MovieListStore? _movieListStore;
 
   @override
   void initState() {
     super.initState;
     // TODO - DI
-    controller = MovieListController(widget.apiService);
+    _controller = MovieListController(widget.apiService);
+    _scrollController = ScrollController();
+    _movieListStore = context.read<MovieListStore>();
+
+    _scrollController?.addListener(() {
+      _movieListStore!.lastScrollOffset = _scrollController!.offset;
+    });
+    _controller!.restoreScroll(_movieListStore!, _scrollController!);
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.movie_creation_outlined),
-              onPressed: _onOpenMovieDetailsTap,
-            ),
-          ],
-          title: Text('Movie Browser'),
-        ),
-        body: Column(
-          children: <Widget>[
-            SearchBox(onSubmitted: _onSearchBoxSubmitted),
-            Expanded(child: _buildContent()),
-          ],
-        ),
-      );
-
-  Widget _buildContent() => FutureBuilder<List<Movie>>(
-      future: _movieList,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Container(
-            padding: EdgeInsets.all(16.0),
-            alignment: Alignment.center,
-            child: Text(snapshot.error.toString()),
-          );
-        } else {
-          return _buildMoviesList(snapshot.data ?? []);
-        }
+  Widget build(BuildContext context) => Consumer<MovieListStore>(builder: (context, movieListProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                icon: Icon(Icons.movie_creation_outlined),
+                onPressed: _onOpenMovieDetailsTap,
+              ),
+            ],
+            title: Text('Movie Browser'),
+          ),
+          body: Column(
+            children: <Widget>[
+              SearchBox(onSubmitted: _onSearchBoxSubmitted),
+              Expanded(child: _buildMoviesList(movieListProvider.movieList.results)),
+            ],
+          ),
+        );
       });
 
   Widget _buildMoviesList(List<Movie> movies) => ListView.separated(
+        controller: _scrollController,
         separatorBuilder: (context, index) => Container(
           height: 1.0,
           color: Colors.grey.shade300,
@@ -73,27 +69,33 @@ class MovieListPageState extends State<MovieListPage> {
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
           onTap: _onMovieTap,
+          isSelected: movies[index].id == _movieListStore!.selectedMovieId,
         ),
         itemCount: movies.length,
       );
 
-  void _onOpenMovieDetailsTap() async {
-    if (_movieId == null) return;
-    var fetchedMovie = await controller!.fetchMovie(_movieId!);
-    if (fetchedMovie == null) return;
+  void _onSearchBoxSubmitted(String? query) async {
+    if (query == null) return;
+    var fetchedMovieList = await _controller!.fetchMovieList(query);
+    if (fetchedMovieList == null) return;
     if (!mounted) return;
-    controller!.openMovieDetails(context, fetchedMovie, _movieId!);
+    var movieListContent = context.read<MovieListStore>();
+    _controller!.updateMovieList(movieListContent, fetchedMovieList);
   }
 
-  void _onSearchBoxSubmitted(String query) {
-    setState(() {
-      _movieList = controller!.onSearchBoxSubmitted(query);
-    });
+  void _onOpenMovieDetailsTap() async {
+    if (_movieListStore!.selectedMovieId == null) return;
+    var fetchedMovie = await _controller!.fetchMovie(_movieListStore!.selectedMovieId!);
+    if (fetchedMovie == null) return;
+    _movieListStore!.lastScrollOffset = _scrollController!.offset;
+    _movieListStore!.selectedMovieId = _movieListStore!.selectedMovieId;
+    if (!mounted) return;
+    _controller!.openMovieDetails(context, fetchedMovie, _movieListStore!.selectedMovieId!);
   }
 
   void _onMovieTap(int id) {
     setState(() {
-      _movieId = id;
+      _movieListStore!.selectedMovieId = id;
     });
   }
 }

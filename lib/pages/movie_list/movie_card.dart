@@ -5,6 +5,7 @@ class MovieCard extends StatelessWidget {
   final String title;
   final String rating;
   final void Function(int) onTap;
+  final bool isSelected;
 
   const MovieCard({
     super.key,
@@ -12,6 +13,7 @@ class MovieCard extends StatelessWidget {
     required this.title,
     required this.rating,
     required this.onTap,
+    this.isSelected = false,
   });
 
   @override
@@ -21,6 +23,7 @@ class MovieCard extends StatelessWidget {
         child: Container(
           height: 48.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(color: isSelected ?  Colors.amber.shade50 : null),
           child: Row(
             children: [
               Expanded(
