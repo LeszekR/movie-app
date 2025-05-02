@@ -3,6 +3,8 @@ import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/services/api_service.dart';
+import 'package:flutter_recruitment_task/state_providers/movie_list_content.dart';
+import 'package:provider/provider.dart';
 
 import 'movie_list_controller.dart';
 
@@ -18,8 +20,6 @@ class MovieListPage extends StatefulWidget {
 
 class MovieListPageState extends State<MovieListPage> {
   MovieListController? controller;
-  Future<List<Movie>> _movieList = Future.value([]);
-  int? _movieId;
 
   @override
   void initState() {
@@ -29,38 +29,24 @@ class MovieListPageState extends State<MovieListPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.movie_creation_outlined),
-              onPressed: _onOpenMovieDetailsTap,
-            ),
-          ],
-          title: Text('Movie Browser'),
-        ),
-        body: Column(
-          children: <Widget>[
-            SearchBox(onSubmitted: _onSearchBoxSubmitted),
-            Expanded(child: _buildContent()),
-          ],
-        ),
-      );
-
-  Widget _buildContent() => FutureBuilder<List<Movie>>(
-      future: _movieList,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Container(
-            padding: EdgeInsets.all(16.0),
-            alignment: Alignment.center,
-            child: Text(snapshot.error.toString()),
-          );
-        } else {
-          return _buildMoviesList(snapshot.data ?? []);
-        }
+  Widget build(BuildContext context) => Consumer<MovieListContent>(builder: (context, movieListProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                icon: Icon(Icons.movie_creation_outlined),
+                onPressed: _onOpenMovieDetailsTap,
+              ),
+            ],
+            title: Text('Movie Browser'),
+          ),
+          body: Column(
+            children: <Widget>[
+              SearchBox(onSubmitted: _onSearchBoxSubmitted),
+              Expanded(child: _buildMoviesList(movieListProvider.movieList.results)),
+            ],
+          ),
+        );
       });
 
   Widget _buildMoviesList(List<Movie> movies) => ListView.separated(
@@ -77,23 +63,26 @@ class MovieListPageState extends State<MovieListPage> {
         itemCount: movies.length,
       );
 
-  void _onOpenMovieDetailsTap() async {
-    if (_movieId == null) return;
-    var fetchedMovie = await controller!.fetchMovie(_movieId!);
-    if (fetchedMovie == null) return;
+  void _onSearchBoxSubmitted(String? query) async {
+    if (query == null) return;
+    var fetchedMovieList = await controller!.fetchMovieList(query);
+    if (fetchedMovieList == null) return;
     if (!mounted) return;
-    controller!.openMovieDetails(context, fetchedMovie, _movieId!);
+    var movieListContent = context.read<MovieListContent>();
+    controller!.updateMovieList(movieListContent, fetchedMovieList);
   }
 
-  void _onSearchBoxSubmitted(String query) {
-    setState(() {
-      _movieList = controller!.onSearchBoxSubmitted(query);
-    });
+  void _onOpenMovieDetailsTap() async {
+    if (controller!.movieId == null) return;
+    var fetchedMovie = await controller!.fetchMovie(controller!.movieId!);
+    if (fetchedMovie == null) return;
+    if (!mounted) return;
+    controller!.openMovieDetails(context, fetchedMovie, controller!.movieId!);
   }
 
   void _onMovieTap(int id) {
     setState(() {
-      _movieId = id;
+      controller!.movieId = id;
     });
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_recruitment_task/state_providers/movie_list_content.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../models/movie.dart';
+import '../../models/movie_list.dart';
 import '../../services/api_service.dart';
 import '../../utils/routing/go_router_const_strings.dart';
 import '../../utils/sorting/column_sort_criteria.dart';
@@ -10,6 +12,7 @@ import '../../utils/sorting/sortable_sorter.dart';
 
 class MovieListController {
   ApiService? apiService;
+  int? movieId;
 
   // TODO - DI
   MovieListController(this.apiService);
@@ -20,15 +23,13 @@ class MovieListController {
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
 
-  Future<List<Movie>> onSearchBoxSubmitted(String query) {
-    if (query.isNotEmpty) {
-      return apiService!.searchMovies(query).then((movies) {
-        _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
-        return Future.value(movies);
-      });
-    } else {
-      return Future.value([]);
-    }
+  Future<List<Movie>?> fetchMovieList(String query) {
+    return apiService!.searchMovies(query);
+  }
+
+  void updateMovieList(MovieListContent movieListContent, List<Movie> movies) {
+    _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
+    movieListContent.updateMovieList(MovieList(totalResults: movies.length, results: movies));
   }
 
   Future<Movie?> fetchMovie(int movieId) async {

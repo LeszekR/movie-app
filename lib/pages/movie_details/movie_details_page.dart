@@ -6,8 +6,8 @@ class MovieDetailsPage extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
-  final List<MovieDetails> _details;
   final MovieDetailsLogic movieDetailsLogic;
+  final List<MovieDetails> _details;
 
   MovieDetailsPage(
     this.title,
