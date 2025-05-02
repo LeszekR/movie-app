@@ -1,68 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_recruitment_task/pages/movie_details/movie_details_logic.dart';
 
-import '../../utils/now_inject.dart';
-
-
-class MovieDetailsPage extends StatefulWidget {
-
-  // TODO refactor? MovieDetailsPage to StatelessWidget?
-
-  final NowInject nowInject;
+class MovieDetailsPage extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
+  final List<MovieDetails> _details;
+  final MovieDetailsLogic movieDetailsLogic;
 
-  const MovieDetailsPage(
-    this.nowInject,
+  MovieDetailsPage(
     this.title,
     this.budget,
-    this.revenue, {
+    this.revenue,
+    this.movieDetailsLogic, {
     super.key,
-  });
-
-  @override
-  MovieDetailsPageState createState() => MovieDetailsPageState();
-}
-
-class MovieDetailsPageState extends State<MovieDetailsPage> {
-  String _title = "";
-  List<MovieDetails> _details = [];
-  final _amountDollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
-  final int _interestingProfits = 1000000;
-
-  @override
-  void initState() {
-    super.initState();
-    _title = widget.title;
-    _details = [
-      MovieDetails(label: 'Budget', content: _makeDollarAmountString(widget.budget)),
-      MovieDetails(label: 'Revenue', content: _makeDollarAmountString(widget.revenue)),
-      MovieDetails(label: 'Should I watch it today?', content: _getIsWorthwhile()),
-    ];
-  }
-
-  String _makeDollarAmountString(String amountString) {
-    var amount = int.parse(amountString);
-    if (amount <= 0) return '\$ 0';
-    return _amountDollarFormatter.format(amount);
-  }
-
-  String _getIsWorthwhile() {
-    var isSunday = widget.nowInject.weekday() == 7;
-
-    var revenue = int.parse(widget.revenue);
-    var budget = int.parse(widget.budget);
-    var isProfitSatisfactory = (revenue - budget) > _interestingProfits;
-
-    return isSunday && isProfitSatisfactory ? 'Yes!' : 'No...';
-  }
+  }) : _details = movieDetailsLogic.makeMovieDetails(budget, revenue);
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(title),
           backgroundColor: Colors.amberAccent.shade400,
         ),
         body: ListView.separated(
