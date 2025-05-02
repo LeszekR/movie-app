@@ -19,12 +19,27 @@ Reservations
    implemented solution that prevents the use of `BuildContext` over async gap but probably in this
    case this is unnecessary. If so then I will refactor and simplify the code.
 
-#
+Additional features
+----------------------------------  
+
+##### Movie list state preserved on navigation
+
+Noticed that navigating back from MovieDetails cleared movie list. This is not intuitive and is bad
+experience.
+
+To solve this I
+
+- introduced `Provider` to preserve the state of `MovieListPage`
+- added `TextEditingController` to `SearchBox`
+- added `ScrollController` to `ListView`
+- store state of them all in `MovieListStore`
+
+##
 
 Implementation choices
 ====================================================================
 
-#
+###
 
 Navigation
 ----------------------------------  
@@ -55,7 +70,7 @@ further down this file.
   Impractical. Slow. Quicker to Ctrl+Tab between the 2 files.
 - (Scrolling will became necessary with just a few more routes.)
 
-#
+###
 
 Sorting
 ----------------------------------  
@@ -86,12 +101,12 @@ Sorting
   implementation. One scenario when this may happen is dev's error while declaring initial sorting
   order by hand. This safe-check prevents debugging later.
 
-#
+###
 
 Code style
 ====================================================================
 
-####
+###
 
 ### Const strings in place of hardcoding strings
 
@@ -104,6 +119,8 @@ I always use static const string instead of hardcoded string ids because:
 ###
 
 ### Naming
+
+###
 
 ##### Prefixes
 
@@ -125,7 +142,7 @@ Approach:
 
 - I prefer to add postfix to variables of type `List`, `Map`, etc.
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
-  
+
 - This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
   them to remember what hides behind the var name. Alternately it saves time on checking var
   declarations.
@@ -134,9 +151,23 @@ Examples: `sortCriteriaList`, `getSortableFieldsMap`.
 
 ###
 
-### Argument and variable names consistency
+#### Argument and variable names consistency
 
-- I prefer to use the same name for a variable over its entire passage from one
-  object/method to another. This approach improves code readability.
-- Example: I changed originally declared `MovieListPage.... apiService.searchMovies(text)` to `apiService.searchMovies(query)` to keep the
-  arg `query` consistent with API arg name in `searchMovies(String query)`.
+- I prefer to use the same name for a variable over its entire passage from one object/method to
+  another. This approach improves code readability.
+- Example: I changed originally declared `MovieListPage.... apiService.searchMovies(text)`
+  to `apiService.searchMovies(query)` to keep the arg `query` consistent with API arg name
+  in `searchMovies(String query)`.
+
+Other
+====================================================================
+
+####
+
+### `MovieDetails` as `StatelessWidget`
+
+- Since for now this page does not need `State` and it seems to me its task will not call for it in
+the future - refactored to `StatelessWidget` to simplify the code.   
+- Also extracted this page's logic
+to separate class. This is consistent with my approach to 'MovieListPage' and done for the same
+reasons.
