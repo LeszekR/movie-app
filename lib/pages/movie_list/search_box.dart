@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/state_providers/movie_list_content.dart';
+import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
 import 'package:provider/provider.dart';
 
 class SearchBox extends StatelessWidget {
@@ -19,7 +19,7 @@ class SearchBox extends StatelessWidget {
           ),
         ),
         child: TextField(
-          controller: context.read<MovieListContent>().searchBoxTextController,
+          controller: context.read<MovieListStore>().searchBoxTextController,
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(

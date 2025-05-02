@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_recruitment_task/state_providers/movie_list_content.dart';
+import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../models/movie.dart';
@@ -12,7 +12,6 @@ import '../../utils/sorting/sortable_sorter.dart';
 
 class MovieListController {
   ApiService? apiService;
-  int? movieId;
 
   // TODO - DI
   MovieListController(this.apiService);
@@ -27,7 +26,7 @@ class MovieListController {
     return apiService!.searchMovies(query);
   }
 
-  void updateMovieList(MovieListContent movieListContent, List<Movie> movies) {
+  void updateMovieList(MovieListStore movieListContent, List<Movie> movies) {
     _movieSorter.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
     movieListContent.updateMovieList(MovieList(totalResults: movies.length, results: movies));
   }
@@ -48,5 +47,9 @@ class MovieListController {
         paramMovieRevenue: fetchedMovie.revenue.toString(),
       },
     );
+  }
+
+  void restoreScroll(MovieListStore movieListStore, ScrollController scrollController) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => scrollController.jumpTo(movieListStore.lastScrollOffset));
   }
 }

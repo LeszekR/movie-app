@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 import '../models/movie_list.dart';
 
-class MovieListContent extends ChangeNotifier {
+class MovieListStore extends ChangeNotifier {
   MovieList _movieList = MovieList(totalResults: 0, results: []);
-  TextEditingController _searchBoxTextController = TextEditingController();
+  final TextEditingController _searchBoxTextController = TextEditingController();
+  double lastScrollOffset = 0;
+  int? selectedMovieId;
 
   MovieList get movieList => _movieList;
 
