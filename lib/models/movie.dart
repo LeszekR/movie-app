@@ -28,7 +28,7 @@ class Movie implements Sortable{
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   @override
-  Map<String, dynamic> getSortableFields() {
+  Map<String, dynamic> getSortableFieldsMap() {
     return {keyTitle: title, keyVoteAverage: voteAverage};
   }
 

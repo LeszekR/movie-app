@@ -13,7 +13,7 @@ class SortableSorter<T extends Sortable> {
 
     if (_sortCriteriaList == null) return;
 
-    validateSortCriteria(listToSort[0], sortCriteriaList!);
+    _validateCriteriaListLength(listToSort[0], sortCriteriaList!);
 
     listToSort.sort(_compare);
   }
@@ -23,26 +23,37 @@ class SortableSorter<T extends Sortable> {
     dynamic firstValue, secondValue;
 
     for (var sortCriteria in _sortCriteriaList!) {
+      _validateCriteriaKey(a, sortCriteria);
+
       if (sortCriteria.sortDirection == ESortDirection.asc) {
-        firstValue = a.getSortableFields()[sortCriteria.fieldKey];
-        secondValue = b.getSortableFields()[sortCriteria.fieldKey];
+        firstValue = a.getSortableFieldsMap()[sortCriteria.fieldKey];
+        secondValue = b.getSortableFieldsMap()[sortCriteria.fieldKey];
       } else {
-        firstValue = b.getSortableFields()[sortCriteria.fieldKey];
-        secondValue = a.getSortableFields()[sortCriteria.fieldKey];
+        firstValue = b.getSortableFieldsMap()[sortCriteria.fieldKey];
+        secondValue = a.getSortableFieldsMap()[sortCriteria.fieldKey];
       }
+
       result = firstValue.compareTo(secondValue);
       if (result != 0) return result;
     }
     return 0;
   }
 
-  void validateSortCriteria(Sortable listToSortElement, final List<SortCriteria> sortCriteriaList) {
-    var nSortableFields = listToSortElement.getSortableFields().length;
+  void _validateCriteriaListLength(Sortable sortedElement, final List<SortCriteria> sortCriteriaList) {
+    var nSortableFields = sortedElement.getSortableFieldsMap().length;
     var nSortCriteria = sortCriteriaList.length;
-    var sortedType = listToSortElement.runtimeType.toString();
-    assert(nSortCriteria <= nSortableFields,
-        "Forbidden attempt at sorting list of $sortedType"
-            " having $nSortableFields sortable fields"
-            " with $nSortCriteria sort criteria");
+    var sortedElementType = sortedElement.runtimeType.toString();
+    assert(
+        nSortCriteria <= nSortableFields,
+        'Forbidden attempt at sorting list of $sortedElementType'
+        ' having $nSortableFields sortable fields'
+        ' with $nSortCriteria sort criteria');
+  }
+
+  void _validateCriteriaKey(Sortable sortedElement, SortCriteria sortCriteria) {
+    var fieldKey = sortCriteria.fieldKey;
+    var sortedElementType = sortedElement.runtimeType.toString();
+    assert(sortedElement.getSortableFieldsMap().keys.contains(fieldKey),
+        'Key $fieldKey does not exist in $sortedElementType');
   }
 }

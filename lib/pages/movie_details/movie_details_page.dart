@@ -29,8 +29,8 @@ class MovieDetailsPage extends StatefulWidget {
 class MovieDetailsPageState extends State<MovieDetailsPage> {
   String _title = "";
   List<MovieDetails> _details = [];
-  var _amountDollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
-  int _interestingProfits = 1000000;
+  final _amountDollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
+  final int _interestingProfits = 1000000;
 
   @override
   void initState() {
