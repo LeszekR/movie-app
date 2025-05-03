@@ -22,7 +22,7 @@ class MovieDetailsLogic {
   }
 
   String getIsWorthwhile(String budgeString, String revenueString) {
-    var isSunday = nowInject.weekday() == 7;
+    var isSunday = nowInject.now().weekday == 7;
 
     var revenue = int.parse(revenueString);
     var budget = int.parse(budgeString);

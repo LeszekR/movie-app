@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_recruitment_task/providers/movie_list_scroll.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchBox extends StatelessWidget {
+class SearchBox extends ConsumerWidget {
   final void Function(String)? onSubmitted;
 
   const SearchBox({
@@ -11,7 +11,7 @@ class SearchBox extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context, WidgetRef ref) => Container(
         decoration: BoxDecoration(
           color: Colors.amberAccent,
           border: Border(
@@ -19,7 +19,7 @@ class SearchBox extends StatelessWidget {
           ),
         ),
         child: TextField(
-          controller: context.read<MovieListStore>().searchBoxTextController,
+          controller: ref.read(searchBoxTextControllerProvider),
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(

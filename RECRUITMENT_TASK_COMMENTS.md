@@ -29,10 +29,22 @@ experience.
 
 To solve this I
 
+**(TODO - UPDATE !!  
+  Riverpod will render the below list deprecated)**
+####
 - introduced `Provider` to preserve the state of `MovieListPage`
 - added `TextEditingController` to `SearchBox`
 - added `ScrollController` to `ListView`
 - store state of them all in `MovieListStore`
+
+###
+
+##### Error handling in `ApiService`
+
+- Added error handling there
+- yet unfinished - it needs to be complemented with custom exceptions
+- the exceptions should both: log errors (for devs) and show error dialogs (for the user to know
+  what and why happened).
 
 ##
 
@@ -138,9 +150,9 @@ Approach:
 
 ###
 
-##### Postfixes
+##### Suffixes
 
-- I prefer to add postfix to variables of type `List`, `Map`, etc.
+- I prefer to add suffix to variables of type `List`, `Map`, etc.
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
 
 - This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
@@ -151,7 +163,7 @@ Examples: `sortCriteriaList`, `getSortableFieldsMap`.
 
 ###
 
-#### Argument and variable names consistency
+##### Argument and variable names consistency
 
 - I prefer to use the same name for a variable over its entire passage from one object/method to
   another. This approach improves code readability.
@@ -167,7 +179,6 @@ Other
 ### `MovieDetails` as `StatelessWidget`
 
 - Since for now this page does not need `State` and it seems to me its task will not call for it in
-the future - refactored to `StatelessWidget` to simplify the code.   
-- Also extracted this page's logic
-to separate class. This is consistent with my approach to 'MovieListPage' and done for the same
-reasons.
+  the future - refactored to `StatelessWidget` to simplify the code.
+- Also extracted this page's logic to separate class. This is consistent with my approach
+  to `MovieListPage` and done for the same reasons.
