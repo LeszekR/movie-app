@@ -22,20 +22,22 @@ Reservations
 Additional features
 ----------------------------------  
 
-##### Movie list state preserved on navigation
+##### `MovieListPage` state preserved on navigation
 
-Noticed that navigating back from MovieDetails cleared movie list. This is not intuitive and is bad
-experience.
+Noticed that navigating back from MovieDetails cleared movie list.
 
-To solve this I
+To solve this I:
 
-**(TODO - UPDATE !!  
-  Riverpod will render the below list deprecated)**
-####
-- introduced `Provider` to preserve the state of `MovieListPage`
+- introduced `Riverpod` to preserve the state of `MovieListPage`
 - added `TextEditingController` to `SearchBox`
 - added `ScrollController` to `ListView`
-- store state of them all in `MovieListStore`
+- store state of them all in `MovieListState`  
+
+This way on navigation back the following UI elements restore their last state:
+- list of movies: contents
+- list of movies: scrolling
+- list of movies: selection
+- search box: text
 
 ###
 
