@@ -2,12 +2,12 @@ import 'package:flutter_recruitment_task/models/movie_details.dart';
 import 'package:flutter_recruitment_task/utils/now_inject.dart';
 import 'package:intl/intl.dart';
 
-class MovieDetailsLogic {
+class MovieDetailsManager {
   final NowInject nowInject;
   final _amountDollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
   final int _interestingProfits = 1000000;
 
-  MovieDetailsLogic(this.nowInject);
+  MovieDetailsManager(this.nowInject);
 
   List<MovieDetails> makeMovieDetails(String budgetString, String revenueString) => [
         MovieDetails(label: 'Budget', content: makeDollarAmountString(budgetString)),

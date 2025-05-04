@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
-import 'package:flutter_recruitment_task/pages/movie_details/movie_details_logic.dart';
+import 'package:flutter_recruitment_task/pages/movie_details/movie_details_manager.dart';
 
 class MovieDetailsPage extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
-  final MovieDetailsLogic movieDetailsLogic;
+  final MovieDetailsManager movieDetailsLogic;
   final List<MovieDetails> _details;
 
   MovieDetailsPage(

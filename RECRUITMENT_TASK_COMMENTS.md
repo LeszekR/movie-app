@@ -15,14 +15,32 @@ Reservations
    (E.g. `SortableSorter` error checks and others.)
 3. With current tiny size of the project some of my solutions are an overkill. But they prepare the
    project for smooth codebase growth.
-4. I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
-   implemented solution that prevents the use of `BuildContext` over async gap but probably in this
-   case this is unnecessary. If so then I will refactor and simplify the code.
 
-Additional features
+Overview of implemented elements
 ----------------------------------  
 
-##### `MovieListPage` state preserved on navigation
+Features implemented above recruitment task requirements
+
+- introduced `GoRouter` superior to raw `Navigator` use
+- introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
+- created multi-column, stable, generic sorting class (`Sorter`)
+- separated of business logic from `Widget` logic (classes: `MovieListManager`
+  , `MovieDetailsManager`)
+- wrapped web requests with error-handling (`ApiService`)
+- refactored string literals to constant strings (`lib/utils/routing/go_router_const_strings.dart`
+  and other places) to prevent typos and enable intellisense
+- proposed naming with prefixes and suffixes to improve readability and reduce intellisense list
+
+#
+
+------------------
+
+Details
+----------------------------------  
+
+###
+
+##### Widget state preserved on navigation in `MovieListPage`
 
 Noticed that navigating back from MovieDetails cleared movie list.
 
@@ -31,9 +49,10 @@ To solve this I:
 - introduced `Riverpod` to preserve the state of `MovieListPage`
 - added `TextEditingController` to `SearchBox`
 - added `ScrollController` to `ListView`
-- store state of them all in `MovieListState`  
+- store state of them all in `MovieListState`
 
 This way on navigation back the following UI elements restore their last state:
+
 - list of movies: contents
 - list of movies: scrolling
 - list of movies: selection
@@ -44,21 +63,11 @@ This way on navigation back the following UI elements restore their last state:
 ##### Error handling in `ApiService`
 
 - Added error handling there
-- yet unfinished - it needs to be complemented with custom exceptions
+- this needs to be complemented with custom exceptions
 - the exceptions should both: log errors (for devs) and show error dialogs (for the user to know
   what and why happened).
 
 ##
-
-Implementation choices
-====================================================================
-
-###
-
-Navigation
-----------------------------------  
-
-####
 
 #### Package go_router
 
@@ -67,7 +76,11 @@ I used `GoRouter` in place of `Navigator` for the benefits it provides
 - (TODO)
 - (TODO)
 
-####
+I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
+implemented solution that prevents the use of `BuildContext` over async gap but probably in this
+case this is unnecessary. If so then I will refactor and simplify the code.
+
+##
 
 #### Separate files for GoRouter and routing const strings
 
@@ -83,11 +96,6 @@ further down this file.
   has to scroll up and down between the string declarations and currently implemented route code.
   Impractical. Slow. Quicker to Ctrl+Tab between the 2 files.
 - (Scrolling will became necessary with just a few more routes.)
-
-###
-
-Sorting
-----------------------------------  
 
 ###
 
@@ -117,12 +125,7 @@ Sorting
 
 ###
 
-Code style
-====================================================================
-
-###
-
-### Const strings in place of hardcoding strings
+#### Const strings in place of hardcoding strings
 
 I always use static const string instead of hardcoded string ids because:
 
@@ -132,11 +135,8 @@ I always use static const string instead of hardcoded string ids because:
 
 ###
 
-### Naming
 
-###
-
-##### Prefixes
+##### Naming - prefixes
 
 Rationale:
 
@@ -152,7 +152,7 @@ Approach:
 
 ###
 
-##### Suffixes
+##### Naming - suffixes
 
 - I prefer to add suffix to variables of type `List`, `Map`, etc.
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
@@ -173,12 +173,8 @@ Examples: `sortCriteriaList`, `getSortableFieldsMap`.
   to `apiService.searchMovies(query)` to keep the arg `query` consistent with API arg name
   in `searchMovies(String query)`.
 
-Other
-====================================================================
-
-####
-
-### `MovieDetails` as `StatelessWidget`
+###
+#### `MovieDetails` as `StatelessWidget`
 
 - Since for now this page does not need `State` and it seems to me its task will not call for it in
   the future - refactored to `StatelessWidget` to simplify the code.

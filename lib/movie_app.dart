@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/pages/movie_details/movie_details_logic.dart';
+import 'package:flutter_recruitment_task/pages/movie_details/movie_details_manager.dart';
 import 'package:flutter_recruitment_task/pages/movie_details/movie_details_page.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_list_page.dart';
 import 'package:flutter_recruitment_task/utils/now_inject.dart';
