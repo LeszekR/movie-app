@@ -10,9 +10,7 @@ class MovieDetailsManager extends _$MovieDetailsManager {
   final int _interestingProfits = 1000000;
 
   @override
-  MovieDetailsManager build() {
-    return MovieDetailsManager();
-  }
+  void build() {}
 
   String formatDollarAmount(String amountString) {
     var amount = int.parse(amountString);

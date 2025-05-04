@@ -21,48 +21,47 @@ class MovieListPage extends ConsumerStatefulWidget {
 class MovieListPageState extends ConsumerState<MovieListPage> {
   MovieListState? _state;
   MovieListManager? _manager;
+  ScrollController? _scrollController;
+  TextEditingController? _searchController;
 
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     super.didChangeDependencies();
-    _state = ref.watch(movieListStateProvider.notifier);
+    _state = ref.read(movieListStateProvider.notifier);
     _manager = ref.read(movieListManagerProvider);
+    _scrollController = ref.read(movieListScrollControllerProvider);
+    _searchController = ref.read(searchBoxTextControllerProvider);
 
-    ScrollController scrollController = ref.read(movieListScrollControllerProvider);
-    scrollController.addListener(() {
-      _state!.setScrollOffset(scrollController.offset);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _manager!.restoreScroll();
+      _manager!.restoreSearchQuery();
     });
-
-    TextEditingController searchController = ref.read(searchBoxTextControllerProvider);
-    searchController.addListener(() {
-      _state!.setSearchQuery(searchController.text);
-    });
-
-    _manager!.restoreScroll();
-    _manager!.restoreSearchQuery();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.movie_creation_outlined),
-              onPressed: _onOpenMovieDetailsTap,
-            ),
-          ],
-          title: Text('Movie Browser'),
-        ),
-        body: Column(
-          children: <Widget>[
-            SearchBox(onSubmitted: _onSearchBoxSubmitted),
-            Expanded(child: _buildMoviesList(_state!.getMovieList().results)),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    var movieListData = ref.watch(movieListStateProvider);
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.movie_creation_outlined),
+            onPressed: _onOpenMovieDetailsTap,
+          ),
+        ],
+        title: Text('Movie Browser'),
+      ),
+      body: Column(
+        children: <Widget>[
+          SearchBox(onSubmitted: _onSearchBoxSubmitted),
+          Expanded(child: _buildMoviesList(movieListData.movieList.results)),
+        ],
+      ),
+    );
+  }
 
   Widget _buildMoviesList(List<Movie> movies) => ListView.separated(
-        controller: ref.read(movieListScrollControllerProvider),
+        controller: _scrollController,
         separatorBuilder: (context, index) => Container(
           height: 1.0,
           color: Colors.grey.shade300,
@@ -77,23 +76,27 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
         itemCount: movies.length,
       );
 
-  void _onSearchBoxSubmitted(String? query) async {
-    if (query == null) return;
+  void _onSearchBoxSubmitted(String query) async {
+    if (query.isEmpty) return;
 
     var fetchedMovieList = await _manager!.fetchMovieList(query);
     if (fetchedMovieList == null) return;
+    if (fetchedMovieList.isEmpty) return;
 
     if (!mounted) return;
     _manager!.updateMovieList(fetchedMovieList);
   }
 
   void _onOpenMovieDetailsTap() async {
-    if (_state!.getSelectedMovieId() == null) return;
+    var selectedMovieId = _state!.getSelectedMovieId();
+    if (selectedMovieId == null) return;
 
-    var fetchedMovie = await _manager!.fetchMovie(_state!.getSelectedMovieId()!);
+    var fetchedMovie = await _manager!.fetchMovie(selectedMovieId);
     if (fetchedMovie == null) return;
 
     if (!mounted) return;
+
+    _saveViewParams();
 
     context.goNamed(
       routeMovieDetails,
@@ -103,6 +106,11 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
         paramMovieRevenue: fetchedMovie.revenue.toString(),
       },
     );
+  }
+
+  void _saveViewParams() {
+    _state!.setSearchQuery(_searchController!.text);
+    _state!.setScrollOffset(_scrollController!.offset);
   }
 
   void _onMovieTap(int movieId) {

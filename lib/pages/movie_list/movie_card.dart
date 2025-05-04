@@ -23,7 +23,7 @@ class MovieCard extends StatelessWidget {
         child: Container(
           height: 48.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          decoration: BoxDecoration(color: isSelected ?  Colors.amber.shade50 : null),
+          decoration: BoxDecoration(color: isSelected ?  Colors.grey.shade300 : null),
           child: Row(
             children: [
               Expanded(

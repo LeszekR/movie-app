@@ -8,7 +8,7 @@ Intro
 Reservations
 ----------------------------------  
 
-1. On 02.05.2025 feature implementation is completed but the whole task is not - remaining issues
+1. On **02.05.2025** feature implementation is completed but the whole task is not - remaining issues
    are mentioned here and all are listed in issues in GitLab repo - the solution is still under
    work.
 2. One of the missing parts is tests. Until they are created some functionalities may have bugs.
@@ -67,20 +67,26 @@ This way on navigation back the following UI elements restore their last state:
 - the exceptions should both: log errors (for devs) and show error dialogs (for the user to know
   what and why happened).
 
-##
+###
+
+#### `MovieDetails` as `StatelessWidget`
+
+- Since for now this page does not need `State` and it seems to me its task will not call for it in
+  the future - refactored to `StatelessWidget` to simplify the code.
+- Also extracted this page's logic to separate class. This is consistent with my approach
+  to `MovieListPage` and done for the same reasons.
+
+###
 
 #### Package go_router
 
 I used `GoRouter` in place of `Navigator` for the benefits it provides
 
-- (TODO)
-- (TODO)
-
 I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
 implemented solution that prevents the use of `BuildContext` over async gap but probably in this
 case this is unnecessary. If so then I will refactor and simplify the code.
 
-##
+###
 
 #### Separate files for GoRouter and routing const strings
 
@@ -135,7 +141,6 @@ I always use static const string instead of hardcoded string ids because:
 
 ###
 
-
 ##### Naming - prefixes
 
 Rationale:
@@ -156,27 +161,8 @@ Approach:
 
 - I prefer to add suffix to variables of type `List`, `Map`, etc.
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
-
 - This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
   them to remember what hides behind the var name. Alternately it saves time on checking var
-  declarations.
+  declarations. 
+- Examples: `sortCriteriaList`, `getSortableFieldsMap`.
 
-Examples: `sortCriteriaList`, `getSortableFieldsMap`.
-
-###
-
-##### Argument and variable names consistency
-
-- I prefer to use the same name for a variable over its entire passage from one object/method to
-  another. This approach improves code readability.
-- Example: I changed originally declared `MovieListPage.... apiService.searchMovies(text)`
-  to `apiService.searchMovies(query)` to keep the arg `query` consistent with API arg name
-  in `searchMovies(String query)`.
-
-###
-#### `MovieDetails` as `StatelessWidget`
-
-- Since for now this page does not need `State` and it seems to me its task will not call for it in
-  the future - refactored to `StatelessWidget` to simplify the code.
-- Also extracted this page's logic to separate class. This is consistent with my approach
-  to `MovieListPage` and done for the same reasons.

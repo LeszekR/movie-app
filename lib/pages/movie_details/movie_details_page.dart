@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
-import 'package:flutter_recruitment_task/pages/movie_details/movie_details_manager.dart';
+import 'package:flutter_recruitment_task/pages/movie_details/controller/movie_details_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieDetailsPage extends ConsumerWidget {
@@ -17,7 +17,7 @@ class MovieDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var manager = ref.read(movieDetailsManagerProvider);
+    var manager = ref.read(movieDetailsManagerProvider.notifier);
     var details = makeMovieDetails(manager, budget, revenue);
 
     return Scaffold(
@@ -37,12 +37,12 @@ class MovieDetailsPage extends ConsumerWidget {
             children: [
               Text(
                 details[index].label,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               SizedBox(height: 8.0),
               Text(
                 details[index].content,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),

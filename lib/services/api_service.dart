@@ -40,7 +40,6 @@ class ApiService extends _$ApiService {
     return Future.value([]);
   }
 
-
   Future<Movie?> movie(int movieId) async {
     final parameters = {
       'api_key': apiKey,

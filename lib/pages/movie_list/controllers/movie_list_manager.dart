@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_manual_providers_as_generated_provider_dependency
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/controllers/search_text_controller.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
@@ -15,13 +16,13 @@ part 'movie_list_manager.g.dart';
 
 @riverpod
 class MovieListManager extends _$MovieListManager {
-  MovieListState? _state;
-  ApiService? _apiService;
-  Sorter<Movie>? _sorter;
-  ScrollController? _scrollController;
-  TextEditingController? _searchController;
+   MovieListState? _state;
+   ApiService? _apiService;
+   Sorter<Movie>? _sorter;
+   ScrollController? _scrollController;
+   TextEditingController? _searchController;
 
-  final List<SortCriteria> _sortCriteriaList = [
+   final List<SortCriteria> _sortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
@@ -53,14 +54,10 @@ class MovieListManager extends _$MovieListManager {
   void restoreScroll() {
     double? lastScrollOffset = _state!.getScrollOffset();
     if (lastScrollOffset == null) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController!.jumpTo(lastScrollOffset);
-    });
+    _scrollController!.jumpTo(lastScrollOffset);
   }
 
   void restoreSearchQuery() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _searchController!.text = _state!.getSearchQuery() ?? '';
-    });
+    _searchController!.text = _state!.getSearchQuery() ?? '';
   }
 }

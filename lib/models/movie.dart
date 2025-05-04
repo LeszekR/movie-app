@@ -4,12 +4,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Movie implements Sortable{
+class Movie implements Sortable {
   final int id;
   final String title;
   final double voteAverage;
-  final int budget = 0;
-  final int revenue = 0;
+  @JsonKey(defaultValue: 0)
+  final int budget;
+  @JsonKey(defaultValue: 0)
+  final int revenue;
 
   static String keyId = 'id';
   static String keyTitle = 'title';
@@ -19,10 +21,10 @@ class Movie implements Sortable{
 
   Movie({
     required this.title,
+    required this.voteAverage,
     required this.id,
-    this.voteAverage = 0,
-    // this.budget,
-    // this.revenue,
+    required this.budget,
+    required this.revenue,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
