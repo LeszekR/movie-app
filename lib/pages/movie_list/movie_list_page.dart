@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
-import 'package:flutter_recruitment_task/providers/movie_list_scroll.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../providers/movie_list_state.dart';
-import '../../utils/routing/go_router_const_strings.dart';
-import 'movie_list_manager.dart';
+import '../../routing/go_router_const_strings.dart';
+import 'controllers/movie_list_manager.dart';
+import 'controllers/search_text_controller.dart';
 
 class MovieListPage extends ConsumerStatefulWidget {
   const MovieListPage({super.key});
@@ -18,21 +19,27 @@ class MovieListPage extends ConsumerStatefulWidget {
 }
 
 class MovieListPageState extends ConsumerState<MovieListPage> {
-  MovieListState? _movieListState;
-  MovieListManager? _movieListPageManager;
-  ScrollController? _scrollController;
+  MovieListState? _state;
+  MovieListManager? _manager;
 
   @override
-  void initState() {
-    super.initState;
-    _movieListState = ref.watch(movieListStateProvider.notifier);
-    _movieListPageManager = ref.read(movieListManagerProvider);
-    _scrollController = ref.read(movieListScrollControllerProvider);
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    _state = ref.watch(movieListStateProvider.notifier);
+    _manager = ref.read(movieListManagerProvider);
 
-    _scrollController?.addListener(() {
-      _movieListState!.setScrollOffset(_scrollController!.offset);
+    ScrollController scrollController = ref.read(movieListScrollControllerProvider);
+    scrollController.addListener(() {
+      _state!.setScrollOffset(scrollController.offset);
     });
-    _movieListPageManager!.restoreScroll();
+
+    TextEditingController searchController = ref.read(searchBoxTextControllerProvider);
+    searchController.addListener(() {
+      _state!.setSearchQuery(searchController.text);
+    });
+
+    _manager!.restoreScroll();
+    _manager!.restoreSearchQuery();
   }
 
   @override
@@ -49,13 +56,13 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
         body: Column(
           children: <Widget>[
             SearchBox(onSubmitted: _onSearchBoxSubmitted),
-            Expanded(child: _buildMoviesList(_movieListState!.getMovieList().results)),
+            Expanded(child: _buildMoviesList(_state!.getMovieList().results)),
           ],
         ),
       );
 
   Widget _buildMoviesList(List<Movie> movies) => ListView.separated(
-        // controller: _scrollController,
+        controller: ref.read(movieListScrollControllerProvider),
         separatorBuilder: (context, index) => Container(
           height: 1.0,
           color: Colors.grey.shade300,
@@ -65,7 +72,7 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
           onTap: _onMovieTap,
-          isSelected: movies[index].id == _movieListState!.getSelectedMovieId(),
+          isSelected: movies[index].id == _state!.getSelectedMovieId(),
         ),
         itemCount: movies.length,
       );
@@ -73,17 +80,17 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
   void _onSearchBoxSubmitted(String? query) async {
     if (query == null) return;
 
-    var fetchedMovieList = await _movieListPageManager!.fetchMovieList(query);
+    var fetchedMovieList = await _manager!.fetchMovieList(query);
     if (fetchedMovieList == null) return;
 
     if (!mounted) return;
-    _movieListPageManager!.updateMovieList(fetchedMovieList);
+    _manager!.updateMovieList(fetchedMovieList);
   }
 
   void _onOpenMovieDetailsTap() async {
-    if (_movieListState!.getSelectedMovieId() == null) return;
+    if (_state!.getSelectedMovieId() == null) return;
 
-    var fetchedMovie = await _movieListPageManager!.fetchMovie(_movieListState!.getSelectedMovieId()!);
+    var fetchedMovie = await _manager!.fetchMovie(_state!.getSelectedMovieId()!);
     if (fetchedMovie == null) return;
 
     if (!mounted) return;
@@ -99,6 +106,6 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
   }
 
   void _onMovieTap(int movieId) {
-    _movieListState!.setSelectedMovieId(movieId);
+    _state!.setSelectedMovieId(movieId);
   }
 }

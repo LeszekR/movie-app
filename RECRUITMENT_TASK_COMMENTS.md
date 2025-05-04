@@ -27,7 +27,7 @@ Features implemented above recruitment task requirements
 - separated of business logic from `Widget` logic (classes: `MovieListManager`
   , `MovieDetailsManager`)
 - wrapped web requests with error-handling (`ApiService`)
-- refactored string literals to constant strings (`lib/utils/routing/go_router_const_strings.dart`
+- refactored string literals to constant strings (`lib/routing/go_router_const_strings.dart`
   and other places) to prevent typos and enable intellisense
 - proposed naming with prefixes and suffixes to improve readability and reduce intellisense list
 
@@ -84,7 +84,7 @@ case this is unnecessary. If so then I will refactor and simplify the code.
 
 #### Separate files for GoRouter and routing const strings
 
-(Package: `lib/utils/routing`)
+(Package: `lib/routing`)
 
 I prefer const strings as keys/ids/etc instead of hardcoded string literals for reasons explained
 further down this file.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/providers/movie_list_scroll.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'controllers/search_text_controller.dart';
 
 class SearchBox extends ConsumerWidget {
   final void Function(String)? onSubmitted;
@@ -19,7 +20,7 @@ class SearchBox extends ConsumerWidget {
           ),
         ),
         child: TextField(
-          controller: ref.read(searchBoxTextControllerProvider),
+          controller: ref.watch(searchBoxTextControllerProvider),
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(

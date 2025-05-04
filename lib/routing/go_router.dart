@@ -17,7 +17,7 @@ GoRouter goRouter(Ref ref) {
             final String title = state.pathParameters[paramMovieTitle]!;
             final String budget = state.pathParameters[paramMovieBudget]!;
             final String revenue = state.pathParameters[paramMovieRevenue]!;
-            return MovieDetailsPage(title, budget, revenue, MovieDetailsManager(NowInject()));
+            return MovieDetailsPage(title, budget, revenue);
           }),
     ],
   );

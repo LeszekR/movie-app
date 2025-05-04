@@ -1,51 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
 import 'package:flutter_recruitment_task/pages/movie_details/movie_details_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieDetailsPage extends StatelessWidget {
+class MovieDetailsPage extends ConsumerWidget {
   final String title;
   final String budget;
   final String revenue;
-  final MovieDetailsManager movieDetailsLogic;
-  final List<MovieDetails> _details;
 
-  MovieDetailsPage(
+  const MovieDetailsPage(
     this.title,
     this.budget,
-    this.revenue,
-    this.movieDetailsLogic, {
+    this.revenue, {
     super.key,
-  }) : _details = movieDetailsLogic.makeMovieDetails(budget, revenue);
+  });
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          backgroundColor: Colors.amberAccent.shade400,
+  Widget build(BuildContext context, WidgetRef ref) {
+    var manager = ref.read(movieDetailsManagerProvider);
+    var details = makeMovieDetails(manager, budget, revenue);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.amberAccent.shade400,
+      ),
+      body: ListView.separated(
+        separatorBuilder: (context, index) => Container(
+          height: 1.0,
+          color: Colors.grey.shade300,
         ),
-        body: ListView.separated(
-          separatorBuilder: (context, index) => Container(
-            height: 1.0,
-            color: Colors.grey.shade300,
+        itemBuilder: (context, index) => Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                details[index].label,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                details[index].content,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
           ),
-          itemBuilder: (context, index) => Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  _details[index].label,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  _details[index].content,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ],
-            ),
-          ),
-          itemCount: _details.length,
         ),
-      );
+        itemCount: details.length,
+      ),
+    );
+  }
+
+  List<MovieDetails> makeMovieDetails(MovieDetailsManager manager, String budget, String revenue) {
+    var budgetInDollars = manager.formatDollarAmount(budget);
+    var revenueInDollars = manager.formatDollarAmount(revenue);
+    var recommendOrNo = manager.recommendOrNo(budget, revenue);
+    return [
+      MovieDetails(label: 'Budget', content: budgetInDollars),
+      MovieDetails(label: 'Revenue', content: revenueInDollars),
+      MovieDetails(label: 'Should I watch it today?', content: recommendOrNo),
+    ];
+  }
 }
