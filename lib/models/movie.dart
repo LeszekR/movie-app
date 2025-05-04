@@ -4,11 +4,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Movie implements Sortable{
+class Movie implements Sortable {
   final int id;
   final String title;
   final double voteAverage;
+  @JsonKey(defaultValue: 0)
   final int budget;
+  @JsonKey(defaultValue: 0)
   final int revenue;
 
   static String keyId = 'id';

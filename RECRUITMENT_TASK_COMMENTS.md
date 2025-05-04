@@ -8,56 +8,89 @@ Intro
 Reservations
 ----------------------------------  
 
-1. On 02.05.2025 feature implementation is completed but the whole task is not - remaining issues
+1. On **02.05.2025** feature implementation is completed but the whole task is not - remaining issues
    are mentioned here and all are listed in issues in GitLab repo - the solution is still under
    work.
 2. One of the missing parts is tests. Until they are created some functionalities may have bugs.
    (E.g. `SortableSorter` error checks and others.)
 3. With current tiny size of the project some of my solutions are an overkill. But they prepare the
    project for smooth codebase growth.
-4. I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
-   implemented solution that prevents the use of `BuildContext` over async gap but probably in this
-   case this is unnecessary. If so then I will refactor and simplify the code.
 
-Additional features
+Overview of implemented elements
 ----------------------------------  
 
-##### Movie list state preserved on navigation
+Features implemented above recruitment task requirements
 
-Noticed that navigating back from MovieDetails cleared movie list. This is not intuitive and is bad
-experience.
+- introduced `GoRouter` superior to raw `Navigator` use
+- introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
+- created multi-column, stable, generic sorting class (`Sorter`)
+- separated of business logic from `Widget` logic (classes: `MovieListManager`
+  , `MovieDetailsManager`)
+- wrapped web requests with error-handling (`ApiService`)
+- refactored string literals to constant strings (`lib/routing/go_router_const_strings.dart`
+  and other places) to prevent typos and enable intellisense
+- proposed naming with prefixes and suffixes to improve readability and reduce intellisense list
 
-To solve this I
+#
 
-- introduced `Provider` to preserve the state of `MovieListPage`
-- added `TextEditingController` to `SearchBox`
-- added `ScrollController` to `ListView`
-- store state of them all in `MovieListStore`
+------------------
 
-##
-
-Implementation choices
-====================================================================
+Details
+----------------------------------  
 
 ###
 
-Navigation
-----------------------------------  
+##### Widget state preserved on navigation in `MovieListPage`
 
-####
+Noticed that navigating back from MovieDetails cleared movie list.
+
+To solve this I:
+
+- introduced `Riverpod` to preserve the state of `MovieListPage`
+- added `TextEditingController` to `SearchBox`
+- added `ScrollController` to `ListView`
+- store state of them all in `MovieListState`
+
+This way on navigation back the following UI elements restore their last state:
+
+- list of movies: contents
+- list of movies: scrolling
+- list of movies: selection
+- search box: text
+
+###
+
+##### Error handling in `ApiService`
+
+- Added error handling there
+- this needs to be complemented with custom exceptions
+- the exceptions should both: log errors (for devs) and show error dialogs (for the user to know
+  what and why happened).
+
+###
+
+#### `MovieDetails` as `StatelessWidget`
+
+- Since for now this page does not need `State` and it seems to me its task will not call for it in
+  the future - refactored to `StatelessWidget` to simplify the code.
+- Also extracted this page's logic to separate class. This is consistent with my approach
+  to `MovieListPage` and done for the same reasons.
+
+###
 
 #### Package go_router
 
 I used `GoRouter` in place of `Navigator` for the benefits it provides
 
-- (TODO)
-- (TODO)
+I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
+implemented solution that prevents the use of `BuildContext` over async gap but probably in this
+case this is unnecessary. If so then I will refactor and simplify the code.
 
-####
+###
 
 #### Separate files for GoRouter and routing const strings
 
-(Package: `lib/utils/routing`)
+(Package: `lib/routing`)
 
 I prefer const strings as keys/ids/etc instead of hardcoded string literals for reasons explained
 further down this file.
@@ -69,11 +102,6 @@ further down this file.
   has to scroll up and down between the string declarations and currently implemented route code.
   Impractical. Slow. Quicker to Ctrl+Tab between the 2 files.
 - (Scrolling will became necessary with just a few more routes.)
-
-###
-
-Sorting
-----------------------------------  
 
 ###
 
@@ -103,12 +131,7 @@ Sorting
 
 ###
 
-Code style
-====================================================================
-
-###
-
-### Const strings in place of hardcoding strings
+#### Const strings in place of hardcoding strings
 
 I always use static const string instead of hardcoded string ids because:
 
@@ -118,11 +141,7 @@ I always use static const string instead of hardcoded string ids because:
 
 ###
 
-### Naming
-
-###
-
-##### Prefixes
+##### Naming - prefixes
 
 Rationale:
 
@@ -138,36 +157,12 @@ Approach:
 
 ###
 
-##### Postfixes
+##### Naming - suffixes
 
-- I prefer to add postfix to variables of type `List`, `Map`, etc.
+- I prefer to add suffix to variables of type `List`, `Map`, etc.
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
-
 - This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
   them to remember what hides behind the var name. Alternately it saves time on checking var
-  declarations.
+  declarations. 
+- Examples: `sortCriteriaList`, `getSortableFieldsMap`.
 
-Examples: `sortCriteriaList`, `getSortableFieldsMap`.
-
-###
-
-#### Argument and variable names consistency
-
-- I prefer to use the same name for a variable over its entire passage from one object/method to
-  another. This approach improves code readability.
-- Example: I changed originally declared `MovieListPage.... apiService.searchMovies(text)`
-  to `apiService.searchMovies(query)` to keep the arg `query` consistent with API arg name
-  in `searchMovies(String query)`.
-
-Other
-====================================================================
-
-####
-
-### `MovieDetails` as `StatelessWidget`
-
-- Since for now this page does not need `State` and it seems to me its task will not call for it in
-the future - refactored to `StatelessWidget` to simplify the code.   
-- Also extracted this page's logic
-to separate class. This is consistent with my approach to 'MovieListPage' and done for the same
-reasons.

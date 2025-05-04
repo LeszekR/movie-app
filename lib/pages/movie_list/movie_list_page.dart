@@ -2,61 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
-import 'package:flutter_recruitment_task/services/api_service.dart';
-import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import 'movie_list_controller.dart';
+import '../../routing/go_router_const_strings.dart';
+import 'controllers/movie_list_manager.dart';
+import 'controllers/search_text_controller.dart';
 
-class MovieListPage extends StatefulWidget {
-  final ApiService apiService;
-
-  // TODO - DI
-  const MovieListPage({super.key, required this.apiService});
+class MovieListPage extends ConsumerStatefulWidget {
+  const MovieListPage({super.key});
 
   @override
   MovieListPageState createState() => MovieListPageState();
 }
 
-class MovieListPageState extends State<MovieListPage> {
-  MovieListController? _controller;
+class MovieListPageState extends ConsumerState<MovieListPage> {
+  MovieListState? _state;
+  MovieListManager? _manager;
   ScrollController? _scrollController;
-  MovieListStore? _movieListStore;
+  TextEditingController? _searchController;
 
   @override
-  void initState() {
-    super.initState;
-    // TODO - DI
-    _controller = MovieListController(widget.apiService);
-    _scrollController = ScrollController();
-    _movieListStore = context.read<MovieListStore>();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _state = ref.read(movieListStateProvider.notifier);
+    _manager = ref.read(movieListManagerProvider);
+    _scrollController = ref.read(movieListScrollControllerProvider);
+    _searchController = ref.read(searchBoxTextControllerProvider);
 
-    _scrollController?.addListener(() {
-      _movieListStore!.lastScrollOffset = _scrollController!.offset;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _manager!.restoreScroll();
+      _manager!.restoreSearchQuery();
     });
-    _controller!.restoreScroll(_movieListStore!, _scrollController!);
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<MovieListStore>(builder: (context, movieListProvider, child) {
-        return Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                icon: Icon(Icons.movie_creation_outlined),
-                onPressed: _onOpenMovieDetailsTap,
-              ),
-            ],
-            title: Text('Movie Browser'),
+  Widget build(BuildContext context) {
+    var movieListData = ref.watch(movieListStateProvider);
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.movie_creation_outlined),
+            onPressed: _onOpenMovieDetailsTap,
           ),
-          body: Column(
-            children: <Widget>[
-              SearchBox(onSubmitted: _onSearchBoxSubmitted),
-              Expanded(child: _buildMoviesList(movieListProvider.movieList.results)),
-            ],
-          ),
-        );
-      });
+        ],
+        title: Text('Movie Browser'),
+      ),
+      body: Column(
+        children: <Widget>[
+          SearchBox(onSubmitted: _onSearchBoxSubmitted),
+          Expanded(child: _buildMoviesList(movieListData.movieList.results)),
+        ],
+      ),
+    );
+  }
 
   Widget _buildMoviesList(List<Movie> movies) => ListView.separated(
         controller: _scrollController,
@@ -69,33 +71,49 @@ class MovieListPageState extends State<MovieListPage> {
           title: movies[index].title,
           rating: '${(movies[index].voteAverage * 10).toInt()}%',
           onTap: _onMovieTap,
-          isSelected: movies[index].id == _movieListStore!.selectedMovieId,
+          isSelected: movies[index].id == _state!.getSelectedMovieId(),
         ),
         itemCount: movies.length,
       );
 
-  void _onSearchBoxSubmitted(String? query) async {
-    if (query == null) return;
-    var fetchedMovieList = await _controller!.fetchMovieList(query);
+  void _onSearchBoxSubmitted(String query) async {
+    if (query.isEmpty) return;
+
+    var fetchedMovieList = await _manager!.fetchMovieList(query);
     if (fetchedMovieList == null) return;
+    if (fetchedMovieList.isEmpty) return;
+
     if (!mounted) return;
-    var movieListContent = context.read<MovieListStore>();
-    _controller!.updateMovieList(movieListContent, fetchedMovieList);
+    _manager!.updateMovieList(fetchedMovieList);
   }
 
   void _onOpenMovieDetailsTap() async {
-    if (_movieListStore!.selectedMovieId == null) return;
-    var fetchedMovie = await _controller!.fetchMovie(_movieListStore!.selectedMovieId!);
+    var selectedMovieId = _state!.getSelectedMovieId();
+    if (selectedMovieId == null) return;
+
+    var fetchedMovie = await _manager!.fetchMovie(selectedMovieId);
     if (fetchedMovie == null) return;
-    _movieListStore!.lastScrollOffset = _scrollController!.offset;
-    _movieListStore!.selectedMovieId = _movieListStore!.selectedMovieId;
+
     if (!mounted) return;
-    _controller!.openMovieDetails(context, fetchedMovie, _movieListStore!.selectedMovieId!);
+
+    _saveViewParams();
+
+    context.goNamed(
+      routeMovieDetails,
+      pathParameters: {
+        paramMovieTitle: fetchedMovie.title.toString(),
+        paramMovieBudget: fetchedMovie.budget.toString(),
+        paramMovieRevenue: fetchedMovie.revenue.toString(),
+      },
+    );
   }
 
-  void _onMovieTap(int id) {
-    setState(() {
-      _movieListStore!.selectedMovieId = id;
-    });
+  void _saveViewParams() {
+    _state!.setSearchQuery(_searchController!.text);
+    _state!.setScrollOffset(_scrollController!.offset);
+  }
+
+  void _onMovieTap(int movieId) {
+    _state!.setSelectedMovieId(movieId);
   }
 }

@@ -6,20 +6,18 @@ part of 'movie.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Movie _$MovieFromJson(Map<String, dynamic> json) {
-  return Movie(
-    id: json[Movie.keyId] as int,
-    title: json[Movie.keyTitle] as String,
-    voteAverage: (json[Movie.keyVoteAverage] as num).toDouble(),
-    budget: json[Movie.keyBudget] ?? 0,
-    revenue: json[Movie.keyRevenue] ?? 0,
-  );
-}
+Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
+      title: json['title'] as String,
+      voteAverage: (json['vote_average'] as num).toDouble(),
+      id: (json['id'] as num).toInt(),
+      budget: (json['budget'] as num?)?.toInt() ?? 0,
+      revenue: (json['revenue'] as num?)?.toInt() ?? 0,
+    );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
-      Movie.keyId: instance.id,
-      Movie.keyTitle: instance.title,
-      Movie.keyVoteAverage: instance.voteAverage,
-      Movie.keyBudget: instance.budget,
-      Movie.keyRevenue: instance.revenue,
+      'id': instance.id,
+      'title': instance.title,
+      'vote_average': instance.voteAverage,
+      'budget': instance.budget,
+      'revenue': instance.revenue,
     };

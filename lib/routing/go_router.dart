@@ -1,0 +1,24 @@
+part of '../../movie_app.dart';
+
+@riverpod
+GoRouter goRouter(Ref ref) {
+  return GoRouter(
+    initialLocation: pathHome,
+    routes: [
+      GoRoute(
+        name: routeHome,
+        path: pathHome,
+        builder: (context, state) => MovieListPage(),
+      ),
+      GoRoute(
+          name: routeMovieDetails,
+          path: pathMovieDetails,
+          builder: (context, state) {
+            final String title = state.pathParameters[paramMovieTitle]!;
+            final String budget = state.pathParameters[paramMovieBudget]!;
+            final String revenue = state.pathParameters[paramMovieRevenue]!;
+            return MovieDetailsPage(title, budget, revenue);
+          }),
+    ],
+  );
+}

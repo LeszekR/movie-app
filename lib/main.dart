@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/movie_app.dart';
-import 'package:flutter_recruitment_task/state_providers/movie_list_store.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() => runApp(
-      ChangeNotifierProvider(
-        create: (context) => MovieListStore(),
+      ProviderScope(
         child: const MovieApp(),
       ),
     );

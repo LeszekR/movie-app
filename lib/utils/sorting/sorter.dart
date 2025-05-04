@@ -1,9 +1,10 @@
 import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
 import 'package:flutter_recruitment_task/utils/sorting/sortable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'column_sort_criteria.dart';
+import 'sort_criteria.dart';
 
-class SortableSorter<T extends Sortable> {
+class Sorter<T extends Sortable> {
   List<SortCriteria>? _sortCriteriaList = [];
 
   void sortColumns(List<T>? listToSort, {final List<SortCriteria>? sortCriteriaList}) {
@@ -52,8 +53,14 @@ class SortableSorter<T extends Sortable> {
 
   void _validateCriteriaKey(Sortable sortedElement, SortCriteria sortCriteria) {
     var fieldKey = sortCriteria.fieldKey;
-    var sortedElementType = sortedElement.runtimeType.toString();
-    assert(sortedElement.getSortableFieldsMap().keys.contains(fieldKey),
-        'Key $fieldKey does not exist in $sortedElementType');
+    var isKeyPresent = sortedElement.getSortableFieldsMap().keys.contains(fieldKey);
+    assert(isKeyPresent, 'Key $fieldKey does not exist in ${sortedElement.runtimeType.toString()}');
   }
+}
+
+// Riverpod fails to create generic class providers from annotation
+Provider<Sorter<T>> createSortableSorterProvider<T extends Sortable>() {
+  return Provider<Sorter<T>>((ref) {
+    return Sorter<T>();
+  });
 }
