@@ -17,7 +17,7 @@ stages:
   - test
 
 variables:
-  IMAGE_NAME: tauu/flutter-windows-builder:3.29.0
+  IMAGE_NAME: gmeligio/flutter-android:3.29.0
 
 #build-image:
 #  stage: build
