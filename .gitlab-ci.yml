@@ -10,14 +10,14 @@ stages:
   - test
 
 analyze:
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:3.19.0
   stage: analyze
   script:
     - flutter pub get
     - flutter analyze
 
 test:
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:3.19.0
   stage: test
   script:
     - flutter pub get
