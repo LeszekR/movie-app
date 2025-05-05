@@ -69,7 +69,7 @@ This way on navigation back the following UI elements restore their last state:
 
 ###
 
-#### `MovieDetails` as `StatelessWidget`
+##### `MovieDetails` as `StatelessWidget`
 
 - Since for now this page does not need `State` and it seems to me its task will not call for it in
   the future - refactored to `StatelessWidget` to simplify the code.
@@ -78,7 +78,7 @@ This way on navigation back the following UI elements restore their last state:
 
 ###
 
-#### Package go_router
+##### Package go_router
 
 I used `GoRouter` in place of `Navigator` for the benefits it provides
 
@@ -88,7 +88,7 @@ case this is unnecessary. If so then I will refactor and simplify the code.
 
 ###
 
-#### Separate files for GoRouter and routing const strings
+##### Separate files for GoRouter and routing const strings
 
 (Package: `lib/routing`)
 
@@ -105,7 +105,7 @@ further down this file.
 
 ###
 
-#### Sorting by multiple columns (class fields)
+##### Sorting by multiple columns (class fields)
 
 (Package: `lib/utils/sorting`)
 
@@ -120,7 +120,7 @@ further down this file.
 
 ###
 
-#### Error checks in SortableSorter
+##### Error checks in SortableSorter
 
 - SortableSorter throws if `sortCriteriaList` is longer than the number of sortable fields in the
   sorted type. This is to prevent unexpected behaviour when the same column is sorted twice making
@@ -131,7 +131,7 @@ further down this file.
 
 ###
 
-#### Const strings in place of hardcoding strings
+##### Const strings in place of hardcoding strings
 
 I always use static const string instead of hardcoded string ids because:
 
