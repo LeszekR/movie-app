@@ -5,9 +5,34 @@
 # Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/pipeline/#customization
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
-sast:
+#  - build
+  - test
+
+variables:
+  IMAGE_NAME: gmeligio/flutter-android:3.29.0
+
+#build-image:
+#  stage: build
+#  image: docker:latest
+#  services:
+#    - docker:dind
+#  script:
+#    - docker build -t $IMAGE_NAME .
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker push $IMAGE_NAME
+
+test:
   stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+  image: $IMAGE_NAME
+  script:
+    - flutter --version
+    - flutter pub get
+    - flutter test
