@@ -3,6 +3,8 @@ import 'package:flutter_recruitment_task/models/movie_details.dart';
 import 'package:flutter_recruitment_task/pages/movie_details/controller/movie_details_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../ui_localized_texts/provider/txt.dart';
+
 class MovieDetailsPage extends ConsumerWidget {
   final String title;
   final String budget;
@@ -57,9 +59,9 @@ class MovieDetailsPage extends ConsumerWidget {
     var revenueInDollars = manager.formatDollarAmount(revenue);
     var recommendOrNo = manager.recommendOrNo(budget, revenue);
     return [
-      MovieDetails(label: 'Budget', content: budgetInDollars),
-      MovieDetails(label: 'Revenue', content: revenueInDollars),
-      MovieDetails(label: 'Should I watch it today?', content: recommendOrNo),
+      MovieDetails(label: Txt.get.budget, content: budgetInDollars),
+      MovieDetails(label: Txt.get.revenue, content: revenueInDollars),
+      MovieDetails(label: Txt.get.should_i_watch_today, content: recommendOrNo),
     ];
   }
 }

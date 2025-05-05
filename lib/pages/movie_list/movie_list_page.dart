@@ -4,6 +4,7 @@ import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,6 +28,8 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    Txt.setLanguage(context);
+
     _state = ref.read(movieListStateProvider.notifier);
     _manager = ref.read(movieListManagerProvider);
     _scrollController = ref.read(movieListScrollControllerProvider);
@@ -49,7 +52,7 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
             onPressed: _onOpenMovieDetailsTap,
           ),
         ],
-        title: Text('Movie Browser'),
+        title: Text(Txt.get.movie_list_title),
       ),
       body: Column(
         children: <Widget>[
