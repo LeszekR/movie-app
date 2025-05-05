@@ -16,8 +16,8 @@
 build-app:
   stage: build
   except:
-    - master
-  image: ghcr.io/cirruslabs/flutter:latest
+    - main
+#  image: ghcr.io/cirruslabs/flutter:latest
   script:
     - flutter pub get
     - flutter packages pub run build_runner build
