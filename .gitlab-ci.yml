@@ -6,25 +6,26 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-  - analyze
+  - build
   - test
 
-#analyze:
-#  image: cirrusci/flutter:3.19.0
-#  stage: analyze
-#  script:
-#    - flutter pub get
-#    - flutter analyze
+variables:
+  IMAGE_NAME: $CI_REGISTRY_IMAGE/flutter-custom:3.29.0
+
+build-image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $IMAGE_NAME .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $IMAGE_NAME
 
 test:
-  image: cirrusci/flutter:latest  # base image, even if old, it gives you dart+flutter tools
   stage: test
-  before_script:
-    - echo "Downloading Flutter 3.29.0"
-    - curl -O https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.29.0-stable.tar.xz
-    - tar xf flutter_linux_3.29.0-stable.tar.xz
-    - export PATH="$PWD/flutter/bin:$PATH"
-    - flutter --version
+  image: $CI_REGISTRY_IMAGE/flutter-custom:3.29.0
   script:
+    - flutter --version
     - flutter pub get
     - flutter test
