@@ -13,6 +13,8 @@ analyze:
   image: cirrusci/flutter:latest
   stage: analyze
   script:
+    - PS1='$(whoami)@$(hostname):$(pwd)'
+    - cd lib
     - flutter pub get
     - flutter analyze
 
