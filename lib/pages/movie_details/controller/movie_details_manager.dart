@@ -1,4 +1,4 @@
-import 'package:flutter_recruitment_task/utils/date_time_reader.dart';
+import 'package:flutter_recruitment_task/utils/date_time_reader/date_time_reader.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
