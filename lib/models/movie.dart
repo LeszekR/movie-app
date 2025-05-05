@@ -20,9 +20,9 @@ class Movie implements Sortable {
   static String keyRevenue = 'revenue';
 
   Movie({
+    required this.id,
     required this.title,
     required this.voteAverage,
-    required this.id,
     required this.budget,
     required this.revenue,
   });

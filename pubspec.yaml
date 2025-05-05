@@ -1,0 +1,34 @@
+name: flutter_recruitment_task
+description: Flutter recruitment task.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ^3.29.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  json_annotation: 4.9.0
+  http: 1.3.0
+  go_router: ^15.1.1
+  intl: ^0.18.1
+  flutter_riverpod: ^2.6.1
+  riverpod:
+  riverpod_annotation: ^2.6.1
+  freezed_annotation: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: 5.0.0
+  build_runner: ^2.4.15
+  json_serializable: 6.9.4
+  riverpod_generator: ^2.6.5
+  custom_lint: ^0.7.5
+  riverpod_lint: ^2.6.5
+  freezed: ^3.0.6
+
+flutter:
+  uses-material-design: true

@@ -43,7 +43,7 @@ class MovieListManager extends _$MovieListManager {
   }
 
   void updateMovieList(List<Movie> movies) {
-    _sorter!.sortColumns(movies, sortCriteriaList: _sortCriteriaList);
+    _sorter!.sortColumns(movies, _sortCriteriaList);
     _state!.setMovieList(MovieList(totalResults: movies.length, results: movies));
   }
 
