@@ -23,8 +23,9 @@ Additional features
 - created first tests (`Sorter` tests)
 - created gitlab pipeline
 - refactored string literals to constant strings to prevent typos and enable
-  intellisense (`lib/routing/go_router_const_strings.dart`
-  and other)
+  intellisense (e.g. `lib/routing/go_router_const_strings.dart` and other)
+- introduced localization, app is prepared for dynamic change of language, only missing UI buttons
+  for that
 
 #
 

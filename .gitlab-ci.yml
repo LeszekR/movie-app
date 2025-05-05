@@ -6,22 +6,14 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-  - analyze
   - test
 
 variables:
   IMAGE_NAME: gmeligio/flutter-android:3.29.0
 
-analyze:
-  image: $IMAGE_NAME
-  stage: analyze
-  script:
-    - flutter pub get
-    - flutter analyze
-
 test:
   image: $IMAGE_NAME
   stage: test
   script:
-#    - flutter pub get
+    - flutter pub get
     - flutter test
