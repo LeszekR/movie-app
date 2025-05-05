@@ -1,35 +1,30 @@
 Intro
 ===================================================================
 
-- This file is here only for recruitment purposes. It would not exist in regular work task.
-- It explains some of my decisions in the project.
-- I suggest you read it before reading the code.
-
-Reservations
-----------------------------------  
-
-1. On **02.05.2025** feature implementation is completed but the whole task is not - remaining issues
-   are mentioned here and all are listed in issues in GitLab repo - the solution is still under
-   work.
-2. One of the missing parts is tests. Until they are created some functionalities may have bugs.
-   (E.g. `SortableSorter` error checks and others.)
-3. With current tiny size of the project some of my solutions are an overkill. But they prepare the
+1. This file is here only for recruitment purposes. It would not exist in regular work task.
+2. On **02.05.2025** feature implementation is completed but the solution is still under works -
+   remaining issues are listed in issues in GitLab repo.
+4. With current tiny size of the project some of my solutions are an overkill. But they prepare the
    project for smooth codebase growth.
 
-Overview of implemented elements
+Overview
 ----------------------------------  
 
-Features implemented above recruitment task requirements
+Additional features  
+(apart recruitment task requirements, features essential for any project):
 
-- introduced `GoRouter` superior to raw `Navigator` use
-- introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
+- introduced `GoRouter`
+- introduced `Riverpod` for the need of state management and DI (first used `Provider` then
+  refactored)
 - created multi-column, stable, generic sorting class (`Sorter`)
-- separated of business logic from `Widget` logic (classes: `MovieListManager`
+- separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
   , `MovieDetailsManager`)
 - wrapped web requests with error-handling (`ApiService`)
-- refactored string literals to constant strings (`lib/routing/go_router_const_strings.dart`
-  and other places) to prevent typos and enable intellisense
-- proposed naming with prefixes and suffixes to improve readability and reduce intellisense list
+- created first tests (`Sorter` tests)
+- created gitlab pipeline
+- refactored string literals to constant strings to prevent typos and enable
+  intellisense (`lib/routing/go_router_const_strings.dart`
+  and other)
 
 #
 
@@ -163,6 +158,6 @@ Approach:
 - It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
 - This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
   them to remember what hides behind the var name. Alternately it saves time on checking var
-  declarations. 
+  declarations.
 - Examples: `sortCriteriaList`, `getSortableFieldsMap`.
 
