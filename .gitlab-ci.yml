@@ -13,16 +13,20 @@
 #include:
 #- template: Security/SAST.gitlab-ci.yml
 
-build-app:
-  stage: build
-  except:
-    - main
-#  image: ghcr.io/cirruslabs/flutter:latest
+stages:
+  - analyze
+  - test
+
+analyze:
+  image: cirrusci/flutter:latest
+  stage: analyze
   script:
     - flutter pub get
-    - flutter packages pub run build_runner build
-    - flutter test --coverage
-  artifacts:
-    paths:
-      - coverage/
-  coverage: '/^TOTAL\s+\|\s+(\d+\.\d+)/'
+    - flutter analyze
+
+test:
+  image: cirrusci/flutter:latest
+  stage: test
+  script:
+    - flutter pub get
+    - flutter test
