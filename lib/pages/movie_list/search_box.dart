@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../ui_localized_texts/provider/txt.dart';
 import 'controllers/search_text_controller.dart';
 
 class SearchBox extends ConsumerWidget {
@@ -26,7 +27,7 @@ class SearchBox extends ConsumerWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
-            hintText: 'Search...',
+            hintText: Txt.get.search_prompt,
           ),
           onSubmitted: onSubmitted,
         ),

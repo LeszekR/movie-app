@@ -1,3 +1,4 @@
+import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
 import 'package:flutter_recruitment_task/utils/date_time_reader.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -25,6 +26,6 @@ class MovieDetailsManager extends _$MovieDetailsManager {
     var budget = int.parse(budgeString);
     var isProfitSatisfactory = (revenue - budget) > _interestingProfits;
 
-    return isSunday && isProfitSatisfactory ? 'Yes!' : 'No...';
+    return isSunday && isProfitSatisfactory ? Txt.get.yes : Txt.get.no;
   }
 }
