@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/controllers/search_text_controller.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/movie.dart';
@@ -15,49 +16,56 @@ import '../../../utils/sorting/sorter.dart';
 part 'movie_list_manager.g.dart';
 
 @riverpod
-class MovieListManager extends _$MovieListManager {
-   MovieListState? _state;
-   ApiService? _apiService;
-   Sorter<Movie>? _sorter;
-   ScrollController? _scrollController;
-   TextEditingController? _searchController;
+MovieListManager movieListManager(Ref ref) {
+  return MovieListManager(
+    state: ref.read(movieListStateProvider.notifier),
+    apiService: ref.read(apiServiceProvider),
+    sorter: ref.read(createSortableSorterProvider<Movie>()),
+    scrollController: ref.read(movieListScrollControllerProvider),
+    searchController: ref.read(searchBoxTextControllerProvider),
+  );
+}
+
+class MovieListManager {
+  final MovieListState? state;
+  final ApiService apiService;
+  final Sorter<Movie> sorter;
+  final ScrollController scrollController;
+  final TextEditingController searchController;
+
+  MovieListManager({
+    required this.state,
+    required this.apiService,
+    required this.sorter,
+    required this.scrollController,
+    required this.searchController,
+  });
 
    final List<SortCriteria> _sortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
 
-  @override
-  MovieListManager build() {
-    _state = ref.read(movieListStateProvider.notifier);
-    _apiService = ref.read(apiServiceProvider);
-    _sorter = ref.read(createSortableSorterProvider<Movie>());
-    _scrollController = ref.read(movieListScrollControllerProvider);
-    _searchController = ref.read(searchBoxTextControllerProvider);
-
-    return this;
-  }
-
   Future<List<Movie>?> fetchMovieList(String query) {
-    return _apiService!.searchMovies(query);
+    return apiService.searchMovies(query);
   }
 
   void updateMovieList(List<Movie> movies) {
-    _sorter!.sortColumns(movies, _sortCriteriaList);
-    _state!.setMovieList(MovieList(totalResults: movies.length, results: movies));
+    sorter.sortColumns(movies, _sortCriteriaList);
+    state!.setMovieList(MovieList(totalResults: movies.length, results: movies));
   }
 
   Future<Movie?> fetchMovie(int movieId) async {
-    return _apiService!.movie(movieId);
+    return apiService.movie(movieId);
   }
 
   void restoreScroll() {
-    double? lastScrollOffset = _state!.getScrollOffset();
+    double? lastScrollOffset = state!.getScrollOffset();
     if (lastScrollOffset == null) return;
-    _scrollController!.jumpTo(lastScrollOffset);
+    scrollController.jumpTo(lastScrollOffset);
   }
 
   void restoreSearchQuery() {
-    _searchController!.text = _state!.getSearchQuery() ?? '';
+    searchController.text = state!.getSearchQuery() ?? '';
   }
 }

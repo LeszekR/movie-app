@@ -1,17 +1,21 @@
 import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
-import 'package:flutter_recruitment_task/utils/date_time_reader.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../utils/date_time_reader/date_time_reader.dart';
 
 part 'movie_details_manager.g.dart';
 
 @riverpod
-class MovieDetailsManager extends _$MovieDetailsManager {
+MovieDetailsManager movieDetailsManager(Ref ref) => MovieDetailsManager(ref.read(dateTimeReaderProvider));
+
+class MovieDetailsManager {
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
   final int _interestingProfits = 1000000;
+  final DateTimeReader dateTimeReader;
 
-  @override
-  void build() {}
+  MovieDetailsManager(this.dateTimeReader);
 
   String formatDollarAmount(String amountString) {
     var amount = int.parse(amountString);
@@ -20,7 +24,7 @@ class MovieDetailsManager extends _$MovieDetailsManager {
   }
 
   String recommendOrNo(String budgeString, String revenueString) {
-    var isSunday = ref.read(dateTimeReaderProvider).now().weekday == 7;
+    var isSunday = dateTimeReader.now().weekday == 7;
 
     var revenue = int.parse(revenueString);
     var budget = int.parse(budgeString);

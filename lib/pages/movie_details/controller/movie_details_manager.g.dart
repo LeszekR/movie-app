@@ -7,13 +7,13 @@ part of 'movie_details_manager.dart';
 // **************************************************************************
 
 String _$movieDetailsManagerHash() =>
-    r'2ce43ef23491bff5b1323458e9e6bc04f180cf9e';
+    r'0d3c5f1a32d6e990eb93826d53d48a216a628d83';
 
-/// See also [MovieDetailsManager].
-@ProviderFor(MovieDetailsManager)
+/// See also [movieDetailsManager].
+@ProviderFor(movieDetailsManager)
 final movieDetailsManagerProvider =
-    AutoDisposeNotifierProvider<MovieDetailsManager, void>.internal(
-  MovieDetailsManager.new,
+    AutoDisposeProvider<MovieDetailsManager>.internal(
+  movieDetailsManager,
   name: r'movieDetailsManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -22,6 +22,8 @@ final movieDetailsManagerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$MovieDetailsManager = AutoDisposeNotifier<void>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef MovieDetailsManagerRef = AutoDisposeProviderRef<MovieDetailsManager>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
