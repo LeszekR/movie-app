@@ -6,13 +6,12 @@ part of 'api_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$apiServiceHash() => r'4706915eea54135be965adc074003c0d42fe0f70';
+String _$apiServiceHash() => r'01c3d99362f3730b98e29079977950009cd07601';
 
-/// See also [ApiService].
-@ProviderFor(ApiService)
-final apiServiceProvider =
-    AutoDisposeNotifierProvider<ApiService, ApiService>.internal(
-  ApiService.new,
+/// See also [apiService].
+@ProviderFor(apiService)
+final apiServiceProvider = AutoDisposeProvider<ApiService>.internal(
+  apiService,
   name: r'apiServiceProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$apiServiceHash,
@@ -20,6 +19,8 @@ final apiServiceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ApiService = AutoDisposeNotifier<ApiService>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ApiServiceRef = AutoDisposeProviderRef<ApiService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -19,7 +19,7 @@ class MovieDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var manager = ref.read(movieDetailsManagerProvider.notifier);
+    var manager = ref.read(movieDetailsManagerProvider);
     var details = makeMovieDetails(manager, budget, revenue);
 
     return Scaffold(

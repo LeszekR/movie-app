@@ -7,6 +7,8 @@ import 'controllers/search_text_controller.dart';
 class SearchBox extends ConsumerWidget {
   final void Function(String)? onSubmitted;
 
+  static final keySearchBox = Key('search_box');
+
   const SearchBox({
     super.key,
     this.onSubmitted,
@@ -21,6 +23,7 @@ class SearchBox extends ConsumerWidget {
           ),
         ),
         child: TextField(
+          key: keySearchBox,
           controller: ref.watch(searchBoxTextControllerProvider),
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,

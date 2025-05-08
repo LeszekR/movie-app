@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/models/movie_list.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'api_service.g.dart';
 
 @riverpod
-class ApiService extends _$ApiService {
-  @override
-  ApiService build() => ApiService();
+ApiService apiService(Ref ref) => ApiService();
+
+class ApiService {
 
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
