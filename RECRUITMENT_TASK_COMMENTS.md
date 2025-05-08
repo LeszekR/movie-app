@@ -14,20 +14,21 @@ Additional features
 (apart recruitment task requirements, features essential for any project):
 
 - introduced `GoRouter`
-- introduced `Riverpod` for the need of state management and DI (first used `Provider` then
+- introduced `Riverpod` for state management and DI (first used `Provider` then
   refactored)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
   , `MovieDetailsManager`)
 - wrapped web requests with error-handling (`ApiService`)
-- created first tests (`Sorter` tests)
+- refactored string literals to constant strings to prevent typos and enable intellisense (
+  e.g. `lib/routing/go_router_const_strings.dart` and other)
+- introduced localization to prepare the app for dynamic change of UI language
+- introduced '.env' file with app parameters (`AppConfig`)
+- created some unit tests (`Sorter` tests)
+- created some tests using mocked dependencies and localized strings (`MovieListPage`
+  , `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
+  life)
 - created gitlab pipeline
-- refactored string literals to constant strings to prevent typos and enable
-  intellisense (e.g. `lib/routing/go_router_const_strings.dart` and other)
-- introduced localization, app is prepared for dynamic change of language, only missing UI buttons
-  for that
-- created `MoviePageListTest` with mocked `ApiService` and localized string
-- introduced '.env' file with app runtime variables
 
 #
 
