@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_manual_providers_as_generated_provider_dependency
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
-import 'package:flutter_recruitment_task/utils/app_config.dart';
+import 'package:flutter_recruitment_task/utils/app_config/app_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +33,7 @@ class MovieDetailsManager {
 
     var revenue = int.parse(revenueString);
     var budget = int.parse(budgeString);
-    var profitThreshold = int.parse(dotenv.env[AppConfig.recommendationProfitThreshold]!);
+    var profitThreshold = int.parse(appConfig.param(AppConfig.recommendationProfitThreshold));
     var isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
     return isSunday && isProfitSatisfactory ? Txt.get.yes : Txt.get.no;
