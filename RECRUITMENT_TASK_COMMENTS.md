@@ -26,6 +26,8 @@ Additional features
   intellisense (e.g. `lib/routing/go_router_const_strings.dart` and other)
 - introduced localization, app is prepared for dynamic change of language, only missing UI buttons
   for that
+- created `MoviePageListTest` with mocked `ApiService` and localized string
+- introduced '.env' file with app runtime variables
 
 #
 
