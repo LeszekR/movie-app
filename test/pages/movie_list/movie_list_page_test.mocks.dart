@@ -5,8 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:flutter_recruitment_task/models/movie.dart' as _i4;
-import 'package:flutter_recruitment_task/services/api_service.dart' as _i2;
+import 'package:flutter_recruitment_task/data/repositiories/api_service.dart'
+    as _i2;
+import 'package:flutter_recruitment_task/domain/entities/movie.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
