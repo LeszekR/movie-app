@@ -21,6 +21,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_dotenv: ^5.0.2
+  flutter_clean_architecture: ^6.0.2
 
 dev_dependencies:
   flutter_test:
