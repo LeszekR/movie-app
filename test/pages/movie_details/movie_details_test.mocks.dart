@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter_recruitment_task/utils/app_config/app_config.dart' as _i2;
-import 'package:flutter_recruitment_task/utils/date_time_reader/date_time_reader.dart'
+import 'package:flutter_recruitment_task/data/config/app_config.dart' as _i2;
+import 'package:flutter_recruitment_task/domain/utils/date_time_reader/date_time_reader.dart'
     as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;

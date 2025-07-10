@@ -1,7 +1,7 @@
-import 'package:flutter_recruitment_task/models/movie.dart';
-import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
-import 'package:flutter_recruitment_task/utils/sorting/sort_criteria.dart';
-import 'package:flutter_recruitment_task/utils/sorting/sorter.dart';
+import 'package:flutter_recruitment_task/app/utils/sorting/e_sort_direction.dart';
+import 'package:flutter_recruitment_task/app/utils/sorting/sort_criteria.dart';
+import 'package:flutter_recruitment_task/app/utils/sorting/sorter.dart';
+import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 part 'sorter_test_movie_list.dart';

@@ -18,7 +18,7 @@ Additional features
   refactored)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
-  , `MovieDetailsManager`)
+  , `MovieDetailsController`)
 - wrapped web requests with error-handling (`ApiService`)
 - refactored string literals to constant strings to prevent typos and enable intellisense (
   e.g. `lib/routing/go_router_const_strings.dart` and other)

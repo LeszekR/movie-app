@@ -1,7 +1,7 @@
-import 'package:flutter_recruitment_task/pages/movie_details/movie_details_page.dart';
-import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
-import 'package:flutter_recruitment_task/utils/app_config/app_config.dart';
-import 'package:flutter_recruitment_task/utils/date_time_reader/date_time_reader.dart';
+import 'package:flutter_recruitment_task/app/pages/movie_details/movie_details_view.dart';
+import 'package:flutter_recruitment_task/data/config/app_config.dart';
+import 'package:flutter_recruitment_task/domain/ui_localized_texts/provider/txt.dart';
+import 'package:flutter_recruitment_task/domain/utils/date_time_reader/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
