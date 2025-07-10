@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
-import 'package:flutter_recruitment_task/domain/ui_localized_texts/provider/txt.dart';
+import 'package:flutter_recruitment_task/domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

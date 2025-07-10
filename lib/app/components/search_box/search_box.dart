@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/app/components/search_box/search_text_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/ui_localized_texts/provider/txt.dart';
+import '../../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
 
 class SearchBox extends ConsumerWidget {
   final void Function(String)? onSubmitted;

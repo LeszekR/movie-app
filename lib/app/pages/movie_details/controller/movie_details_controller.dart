@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_manual_providers_as_generated_provider_dependency
-import 'package:flutter_recruitment_task/domain/ui_localized_texts/provider/txt.dart';
+import 'package:flutter_recruitment_task/domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,7 +8,7 @@ import '../../../../data/config/app_config.dart';
 import '../../../../domain/utils/date_time_reader/date_time_reader.dart';
 
 
-part 'movie_details_controller.g.dart';
+part 'movie_details_controller_provider.g.dart';
 
 @riverpod
 MovieDetailsController movieDetailsController(Ref ref) => MovieDetailsController(

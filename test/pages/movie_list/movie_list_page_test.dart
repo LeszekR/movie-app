@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_recruitment_task/app/components/search_box/search_box.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/components/movie_card.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/movie_list_view.dart';
-import 'package:flutter_recruitment_task/data/repositiories/api_service.dart';
+import 'package:flutter_recruitment_task/data/repositiories/data_movies_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,14 +11,14 @@ import '../../test_utils.dart';
 import '../../utils/sorting/sorter_test.dart';
 import 'movie_list_page_test.mocks.dart';
 
-@GenerateMocks([ApiService])
+@GenerateMocks([DataMoviesRepository])
 void main() {
   testWidgets('fetched movies are sorted', (final WidgetTester tester) async {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
     var mockApiService = MockApiService();
-    when(mockApiService.searchMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
+    when(mockApiService.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester,
         widgetBuilder: () => MovieListPage(), overrides: [apiServiceProvider.overrideWith((ref) => mockApiService)]);

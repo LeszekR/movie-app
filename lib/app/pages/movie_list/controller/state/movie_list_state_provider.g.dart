@@ -11,7 +11,7 @@ String _$movieListStateHash() => r'772ec95a3c9321474d11b2282d0330919141c012';
 /// See also [MovieListState].
 @ProviderFor(MovieListState)
 final movieListStateProvider =
-    NotifierProvider<MovieListState, MovieListView>.internal(
+    NotifierProvider<MovieListState, MovieListViewState>.internal(
   MovieListState.new,
   name: r'movieListStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final movieListStateProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$MovieListState = Notifier<MovieListView>;
+typedef _$MovieListState = Notifier<MovieListViewState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

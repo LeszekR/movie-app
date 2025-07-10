@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'app_config.g.dart';
+part 'app_config_provider.g.dart';
 
 @riverpod
 AppConfig appConfig(Ref ref) => AppConfig();

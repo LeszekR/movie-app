@@ -1,24 +1,26 @@
 import 'dart:convert';
 
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
+import 'package:flutter_recruitment_task/domain/repositories/movies_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/movie_list.dart';
 
-part 'api_service.g.dart';
+part 'data_movies_repository_provider.g.dart';
 
 @riverpod
-ApiService apiService(Ref ref) => ApiService();
+DataMoviesRepository apiService(Ref ref) => DataMoviesRepository();
 
-class ApiService {
+class DataMoviesRepository extends MoviesRepository {
   // TODO refactor to flutter_clean_architecture
 
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
 
-  Future<List<Movie>> searchMovies(String query) async {
+  @override
+  Future<List<Movie>> getSearchedMovies(String query) async {
     final parameters = {
       'api_key': apiKey,
       'query': query,
@@ -43,7 +45,8 @@ class ApiService {
     return Future.value([]);
   }
 
-  Future<Movie?> movie(int movieId) async {
+  @override
+  Future<Movie?> getMovie(int movieId) async {
     final parameters = {
       'api_key': apiKey,
     };

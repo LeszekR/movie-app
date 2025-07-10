@@ -1,7 +1,7 @@
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'movie_list.g.dart';
+part 'movie_list_json_serializer.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class MovieList {

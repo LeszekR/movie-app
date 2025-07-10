@@ -3,15 +3,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../domain/entities/movie_list.dart';
-import '../../../../../domain/entities/movie_list_view.dart';
+import '../movie_list_view_state.dart';
 
-part 'movie_list_state.g.dart';
+part 'movie_list_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class MovieListState extends _$MovieListState {
   @override
-  MovieListView build() {
-    return MovieListView(
+  MovieListViewState build() {
+    return MovieListViewState(
       movieList: MovieList(totalResults: 0, results: []),
     );
   }

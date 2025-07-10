@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../app/utils/sorting/sortable.dart';
 
-part 'movie.g.dart';
+part 'movie_json_serializer.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Movie implements Sortable {

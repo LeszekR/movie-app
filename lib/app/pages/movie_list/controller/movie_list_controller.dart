@@ -6,14 +6,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
-import '../../../../data/repositiories/api_service.dart';
+import '../../../../data/repositiories/data_movies_repository.dart';
 import '../../../components/scroll_controller.dart';
 import '../../../components/search_box/search_text_controller.dart';
 import '../../../utils/sorting/e_sort_direction.dart';
 import '../../../utils/sorting/sort_criteria.dart';
 import '../../../utils/sorting/sorter.dart';
 
-part 'movie_list_controller.g.dart';
+part 'movie_list_controller_provider.g.dart';
 
 @riverpod
 MovieListController movieListManager(Ref ref) {
@@ -30,7 +30,7 @@ MovieListController movieListManager(Ref ref) {
 
 class MovieListController {
   final MovieListState? state;
-  final ApiService apiService;
+  final DataMoviesRepository apiService;
   final Sorter<Movie> sorter;
   final ScrollController scrollController;
   final TextEditingController searchController;
@@ -49,7 +49,7 @@ class MovieListController {
   ];
 
   Future<List<Movie>?> fetchMovieList(String query) {
-    return apiService.searchMovies(query);
+    return apiService.getSearchedMovies(query);
   }
 
   void updateMovieList(List<Movie> movies) {
@@ -58,7 +58,7 @@ class MovieListController {
   }
 
   Future<Movie?> fetchMovie(int movieId) async {
-    return apiService.movie(movieId);
+    return apiService.getMovie(movieId);
   }
 
   void restoreScroll() {

@@ -7,6 +7,50 @@ Intro
 4. With current tiny size of the project some of my solutions are an overkill. But they prepare the
    project for smooth codebase growth.
 
+## Implementation stages
+
+- STAGE 1: At this stage all the task requirements were fulfilled with addition some additional
+  features. They have already been presented to the recruitment team and the original comments to
+  them are located at the end of this file.
+
+- STAGE 2: Now next elements have been implemented following directions received from the
+  recruitment team
+
+# STAGE 2
+
+Overview
+----------------------------------  
+New features and refactoring
+
+- introduced `flutter_clean_architecture` package and refactored the whole project to its directives
+  and API
+- introdueced `get_it`'`
+
+#
+
+------------------
+
+Details
+----------------------------------  
+
+###
+
+##### Using `flutter_clean_architecture`
+
+- using `BackgroundUseCase` may be an overkill - I did it only for practise and skill presentation,
+  although such a query might indeed be heavy
+
+##### Using `get_it` alongside `riverpod`
+
+- I mixed the use of `riverpod` and `get_it` only for skill presentation - normally only
+  one of them would be used to keep the project clean
+
+#    
+
+------------------
+
+# STAGE 1
+
 Overview
 ----------------------------------  
 
@@ -14,8 +58,7 @@ Additional features
 (apart recruitment task requirements, features essential for any project):
 
 - introduced `GoRouter`
-- introduced `Riverpod` for state management and DI (first used `Provider` then
-  refactored)
+- introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
   , `MovieDetailsController`)
