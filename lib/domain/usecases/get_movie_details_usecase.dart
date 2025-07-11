@@ -5,10 +5,10 @@ import 'package:flutter_recruitment_task/domain/repositories/movies_repository.d
 
 import '../entities/movie.dart';
 
-// TODO use get_it to di this
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
 
   final MoviesRepository moviesRepository;
+// TODO use get_it to di this
   GetMovieDetailsUseCase (this.moviesRepository);
 
   @override

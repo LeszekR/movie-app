@@ -7,7 +7,7 @@ part of 'movie_details_controller.dart';
 // **************************************************************************
 
 String _$movieDetailsControllerHash() =>
-    r'3521286dcf5ffb9215b5cb9ab01c0f39823ca9ae';
+    r'c7958e338a9830bd962128f255caee8c71d7d39c';
 
 /// See also [movieDetailsController].
 @ProviderFor(movieDetailsController)

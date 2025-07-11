@@ -8,7 +8,7 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         name: routeHome,
         path: pathHome,
-        builder: (context, state) => MovieListPage(),
+        builder: (context, state) => MovieListView(),
       ),
       GoRoute(
           name: routeMovieDetails,

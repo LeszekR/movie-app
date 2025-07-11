@@ -7,19 +7,19 @@ import 'package:flutter_recruitment_task/domain/usecases/get_searched_movies_use
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'movie_list_presenter_provider.g.dart';
+part 'movie_list_presenter.g.dart';
 
 @riverpod
 MovieListPresenter movieListPresenter(Ref ref) => MovieListPresenter(ref.read(dataMoviesRepositoryProvider));
 
 class MovieListPresenter extends Presenter {
+  Function? getMovieDetailsOnNext;
   Function? getMovieDetailsOnComplete;
   Function? getMovieDetailsOnError;
-  Function? getMovieDetailsOnNext;
 
+  Function? getSearchedMoviesOnNext;
   Function? getSearchedMoviesOnComplete;
   Function? getSearchedMoviesOnError;
-  Function? getSearchedMoviesOnNext;
 
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
   final GetSearchedMoviesUseCase _getSearchedMoviesUseCase;
@@ -40,52 +40,52 @@ class MovieListPresenter extends Presenter {
     _getMovieDetailsUseCase.execute(_GetMovieDetailsObserver(this), GetMovieDetailsUseCaseParams(movieId));
   }
 
-  void getSearchedMovies(String searchQuery) {
+  void getSearchedMovies(String query) {
     _getSearchedMoviesUseCase.execute(
       _GetSearchedMoviesObserver(this),
-      GetSearchedMoviesUseCaseParams(Isolate.current.controlPort, searchQuery),
+      GetSearchedMoviesUseCaseParams(Isolate.current.controlPort, query),
     );
   }
 }
 
 class _GetMovieDetailsObserver extends Observer<GetMovieDetailsUseCaseResponse> {
-  final MovieListPresenter movieListPresenter;
+  final MovieListPresenter _movieListPresenter;
 
-  _GetMovieDetailsObserver(this.movieListPresenter);
+  _GetMovieDetailsObserver(this._movieListPresenter);
 
   @override
   void onNext(GetMovieDetailsUseCaseResponse? response) {
-    movieListPresenter.getMovieDetailsOnNext?.call();
+    _movieListPresenter.getMovieDetailsOnNext?.call(response!.movie);
   }
 
   @override
   void onComplete() {
-    movieListPresenter.getMovieDetailsOnComplete?.call();
+    _movieListPresenter.getMovieDetailsOnComplete?.call();
   }
 
   @override
   void onError(e) {
-    movieListPresenter.getMovieDetailsOnError?.call(e);
+    _movieListPresenter.getMovieDetailsOnError?.call(e);
   }
 }
 
 class _GetSearchedMoviesObserver extends Observer<GetSearchedMoviesUseCaseResponse> {
-  final MovieListPresenter movieListPresenter;
+  final MovieListPresenter _movieListPresenter;
 
-  _GetSearchedMoviesObserver(this.movieListPresenter);
+  _GetSearchedMoviesObserver(this._movieListPresenter);
 
   @override
   void onNext(GetSearchedMoviesUseCaseResponse? response) {
-    movieListPresenter.getSearchedMoviesOnNext?.call();
+    _movieListPresenter.getSearchedMoviesOnNext?.call(response?.movieList);
   }
 
   @override
   void onComplete() {
-    movieListPresenter.getSearchedMoviesOnComplete?.call();
+    _movieListPresenter.getSearchedMoviesOnComplete?.call();
   }
 
   @override
   void onError(e) {
-    movieListPresenter.getSearchedMoviesOnError?.call(e);
+    _movieListPresenter.getSearchedMoviesOnError?.call(e);
   }
 }

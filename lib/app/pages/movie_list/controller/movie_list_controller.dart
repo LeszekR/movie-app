@@ -1,78 +1,97 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_state_controller.dart';
+import 'package:flutter_recruitment_task/app/pages/movie_list/presenter/movie_list_presenter.dart';
 
 import '../../../../data/repositories/data_movies_repository.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
-import '../../../components/scroll_controller.dart';
-import '../../../components/search_box/search_text_controller.dart';
 import '../../../utils/sorting/e_sort_direction.dart';
 import '../../../utils/sorting/sort_criteria.dart';
 import '../../../utils/sorting/sorter.dart';
 
-part 'movie_list_controller.g.dart';
-
-@riverpod
-MovieListController movieListController(Ref ref) {
-  // TODO refactor to flutter_clean_architecture
-
-  return MovieListController(
-    state: ref.read(movieListStateProvider.notifier),
-    apiService: ref.read(dataMoviesRepositoryProvider),
-    sorter: ref.read(createSortableSorterProvider<Movie>()),
-    scrollController: ref.read(movieListScrollControllerProvider),
-    searchController: ref.read(searchBoxTextControllerProvider),
-  );
-}
 
 class MovieListController extends Controller {
-  final MovieListState? state;
-  final DataMoviesRepository apiService;
-  final Sorter<Movie> sorter;
+  final MovieListPresenter _movieListPresenter;
+  final MovieListStateController? stateController;
   final ScrollController scrollController;
-  final TextEditingController searchController;
+  final TextEditingController searchTextController;
+  final Sorter<Movie> _sorter;
 
-  MovieListController({
-    required this.state,
-    required this.apiService,
-    required this.sorter,
-    required this.scrollController,
-    required this.searchController,
-  });
-
-  @override
-  void initListeners() {
-    // TODO implement TU PRZERWAŁEM
-  }
-
-   final List<SortCriteria> _sortCriteriaList = [
+  final List<SortCriteria> _sortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
 
-  Future<List<Movie>?> fetchMovieList(String query) {
-    return apiService.getSearchedMovies(query);
+  Movie? movieToShow;
+
+  // TODO use get_it to di this
+  MovieListController()
+      : _movieListPresenter = MovieListPresenter(DataMoviesRepository()),
+        stateController = MovieListStateController(),
+        scrollController = ScrollController(),
+        searchTextController = TextEditingController(),
+        _sorter = Sorter<Movie>(),
+        super();
+
+  @override
+  void initListeners() {
+    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => updateMovieList(movieList);
+    _movieListPresenter.getSearchedMoviesOnError = (e) {
+      // TODO show error dialog to the user
+      // TODO log error
+    };
+    _movieListPresenter.getMovieDetailsOnNext = (movie) => showMovieDetails(movie);
+    _movieListPresenter.getMovieDetailsOnError = (e) {
+      // TODO show error dialog to the user
+      // TODO log error
+    };
+  }
+
+  void fetchSearchedMovies(String query) {
+    if (query.isEmpty) return;
+    _movieListPresenter.getSearchedMovies(query);
   }
 
   void updateMovieList(List<Movie> movies) {
-    sorter.sortColumns(movies, _sortCriteriaList);
-    state!.setMovieList(MovieList(totalResults: movies.length, results: movies));
+    _sorter.sortColumns(movies, _sortCriteriaList);
+    stateController!.setMovieList(MovieList(totalResults: movies.length, results: movies));
+    refreshUI();
   }
 
-  Future<Movie?> fetchMovie(int movieId) async {
-    return apiService.getMovie(movieId);
+  void fetchMovie() {
+    var selectedMovieId = stateController!.getSelectedMovieId();
+    if (selectedMovieId == null) return;
+    _movieListPresenter.getMovieDetails(selectedMovieId);
   }
 
-  void restoreScroll() {
-    double? lastScrollOffset = state!.getScrollOffset();
+  void showMovieDetails(Movie? movie) {
+    movieToShow = movie;
+    if (movie == null) return;
+    refreshUI();
+  }
+
+  void onMovieDetailsShown() {
+    movieToShow = null;
+  }
+
+  void saveViewState() {
+    stateController!.setSearchQuery(searchTextController.text);
+    stateController!.setScrollOffset(scrollController.offset);
+  }
+
+  void restoreViewState() {
+    _restoreScroll();
+    _restoreSearchQuery();
+  }
+
+  void _restoreScroll() {
+    double? lastScrollOffset = stateController!.getScrollOffset();
     if (lastScrollOffset == null) return;
     scrollController.jumpTo(lastScrollOffset);
   }
 
-  void restoreSearchQuery() {
-    searchController.text = state!.getSearchQuery() ?? '';
+  void _restoreSearchQuery() {
+    searchTextController.text = stateController!.getSearchQuery() ?? '';
   }
 }

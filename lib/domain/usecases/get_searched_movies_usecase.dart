@@ -2,28 +2,29 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 
-//  TODO use get_it to di this
 class GetSearchedMoviesUseCase
     extends BackgroundUseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {
   final DataMoviesRepository moviesRepository;
 
+//  TODO use get_it to di this
   GetSearchedMoviesUseCase(this.moviesRepository);
 
   @override
   UseCaseTask buildUseCaseTask() {
-    return _getSearchedMovies as UseCaseTask;
+    return _getSearchedMovies;
   }
 
-  void _getSearchedMovies(BackgroundUseCaseParams<String> params) async {
+  static void _getSearchedMovies(BackgroundUseCaseParams<dynamic> params) async {
     List<Movie> movieList = List.empty();
     try {
       var searchText = params.params;
-      movieList = await moviesRepository.getSearchedMovies(searchText!);
+      movieList = await DataMoviesRepository().getSearchedMovies(searchText!);
     } catch (e) {
-      // TODO create and throw exception here
-      print(e);
+      // TODO create and throw exception on the other side
+      params.port.send(e);
     }
-    params.port.send(GetSearchedMoviesUseCaseResponse(movieList));
+    params.port.send(BackgroundUseCaseMessage(data: GetSearchedMoviesUseCaseResponse(movieList)));
+    // params.port.send(GetSearchedMoviesUseCaseResponse(movieList));
   }
 }
 

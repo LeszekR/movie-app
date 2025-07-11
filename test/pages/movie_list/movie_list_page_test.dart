@@ -21,7 +21,7 @@ void main() {
     when(mockDataMoviesRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester,
-        widgetBuilder: () => MovieListPage(), overrides: [dataMoviesRepositoryProvider.overrideWith((ref) => mockDataMoviesRepository)]);
+        widgetBuilder: () => MovieListView(), overrides: [dataMoviesRepositoryProvider.overrideWith((ref) => mockDataMoviesRepository)]);
 
     var searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);

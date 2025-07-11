@@ -60,7 +60,7 @@ Additional features
 - introduced `GoRouter`
 - introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
 - created multi-column, stable, generic sorting class (`Sorter`)
-- separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
+- separated business logic from `Widget` ui-concerned code (classes: `MovieListController`
   , `MovieDetailsController`)
 - wrapped web requests with error-handling (`ApiService`)
 - refactored string literals to constant strings to prevent typos and enable intellisense (
