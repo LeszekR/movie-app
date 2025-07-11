@@ -4,9 +4,9 @@ import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/m
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../data/repositories/data_movies_repository.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
-import '../../../../data/repositiories/data_movies_repository.dart';
 import '../../../components/scroll_controller.dart';
 import '../../../components/search_box/search_text_controller.dart';
 import '../../../utils/sorting/e_sort_direction.dart';
@@ -21,7 +21,7 @@ MovieListController movieListManager(Ref ref) {
 
   return MovieListController(
     state: ref.read(movieListStateProvider.notifier),
-    apiService: ref.read(apiServiceProvider),
+    apiService: ref.read(dataMoviesRepositoryProvider),
     sorter: ref.read(createSortableSorterProvider<Movie>()),
     scrollController: ref.read(movieListScrollControllerProvider),
     searchController: ref.read(searchBoxTextControllerProvider),

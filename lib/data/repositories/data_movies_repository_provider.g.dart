@@ -10,7 +10,7 @@ String _$apiServiceHash() => r'01c3d99362f3730b98e29079977950009cd07601';
 
 /// See also [apiService].
 @ProviderFor(apiService)
-final apiServiceProvider = AutoDisposeProvider<DataMoviesRepository>.internal(
+final dataMoviesRepositoryProvider = AutoDisposeProvider<DataMoviesRepository>.internal(
   apiService,
   name: r'apiServiceProvider',
   debugGetCreateSourceHash:

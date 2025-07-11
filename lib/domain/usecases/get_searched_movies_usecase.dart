@@ -1,10 +1,8 @@
-import 'dart:async';
-import 'dart:isolate';
-
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 
+//  TODO use get_it to di this
 class GetSearchedMoviesUseCase
     extends BackgroundUseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {
   final DataMoviesRepository moviesRepository;
@@ -13,7 +11,7 @@ class GetSearchedMoviesUseCase
 
   @override
   UseCaseTask buildUseCaseTask() {
-    return _getSearchedMovies;
+    return _getSearchedMovies as UseCaseTask;
   }
 
   void _getSearchedMovies(BackgroundUseCaseParams<String> params) async {
