@@ -12,6 +12,7 @@ import 'domain/ui_localized_texts/localized_texts_provider/locale_provider.dart'
 part 'app/navigation/go_router.dart';
 part 'app/navigation/go_router_provider.g.dart';
 
+
 class MovieApp extends ConsumerWidget {
   const MovieApp({super.key});
 

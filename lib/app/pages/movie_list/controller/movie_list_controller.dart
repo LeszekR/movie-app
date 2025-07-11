@@ -1,5 +1,5 @@
-// ignore_for_file: avoid_manual_providers_as_generated_provider_dependency
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,10 +13,10 @@ import '../../../utils/sorting/e_sort_direction.dart';
 import '../../../utils/sorting/sort_criteria.dart';
 import '../../../utils/sorting/sorter.dart';
 
-part 'movie_list_controller_provider.g.dart';
+part 'movie_list_controller.g.dart';
 
 @riverpod
-MovieListController movieListManager(Ref ref) {
+MovieListController movieListController(Ref ref) {
   // TODO refactor to flutter_clean_architecture
 
   return MovieListController(
@@ -28,7 +28,7 @@ MovieListController movieListManager(Ref ref) {
   );
 }
 
-class MovieListController {
+class MovieListController extends Controller {
   final MovieListState? state;
   final DataMoviesRepository apiService;
   final Sorter<Movie> sorter;
@@ -42,6 +42,11 @@ class MovieListController {
     required this.scrollController,
     required this.searchController,
   });
+
+  @override
+  void initListeners() {
+    // TODO implement TU PRZERWAŁEM
+  }
 
    final List<SortCriteria> _sortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),

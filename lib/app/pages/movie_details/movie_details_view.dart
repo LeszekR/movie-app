@@ -5,8 +5,9 @@ import '../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'components/movie_details_content_line.dart';
 import 'controller/movie_details_controller.dart';
 
+// TODO use get_it
+// TODO refactor to flutter_clean_architecture
 class MovieDetailsView extends ConsumerWidget {
-  // TODO refactor to flutter_clean_architecture
   final String title;
   final String budget;
   final String revenue;
@@ -20,8 +21,8 @@ class MovieDetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var manager = ref.read(movieDetailsControllerProvider);
-    var details = makeMovieDetailsContentLine(manager, budget, revenue);
+    var controller = ref.read(movieDetailsControllerProvider);
+    var details = makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,10 +56,10 @@ class MovieDetailsView extends ConsumerWidget {
     );
   }
 
-  List<MovieDetailsContentLine> makeMovieDetailsContentLine(MovieDetailsController manager, String budget, String revenue) {
-    var budgetInDollars = manager.formatDollarAmount(budget);
-    var revenueInDollars = manager.formatDollarAmount(revenue);
-    var recommendOrNo = manager.recommendOrNo(budget, revenue);
+  List<MovieDetailsContentLine> makeMovieDetailsContentLine(MovieDetailsController controller, String budget, String revenue) {
+    var budgetInDollars = controller.formatDollarAmount(budget);
+    var revenueInDollars = controller.formatDollarAmount(revenue);
+    var recommendOrNo = controller.recommendOrNo(budget, revenue);
     return [
       MovieDetailsContentLine(label: Txt.get.budget, content: budgetInDollars),
       MovieDetailsContentLine(label: Txt.get.revenue, content: revenueInDollars),

@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:flutter_recruitment_task/data/repositiories/data_movies_repository.dart'
+import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart'
     as _i2;
 import 'package:flutter_recruitment_task/domain/entities/movie.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
@@ -24,18 +24,19 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [ApiService].
+/// A class which mocks [DataMoviesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiService extends _i1.Mock implements _i2.DataMoviesRepository {
-  MockApiService() {
+class MockDataMoviesRepository extends _i1.Mock
+    implements _i2.DataMoviesRepository {
+  MockDataMoviesRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   _i3.Future<List<_i4.Movie>> getSearchedMovies(String? query) =>
       (super.noSuchMethod(
-            Invocation.method(#searchMovies, [query]),
+            Invocation.method(#getSearchedMovies, [query]),
             returnValue: _i3.Future<List<_i4.Movie>>.value(<_i4.Movie>[]),
           )
           as _i3.Future<List<_i4.Movie>>);
@@ -43,7 +44,7 @@ class MockApiService extends _i1.Mock implements _i2.DataMoviesRepository {
   @override
   _i3.Future<_i4.Movie?> getMovie(int? movieId) =>
       (super.noSuchMethod(
-            Invocation.method(#movie, [movieId]),
+            Invocation.method(#getMovie, [movieId]),
             returnValue: _i3.Future<_i4.Movie?>.value(),
           )
           as _i3.Future<_i4.Movie?>);

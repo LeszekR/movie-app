@@ -11,10 +11,11 @@ import '../../domain/entities/movie_list.dart';
 part 'data_movies_repository_provider.g.dart';
 
 @riverpod
+// TODO make sure it will be a singleton
 DataMoviesRepository apiService(Ref ref) => DataMoviesRepository();
 
-class DataMoviesRepository extends MoviesRepository {
-  // TODO refactor to flutter_clean_architecture
+// TODO refactor to flutter_clean_architecture
+class  DataMoviesRepository extends MoviesRepository {
 
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';

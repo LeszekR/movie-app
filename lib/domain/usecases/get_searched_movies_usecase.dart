@@ -25,21 +25,6 @@ class GetSearchedMoviesUseCase
     }
     params.port.send(GetSearchedMoviesUseCaseResponse(movieList));
   }
-
-  /// @override
-// Future<Stream<GetSearchedMoviesUseCaseResponse?>> buildUseCaseStream(GetSearchedMoviesUseCaseParams? params) async {
-//   final StreamController<GetSearchedMoviesUseCaseResponse> streamController = StreamController();
-//   try {
-//     final List<Movie> movieList = await moviesRepository.getSearchedMovies(params!.searchText);
-//     streamController.add(GetSearchedMoviesUseCaseResponse(movieList));
-//     streamController.close();
-//   } catch (e) {
-//     // TODO create and throw exception here
-//     print(e);
-//     streamController.addError(e);
-//   }
-//   return streamController.stream;
-// }
 }
 
 class GetSearchedMoviesUseCaseParams extends BackgroundUseCaseParams<String> {
@@ -53,9 +38,3 @@ class GetSearchedMoviesUseCaseResponse {
 
   const GetSearchedMoviesUseCaseResponse(this.movieList);
 }
-
-// class GetSearchedMoviesUseCaseParams {
-//   final String searchText;
-//
-//   const GetSearchedMoviesUseCaseParams(this.searchText);
-// }

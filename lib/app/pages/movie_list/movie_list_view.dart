@@ -33,7 +33,7 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
     Txt.setLanguage(context);
 
     _state = ref.read(movieListStateProvider.notifier);
-    _manager = ref.read(movieListManagerProvider);
+    _manager = ref.read(movieListControllerProvider);
     _scrollController = ref.read(movieListScrollControllerProvider);
     _searchController = ref.read(searchBoxTextControllerProvider);
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_recruitment_task/app/components/search_box/search_box.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/components/movie_card.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/movie_list_view.dart';
-import 'package:flutter_recruitment_task/data/repositiories/data_movies_repository.dart';
+import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -17,11 +17,11 @@ void main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    var mockApiService = MockApiService();
-    when(mockApiService.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
+    var mockDataMoviesRepository = MockDataMoviesRepository();
+    when(mockDataMoviesRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester,
-        widgetBuilder: () => MovieListPage(), overrides: [apiServiceProvider.overrideWith((ref) => mockApiService)]);
+        widgetBuilder: () => MovieListPage(), overrides: [dataMoviesRepositoryProvider.overrideWith((ref) => mockDataMoviesRepository)]);
 
     var searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);

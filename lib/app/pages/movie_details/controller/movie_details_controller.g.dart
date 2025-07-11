@@ -1,28 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movie_list_controller.dart';
+part of 'movie_details_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieListManagerHash() => r'f4dd6af0f0b065d94f7275150b0c76a1c5eabf4c';
+String _$movieDetailsControllerHash() =>
+    r'3521286dcf5ffb9215b5cb9ab01c0f39823ca9ae';
 
-/// See also [movieListManager].
-@ProviderFor(movieListManager)
-final movieListManagerProvider =
-    AutoDisposeProvider<MovieListController>.internal(
-  movieListManager,
-  name: r'movieListManagerProvider',
+/// See also [movieDetailsController].
+@ProviderFor(movieDetailsController)
+final movieDetailsControllerProvider =
+    AutoDisposeProvider<MovieDetailsController>.internal(
+  movieDetailsController,
+  name: r'movieDetailsControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$movieListManagerHash,
+      : _$movieDetailsControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef MovieListManagerRef = AutoDisposeProviderRef<MovieListController>;
+typedef MovieDetailsControllerRef
+    = AutoDisposeProviderRef<MovieDetailsController>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
