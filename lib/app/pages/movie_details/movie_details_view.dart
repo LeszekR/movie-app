@@ -28,6 +28,7 @@ class MovieDetailsView extends ConsumerWidget {
       appBar: AppBar(
         title: Text(title),
         backgroundColor: Colors.amberAccent.shade400,
+        automaticallyImplyLeading: true,
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) => Container(
@@ -56,7 +57,8 @@ class MovieDetailsView extends ConsumerWidget {
     );
   }
 
-  List<MovieDetailsContentLine> makeMovieDetailsContentLine(MovieDetailsController controller, String budget, String revenue) {
+  List<MovieDetailsContentLine> makeMovieDetailsContentLine(
+      MovieDetailsController controller, String budget, String revenue) {
     var budgetInDollars = controller.formatDollarAmount(budget);
     var revenueInDollars = controller.formatDollarAmount(revenue);
     var recommendOrNo = controller.recommendOrNo(budget, revenue);

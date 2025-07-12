@@ -17,11 +17,11 @@ class GetSearchedMoviesUseCase
   static void _getSearchedMovies(BackgroundUseCaseParams<dynamic> params) async {
     List<Movie> movieList = List.empty();
     try {
-      var searchText = params.params;
+      var searchText = params.params.searchText;
       movieList = await DataMoviesRepository().getSearchedMovies(searchText!);
     } catch (e) {
       // TODO create and throw exception on the other side
-      params.port.send(e);
+      params.port.send(BackgroundUseCaseMessage(data: e));
     }
     params.port.send(BackgroundUseCaseMessage(data: GetSearchedMoviesUseCaseResponse(movieList)));
     // params.port.send(GetSearchedMoviesUseCaseResponse(movieList));

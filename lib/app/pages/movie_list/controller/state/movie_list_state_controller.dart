@@ -1,5 +1,3 @@
-import 'package:riverpod_annotation/riverbed_annotation.dart';
-
 import '../../../../../domain/entities/movie_list.dart';
 import '../movie_list_view_state.dart';
 

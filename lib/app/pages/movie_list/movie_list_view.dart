@@ -67,8 +67,8 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         id: movieList[index].id,
         title: movieList[index].title,
         rating: '${(movieList[index].voteAverage * 10).toInt()}%',
-        onTap: controller.stateController!.setSelectedMovieId,
-        isSelected: movieList[index].id == controller.stateController!.getSelectedMovieId(),
+        onTap: controller.setSelectedMovieId,
+        isSelected: movieList[index].id == controller.getSelectedMovieId(),
       ),
       itemCount: movieList.length,
     );
@@ -77,7 +77,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   void _showMovieDetails(MovieListController controller) {
     controller.saveViewState();
 
-    context.goNamed(
+    context.pushNamed(
       routeMovieDetails,
       pathParameters: {
         paramMovieTitle: controller.movieToShow!.title.toString(),

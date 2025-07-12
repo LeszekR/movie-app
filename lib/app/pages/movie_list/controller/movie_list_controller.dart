@@ -59,6 +59,15 @@ class MovieListController extends Controller {
     refreshUI();
   }
 
+  void setSelectedMovieId(int movieId) {
+    stateController!.setSelectedMovieId(movieId);
+    refreshUI();
+  }
+
+  int? getSelectedMovieId() {
+    return stateController!.getSelectedMovieId();
+  }
+
   void fetchMovie() {
     var selectedMovieId = stateController!.getSelectedMovieId();
     if (selectedMovieId == null) return;
