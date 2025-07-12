@@ -1,9 +1,8 @@
-class MovieDetails {
-  // TODO refactor to flutter_clean_architecture
+class MovieDetailsContentLine {
   final String label;
   final String content;
 
-  MovieDetails({
+  MovieDetailsContentLine({
     required this.label,
     required this.content,
   });

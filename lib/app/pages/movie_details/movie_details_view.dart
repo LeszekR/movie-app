@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/domain/entities/movie_details.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/ui_localized_texts/provider/txt.dart';
+import '../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import 'components/movie_details_content_line.dart';
 import 'controller/movie_details_controller.dart';
 
-class MovieDetailsPage extends ConsumerWidget {
-  // TODO refactor to flutter_clean_architecture
+// TODO use get_it
+// TODO refactor to flutter_clean_architecture
+class MovieDetailsView extends ConsumerWidget {
   final String title;
   final String budget;
   final String revenue;
 
-  const MovieDetailsPage(
+  const MovieDetailsView(
     this.title,
     this.budget,
     this.revenue, {
@@ -20,13 +21,14 @@ class MovieDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var manager = ref.read(movieDetailsControllerProvider);
-    var details = makeMovieDetails(manager, budget, revenue);
+    var controller = ref.read(movieDetailsControllerProvider);
+    var details = makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         backgroundColor: Colors.amberAccent.shade400,
+        automaticallyImplyLeading: true,
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) => Container(
@@ -55,14 +57,15 @@ class MovieDetailsPage extends ConsumerWidget {
     );
   }
 
-  List<MovieDetails> makeMovieDetails(MovieDetailsController manager, String budget, String revenue) {
-    var budgetInDollars = manager.formatDollarAmount(budget);
-    var revenueInDollars = manager.formatDollarAmount(revenue);
-    var recommendOrNo = manager.recommendOrNo(budget, revenue);
+  List<MovieDetailsContentLine> makeMovieDetailsContentLine(
+      MovieDetailsController controller, String budget, String revenue) {
+    var budgetInDollars = controller.formatDollarAmount(budget);
+    var revenueInDollars = controller.formatDollarAmount(revenue);
+    var recommendOrNo = controller.recommendOrNo(budget, revenue);
     return [
-      MovieDetails(label: Txt.get.budget, content: budgetInDollars),
-      MovieDetails(label: Txt.get.revenue, content: revenueInDollars),
-      MovieDetails(label: Txt.get.should_i_watch_today, content: recommendOrNo),
+      MovieDetailsContentLine(label: Txt.get.budget, content: budgetInDollars),
+      MovieDetailsContentLine(label: Txt.get.revenue, content: revenueInDollars),
+      MovieDetailsContentLine(label: Txt.get.should_i_watch_today, content: recommendOrNo),
     ];
   }
 }

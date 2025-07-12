@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'date_time_reader.g.dart';
+part 'date_time_reader_provider.g.dart';
 
 // TODO consider replacing this with `Clock` package and mock date in tests with it
 /*

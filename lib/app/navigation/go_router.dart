@@ -8,7 +8,7 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         name: routeHome,
         path: pathHome,
-        builder: (context, state) => MovieListPage(),
+        builder: (context, state) => MovieListView(),
       ),
       GoRoute(
           name: routeMovieDetails,
@@ -17,7 +17,7 @@ GoRouter goRouter(Ref ref) {
             final String title = state.pathParameters[paramMovieTitle]!;
             final String budget = state.pathParameters[paramMovieBudget]!;
             final String revenue = state.pathParameters[paramMovieRevenue]!;
-            return MovieDetailsPage(title, budget, revenue);
+            return MovieDetailsView(title, budget, revenue);
           }),
     ],
   );
