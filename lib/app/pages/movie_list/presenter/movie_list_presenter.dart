@@ -1,11 +1,11 @@
-import 'dart:isolate';
-
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_recruitment_task/domain/usecases/get_movie_details_usecase.dart';
-import 'package:flutter_recruitment_task/domain/usecases/get_searched_movies_usecase.dart';
+import 'package:flutter_recruitment_task/domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_factory.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
 
 part 'movie_list_presenter.g.dart';
 
@@ -22,12 +22,12 @@ class MovieListPresenter extends Presenter {
   Function? getSearchedMoviesOnError;
 
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
-  final GetSearchedMoviesUseCase _getSearchedMoviesUseCase;
+  final UseCase _getSearchedMoviesUseCase;
 
   // TODO use get_it to di those
   MovieListPresenter(DataMoviesRepository moviesRepository)
       : _getMovieDetailsUseCase = GetMovieDetailsUseCase(moviesRepository),
-        _getSearchedMoviesUseCase = GetSearchedMoviesUseCase(moviesRepository),
+        _getSearchedMoviesUseCase = getSearchedMoviesUseCaseFactory(),
         super();
 
   @override
@@ -37,13 +37,16 @@ class MovieListPresenter extends Presenter {
   }
 
   void getMovieDetails(int movieId) {
-    _getMovieDetailsUseCase.execute(_GetMovieDetailsObserver(this), GetMovieDetailsUseCaseParams(movieId));
+    _getMovieDetailsUseCase.execute(
+      _GetMovieDetailsObserver(this),
+      GetMovieDetailsUseCaseParams(movieId),
+    );
   }
 
   void getSearchedMovies(String query) {
     _getSearchedMoviesUseCase.execute(
       _GetSearchedMoviesObserver(this),
-      GetSearchedMoviesUseCaseParams(Isolate.current.controlPort, query),
+      GetSearchedMoviesUseCaseParams(query),
     );
   }
 }
