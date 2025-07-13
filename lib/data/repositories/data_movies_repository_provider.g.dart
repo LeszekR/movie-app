@@ -8,10 +8,10 @@ part of 'data_movies_repository.dart';
 
 String _$apiServiceHash() => r'01c3d99362f3730b98e29079977950009cd07601';
 
-/// See also [apiService].
-@ProviderFor(apiService)
+/// See also [dataMoviesRepository].
+@ProviderFor(dataMoviesRepository)
 final dataMoviesRepositoryProvider = AutoDisposeProvider<DataMoviesRepository>.internal(
-  apiService,
+  dataMoviesRepository,
   name: r'apiServiceProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$apiServiceHash,

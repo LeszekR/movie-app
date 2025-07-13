@@ -6,7 +6,6 @@ part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Movie implements Sortable {
-  // TODO refactor to flutter_clean_architecture
   final int id;
   final String title;
   final double voteAverage;

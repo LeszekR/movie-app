@@ -6,7 +6,6 @@ import 'components/movie_details_content_line.dart';
 import 'controller/movie_details_controller.dart';
 
 // TODO use get_it
-// TODO refactor to flutter_clean_architecture
 class MovieDetailsView extends ConsumerWidget {
   final String title;
   final String budget;

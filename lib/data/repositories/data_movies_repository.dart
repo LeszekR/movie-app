@@ -12,9 +12,8 @@ part 'data_movies_repository_provider.g.dart';
 
 @riverpod
 // TODO make sure it will be a singleton
-DataMoviesRepository apiService(Ref ref) => DataMoviesRepository();
+DataMoviesRepository dataMoviesRepository(Ref ref) => DataMoviesRepository();
 
-// TODO refactor to flutter_clean_architecture
 class  DataMoviesRepository extends MoviesRepository {
 
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
@@ -42,6 +41,7 @@ class  DataMoviesRepository extends MoviesRepository {
     } catch (error) {
       // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
       print('Exception during movie fetch: $error');
+      rethrow;
     }
     return Future.value([]);
   }
@@ -67,6 +67,7 @@ class  DataMoviesRepository extends MoviesRepository {
     } catch (error) {
       // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
       print('Exception during movie fetch: $error');
+      rethrow;
     }
     return null;
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_state_controller.dart';
+import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_view_state.dart';
 import 'package:flutter_recruitment_task/app/pages/movie_list/presenter/movie_list_presenter.dart';
 
 import '../../../../data/repositories/data_movies_repository.dart';
@@ -13,7 +13,7 @@ import '../../../utils/sorting/sorter.dart';
 
 class MovieListController extends Controller {
   final MovieListPresenter _movieListPresenter;
-  final MovieListStateController? stateController;
+  final MovieListViewState state;
   final ScrollController scrollController;
   final TextEditingController searchTextController;
   final Sorter<Movie> _sorter;
@@ -28,7 +28,7 @@ class MovieListController extends Controller {
   // TODO use get_it to di this
   MovieListController()
       : _movieListPresenter = MovieListPresenter(DataMoviesRepository()),
-        stateController = MovieListStateController(),
+        state = MovieListViewState(),
         scrollController = ScrollController(),
         searchTextController = TextEditingController(),
         _sorter = Sorter<Movie>(),
@@ -55,21 +55,21 @@ class MovieListController extends Controller {
 
   void updateMovieList(List<Movie> movies) {
     _sorter.sortColumns(movies, _sortCriteriaList);
-    stateController!.setMovieList(MovieList(totalResults: movies.length, results: movies));
+    state.movieList = MovieList(totalResults: movies.length, results: movies);
     refreshUI();
   }
 
   void setSelectedMovieId(int movieId) {
-    stateController!.setSelectedMovieId(movieId);
+    state.selectedMovieId = movieId;
     refreshUI();
   }
 
   int? getSelectedMovieId() {
-    return stateController!.getSelectedMovieId();
+    return state.selectedMovieId;
   }
 
   void fetchMovie() {
-    var selectedMovieId = stateController!.getSelectedMovieId();
+    var selectedMovieId = state.selectedMovieId;
     if (selectedMovieId == null) return;
     _movieListPresenter.getMovieDetails(selectedMovieId);
   }
@@ -85,8 +85,8 @@ class MovieListController extends Controller {
   }
 
   void saveViewState() {
-    stateController!.setSearchQuery(searchTextController.text);
-    stateController!.setScrollOffset(scrollController.offset);
+    state.searchQuery= searchTextController.text;
+    state.scrollOffset = scrollController.offset;
   }
 
   void restoreViewState() {
@@ -95,12 +95,12 @@ class MovieListController extends Controller {
   }
 
   void _restoreScroll() {
-    double? lastScrollOffset = stateController!.getScrollOffset();
-    if (lastScrollOffset == null) return;
-    scrollController.jumpTo(lastScrollOffset);
+    double? scrollOffset = state.scrollOffset;
+    if (scrollOffset == null) return;
+    scrollController.jumpTo(scrollOffset);
   }
 
   void _restoreSearchQuery() {
-    searchTextController.text = stateController!.getSearchQuery() ?? '';
+    searchTextController.text = state.searchQuery ?? '';
   }
 }

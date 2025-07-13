@@ -24,6 +24,9 @@ New features and refactoring
 
 - introduced `flutter_clean_architecture` package and refactored the whole project to its directives
   and API
+- implemented `GetSearchedMoviesUseCase` in version for web (no multi-isolates) and desktop with the usecase factory
+- extracted generic methods for sending data from usecases via `Stream` or between-isolates message
+- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier` architecture with `flutter-clean-architecture`'s `refreshUI` - but unsure whether direct exposing of its fields is a good practise?
 - introdueced `get_it`'`
 
 #

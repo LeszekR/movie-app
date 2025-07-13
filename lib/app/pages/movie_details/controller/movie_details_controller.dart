@@ -13,7 +13,6 @@ MovieDetailsController movieDetailsController(Ref ref) =>
     MovieDetailsController(ref.read(dateTimeReaderProvider), ref.read(appConfigProvider));
 
 class MovieDetailsController {
-  // TODO refactor to flutter_clean_architecture
   final AppConfig appConfig;
   final DateTimeReader dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);

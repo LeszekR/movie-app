@@ -56,7 +56,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   }
 
   Widget _buildMovieList(MovieListController controller) {
-    List<Movie> movieList = controller.stateController!.getMovieList().results;
+    List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     return ListView.separated(
       controller: controller.scrollController,
       separatorBuilder: (context, index) => Container(

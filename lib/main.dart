@@ -28,9 +28,12 @@ Future<void> loadConfigFile() async {
     await dotenv.load(fileName: AppConfig.configFilePath);
     isConfigLoaded = true;
     return;
-  } on FileNotFoundError catch (e) {
+  } on FileNotFoundError {
     print("Could not load config params - file not found: ${AppConfig.configFilePath}");
   } catch (e) {
+    // TODO show error dialog to the user
+    // TODO log error
+    // TODO remove print(e)
     print(e);
   }
 }

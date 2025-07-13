@@ -5,7 +5,6 @@ part 'movie_list.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class MovieList {
-  // TODO refactor to flutter_clean_architecture
   final int totalResults;
   final List<Movie> results;
 
@@ -14,8 +13,7 @@ class MovieList {
     required this.results,
   });
 
-  factory MovieList.fromJson(Map<String, dynamic> json) =>
-      _$MovieListFromJson(json);
+  factory MovieList.fromJson(Map<String, dynamic> json) => _$MovieListFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieListToJson(this);
 }
