@@ -3,16 +3,8 @@ import 'dart:convert';
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 import 'package:flutter_recruitment_task/domain/repositories/movies_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:riverpod/riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/movie_list.dart';
-
-part 'data_movies_repository_provider.g.dart';
-
-@riverpod
-// TODO make sure it will be a singleton
-DataMoviesRepository dataMoviesRepository(Ref ref) => DataMoviesRepository();
 
 class  DataMoviesRepository extends MoviesRepository {
 

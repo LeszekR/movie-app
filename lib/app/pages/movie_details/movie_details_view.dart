@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import '../../../get_it_model.dart';
 import 'components/movie_details_content_line.dart';
-import 'controller/movie_details_controller.dart';
+import 'movie_details_controller.dart';
 
-// TODO use get_it
-class MovieDetailsView extends ConsumerWidget {
+class MovieDetailsView extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
@@ -19,8 +18,8 @@ class MovieDetailsView extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var controller = ref.read(movieDetailsControllerProvider);
+  Widget build(BuildContext context) {
+    var controller = getit<MovieDetailsController>();
     var details = makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(

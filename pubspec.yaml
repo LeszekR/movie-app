@@ -22,6 +22,7 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^5.0.2
   flutter_clean_architecture: ^6.0.2
+  get_it: 8.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:flutter_recruitment_task/app/pages/movie_details/movie_details_view.dart';
-import 'package:flutter_recruitment_task/data/config/app_config.dart';
+import 'package:flutter_recruitment_task/data/app_config.dart';
 import 'package:flutter_recruitment_task/domain/ui_localized_texts/localized_texts_provider/txt.dart';
-import 'package:flutter_recruitment_task/domain/utils/date_time_reader/date_time_reader.dart';
+import 'package:flutter_recruitment_task/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -46,6 +46,7 @@ Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProf
   when(mockDateTimeReader.now()).thenReturn(mockDay);
   //
   await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue), overrides: [
+    // TODO replace with get_it test mocking
     appConfigProvider.overrideWith((ref) => mockAppConfig),
     dateTimeReaderProvider.overrideWith((ref) => mockDateTimeReader),
   ]);

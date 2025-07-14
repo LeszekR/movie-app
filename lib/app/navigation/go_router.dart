@@ -1,7 +1,6 @@
 part of '../../movie_app.dart';
 
-@riverpod
-GoRouter goRouter(Ref ref) {
+GoRouter goRouter() {
   return GoRouter(
     initialLocation: pathHome,
     routes: [

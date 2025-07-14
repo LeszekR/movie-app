@@ -1,6 +1,6 @@
 import '../../../../../domain/entities/movie_list.dart';
 
-class MovieListViewState {
+class MovieListViewStateData {
   MovieList? movieList;
   double? scrollOffset;
   int? selectedMovieId;

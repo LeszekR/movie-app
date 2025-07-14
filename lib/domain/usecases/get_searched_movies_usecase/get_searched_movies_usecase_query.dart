@@ -1,10 +1,9 @@
 import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_recruitment_task/domain/entities/movie.dart';
+import 'package:flutter_recruitment_task/get_it_model.dart';
 
-// TODO use get_it to di this...
-// TODO ...and refactor to non-static for mocking in tests
 Future<List<Movie>> getSearchedMovies(String searchText) async {
-  return await DataMoviesRepository().getSearchedMovies(searchText);
+  return await getit<DataMoviesRepository>().getSearchedMovies(searchText);
 }
 
 class GetSearchedMoviesUseCaseParams {

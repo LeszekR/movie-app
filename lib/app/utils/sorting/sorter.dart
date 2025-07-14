@@ -1,5 +1,4 @@
 import 'package:flutter_recruitment_task/app/utils/sorting/sortable.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'e_sort_direction.dart';
 import 'sort_criteria.dart';
@@ -69,11 +68,4 @@ class Sorter<T extends Sortable> {
 
   String makeErrMsgForeignKeys(Sortable sortedElement, String foreignKeyNames) =>
       'Attempt to sort by fields: "$foreignKeyNames" which are absent in class ${sortedElement.runtimeType.toString()}';
-}
-
-// Riverpod fails to create generic class providers from annotation
-Provider<Sorter<T>> createSortableSorterProvider<T extends Sortable>() {
-  return Provider<Sorter<T>>((ref) {
-    return Sorter<T>();
-  });
 }

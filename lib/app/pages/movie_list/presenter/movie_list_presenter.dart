@@ -1,16 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
 import 'package:flutter_recruitment_task/domain/usecases/get_movie_details_usecase.dart';
-import 'package:flutter_recruitment_task/domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_factory.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
-
-part 'movie_list_presenter.g.dart';
-
-@riverpod
-MovieListPresenter movieListPresenter(Ref ref) => MovieListPresenter(ref.read(dataMoviesRepositoryProvider));
 
 class MovieListPresenter extends Presenter {
   Function? getMovieDetailsOnNext;
@@ -24,11 +15,7 @@ class MovieListPresenter extends Presenter {
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
   final UseCase _getSearchedMoviesUseCase;
 
-  // TODO use get_it to di those
-  MovieListPresenter(DataMoviesRepository moviesRepository)
-      : _getMovieDetailsUseCase = GetMovieDetailsUseCase(moviesRepository),
-        _getSearchedMoviesUseCase = getSearchedMoviesUseCaseFactory(),
-        super();
+  MovieListPresenter(this._getMovieDetailsUseCase, this._getSearchedMoviesUseCase) : super();
 
   @override
   void dispose() {

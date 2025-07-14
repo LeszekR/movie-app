@@ -9,7 +9,6 @@ import '../entities/movie.dart';
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
   final MoviesRepository moviesRepository;
 
-// TODO use get_it to di this
   GetMovieDetailsUseCase(this.moviesRepository);
 
   @override

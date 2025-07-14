@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/app/components/search_box/search_text_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import '../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import '../../get_it_model.dart';
 
-class SearchBox extends ConsumerWidget {
+class SearchBox extends StatelessWidget {
   final void Function(String)? onSubmitted;
 
   static final keySearchBox = Key('search_box');
@@ -15,7 +14,7 @@ class SearchBox extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Container(
+  Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(
           color: Colors.amberAccent,
           border: Border(
@@ -24,7 +23,7 @@ class SearchBox extends ConsumerWidget {
         ),
         child: TextField(
           key: keySearchBox,
-          controller: ref.watch(searchBoxTextControllerProvider),
+          controller: getit<SearchMoviesTextEditingController>(),
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
@@ -36,3 +35,5 @@ class SearchBox extends ConsumerWidget {
         ),
       );
 }
+
+class SearchMoviesTextEditingController extends TextEditingController{}

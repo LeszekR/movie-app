@@ -4,7 +4,8 @@ import 'package:flutter_recruitment_task/domain/entities/movie.dart';
 import 'package:flutter_recruitment_task/domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../components/search_box/search_box.dart';
+import '../../../get_it_model.dart';
+import '../../components/search_box.dart';
 import '../../navigation/go_router_const_strings.dart';
 import 'components/movie_card.dart';
 import 'controller/movie_list_controller.dart';
@@ -17,7 +18,7 @@ class MovieListView extends CleanView {
 }
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
-  MovieListViewState() : super(MovieListController());
+  MovieListViewState() : super(getit<MovieListController>());
 
   @override
   void didChangeDependencies() {
@@ -88,3 +89,5 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     controller.onMovieDetailsShown();
   }
 }
+
+class MovieListScrollController extends ScrollController{}

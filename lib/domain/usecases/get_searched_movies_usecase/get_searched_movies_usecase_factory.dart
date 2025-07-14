@@ -8,9 +8,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../utils/utils.dart';
 
-UseCase getSearchedMoviesUseCaseFactory() {
-  if (kIsWeb) return _GetSearchedMoviesUseCaseWeb();
-  return _GetSearchedMoviesUseCaseAsync();
+class GetSearchedMoviesUseCaseFactory {
+  UseCase call() {
+    if (kIsWeb) return _GetSearchedMoviesUseCaseWeb();
+    return _GetSearchedMoviesUseCaseAsync();
+  }
 }
 
 class _GetSearchedMoviesUseCaseWeb extends UseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {

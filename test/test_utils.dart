@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_recruitment_task/data/config/app_config.dart';
+import 'package:flutter_recruitment_task/data/app_config.dart';
 import 'package:flutter_recruitment_task/domain/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_recruitment_task/domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
