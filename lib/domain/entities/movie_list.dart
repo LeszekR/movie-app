@@ -1,4 +1,4 @@
-import 'package:flutter_recruitment_task/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_list.g.dart';

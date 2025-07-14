@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/domain/repositories/movies_repository.dart';
-import 'package:flutter_recruitment_task/domain/utils/utils.dart';
+import 'package:flutter_demo/domain/repositories/movies_repository.dart';
+import 'package:flutter_demo/domain/utils/utils.dart';
 
 import '../entities/movie.dart';
 

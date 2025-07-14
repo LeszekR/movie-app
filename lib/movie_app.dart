@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recruitment_task/domain/ui_localized_texts/app_localizations/app_localizations.dart';
+import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,7 +16,7 @@ class MovieApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO use get_it
+    // TODO use get_it and BLoC
     final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(

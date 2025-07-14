@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_recruitment_task/domain/entities/movie.dart';
-import 'package:flutter_recruitment_task/domain/repositories/movies_repository.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/repositories/movies_repository.dart';
 import 'package:http/http.dart' as http;
 
 import '../../domain/entities/movie_list.dart';

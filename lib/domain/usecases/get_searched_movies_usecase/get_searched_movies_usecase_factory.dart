@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/domain/entities/movie.dart';
-import 'package:flutter_recruitment_task/domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../../data/repositories/data_movies_repository.dart';
+import '../../../get_it_model.dart';
 import '../../utils/utils.dart';
 
 class GetSearchedMoviesUseCaseFactory {
@@ -20,7 +22,7 @@ class _GetSearchedMoviesUseCaseWeb extends UseCase<GetSearchedMoviesUseCaseRespo
   @override
   Future<Stream<GetSearchedMoviesUseCaseResponse?>> buildUseCaseStream(GetSearchedMoviesUseCaseParams? params) async {
     try {
-      List<Movie> movieList = await getSearchedMovies(params!.searchText);
+      List<Movie> movieList = await getSearchedMovies(getit<DataMoviesRepository>(), params!.searchText);
       return sendInStream(payload: GetSearchedMoviesUseCaseResponse(movieList));
     } on Exception catch (e) {
       return sendInStream(exception: e);
@@ -38,7 +40,7 @@ class _GetSearchedMoviesUseCaseAsync
 
   static void _getSearchedMovies(BackgroundUseCaseParams<dynamic> params) async {
     try {
-      List<Movie> movieList = await getSearchedMovies(params.params.searchText);
+      List<Movie> movieList = await getSearchedMovies(DataMoviesRepository(), params.params.searchText);
       sendToIsolate(params, GetSearchedMoviesUseCaseResponse(movieList));
     } on Exception catch (e) {
       sendToIsolate(params, e);

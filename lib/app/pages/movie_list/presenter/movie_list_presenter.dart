@@ -1,7 +1,9 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/domain/usecases/get_movie_details_usecase.dart';
+import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
 
+import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_factory.dart';
 import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
+import '../../../../get_it_model.dart';
 
 class MovieListPresenter extends Presenter {
   Function? getMovieDetailsOnNext;
@@ -15,7 +17,10 @@ class MovieListPresenter extends Presenter {
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
   final UseCase _getSearchedMoviesUseCase;
 
-  MovieListPresenter(this._getMovieDetailsUseCase, this._getSearchedMoviesUseCase) : super();
+  MovieListPresenter()
+      : _getMovieDetailsUseCase = getit<GetMovieDetailsUseCase>(),
+        _getSearchedMoviesUseCase = getit<GetSearchedMoviesUseCaseFactory>()(),
+        super();
 
   @override
   void dispose() {

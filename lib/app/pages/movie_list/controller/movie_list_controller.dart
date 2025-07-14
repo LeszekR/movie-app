@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/controller/state/movie_list_view_state_data.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/presenter/movie_list_presenter.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/state/movie_list_view_state_data.dart';
+import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
 
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
+import '../../../../get_it_model.dart';
+import '../../../components/search_box.dart';
 import '../../../utils/sorting/e_sort_direction.dart';
 import '../../../utils/sorting/sort_criteria.dart';
 import '../../../utils/sorting/sorter.dart';
+import '../movie_list_view.dart';
 
 class MovieListController extends Controller {
   final MovieListPresenter _movieListPresenter;
@@ -23,13 +26,13 @@ class MovieListController extends Controller {
 
   Movie? movieToShow;
 
-  MovieListController(
-    this._movieListPresenter,
-    this.state,
-    this.scrollController,
-    this.searchTextController,
-    this._sorter,
-  ) : super();
+  MovieListController()
+      : _movieListPresenter = getit<MovieListPresenter>(),
+        state = getit<MovieListViewStateData>(),
+        scrollController = getit<MovieListScrollController>(),
+        searchTextController = getit<SearchMoviesTextEditingController>(),
+        _sorter = Sorter<Movie>(),
+        super();
 
   @override
   void initListeners() {

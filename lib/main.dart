@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_recruitment_task/data/app_config.dart';
-import 'package:flutter_recruitment_task/get_it_model.dart';
-import 'package:flutter_recruitment_task/movie_app.dart';
+import 'package:flutter_demo/data/app_config.dart';
+import 'package:flutter_demo/get_it_model.dart';
+import 'package:flutter_demo/movie_app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-bool isConfigLoaded = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await loadConfigFile();
-  if (!isConfigLoaded) {
+  if (!await loadConfigFile()) {
     SystemNavigator.pop();
     return;
   }
@@ -27,11 +25,10 @@ void main() async {
   );
 }
 
-Future<void> loadConfigFile() async {
+Future<bool> loadConfigFile() async {
   try {
     await dotenv.load(fileName: AppConfig.configFilePath);
-    isConfigLoaded = true;
-    return;
+    return true;
   } on FileNotFoundError {
     // TODO replace with custom exception
     print("Could not load config params - file not found: ${AppConfig.configFilePath}");
@@ -41,4 +38,5 @@ Future<void> loadConfigFile() async {
     // TODO remove print(e)
     print(e);
   }
+  return false;
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_recruitment_task/app/components/search_box.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/components/movie_card.dart';
-import 'package:flutter_recruitment_task/app/pages/movie_list/movie_list_view.dart';
-import 'package:flutter_recruitment_task/data/repositories/data_movies_repository.dart';
+import 'package:flutter_demo/app/components/search_box.dart';
+import 'package:flutter_demo/app/pages/movie_list/components/movie_card.dart';
+import 'package:flutter_demo/app/pages/movie_list/movie_list_view.dart';
+import 'package:flutter_demo/data/repositories/data_movies_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
