@@ -1,8 +1,10 @@
+import 'package:flutter_demo/app/pages/movie_details/movie_details_controller.dart';
 import 'package:flutter_demo/app/pages/movie_details/movie_details_view.dart';
 import 'package:flutter_demo/data/app_config.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/localized_texts_provider/txt.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -17,6 +19,18 @@ var title = 'Avatar';
 
 @GenerateMocks([AppConfig, DateTimeReader])
 main() {
+  var getit = GetIt.instance;
+
+  setUp(() {
+    getit.registerSingleton<AppConfig>(mockAppConfig);
+    getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
+    getit.registerLazySingleton(() => MovieDetailsController());
+  });
+
+  tearDown(() {
+    getit.reset();
+  });
+
   testWidgets('should recommend movie depending on conditions', (final WidgetTester tester) async {
     var sunday = DateTime(2025, 5, 4);
     var monday = DateTime(2025, 5, 5);
@@ -44,12 +58,7 @@ main() {
 Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProfitThreshold, DateTime mockDay) async {
   when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
-  //
-  await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue), overrides: [
-    // TODO replace with get_it test mocking
-    appConfigProvider.overrideWith((ref) => mockAppConfig),
-    dateTimeReaderProvider.overrideWith((ref) => mockDateTimeReader),
-  ]);
+  await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue));
 }
 
 class _MovieDetailsTestCase {

@@ -1,8 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
 
-import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_factory.dart';
-import '../../../../domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_query.dart';
+import '../../../../domain/usecases/get_searched_movies_usecase.dart';
 import '../../../../get_it_model.dart';
 
 class MovieListPresenter extends Presenter {
@@ -19,7 +18,7 @@ class MovieListPresenter extends Presenter {
 
   MovieListPresenter()
       : _getMovieDetailsUseCase = getit<GetMovieDetailsUseCase>(),
-        _getSearchedMoviesUseCase = getit<GetSearchedMoviesUseCaseFactory>()(),
+        _getSearchedMoviesUseCase = getit<GetSearchedMoviesUseCase>(),
         super();
 
   @override

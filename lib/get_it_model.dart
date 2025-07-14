@@ -10,7 +10,7 @@ import 'app/pages/movie_list/controller/state/movie_list_view_state_data.dart';
 import 'app/pages/movie_list/presenter/movie_list_presenter.dart';
 import 'data/repositories/data_movies_repository.dart';
 import 'domain/usecases/get_movie_details_usecase.dart';
-import 'domain/usecases/get_searched_movies_usecase/get_searched_movies_usecase_factory.dart';
+import 'domain/usecases/get_searched_movies_usecase.dart';
 
 // no camelback for easier typing of "getit"
 GetIt getit = GetIt.instance;
@@ -18,7 +18,7 @@ GetIt getit = GetIt.instance;
 void initGetIt() {
   getit.registerLazySingleton(() => DataMoviesRepository());
   getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<DataMoviesRepository>()));
-  getit.registerLazySingleton(() => GetSearchedMoviesUseCaseFactory());
+  getit.registerLazySingleton(() => GetSearchedMoviesUseCase());
   getit.registerLazySingleton(() => MovieListPresenter());
   getit.registerLazySingleton(() => MovieListViewStateData());
   getit.registerLazySingleton(() => MovieListScrollController());
