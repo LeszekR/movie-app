@@ -3,12 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i6;
 
+import 'package:flutter_demo/data/app_config.dart' as _i2;
 import 'package:flutter_demo/data/repositories/data_movies_repository.dart'
-    as _i2;
-import 'package:flutter_demo/domain/entities/movie.dart' as _i4;
+    as _i5;
+import 'package:flutter_demo/domain/entities/movie.dart' as _i7;
+import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,28 +27,70 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeDateTime_0 extends _i1.SmartFake implements DateTime {
+  _FakeDateTime_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+/// A class which mocks [AppConfig].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppConfig extends _i1.Mock implements _i2.AppConfig {
+  MockAppConfig() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String param(String? paramName) =>
+      (super.noSuchMethod(
+            Invocation.method(#param, [paramName]),
+            returnValue: _i3.dummyValue<String>(
+              this,
+              Invocation.method(#param, [paramName]),
+            ),
+          )
+          as String);
+}
+
+/// A class which mocks [DateTimeReader].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDateTimeReader extends _i1.Mock implements _i4.DateTimeReader {
+  MockDateTimeReader() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  DateTime now() =>
+      (super.noSuchMethod(
+            Invocation.method(#now, []),
+            returnValue: _FakeDateTime_0(this, Invocation.method(#now, [])),
+          )
+          as DateTime);
+}
+
 /// A class which mocks [DataMoviesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDataMoviesRepository extends _i1.Mock
-    implements _i2.DataMoviesRepository {
+    implements _i5.DataMoviesRepository {
   MockDataMoviesRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.Movie>> getSearchedMovies(String? query) =>
+  _i6.Future<List<_i7.Movie>> getSearchedMovies(String? query) =>
       (super.noSuchMethod(
             Invocation.method(#getSearchedMovies, [query]),
-            returnValue: _i3.Future<List<_i4.Movie>>.value(<_i4.Movie>[]),
+            returnValue: _i6.Future<List<_i7.Movie>>.value(<_i7.Movie>[]),
           )
-          as _i3.Future<List<_i4.Movie>>);
+          as _i6.Future<List<_i7.Movie>>);
 
   @override
-  _i3.Future<_i4.Movie?> getMovie(int? movieId) =>
+  _i6.Future<_i7.Movie?> getMovie(int? movieId) =>
       (super.noSuchMethod(
             Invocation.method(#getMovie, [movieId]),
-            returnValue: _i3.Future<_i4.Movie?>.value(),
+            returnValue: _i6.Future<_i7.Movie?>.value(),
           )
-          as _i3.Future<_i4.Movie?>);
+          as _i6.Future<_i7.Movie?>);
 }
