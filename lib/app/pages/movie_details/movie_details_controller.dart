@@ -1,4 +1,4 @@
-import 'package:flutter_demo/domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/app_config.dart';

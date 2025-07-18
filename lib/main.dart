@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_demo/data/app_config.dart';
 import 'package:flutter_demo/get_it_model.dart';
 import 'package:flutter_demo/movie_app.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +16,7 @@ void main() async {
   initGetIt();
 
   runApp(
-    // TODO remove riverpod
-    ProviderScope(
-      child: const MovieApp(),
-    ),
+    const MovieApp(),
   );
 }
 

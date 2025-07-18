@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_demo/data/app_config.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> prepareWidget(

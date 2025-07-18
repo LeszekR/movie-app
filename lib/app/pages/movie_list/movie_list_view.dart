@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../get_it_model.dart';
