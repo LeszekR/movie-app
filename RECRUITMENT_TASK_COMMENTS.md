@@ -24,10 +24,12 @@ New features and refactoring
 
 - introduced `flutter_clean_architecture` package and refactored the whole project to its directives
   and API
-- implemented `GetSearchedMoviesUseCase` in version for web (no multi-isolates) and desktop with the usecase factory
+- used `BackgroundUseCase` for searched movies query alternatively with `UseCase` for web in `GetSearchedMoviesUseCaseFactory` factory
 - extracted generic methods for sending data from usecases via `Stream` or between-isolates message
+- then simplified `GetSearchedMoviesUseCaseFactory` to the basic `UseCase` (no multi-isolates) to allow for clean mocking in tests (see details below)
 - simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier` architecture with `flutter-clean-architecture`'s `refreshUI` - but unsure whether direct exposing of its fields is a good practise?
-- introdueced `get_it`'`
+- replaced `Riverpod` DI with `get_it` 
+- introduced handling all exceptions by logging or rethrowing them to `Controllers` which then handle them
 
 #
 
@@ -40,13 +42,11 @@ Details
 
 ##### Using `flutter_clean_architecture`
 
-- using `BackgroundUseCase` may be an overkill - I did it only for practise and skill presentation,
+- using `BackgroundUseCase` is an overkill here - I did it only for practise and skill presentation,
   although such a query might indeed be heavy
+- this solution can be seen last in commoit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
+- after that was replaced with simple `UseCase` allowing for clean mocking in tests
 
-##### Using `get_it` alongside `riverpod`
-
-- I mixed the use of `riverpod` and `get_it` only for skill presentation - normally only
-  one of them would be used to keep the project clean
 
 #    
 
