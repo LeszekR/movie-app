@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/ui_localized_texts/localized_texts_provider/txt.dart';
+import '../../domain/ui_localized_texts/txt.dart';
 import '../../get_it_model.dart';
 
 class SearchBox extends StatelessWidget {

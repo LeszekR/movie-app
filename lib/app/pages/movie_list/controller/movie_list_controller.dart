@@ -39,12 +39,12 @@ class MovieListController extends Controller {
     _movieListPresenter.getSearchedMoviesOnNext = (movieList) => updateMovieList(movieList);
     _movieListPresenter.getSearchedMoviesOnError = (e) {
       // TODO show error dialog to the user
-      // TODO log error
+      logger.severe("Error - failed to fetch movies from web API", e);
     };
     _movieListPresenter.getMovieDetailsOnNext = (movie) => showMovieDetails(movie);
     _movieListPresenter.getMovieDetailsOnError = (e) {
       // TODO show error dialog to the user
-      // TODO log error
+      logger.severe("Error - failed to fetch movie details from web API", e);
     };
   }
 
