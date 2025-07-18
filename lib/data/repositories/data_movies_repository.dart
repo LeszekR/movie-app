@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 
 import '../../domain/entities/movie_list.dart';
 
-class  DataMoviesRepository extends MoviesRepository {
-
+class DataMoviesRepository extends MoviesRepository {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
 
@@ -27,15 +26,12 @@ class  DataMoviesRepository extends MoviesRepository {
         final movieList = MovieList.fromJson(json);
         return movieList.results;
       } else {
-        // TODO Throw a custom exception - for known HTTP error codes
-        print('HTTP error: ${response.statusCode}');
+        throw Exception('Get Searched Movies from web API => HTTP error: ${response.statusCode}');
       }
     } catch (error) {
-      // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
-      print('Exception during movie fetch: $error');
+      // the error will be processed in the Controller
       rethrow;
     }
-    return Future.value([]);
   }
 
   @override
@@ -53,14 +49,11 @@ class  DataMoviesRepository extends MoviesRepository {
         var fetchedMovie = Movie.fromJson(json);
         return fetchedMovie;
       } else {
-        // TODO Throw a custom exception - for known HTTP error codes
-        print('HTTP error: ${response.statusCode}');
+        throw Exception('Get Movie from web API => => HTTP error: ${response.statusCode}');
       }
     } catch (error) {
-      // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
-      print('Exception during movie fetch: $error');
+      // the error will be processed in the Controller
       rethrow;
     }
-    return null;
   }
 }
