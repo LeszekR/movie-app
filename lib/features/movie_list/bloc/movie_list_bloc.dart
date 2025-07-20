@@ -1,18 +1,24 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 
+import '../../../common/utils/utils.dart';
 import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../get_it_model.dart';
+import '../../../repositories/data_movies_repository.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
 import '../../../components/search_box.dart';
 import '../view/movie_list_view.dart';
-import 'movie_list_view_state_data.dart';
+import 'package:equatable/equatable.dart';
+import '../model/movie_list.dart';
 
-class MovieListController extends Controller {
-  final MovieListViewStateData state;
+part 'movie_list_view_state.dart';
+
+class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
+  final MoviesRepository _moviesRepository;
   final ScrollController scrollController;
   final TextEditingController searchTextController;
   final Sorter<Movie> _sorter;
@@ -24,13 +30,12 @@ class MovieListController extends Controller {
 
   Movie? movieToShow;
 
-  MovieListController()
-      : _movieListPresenter = getit<MovieListPresenter>(),
-        state = getit<MovieListViewStateData>(),
-        scrollController = getit<MovieListScrollController>(),
+  MovieListBloc({required MoviesRepository moviesRepository})
+      : scrollController = getit<MovieListScrollController>(),
         searchTextController = getit<SearchMoviesTextEditingController>(),
         _sorter = Sorter<Movie>(),
-        super();
+        _moviesRepository = moviesRepository,
+        super(MovieListSearchProgress());
 
   @override
   void initListeners() {
@@ -46,9 +51,9 @@ class MovieListController extends Controller {
     };
   }
 
-  void fetchSearchedMovies(String query) {
+  void fetchSearchedMovies(String query) async {
     if (query.isEmpty) return;
-    _movieListPresenter.getSearchedMovies(query);
+    state.movieList = await _getSearchedMovies(query);
   }
 
   void updateMovieList(List<Movie> movies) {
@@ -100,5 +105,24 @@ class MovieListController extends Controller {
 
   void _restoreSearchQuery() {
     searchTextController.text = state.searchQuery ?? '';
+  }
+
+  Future<MovieList?> _getSearchedMovies(String searchText) async {
+    try {
+      List<Movie>? movieList = await getit<MoviesRepository>().getSearchedMovies(searchText);
+      return MovieList(totalResults: movieList.length, results: movieList);
+    } on Exception catch (e) {
+      logger.severe('Failed to get searched movies from web API => error: $e');
+      return null;
+    }
+  }
+
+  Future<Stream<Movie?>> buildUseCaseStream(int movieId) async {
+    try {
+      final Movie? movie = await getit<MoviesRepository>().getMovie(movieId);
+      return sendInStream(payload: movie);
+    } on Exception catch (e) {
+      return sendInStream(exception: e);
+    }
   }
 }

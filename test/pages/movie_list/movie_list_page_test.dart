@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/fca/domain/usecases/get_movie_details_usecase.dart';
 import 'package:flutter_demo/fca/domain/usecases/get_searched_movies_usecase.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_controller.dart';
+import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_view_state_data.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
@@ -15,21 +15,21 @@ import '../../test_utils.dart';
 import '../../utils/sorting/sorter_test.dart';
 import 'movie_list_page_test.mocks.dart';
 
-@GenerateMocks([DataMoviesRepository])
+@GenerateMocks([MoviesRepository])
 main() {
   var getit = GetIt.instance;
 
   setUp(() {
-    getit.registerLazySingleton<DataMoviesRepository>(() => MockDataMoviesRepository());
+    getit.registerLazySingleton<MoviesRepository>(() => MockDataMoviesRepository());
 
-    getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<DataMoviesRepository>()));
+    getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<MoviesRepository>()));
     getit.registerLazySingleton(() => GetSearchedMoviesUseCase());
     getit.registerLazySingleton(() => MovieListPresenter());
 
-    getit.registerLazySingleton(() => MovieListViewStateData());
+    getit.registerLazySingleton(() => MovieListViewState());
     getit.registerLazySingleton(() => MovieListScrollController());
     getit.registerLazySingleton(() => SearchMoviesTextEditingController());
-    getit.registerLazySingleton(() => MovieListController());
+    getit.registerLazySingleton(() => MovieListBloc());
   });
 
   tearDown(() {
@@ -40,7 +40,7 @@ main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when((getit<DataMoviesRepository>() as MockDataMoviesRepository).getSearchedMovies(any))
+    when((getit<MoviesRepository>() as MockDataMoviesRepository).getSearchedMovies(any))
         .thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester, widgetBuilder: () => MovieListView());

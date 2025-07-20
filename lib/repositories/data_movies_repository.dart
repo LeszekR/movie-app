@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../features/movie_details/model/movie.dart';
 import '../features/movie_list/model/movie_list.dart';
 
-class DataMoviesRepository  {
+class MoviesRepository  {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
 
@@ -24,7 +24,7 @@ class DataMoviesRepository  {
         final movieList = MovieList.fromJson(json);
         return movieList.results;
       } else {
-        throw Exception('Get Searched Movies from web API => HTTP error: ${response.statusCode}');
+        throw Exception('Failed to get searched movies from web API => HTTP error: ${response.statusCode}');
       }
     } catch (error) {
       // the error will be processed in the Controller

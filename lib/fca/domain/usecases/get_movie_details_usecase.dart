@@ -7,7 +7,7 @@ import '../../../features/movie_details/model/movie.dart';
 import '../../../repositories/data_movies_repository.dart';
 
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
-  final DataMoviesRepository moviesRepository;
+  final MoviesRepository moviesRepository;
 
   GetMovieDetailsUseCase(this.moviesRepository);
 

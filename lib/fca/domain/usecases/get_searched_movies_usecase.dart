@@ -10,8 +10,12 @@ import '../utils/utils.dart';
 class GetSearchedMoviesUseCase extends UseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {
   @override
   Future<Stream<GetSearchedMoviesUseCaseResponse?>> buildUseCaseStream(GetSearchedMoviesUseCaseParams? params) async {
+    return await _getSearchedMovies(params);
+  }
+
+  _getSearchedMovies(GetSearchedMoviesUseCaseParams? params) async {
     try {
-      List<Movie> movieList = await getit<DataMoviesRepository>().getSearchedMovies(params!.searchText);
+      List<Movie> movieList = await getit<MoviesRepository>().getSearchedMovies(params!.searchText);
       return sendInStream(payload: GetSearchedMoviesUseCaseResponse(movieList));
     } on Exception catch (e) {
       return sendInStream(exception: e);

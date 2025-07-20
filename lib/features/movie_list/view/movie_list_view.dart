@@ -7,7 +7,7 @@ import '../../../components/search_box.dart';
 import '../../../get_it_model.dart';
 import '../../../navigation/go_router_const_strings.dart';
 import '../../movie_details/model/movie.dart';
-import '../bloc/movie_list_controller.dart';
+import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends CleanView {
@@ -17,8 +17,8 @@ class MovieListView extends CleanView {
   MovieListViewState createState() => MovieListViewState();
 }
 
-class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
-  MovieListViewState() : super(getit<MovieListController>());
+// class MovieListViewState extends CleanViewState<MovieListView, MovieListBloc> {
+//   MovieListViewState() : super(getit<MovieListBloc>());
 
 
   @override
@@ -29,7 +29,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
 
   @override
   Widget get view {
-    return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
+    return ControlledWidgetBuilder<MovieListBloc>(builder: (context, controller) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (controller.movieToShow != null) {
           _showMovieDetails(controller);
@@ -57,7 +57,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     });
   }
 
-  Widget _buildMovieList(MovieListController controller) {
+  Widget _buildMovieList(MovieListBloc controller) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     return ListView.separated(
       controller: controller.scrollController,
@@ -76,7 +76,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     );
   }
 
-  void _showMovieDetails(MovieListController controller) {
+  void _showMovieDetails(MovieListBloc controller) {
     controller.saveViewState();
 
     context.pushNamed(

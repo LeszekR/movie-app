@@ -19,8 +19,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_dotenv: ^5.0.2
-  flutter_clean_architecture: ^6.0.2
   get_it: 8.0.3
+  bloc: ^9.0.0
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:
