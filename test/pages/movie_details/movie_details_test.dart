@@ -1,8 +1,8 @@
-import 'package:flutter_demo/app/pages/movie_details/movie_details_controller.dart';
-import 'package:flutter_demo/app/pages/movie_details/movie_details_view.dart';
-import 'package:flutter_demo/data/app_config.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/domain/utils/date_time_reader.dart';
+import 'package:flutter_demo/common/config/app_config.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/common/utils/date_time_reader.dart';
+import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
+import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
@@ -31,7 +31,7 @@ main() {
     getit.reset();
   });
 
-  testWidgets('should recommend movie depending on conditions', (final WidgetTester tester) async {
+  testWidgets('should recommend model depending on conditions', (final WidgetTester tester) async {
     var sunday = DateTime(2025, 5, 4);
     var monday = DateTime(2025, 5, 5);
     var thresholdLow = '50';

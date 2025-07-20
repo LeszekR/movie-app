@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_demo/data/app_config.dart';
 import 'package:flutter_demo/get_it_model.dart';
 import 'package:flutter_demo/movie_app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
+
+import 'common/config/app_config.dart';
 
 final logger = Logger("MOVIE_APP_LOGGER");
 

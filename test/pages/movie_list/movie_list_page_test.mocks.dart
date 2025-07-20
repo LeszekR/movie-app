@@ -8,7 +8,7 @@ import 'dart:async' as _i6;
 import 'package:flutter_demo/data/app_config.dart' as _i2;
 import 'package:flutter_demo/data/repositories/data_movies_repository.dart'
     as _i5;
-import 'package:flutter_demo/domain/entities/movie.dart' as _i7;
+import 'package:flutter_demo/domain/entities/model.dart' as _i7;
 import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
