@@ -26,7 +26,7 @@ main() {
     getit.registerLazySingleton(() => GetSearchedMoviesUseCase());
     getit.registerLazySingleton(() => MovieListPresenter());
 
-    getit.registerLazySingleton(() => MovieListViewState());
+    getit.registerLazySingleton(() => MovieListState());
     getit.registerLazySingleton(() => MovieListScrollController());
     getit.registerLazySingleton(() => SearchMoviesTextEditingController());
     getit.registerLazySingleton(() => MovieListBloc());

@@ -14,11 +14,11 @@ class MovieListView extends CleanView {
   const MovieListView({super.key});
 
   @override
-  MovieListViewState createState() => MovieListViewState();
+  MovieListState createState() => MovieListState();
 }
 
-// class MovieListViewState extends CleanViewState<MovieListView, MovieListBloc> {
-//   MovieListViewState() : super(getit<MovieListBloc>());
+// class MovieListState extends CleanViewState<MovieListView, MovieListBloc> {
+//   MovieListState() : super(getit<MovieListBloc>());
 
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
@@ -7,6 +9,7 @@ import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../get_it_model.dart';
+import '../../../main.dart';
 import '../../../repositories/data_movies_repository.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
@@ -14,10 +17,10 @@ import '../../../components/search_box.dart';
 import '../view/movie_list_view.dart';
 import 'package:equatable/equatable.dart';
 import '../model/movie_list.dart';
+import 'movie_list_state.dart';
 
-part 'movie_list_view_state.dart';
 
-class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
+class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   final MoviesRepository _moviesRepository;
   final ScrollController scrollController;
   final TextEditingController searchTextController;
@@ -35,31 +38,46 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
         searchTextController = getit<SearchMoviesTextEditingController>(),
         _sorter = Sorter<Movie>(),
         _moviesRepository = moviesRepository,
-        super(MovieListSearchProgress());
+        super(MovieListLoadedState(null, null, null, null)) {
 
-  @override
-  void initListeners() {
-    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => updateMovieList(movieList);
-    _movieListPresenter.getSearchedMoviesOnError = (e) {
-      // TODO show error dialog to the user
-      logger.severe("Error - failed to fetch movies from web API", e);
-    };
-    _movieListPresenter.getMovieDetailsOnNext = (movie) => showMovieDetails(movie);
-    _movieListPresenter.getMovieDetailsOnError = (e) {
-      // TODO show error dialog to the user
-      logger.severe("Error - failed to fetch model details from web API", e);
-    };
+    on<SearchMoviesEvent>(_fetchSearchedMovies);
+    on<ShowMovieDetailsEvent>(_fetchMovie);
+    on<SelectMovieEvent>(_selectMovie);
   }
 
-  void fetchSearchedMovies(String query) async {
+  Future<void> _fetchSearchedMovies(SearchMoviesEvent event, Emitter<MovieListState> emit) async {
+    var query = event.query;
+    if (query == null) return;
     if (query.isEmpty) return;
-    state.movieList = await _getSearchedMovies(query);
+
+    emit(MovieListProgressState());
+    // TODO show progress widget here
+
+    var movies = await _getSearchedMovies(query);
+    if (movies == null) emit(MovieListEmptyState());
+    // TODO show dialog "no movies found"
+
+    _sorter.sortColumns(movies!.results, _sortCriteriaList);
+    emit((state as MovieListLoadedState).copyWith(movieList: movies));
   }
 
-  void updateMovieList(List<Movie> movies) {
-    _sorter.sortColumns(movies, _sortCriteriaList);
-    state.movieList = MovieList(totalResults: movies.length, results: movies);
-    refreshUI();
+  Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
+    var movieId = event.movieId;
+    if (movieId == null) return;
+
+    emit(MovieListProgressState());
+    // TODO show progress widget here
+
+    var movie = await _getSelectedMovie(movieId);
+
+    if (movie == null) emit(MovieDetailsNotFetchedState());
+    // TODO if not error but not found - show the user dialog "movie not found"
+
+    emit(MovieDetailsLoadedState(movie));
+  }
+
+  Future<void> _selectMovie(SelectMovieEvent event, Emitter<MovieListState> emit) async {
+    emit(MovieSelectedState(event.movieId));
   }
 
   void setSelectedMovieId(int movieId) {
@@ -88,7 +106,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
   }
 
   void saveViewState() {
-    state.searchQuery = searchTextController.text;
+    state.query = searchTextController.text;
     state.scrollOffset = scrollController.offset;
   }
 
@@ -104,7 +122,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
   }
 
   void _restoreSearchQuery() {
-    searchTextController.text = state.searchQuery ?? '';
+    searchTextController.text = state.query ?? '';
   }
 
   Future<MovieList?> _getSearchedMovies(String searchText) async {
@@ -112,17 +130,19 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListViewState> {
       List<Movie>? movieList = await getit<MoviesRepository>().getSearchedMovies(searchText);
       return MovieList(totalResults: movieList.length, results: movieList);
     } on Exception catch (e) {
+      // TODO show the user error dialog with error details
       logger.severe('Failed to get searched movies from web API => error: $e');
       return null;
     }
   }
 
-  Future<Stream<Movie?>> buildUseCaseStream(int movieId) async {
+  Future<Movie?> _getSelectedMovie(int movieId) async {
     try {
-      final Movie? movie = await getit<MoviesRepository>().getMovie(movieId);
-      return sendInStream(payload: movie);
+      return  await getit<MoviesRepository>().getMovie(movieId);
     } on Exception catch (e) {
-      return sendInStream(exception: e);
+      // TODO show the user error dialog with error details
+      logger.severe('Failed to get selected movie from web API => error: $e');
+      return  null;
     }
   }
 }
