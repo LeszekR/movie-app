@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-
 sealed class MovieListEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
+final class ShowProgressEvent extends MovieListEvent {}
+
 final class ShowMovieDetailsEvent extends MovieListEvent {
   final int? movieId;
-  final int scrollOffset;
-  ShowMovieDetailsEvent(this.movieId, this.scrollOffset);
+  ShowMovieDetailsEvent(this.movieId);
   @override
-  List<Object?> get props => [movieId, scrollOffset];
+  List<Object?> get props => [movieId];
 }
 
 final class SearchMoviesEvent extends MovieListEvent {
@@ -23,7 +23,8 @@ final class SearchMoviesEvent extends MovieListEvent {
 
 final class SelectMovieEvent extends MovieListEvent {
   final int? movieId;
-  SelectMovieEvent(this.movieId);
+  final int scrollOffset;
+  SelectMovieEvent(this.movieId, this.scrollOffset);
   @override
-  List<Object?> get props => [movieId];
+  List<Object?> get props => [movieId, scrollOffset];
 }

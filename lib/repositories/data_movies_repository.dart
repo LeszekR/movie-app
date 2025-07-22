@@ -27,7 +27,7 @@ class MoviesRepository  {
         throw Exception('Failed to get searched movies from web API => HTTP error: ${response.statusCode}');
       }
     } catch (error) {
-      // the error will be processed in the Controller
+      // the error will be processed by the Bloc
       rethrow;
     }
   }

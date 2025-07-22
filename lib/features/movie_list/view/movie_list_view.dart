@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bloc/bloc.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
@@ -10,15 +11,8 @@ import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
-class MovieListView extends CleanView {
+class MovieListView extends StatelessWidget {
   const MovieListView({super.key});
-
-  @override
-  MovieListState createState() => MovieListState();
-}
-
-// class MovieListState extends CleanViewState<MovieListView, MovieListBloc> {
-//   MovieListState() : super(getit<MovieListBloc>());
 
 
   @override
@@ -27,16 +21,17 @@ class MovieListView extends CleanView {
     Txt.setLanguage(context);
   }
 
+
   @override
-  Widget get view {
-    return ControlledWidgetBuilder<MovieListBloc>(builder: (context, controller) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (controller.movieToShow != null) {
-          _showMovieDetails(controller);
-        } else {
-          controller.restoreViewState();
-        }
-      });
+  Widget build(BuildContext context) {
+    // return ControlledWidgetBuilder<MovieListBloc>(builder: (context, controller) {
+    return BlocConsumer(
+      listener: BlocListener<MovieListBloc, MovieListState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        child: Container(),
+      )
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -54,7 +49,7 @@ class MovieListView extends CleanView {
           ],
         ),
       );
-    });
+    }););
   }
 
   Widget _buildMovieList(MovieListBloc controller) {
