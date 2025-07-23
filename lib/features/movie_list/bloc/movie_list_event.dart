@@ -22,8 +22,8 @@ final class SearchMoviesEvent extends MovieListEvent {
 }
 
 final class SelectMovieEvent extends MovieListEvent {
-  final int? movieId;
-  final int scrollOffset;
+  final int movieId;
+  final double scrollOffset;
   SelectMovieEvent(this.movieId, this.scrollOffset);
   @override
   List<Object?> get props => [movieId, scrollOffset];

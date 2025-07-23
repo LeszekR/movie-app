@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
 
 final class MovieListState extends Equatable {
@@ -8,7 +9,8 @@ final class MovieListState extends Equatable {
   final int? selectedMovieId;
   final String? searchQuery;
   final bool isLoading;
-  final bool showMoviesNotFoundDialog;
+  final bool showNoMoviesFoundDialog;
+  final Movie? movie;
   final Exception? error;
 
   const MovieListState({
@@ -17,7 +19,8 @@ final class MovieListState extends Equatable {
     this.selectedMovieId,
     this.searchQuery,
     this.isLoading = false,
-    this.showMoviesNotFoundDialog = false,
+    this.showNoMoviesFoundDialog = false,
+    this.movie,
     this.error,
   });
 
@@ -27,6 +30,7 @@ final class MovieListState extends Equatable {
     int? selectedMovieId,
     String? searchQuery,
     bool isLoading = false,
+    Movie? movie,
     Exception? error,
   }) {
     return MovieListState(
@@ -34,19 +38,20 @@ final class MovieListState extends Equatable {
       scrollOffset: scrollOffset ?? this.scrollOffset,
       selectedMovieId: selectedMovieId ?? this.selectedMovieId,
       searchQuery: searchQuery ?? this.searchQuery,
-      isLoading: isLoading ?? false,
-      showMoviesNotFoundDialog: _foundQueriedMovies(movieList),
+      isLoading: isLoading,
+      showNoMoviesFoundDialog: _foundQueriedMovies(movieList),
+      movie: movie,
       error: error,
     );
   }
 
   bool _foundQueriedMovies(MovieList? movieList) {
     if (!isLoading) return false;
-    return movieList != null &&   // on start MovieList is null - we do not show dialog then
+    return movieList != null && // on start MovieList is null - we do not show dialog then
         movieList.totalResults == 0;
   }
 
   @override
   List<Object?> get props =>
-      [movieList, scrollOffset, selectedMovieId, searchQuery, isLoading, showMoviesNotFoundDialog, error];
+      [movieList, scrollOffset, selectedMovieId, searchQuery, isLoading, showNoMoviesFoundDialog, movie, error];
 }

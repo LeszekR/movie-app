@@ -16,8 +16,8 @@ GetIt getit = GetIt.instance;
 void initGetIt() {
   getit.registerLazySingleton(() => MoviesRepository());
   getit.registerLazySingleton(() => MovieListState());
-  getit.registerLazySingleton(() => MovieListScrollController());
-  getit.registerLazySingleton(() => SearchMoviesTextEditingController());
+  // getit.registerLazySingleton(() => MovieListScrollController());
+  // getit.registerLazySingleton(() => SearchMoviesTextEditingController());
   getit.registerLazySingleton(() => MovieListBloc(moviesRepository: getit<MoviesRepository>()));
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());

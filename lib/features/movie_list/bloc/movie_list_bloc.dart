@@ -18,8 +18,6 @@ import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   final MoviesRepository _moviesRepository;
-  final ScrollController scrollController;
-  final TextEditingController searchTextController;
   final Sorter<Movie> _sorter;
 
   final List<SortCriteria> _sortCriteriaList = [
@@ -74,18 +72,23 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (movieId == null) return;
 
     emit(state.copyWith(isLoading: true));
-    // // TODO show progress widget here
-    //
-    // var movie = await _getSelectedMovie(movieId);
-    //
-    // if (movie == null) emit(MovieDetailsNotFetchedState());
-    // // TODO if not error but not found - show the user dialog "movie not found"
-    //
-    // emit(MovieDetailsState(movie: movie));
+    // TODO show progress widget here in the listener
+
+    try {
+      var movie = await getit<MoviesRepository>().getMovie(movieId);
+      emit(state.copyWith(movie: movie));
+      emit(state.copyWith()); // restore state with movie = null to stop navigating to MovieDetails on nav back
+      //
+    } on Exception catch (e) {
+      // TODO show the user error dialog with error details in the listener
+      logger.severe('Failed to get selected movie from web API => error: $e');
+      emit(state.copyWith(error: e));
+      // TODO show the user error dialog with error details
+    }
   }
 
   Future<void> _selectMovie(SelectMovieEvent event, Emitter<MovieListState> emit) async {
-    emit(state.copyWith(selectedMovieId: event.movieId));
+    emit(state.copyWith(scrollOffset: event.scrollOffset, selectedMovieId: event.movieId));
   }
 
 // void setSelectedMovieId(int movieId) {
@@ -132,25 +135,4 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 // void _restoreSearchQuery() {
 //   searchTextController.text = state.query ?? '';
 // }
-//
-// Future<MovieList?> _getSearchedMovies(String searchText) async {
-//   try {
-//     List<Movie>? movieList = await getit<MoviesRepository>().getSearchedMovies(searchText);
-//     return MovieList(totalResults: movieList.length, results: movieList);
-//   } on Exception catch (e) {
-//     // TODO show the user error dialog with error details
-//     logger.severe('Failed to get searched movies from web API => error: $e');
-//     return null;
-//   }
-// }
-
-  Future<Movie?> _getSelectedMovie(int movieId) async {
-    try {
-      return await getit<MoviesRepository>().getMovie(movieId);
-    } on Exception catch (e) {
-      // TODO show the user error dialog with error details
-      logger.severe('Failed to get selected movie from web API => error: $e');
-      return null;
-    }
-  }
 }
