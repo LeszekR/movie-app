@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../common/ui_localized_texts/txt.dart';
-import '../get_it_model.dart';
 
 class SearchBox extends StatelessWidget {
-  final void Function(String)? onSubmitted;
+  final TextEditingController controller;
+  final void Function(String) onSubmitted;
 
+  // key string - needed for tests
   static final keySearchBox = Key('search_box');
 
   const SearchBox({
     super.key,
-    this.onSubmitted,
+    required this.controller,
+    required this.onSubmitted,
   });
 
   @override
@@ -23,7 +25,7 @@ class SearchBox extends StatelessWidget {
         ),
         child: TextField(
           key: keySearchBox,
-          controller: getit<SearchMoviesTextEditingController>(),
+          controller: controller,
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
@@ -31,9 +33,7 @@ class SearchBox extends StatelessWidget {
             border: InputBorder.none,
             hintText: Txt.get.search_prompt,
           ),
-          onSubmitted: onSubmitted,
+          onSubmitted: (text) => onSubmitted(text),
         ),
       );
 }
-
-class SearchMoviesTextEditingController extends TextEditingController{}

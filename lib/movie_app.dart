@@ -28,7 +28,6 @@ class MovieApp extends StatelessWidget {
     };
 
     final locale = const Locale('pl');
-    Txt.setLanguage(context);
 
     return MaterialApp(
       title: 'Movie Browser',
@@ -36,9 +35,14 @@ class MovieApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
-      home: BlocProvider(
-        create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
-        child: MovieListView(),
+      home: Builder(
+        builder: (context) {
+          Txt.setLanguage(context);
+          return BlocProvider(
+            create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
+            child: MovieListView(),
+          );
+        },
       ),
     );
   }

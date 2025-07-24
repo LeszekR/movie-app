@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 
 import '../../../components/sorting/e_sort_direction.dart';
@@ -11,9 +10,7 @@ import '../../../get_it_model.dart';
 import '../../../main.dart';
 import '../../../repositories/data_movies_repository.dart';
 import '../../movie_details/model/movie.dart';
-import '../../../components/search_box.dart';
 import '../model/movie_list.dart';
-import '../view/movie_list_view.dart';
 import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
@@ -28,10 +25,8 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   Movie? movieToShow;
 
   MovieListBloc({required MoviesRepository moviesRepository})
-      : scrollController = getit<MovieListScrollController>(),
-        searchTextController = getit<SearchMoviesTextEditingController>(),
+      : _moviesRepository = moviesRepository,
         _sorter = Sorter<Movie>(),
-        _moviesRepository = moviesRepository,
         super(MovieListState(
           movieList: null,
           scrollOffset: null,
@@ -47,20 +42,32 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     var query = event.query;
     if (query == null) return;
     if (query.isEmpty) return;
+    if (event.query == state.searchQuery) return;
 
     emit(state.copyWith(isLoading: true));
-    // TODO show progress widget here
+    await Future.delayed(Duration(seconds: 1)); // only to present the progress indicator
 
     try {
       List<Movie>? movies = await _moviesRepository.getSearchedMovies(event.query!);
       if (movies.isEmpty) {
-        emit(state.copyWith(movieList: MovieList(totalResults: 0, results: [])));
+        emit(state.copyWith(
+          movieList: MovieList(totalResults: 0, results: []),
+          scrollOffset: 0,
+          selectedMovieId: null,
+          searchQuery: query,
+        ));
         // TODO show dialog "no movies found"
       } else {
         _sorter.sortColumns(movies, _sortCriteriaList);
-        emit(state.copyWith(movieList: MovieList(totalResults: movies.length, results: movies)));
+        emit(state.copyWith(
+          movieList: MovieList(totalResults: movies.length, results: movies),
+          scrollOffset: 0,
+          selectedMovieId: null,
+          searchQuery: query,
+        ));
       }
     } on Exception catch (e) {
+
       logger.severe('Failed to get searched movies from web API => error: $e');
       emit(state.copyWith(error: e));
       // TODO show the user error dialog with error details
@@ -72,7 +79,6 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (movieId == null) return;
 
     emit(state.copyWith(isLoading: true));
-    // TODO show progress widget here in the listener
 
     try {
       var movie = await getit<MoviesRepository>().getMovie(movieId);

@@ -26,7 +26,7 @@ final class MovieListState extends Equatable {
 
   MovieListState copyWith({
     MovieList? movieList,
-    double? scrollOffset,
+    double? scrollOffset = 0,
     int? selectedMovieId,
     String? searchQuery,
     bool isLoading = false,

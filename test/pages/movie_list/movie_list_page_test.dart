@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/components/search_box.dart';
-import 'package:flutter_demo/fca/domain/usecases/get_movie_details_usecase.dart';
-import 'package:flutter_demo/fca/domain/usecases/get_searched_movies_usecase.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_view_state_data.dart';
+import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,16 +19,7 @@ main() {
   var getit = GetIt.instance;
 
   setUp(() {
-    getit.registerLazySingleton<MoviesRepository>(() => MockDataMoviesRepository());
-
-    getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<MoviesRepository>()));
-    getit.registerLazySingleton(() => GetSearchedMoviesUseCase());
-    getit.registerLazySingleton(() => MovieListPresenter());
-
-    getit.registerLazySingleton(() => MovieListState());
-    getit.registerLazySingleton(() => MovieListScrollController());
-    getit.registerLazySingleton(() => SearchMoviesTextEditingController());
-    getit.registerLazySingleton(() => MovieListBloc());
+    getit.registerLazySingleton<MoviesRepository>(() => MockMoviesRepository());
   });
 
   tearDown(() {
@@ -40,10 +30,14 @@ main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when((getit<MoviesRepository>() as MockDataMoviesRepository).getSearchedMovies(any))
+    when((getit<MoviesRepository>() as MockMoviesRepository).getSearchedMovies(any))
         .thenAnswer((_) => Future.value(fetchedMovieList));
 
-    await prepareWidget(tester, widgetBuilder: () => MovieListView());
+    await prepareWidget(tester,
+        widgetBuilder: () => BlocProvider(
+              create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
+              child: MovieListView(),
+            ));
 
     var searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);
