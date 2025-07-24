@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../common/ui_localized_texts/txt.dart';
 import '../features/movie_details/model/movie.dart';
 import '../features/movie_list/model/movie_list.dart';
 
@@ -15,7 +16,7 @@ class MoviesRepository  {
       'query': query,
     };
 
-    final endpoint = Uri.https(baseUrl, '/3/search/model', parameters);
+    final endpoint = Uri.https(baseUrl, '/3/search/movie', parameters);
 
     try {
       final response = await http.get(endpoint);
@@ -24,7 +25,7 @@ class MoviesRepository  {
         final movieList = MovieList.fromJson(json);
         return movieList.results;
       } else {
-        throw Exception('Failed to get searched movies from web API => HTTP error: ${response.statusCode}');
+        throw Exception('${Txt.get.error_get_searched_movies}${Txt.get.error_http}${response.statusCode}');
       }
     } catch (error) {
       // the error will be processed by the Bloc
@@ -32,13 +33,12 @@ class MoviesRepository  {
     }
   }
 
-  @override
   Future<Movie?> getMovie(int movieId) async {
     final parameters = {
       'api_key': apiKey,
     };
 
-    final endpoint = Uri.https(baseUrl, '/3/model/$movieId', parameters);
+    final endpoint = Uri.https(baseUrl, '/3/movie/$movieId', parameters);
 
     try {
       final response = await http.get(endpoint);
@@ -47,7 +47,7 @@ class MoviesRepository  {
         var fetchedMovie = Movie.fromJson(json);
         return fetchedMovie;
       } else {
-        throw Exception('Get Movie from web API => => HTTP error: ${response.statusCode}');
+        throw Exception('${Txt.get.error_get_movie}${Txt.get.error_http}${response.statusCode}');
       }
     } catch (error) {
       // the error will be processed in the Controller

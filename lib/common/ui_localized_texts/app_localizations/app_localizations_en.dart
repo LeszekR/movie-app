@@ -28,4 +28,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search_prompt => 'Search...';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get error_get_movie => 'Error:\nFailed to fetch movie from web.\n\n';
+
+  @override
+  String get error_get_searched_movies => 'Error:\nFailed to fetch searched movies.\n\n';
+
+  @override
+  String get error_http => 'HTTP error: ';
 }

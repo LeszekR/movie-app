@@ -28,4 +28,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get search_prompt => 'szukaj...';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get error_get_movie => 'Błąd:\nNie udało się pobrać filmu.\n\n';
+
+  @override
+  String get error_get_searched_movies => 'Błąd:\nNie udało się pobrać listy szukanych filmów.\n\n';
+
+  @override
+  String get error_http => 'HTTP error: ';
 }

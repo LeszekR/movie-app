@@ -5,5 +5,9 @@
     "budget": "Budget",
     "revenue": "Revenue",
     "should_i_watch_today": "Should I watch it today?",
-    "search_prompt": "Search..."
+    "search_prompt": "Search...",
+    "ok": "OK",
+    "error_get_movie": "Error:\nFailed to fetch movie from web.\n\n",
+    "error_get_searched_movies": "Error:\nFailed to fetch searched movies.\n\n",
+    "error_http": "HTTP error: "
 }

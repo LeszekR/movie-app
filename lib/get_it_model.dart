@@ -1,3 +1,4 @@
+import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,4 +13,5 @@ void initGetIt() {
   getit.registerLazySingleton(() => MoviesRepository());
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());
+  getit.registerFactory(() => MovieDetailsController());
 }

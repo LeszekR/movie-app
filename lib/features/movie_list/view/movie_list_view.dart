@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 
@@ -43,18 +44,15 @@ class _MovieListViewState extends State<MovieListView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
-      listenWhen: (previous, current) => previous.isLoading != current.isLoading,
+      listenWhen: (previous, current) {
+        var doListen = false;
+        doListen |= previous.isLoading != current.isLoading;
+        // doListen |= current.movie != null;
+        // doListen |= current.error != null;
+        return doListen;
+      },
       listener: (context, state) {
-        if (state.isLoading) {
-          showDialog(
-            context: context,
-            builder: (context) => Center(child: CircularProgressIndicator()),
-            barrierDismissible: false,
-            barrierColor: Color.fromRGBO(0, 0, 0, 0.1),
-          );
-        } else {
-          Navigator.of(context).pop();
-        }
+        _navigate(state, context);
       },
       builder: (context, state) {
         return Scaffold(
@@ -98,6 +96,48 @@ class _MovieListViewState extends State<MovieListView> {
       ),
       itemCount: movieList.length,
     );
+  }
+
+  void _navigate(MovieListState state, BuildContext context) {
+    if (state.isLoading) {
+      showDialog(
+        context: context,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+        barrierColor: Color.fromRGBO(0, 0, 0, 0.1),
+      );
+    } else {
+      Navigator.of(context).pop();
+      if (state.movie != null) {
+        var movie = state.movie!;
+        Navigator.push(
+            context,
+            MaterialPageRoute<MovieDetailsView>(
+              builder: (BuildContext context) => MovieDetailsView(
+                movie.title,
+                movie.budget.toString(),
+                movie.revenue.toString(),
+              ),
+            ));
+      } else if (state.error != null) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(state.error.toString().replaceFirst('Exception: ', '')),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text(Txt.get.ok),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            );
+          },
+          barrierDismissible: false,
+          barrierColor: Color.fromRGBO(0, 0, 0, 0.1),
+        );
+      }
+    }
   }
 
   void _showMovieDetails(BuildContext context, MovieListState state) =>

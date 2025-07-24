@@ -45,7 +45,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (event.query == state.searchQuery) return;
 
     emit(state.copyWith(isLoading: true));
-    await Future.delayed(Duration(seconds: 1)); // only to present the progress indicator
+    // await Future.delayed(Duration(seconds: 1)); // only to present the progress indicator
 
     try {
       List<Movie>? movies = await _moviesRepository.getSearchedMovies(event.query!);
@@ -56,7 +56,6 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           selectedMovieId: null,
           searchQuery: query,
         ));
-        // TODO show dialog "no movies found"
       } else {
         _sorter.sortColumns(movies, _sortCriteriaList);
         emit(state.copyWith(
@@ -67,7 +66,6 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         ));
       }
     } on Exception catch (e) {
-
       logger.severe('Failed to get searched movies from web API => error: $e');
       emit(state.copyWith(error: e));
       // TODO show the user error dialog with error details

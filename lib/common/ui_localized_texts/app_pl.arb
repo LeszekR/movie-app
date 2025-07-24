@@ -5,5 +5,9 @@
     "budget": "Budżet",
     "revenue": "Przychody",
     "should_i_watch_today": "Czy mam to dziś obejrzeć?",
-    "search_prompt": "szukaj..."
+    "search_prompt": "szukaj...",
+    "ok": "OK",
+    "error_get_movie": "Błąd:\nNie udało się pobrać filmu.\n\n",
+    "error_get_searched_movies": "Błąd:\nNie udało się pobrać listy szukanych filmów.\n\n",
+    "error_http": "HTTP error: "
 }
