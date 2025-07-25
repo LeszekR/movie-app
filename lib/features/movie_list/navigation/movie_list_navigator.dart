@@ -8,14 +8,16 @@ import '../bloc/movie_list_state.dart';
 
 class MovieListNavigator {
   final AppNavigator _appNavigator;
-  const MovieListNavigator(this._appNavigator);
 
+  const MovieListNavigator(this._appNavigator);
 
   void go(MovieListState state, BuildContext context) {
     if (state.navCommand is ShowLoading) {
       _appNavigator.progressIndicator(context);
     } else {
-      Navigator.of(context).pop();
+      var nav = Navigator.of(context);
+      if (nav.canPop()) nav.pop();
+
       if (state.navCommand is ShowMovieDetails) {
         _showMovieDetails(state, context);
       } else if (state.navCommand is ShowError) {
