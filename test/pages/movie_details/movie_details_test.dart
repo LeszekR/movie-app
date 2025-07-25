@@ -17,10 +17,10 @@ var budget = '100';
 var revenue = '200';
 var title = 'Avatar';
 
+var getit = GetIt.instance;
+
 @GenerateMocks([AppConfig, DateTimeReader])
 main() {
-  var getit = GetIt.instance;
-
   setUp(() {
     getit.registerSingleton<AppConfig>(mockAppConfig);
     getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
@@ -58,7 +58,8 @@ main() {
 Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProfitThreshold, DateTime mockDay) async {
   when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
-  await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue));
+  await prepareWidget(tester,
+      widgetBuilder: () => MovieDetailsView(title, budget, revenue, getit<MovieDetailsController>()));
 }
 
 class _MovieDetailsTestCase {

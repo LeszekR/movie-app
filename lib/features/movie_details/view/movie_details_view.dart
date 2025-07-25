@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';
-import '../../../get_it_model.dart';
 import '../utils/movie_details_controller.dart';
 import 'components/movie_details_content_line.dart';
 
@@ -9,17 +8,18 @@ class MovieDetailsView extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
+  final MovieDetailsController controller;
 
   const MovieDetailsView(
     this.title,
     this.budget,
-    this.revenue, {
+    this.revenue,
+    this.controller, {
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    var controller = getit<MovieDetailsController>();
     var details = makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(

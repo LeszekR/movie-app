@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/navigation/nav_commands_common.dart';
 import 'package:flutter_demo/navigation/app_navigator.dart';
 
+import '../../../get_it_model.dart';
 import '../../movie_details/model/movie.dart';
 import '../../movie_details/view/movie_details_view.dart';
 import '../bloc/movie_list_state.dart';
@@ -35,6 +37,7 @@ class MovieListNavigator {
             movie.title,
             movie.budget.toString(),
             movie.revenue.toString(),
+            getit<MovieDetailsController>()
           ),
         ));
   }
