@@ -94,49 +94,4 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   Future<void> _selectMovie(SelectMovieEvent event, Emitter<MovieListState> emit) async {
     emit(state.copyWith(scrollOffset: event.scrollOffset, selectedMovieId: event.movieId));
   }
-
-// void setSelectedMovieId(int movieId) {
-//   state.selectedMovieId = movieId;
-//   refreshUI();
-// }
-//
-// int? getSelectedMovieId() {
-//   return state.selectedMovieId;
-// }
-//
-// void fetchMovie() {
-//   var selectedMovieId = state.selectedMovieId;
-//   if (selectedMovieId == null) return;
-//   _movieListPresenter.getMovieDetails(selectedMovieId);
-// }
-//
-// void showMovieDetails(Movie? movie) {
-//   movieToShow = movie;
-//   if (movie == null) return;
-//   refreshUI();
-// }
-//
-// void onMovieDetailsShown() {
-//   movieToShow = null;
-// }
-//
-// void saveViewState() {
-//   state.query = searchTextController.text;
-//   state.scrollOffset = scrollController.offset;
-// }
-//
-// void restoreViewState() {
-//   _restoreScroll();
-//   _restoreSearchQuery();
-// }
-//
-// void _restoreScroll() {
-//   double? scrollOffset = state.scrollOffset;
-//   if (scrollOffset == null) return;
-//   scrollController.jumpTo(scrollOffset);
-// }
-//
-// void _restoreSearchQuery() {
-//   searchTextController.text = state.query ?? '';
-// }
 }

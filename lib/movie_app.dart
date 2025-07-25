@@ -2,19 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
+import 'package:flutter_demo/features/movie_list/movie_list_navigator.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
-import 'package:go_router/go_router.dart';
 
 import 'common/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'common/ui_localized_texts/txt.dart';
-import 'features/movie_details/view/movie_details_view.dart';
 import 'features/movie_list/view/movie_list_view.dart';
 import 'get_it_model.dart';
 import 'main.dart';
-import 'navigation/go_router_const_strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'navigation/go_router.dart';
+// part 'navigation/go_router.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
@@ -40,7 +38,7 @@ class MovieApp extends StatelessWidget {
           Txt.setLanguage(context);
           return BlocProvider(
             create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
-            child: MovieListView(),
+            child: MovieListView(navigator: getit<MovieListNavigator>()),
           );
         },
       ),
