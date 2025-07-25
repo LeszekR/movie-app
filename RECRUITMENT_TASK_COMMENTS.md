@@ -22,14 +22,22 @@ Overview
 ----------------------------------  
 New features and refactoring
 
-- introduced `flutter_clean_architecture` package and refactored the whole project to its directives
-  and API
-- used `BackgroundUseCase` for searched movies query alternatively with `UseCase` for web in `GetSearchedMoviesUseCaseFactory` factory
-- extracted generic methods for sending data from usecases via `Stream` or between-isolates message
-- then simplified `GetSearchedMoviesUseCaseFactory` to the basic `UseCase` (no multi-isolates) to allow for clean mocking in tests (see details below)
-- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier` architecture with `flutter-clean-architecture`'s `refreshUI` - but unsure whether direct exposing of its fields is a good practise?
-- replaced `Riverpod` DI with `get_it` 
-- introduced handling all exceptions by logging or rethrowing them to `Controllers` which then handle them
+- introduced `flutter_bloc` package and refactored the whole project to its directives
+- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
+  architecture with `flutter_bloc`
+- refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
+  removed `go_router` package
+- extracted app navigation to hybrid pattern: local `MovieListNavigator`, global `AppNavigator` in
+  order to separate navigation concern from UI and business logic and keep feature-local navigation
+  separated from global nav
+- refactored `MovieListState` to incorporate navigation commands in the form of abstract
+  class `NavigationCommand` implementations,
+- replaced `Riverpod` DI with `get_it`
+- introduced handling all exceptions by logging or rethrowing them to be handled in calling code
+- introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
+  uses `ButtonBuilder` to create standardized buttons
+- centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
+  code
 
 #
 
@@ -47,8 +55,7 @@ Details
 - this solution can be seen last in commoit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
 - after that was replaced with simple `UseCase` allowing for clean mocking in tests
 
-
-#    
+#           
 
 ------------------
 

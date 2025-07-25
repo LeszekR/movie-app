@@ -13,7 +13,6 @@ import 'get_it_model.dart';
 import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// part 'navigation/go_router.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
