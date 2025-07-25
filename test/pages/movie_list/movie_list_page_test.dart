@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
+import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
@@ -36,7 +37,7 @@ main() {
     await prepareWidget(tester,
         widgetBuilder: () => BlocProvider(
               create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
-              child: MovieListView(),
+              child: MovieListView(navigator: getit<MovieListNavigator>(),),
             ));
 
     var searchBox = find.byKey(SearchBox.keySearchBox);

@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
-import 'package:flutter_demo/features/movie_list/movie_list_navigator.dart';
+import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
 
+import 'common/logging/loging_messages.dart';
 import 'common/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'common/ui_localized_texts/txt.dart';
 import 'features/movie_list/view/movie_list_view.dart';
@@ -21,7 +22,7 @@ class MovieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // catch unhandled errors other than framework errors (those will be logged by the framework)
     PlatformDispatcher.instance.onError = (error, stack) {
-      logger.severe(null, error, stack);
+      logger.severe(LOG_ERR_FRAMEWORK_EXCEPTION, error, stack);
       return true;
     };
 

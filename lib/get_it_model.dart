@@ -1,5 +1,5 @@
 import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
-import 'package:flutter_demo/features/movie_list/movie_list_navigator.dart';
+import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
 import 'package:get_it/get_it.dart';
 

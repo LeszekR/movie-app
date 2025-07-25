@@ -160,6 +160,12 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'HTTP error: '**
   String get error_http;
+
+  /// No description provided for @no_such_movie.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie znaleziono wybranego filmu w bazie danych.'**
+  String get no_such_movie;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

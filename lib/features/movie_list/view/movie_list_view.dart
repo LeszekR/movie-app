@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/features/movie_list/movie_list_navigator.dart';
+import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
+import 'package:flutter_demo/navigation/nav_commands_common.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
@@ -48,10 +49,10 @@ class _MovieListViewState extends State<MovieListView> {
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
       listenWhen: (previous, current) {
-        return previous.isLoading != current.isLoading;
+        return previous.navCommand is ShowLoading != current.navCommand is ShowLoading;
       },
       listener: (context, state) {
-        widget._navigator.nav(state, context);
+        widget._navigator.go(state, context);
       },
       builder: (context, state) {
         return Scaffold(
@@ -101,5 +102,4 @@ class _MovieListViewState extends State<MovieListView> {
       _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId));
 
   void _fetchSearchedMovies(BuildContext context, String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
-
 }

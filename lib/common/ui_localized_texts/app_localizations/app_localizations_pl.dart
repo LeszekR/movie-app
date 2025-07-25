@@ -40,4 +40,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get error_http => 'HTTP error: ';
+
+  @override
+  String get no_such_movie => 'Nie znaleziono wybranego filmu w bazie danych.';
 }

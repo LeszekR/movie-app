@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
 
 import 'common/config/app_config.dart';
+import 'common/logging/loging_messages.dart';
 
 final logger = Logger("MOVIE_APP_LOGGER");
 
@@ -29,9 +30,9 @@ Future<bool> loadConfigFile() async {
     await dotenv.load(fileName: AppConfig.configFilePath);
     return true;
   } on FileNotFoundError catch (e) {
-    logger.severe("Failed to load config params - file not found: ${AppConfig.configFilePath}", e);
+    logger.severe('$LOG_ERR_CONFIG_FILE_NOT_FOUND ${AppConfig.configFilePath}', e);
   } catch (e) {
-    logger.severe("Failed to load config params - other error", e);
+    logger.severe(LOG_ERR_LOADING_OTHER, e);
   }
   return false;
 }

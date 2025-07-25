@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/navigation/nav_commands_common.dart';
 import 'package:flutter_demo/navigation/app_navigator.dart';
 
-import '../movie_details/view/movie_details_view.dart';
-import 'bloc/movie_list_state.dart';
+import '../../movie_details/model/movie.dart';
+import '../../movie_details/view/movie_details_view.dart';
+import '../bloc/movie_list_state.dart';
 
 class MovieListNavigator {
   final AppNavigator _appNavigator;
   const MovieListNavigator(this._appNavigator);
 
 
-  void nav(MovieListState state, BuildContext context) {
-    if (state.isLoading) {
+  void go(MovieListState state, BuildContext context) {
+    if (state.navCommand is ShowLoading) {
       _appNavigator.progressIndicator(context);
     } else {
       Navigator.of(context).pop();
-      if (state.movie != null) {
+      if (state.navCommand is ShowMovieDetails) {
         _showMovieDetails(state, context);
-      } else if (state.error != null) {
-        _appNavigator.dialogError(context, state.error!);
+      } else if (state.navCommand is ShowError) {
+        _appNavigator.dialogError(context, state.navCommand!.payload);
       }
     }
   }
 
   void _showMovieDetails(MovieListState state, BuildContext context) {
-    var movie = state.movie!;
+    Movie movie = state.navCommand!.payload;
     Navigator.push(
         context,
         MaterialPageRoute<MovieDetailsView>(
