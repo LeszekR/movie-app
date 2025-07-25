@@ -15,10 +15,9 @@ class MovieListNavigator {
 
   void go(MovieListState state, BuildContext context) {
     if (state.navCommand is ShowLoading) {
-      _appNavigator.progressIndicator(context);
+      _appNavigator.progress(context);
     } else {
-      var nav = Navigator.of(context);
-      if (nav.canPop()) nav.pop();
+      _appNavigator.popIfPossible(context);
 
       if (state.navCommand is ShowMovieDetails) {
         _showMovieDetails(state, context);

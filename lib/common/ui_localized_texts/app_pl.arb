@@ -1,4 +1,10 @@
 {
+    "ok": "OK",
+    "yes": "Tak",
+    "no": "Nie",
+    "cancel": "Anuluj",
+    "dialog_title_error": "Błąd",
+
     "yes":"TAK!",
     "no": "Niee...",
     "movie_list_title": "Przeglądarka filmów",
@@ -6,9 +12,8 @@
     "revenue": "Przychody",
     "should_i_watch_today": "Czy mam to dziś obejrzeć?",
     "search_prompt": "szukaj...",
-    "ok": "OK",
-    "error_get_movie": "Błąd:\nNie udało się pobrać filmu.\n\n",
-    "error_get_searched_movies": "Błąd:\nNie udało się pobrać listy szukanych filmów.\n\n",
+    "error_get_movie": "Nie udało się pobrać filmu.\n\n",
+    "error_get_searched_movies": "Nie udało się pobrać listy szukanych filmów.\n\n",
     "error_http": "HTTP error: ",
     "no_such_movie": "Nie znaleziono wybranego filmu w bazie danych."
 }

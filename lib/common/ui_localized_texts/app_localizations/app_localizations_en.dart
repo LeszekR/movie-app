@@ -9,10 +9,19 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get ok => 'OK';
+
+  @override
   String get yes => 'YES!';
 
   @override
   String get no => 'Nooo...';
+
+  @override
+  String get cancel => 'Anuluj';
+
+  @override
+  String get dialog_title_error => 'Error';
 
   @override
   String get movie_list_title => 'Movie Browser';
@@ -30,13 +39,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search_prompt => 'Search...';
 
   @override
-  String get ok => 'OK';
+  String get error_get_movie => 'Failed to fetch movie from web.\n\n';
 
   @override
-  String get error_get_movie => 'Error:\nFailed to fetch movie from web.\n\n';
-
-  @override
-  String get error_get_searched_movies => 'Error:\nFailed to fetch searched movies.\n\n';
+  String get error_get_searched_movies => 'Failed to fetch searched movies.\n\n';
 
   @override
   String get error_http => 'HTTP error: ';

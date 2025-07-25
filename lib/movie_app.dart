@@ -30,7 +30,7 @@ class MovieApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Movie Browser',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(primarySwatch: Colors.green),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,

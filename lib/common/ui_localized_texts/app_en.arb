@@ -1,4 +1,11 @@
 {
+    "ok": "OK",
+    "yes": "Tak",
+    "no": "Nie",
+    "cancel": "Anuluj",
+    "dialog_title_error": "Error",
+
+    "yes":"TAK!",
     "yes":"YES!",
     "no": "Nooo...",
     "movie_list_title": "Movie Browser",
@@ -6,9 +13,8 @@
     "revenue": "Revenue",
     "should_i_watch_today": "Should I watch it today?",
     "search_prompt": "Search...",
-    "ok": "OK",
-    "error_get_movie": "Error:\nFailed to fetch movie from web.\n\n",
-    "error_get_searched_movies": "Error:\nFailed to fetch searched movies.\n\n",
+    "error_get_movie": "Failed to fetch movie from web.\n\n",
+    "error_get_searched_movies": "Failed to fetch searched movies.\n\n",
     "error_http": "HTTP error: ",
     "no_such_movie": "Chosen movie details have not been found in the database."
 }

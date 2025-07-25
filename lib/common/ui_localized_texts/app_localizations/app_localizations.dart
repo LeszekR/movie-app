@@ -95,6 +95,12 @@ abstract class AppLocalizations {
     Locale('pl')
   ];
 
+  /// No description provided for @ok.
+  ///
+  /// In pl, this message translates to:
+  /// **'OK'**
+  String get ok;
+
   /// No description provided for @yes.
   ///
   /// In pl, this message translates to:
@@ -106,6 +112,18 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Niee...'**
   String get no;
+
+  /// No description provided for @cancel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Anuluj'**
+  String get cancel;
+
+  /// No description provided for @dialog_title_error.
+  ///
+  /// In pl, this message translates to:
+  /// **'Błąd'**
+  String get dialog_title_error;
 
   /// No description provided for @movie_list_title.
   ///
@@ -137,22 +155,16 @@ abstract class AppLocalizations {
   /// **'szukaj...'**
   String get search_prompt;
 
-  /// No description provided for @ok.
-  ///
-  /// In pl, this message translates to:
-  /// **'OK'**
-  String get ok;
-
   /// No description provided for @error_get_movie.
   ///
   /// In pl, this message translates to:
-  /// **'Błąd:\nNie udało się pobrać filmu.\n\n'**
+  /// **'Nie udało się pobrać filmu.\n\n'**
   String get error_get_movie;
 
   /// No description provided for @error_get_searched_movies.
   ///
   /// In pl, this message translates to:
-  /// **'Błąd:\nNie udało się pobrać listy szukanych filmów.\n\n'**
+  /// **'Nie udało się pobrać listy szukanych filmów.\n\n'**
   String get error_get_searched_movies;
 
   /// No description provided for @error_http.

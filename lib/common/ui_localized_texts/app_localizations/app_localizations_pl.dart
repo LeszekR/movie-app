@@ -9,10 +9,19 @@ class AppLocalizationsPl extends AppLocalizations {
   AppLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
+  String get ok => 'OK';
+
+  @override
   String get yes => 'TAK!';
 
   @override
   String get no => 'Niee...';
+
+  @override
+  String get cancel => 'Anuluj';
+
+  @override
+  String get dialog_title_error => 'Błąd';
 
   @override
   String get movie_list_title => 'Przeglądarka filmów';
@@ -30,13 +39,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get search_prompt => 'szukaj...';
 
   @override
-  String get ok => 'OK';
+  String get error_get_movie => 'Nie udało się pobrać filmu.\n\n';
 
   @override
-  String get error_get_movie => 'Błąd:\nNie udało się pobrać filmu.\n\n';
-
-  @override
-  String get error_get_searched_movies => 'Błąd:\nNie udało się pobrać listy szukanych filmów.\n\n';
+  String get error_get_searched_movies => 'Nie udało się pobrać listy szukanych filmów.\n\n';
 
   @override
   String get error_http => 'HTTP error: ';
