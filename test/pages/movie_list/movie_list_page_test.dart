@@ -5,6 +5,7 @@ import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/navigation/app_navigator.dart';
 import 'package:flutter_demo/repositories/data_movies_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +22,8 @@ main() {
 
   setUp(() {
     getit.registerLazySingleton<MoviesRepository>(() => MockMoviesRepository());
+    getit.registerLazySingleton(() => AppNavigator());
+    getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>()));
   });
 
   tearDown(() {
