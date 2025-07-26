@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/features/movie_list/utils.dart';
 
 class MovieCard extends StatelessWidget {
   final int id;
   final String title;
-  final String rating;
+  final double voteAverage;
   final void Function(int) onTap;
   final bool isSelected;
 
@@ -11,7 +12,7 @@ class MovieCard extends StatelessWidget {
     super.key,
     required this.id,
     required this.title,
-    required this.rating,
+    required this.voteAverage,
     required this.onTap,
     this.isSelected = false,
   });
@@ -38,7 +39,7 @@ class MovieCard extends StatelessWidget {
               ),
               SizedBox(width: 16.0),
               Text(
-                '$rating 🌟 ',
+                makeRating(voteAverage),
                 style: Theme
                     .of(context)
                     .textTheme

@@ -98,7 +98,7 @@ class _MovieListViewState extends State<MovieListView> {
       itemBuilder: (context, index) => MovieCard(
         id: movieList[index].id,
         title: movieList[index].title,
-        rating: '${(movieList[index].voteAverage * 10).toInt()}%',
+        voteAverage: movieList[index].voteAverage,
         isSelected: movieList[index].id == state.selectedMovieId,
         onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id, _scrollController!.offset)),
       ),
