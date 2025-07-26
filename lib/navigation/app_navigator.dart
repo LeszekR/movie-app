@@ -1,39 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/components/message_dialog.dart';
+import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/features/two_buttons/two_buttons_page.dart';
 
+import '../common/config/app_colors.dart';
 import '../common/ui_localized_texts/txt.dart';
 import '../common/utils/utils.dart';
+import '../features/movie_list/navigation/movie_list_navigator.dart';
 import '../get_it_model.dart';
 
 class AppNavigator {
+  bool _isProgressVisible = false;
 
-  void progress(BuildContext context) {
+  void showProgress(BuildContext context) {
+    if (_isProgressVisible) return;
+    _isProgressVisible = true;
     showDialog(
       context: context,
-      builder: (context) => Center(child: CircularProgressIndicator()),
       barrierDismissible: false,
-      barrierColor: Color.fromRGBO(0, 0, 0, 0.1),
+      barrierColor: AppColors.dialogBarrier(),
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void popProgress(BuildContext context) {
+    if (!_isProgressVisible) return;
+    _isProgressVisible = false;
+    Navigator.of(context).pop();
+  }
+
+  void dialogMessage(BuildContext context, DialogParams params) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: AppColors.dialogBarrier(),
+      builder: (context) => MessageDialog(params),
     );
   }
 
   void dialogError(BuildContext context, Exception e) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return MessageDialog(
-            getit<AppNavigator>(),
-            buttonSet: EButtonSet.ok,
-            title: Txt.get.dialog_title_error,
-            text: errorMessage(e),
-        );
-      },
-      barrierDismissible: false,
-      barrierColor: Color.fromRGBO(0, 0, 0, 0.1),
+    dialogMessage(context, DialogParams(EButtonSet.ok, Txt.get.dialog_title_error, errorMessage(e)));
+  }
+
+  void twoButtons(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TwoButtonsPage(getit<AppNavigator>()),
+      ),
     );
   }
 
-  void popIfPossible(BuildContext context) {
-    var nav = Navigator.of(context);
-    if (nav.canPop()) nav.pop();
+  void movieList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) =>
+            MovieListView(appNavigator: getit<AppNavigator>(), moviesNavigator: getit<MovieListNavigator>()),
+      ),
+    );
   }
 }

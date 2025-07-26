@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_demo/common/logging/loging_messages.dart';
+import 'package:flutter_demo/components/message_dialog.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/navigation/nav_commands_common.dart';
 
@@ -45,10 +46,8 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     var query = event.query;
     if (query == null) return;
     if (query.isEmpty) return;
-    if (event.query == state.searchQuery) return;
 
     emit(state.copyWith(navCommand: ShowLoading()));
-    // await Future.delayed(Duration(seconds: 1)); // only to present the progress indicator
 
     try {
       List<Movie>? movies = await _moviesRepository.getSearchedMovies(event.query!);
@@ -58,6 +57,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           scrollOffset: 0,
           selectedMovieId: null,
           searchQuery: query,
+          navCommand: ShowMessage(DialogParams(EButtonSet.ok, null, Txt.get.no_searched_movies)),
         ));
       } else {
         _sorter.sortColumns(movies, _sortCriteriaList);
@@ -76,18 +76,21 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
     var movieId = event.movieId;
-    if (movieId == null) return;
+    if (movieId == null) {
+      emit(state.copyWith(navCommand: ShowMessage(DialogParams(EButtonSet.ok, null, Txt.get.no_movie_chosen))));
+      return;
+    }
 
     emit(state.copyWith(navCommand: ShowLoading()));
 
     try {
       var movie = await getit<MoviesRepository>().getMovie(movieId);
-      if (movie == null ){
-        emit(state.copyWith(navCommand: ShowDialog(Txt.get.no_such_movie)));
+      if (movie == null) {
+        emit(state.copyWith(navCommand: ShowMessage(DialogParams(EButtonSet.ok, null, Txt.get.no_such_movie))));
       } else {
         emit(state.copyWith(navCommand: ShowMovieDetails(movie)));
       }
-      emit(state.copyWith()); // restore state with navCommand = null to stop navigating to MovieDetails on nav back
+      emit(state.copyWith()); // restore state with navCommand = null to stop navigating elsewhere on navigator.pop()
       //
     } on Exception catch (e) {
       // TODO make logger log to console / file / service

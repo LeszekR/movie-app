@@ -13,6 +13,7 @@ import 'get_it_model.dart';
 import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'navigation/app_navigator.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
@@ -27,21 +28,21 @@ class MovieApp extends StatelessWidget {
 
     final locale = const Locale('pl');
 
-    return MaterialApp(
-      title: 'Movie Browser',
-      theme: ThemeData(primarySwatch: Colors.green),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: locale,
-      debugShowCheckedModeBanner: false,
-      home: Builder(
-        builder: (context) {
-          Txt.setLanguage(context);
-          return BlocProvider(
-            create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
-            child: MovieListView(navigator: getit<MovieListNavigator>()),
-          );
-        },
+    return BlocProvider(
+      create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
+      child: MaterialApp(
+        title: 'Movie Browser',
+        theme: ThemeData(primarySwatch: Colors.green),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: locale,
+        debugShowCheckedModeBanner: false,
+        home: Builder(
+          builder: (context) {
+            Txt.setLanguage(context);
+            return MovieListView(appNavigator: getit<AppNavigator>(), moviesNavigator: getit<MovieListNavigator>());
+          },
+        ),
       ),
     );
   }

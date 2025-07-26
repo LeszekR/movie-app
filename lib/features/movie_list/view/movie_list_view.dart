@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
+import 'package:flutter_demo/components/button_builder.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
@@ -8,14 +9,16 @@ import 'package:flutter_demo/navigation/nav_commands_common.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
+import '../../../navigation/app_navigator.dart';
 import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
-  final MovieListNavigator _navigator;
+  final AppNavigator appNavigator;
+  final MovieListNavigator moviesNavigator;
 
-  const MovieListView({super.key, required MovieListNavigator navigator}) : _navigator = navigator;
+  const MovieListView({super.key, required this.appNavigator, required this.moviesNavigator});
 
   @override
   State<StatefulWidget> createState() => _MovieListViewState();
@@ -50,10 +53,13 @@ class _MovieListViewState extends State<MovieListView> {
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
       listenWhen: (previous, current) {
-        return previous.navCommand is ShowLoading != current.navCommand is ShowLoading;
+        var isCommandNew = previous.navCommand != current.navCommand;
+        var isShowDialog = current.navCommand is ShowMessage;
+        var isShowError = current.navCommand is ShowError;
+        return isCommandNew || isShowDialog || isShowError;
       },
       listener: (context, state) {
-        widget._navigator.go(state, context);
+        widget.moviesNavigator.go(state, context);
       },
       builder: (context, state) {
         return Scaffold(
@@ -67,14 +73,14 @@ class _MovieListViewState extends State<MovieListView> {
                 controller: _searchTextController!,
                 onSubmitted: (searchQuery) => _fetchSearchedMovies(context, searchQuery),
               ),
-              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 10),
+              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
               IconButton(
                 // icon: Icon(Icons.search),
                 icon: Icon(Icons.movie_creation_outlined),
                 onPressed: () => _showMovieDetails(context, state),
               ),
               // AppSizes.filler(),
-              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 10),
+              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 5),
             ],
           ),
           body: Column(
@@ -82,6 +88,19 @@ class _MovieListViewState extends State<MovieListView> {
               Expanded(child: _buildMovieList(context, state)),
             ],
           ),
+          bottomNavigationBar: Container(
+              height: AppSizes.dialogBottomBarHeight,
+              color: Colors.amberAccent.shade100,
+              child: Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  ButtonBuilder(() => widget.appNavigator.twoButtons(context))
+                      .text(Txt.get.goto_two_buttons)
+                      .width(200)
+                      .build(),
+                  AppSizes.horizontalSeparator()
+                ],
+              )),
         );
       },
     );

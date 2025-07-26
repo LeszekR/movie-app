@@ -49,4 +49,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no_such_movie => 'Chosen movie details have not been found in the database.';
+
+  @override
+  String get no_searched_movies => 'No movies with similar title have been found.';
+
+  @override
+  String get no_movie_chosen => 'No movie was selected.';
+
+  @override
+  String get goto_two_buttons => 'Open Two Buttons';
+
+  @override
+  String get goto_movie_list => 'Show movie list';
 }

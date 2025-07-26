@@ -178,6 +178,30 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Nie znaleziono wybranego filmu w bazie danych.'**
   String get no_such_movie;
+
+  /// No description provided for @no_searched_movies.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie znaleziono filmów o podobnym tytule'**
+  String get no_searched_movies;
+
+  /// No description provided for @no_movie_chosen.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie wybrano żadnego filmu'**
+  String get no_movie_chosen;
+
+  /// No description provided for @goto_two_buttons.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż Dwa Przyciski'**
+  String get goto_two_buttons;
+
+  /// No description provided for @goto_movie_list.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż listę filmów'**
+  String get goto_movie_list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

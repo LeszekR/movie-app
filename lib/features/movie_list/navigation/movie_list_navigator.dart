@@ -11,18 +11,21 @@ import '../bloc/movie_list_state.dart';
 class MovieListNavigator {
   final AppNavigator _appNavigator;
 
-  const MovieListNavigator(this._appNavigator);
+  MovieListNavigator(this._appNavigator);
 
   void go(MovieListState state, BuildContext context) {
-    if (state.navCommand is ShowLoading) {
-      _appNavigator.progress(context);
+    if (state.navCommand == null) {
+      _appNavigator.popProgress(context);
+    } else if (state.navCommand is ShowLoading) {
+      _appNavigator.showProgress(context);
     } else {
-      _appNavigator.popIfPossible(context);
-
+      _appNavigator.popProgress(context);
       if (state.navCommand is ShowMovieDetails) {
         _showMovieDetails(state, context);
       } else if (state.navCommand is ShowError) {
         _appNavigator.dialogError(context, state.navCommand!.payload);
+      } else if (state.navCommand is ShowMessage) {
+        _appNavigator.dialogMessage(context, state.navCommand!.payload);
       }
     }
   }
@@ -33,11 +36,7 @@ class MovieListNavigator {
         context,
         MaterialPageRoute<MovieDetailsView>(
           builder: (BuildContext context) => MovieDetailsView(
-            movie.title,
-            movie.budget.toString(),
-            movie.revenue.toString(),
-            getit<MovieDetailsController>()
-          ),
+              movie.title, movie.budget.toString(), movie.revenue.toString(), getit<MovieDetailsController>()),
         ));
   }
 }

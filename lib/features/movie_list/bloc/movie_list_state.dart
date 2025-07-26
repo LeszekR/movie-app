@@ -36,5 +36,5 @@ final class MovieListState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [movieList, scrollOffset, selectedMovieId, searchQuery, navCommand /*isLoading, showNoMoviesFoundDialog, movie, error*/];
+      [movieList, scrollOffset, selectedMovieId, searchQuery, navCommand];
 }

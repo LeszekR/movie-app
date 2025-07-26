@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../common/config/app_sizes.dart';
+import '../../common/ui_localized_texts/txt.dart';
+import '../../components/button_builder.dart';
+import '../../navigation/app_navigator.dart';
 import 'components/button_two_states.dart';
 
 class TwoButtonsPage extends StatefulWidget {
-  // TODO refactor to flutter_clean_architecture
-  const TwoButtonsPage({super.key});
+  final AppNavigator appNavigator;
+
+  const TwoButtonsPage(this.appNavigator, {super.key});
 
   @override
   TwoButtonsPageState createState() => TwoButtonsPageState();
@@ -18,6 +23,7 @@ class TwoButtonsPageState extends State<TwoButtonsPage> {
         appBar: AppBar(
           title: Text('2-state buttons'),
           centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
         body: Center(
           child: Row(
@@ -37,6 +43,19 @@ class TwoButtonsPageState extends State<TwoButtonsPage> {
             ],
           ),
         ),
+        bottomNavigationBar: Container(
+            height: AppSizes.dialogBottomBarHeight,
+            color: Colors.amberAccent.shade100,
+            child: Row(
+              children: [
+                Expanded(child: SizedBox()),
+                ButtonBuilder(() => widget.appNavigator.movieList(context))
+                    .text(Txt.get.goto_movie_list)
+                    .width(200)
+                    .build(),
+                AppSizes.horizontalSeparator()
+              ],
+            )),
       );
 
   void _onButtonValueChange({required int index, required bool isOn}) {

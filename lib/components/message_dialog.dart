@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/components/button_builder.dart';
-import 'package:flutter_demo/navigation/app_navigator.dart';
 
 import '../common/ui_localized_texts/txt.dart';
 
 enum EButtonSet { ok, yesNo, okCancel }
 
 class MessageDialog extends StatelessWidget {
-  final AppNavigator _appNavigator;
-  final EButtonSet _buttonSet;
-  final String? _title;
-  final String _text;
+  final DialogParams params;
 
   const MessageDialog(
-    this._appNavigator, {
-    required String text,
-    required buttonSet,
-    String? title,
+    this.params, {
     super.key,
-  })  : _buttonSet = buttonSet,
-        _title = title,
-        _text = text;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +23,17 @@ class MessageDialog extends StatelessWidget {
           maxHeight: AppSizes.dialogContentMaxHeight,
         ),
         child: Scaffold(
-          appBar: _title == null
+          appBar: params.title == null
               ? null
               : AppBar(
                   automaticallyImplyLeading: false,
-                  title: Text(_title!),
+                  title: Text(params.title!),
                 ),
-          body:
-              // TODO apply color from AppColors
-              Center(
+          // TODO apply color from AppColors
+          backgroundColor: Colors.amber.shade100,
+          body: Center(
             child: Text(
-              _text,
+              params.text,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
             ),
@@ -59,24 +50,32 @@ class MessageDialog extends StatelessWidget {
 
   Row _makeButtonsRow(BuildContext context) {
     return Row(
-      children: switch (_buttonSet) {
+      children: switch (params.buttonSet) {
         EButtonSet.ok => [
             AppSizes.filler(),
-            ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.ok).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.ok).build(),
           ],
         EButtonSet.okCancel => [
             AppSizes.filler(),
-            ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.ok).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.ok).build(),
             AppSizes.horizontalSeparator(),
-            ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.cancel).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.cancel).build(),
           ],
         EButtonSet.yesNo => [
             AppSizes.filler(),
-            ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.yes).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.yes).build(),
             AppSizes.horizontalSeparator(),
-            ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.no).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.no).build(),
           ],
       },
     );
   }
+}
+
+class DialogParams {
+  final EButtonSet buttonSet;
+  final String? title;
+  final String text;
+
+  const DialogParams(this.buttonSet, this.title, this.text);
 }

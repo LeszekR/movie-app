@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
@@ -23,6 +24,7 @@ main() {
   setUp(() {
     getit.registerLazySingleton<MoviesRepository>(() => MockMoviesRepository());
     getit.registerLazySingleton(() => AppNavigator());
+    getit.registerLazySingleton(() => AppConfig());
     getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>()));
   });
 
@@ -40,7 +42,10 @@ main() {
     await prepareWidget(tester,
         widgetBuilder: () => BlocProvider(
               create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>()),
-              child: MovieListView(navigator: getit<MovieListNavigator>(),),
+              child: MovieListView(
+                appNavigator: getit<AppNavigator>(),
+                moviesNavigator: getit<MovieListNavigator>(),
+              ),
             ));
 
     var searchBox = find.byKey(SearchBox.keySearchBox);
