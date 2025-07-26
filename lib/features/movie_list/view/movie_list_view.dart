@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
@@ -57,20 +58,27 @@ class _MovieListViewState extends State<MovieListView> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(Txt.get.movie_list_title),
+            title: Text(
+              Txt.get.movie_list_title,
+            ),
+            backgroundColor: Colors.amberAccent.shade100,
             actions: [
-              IconButton(
-                icon: Icon(Icons.movie_creation_outlined),
-                onPressed: () => _showMovieDetails(context, state),
-              ),
-            ],
-          ),
-          body: Column(
-            children: <Widget>[
               SearchBox(
                 controller: _searchTextController!,
                 onSubmitted: (searchQuery) => _fetchSearchedMovies(context, searchQuery),
               ),
+              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 10),
+              IconButton(
+                // icon: Icon(Icons.search),
+                icon: Icon(Icons.movie_creation_outlined),
+                onPressed: () => _showMovieDetails(context, state),
+              ),
+              // AppSizes.filler(),
+              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 10),
+            ],
+          ),
+          body: Column(
+            children: <Widget>[
               Expanded(child: _buildMovieList(context, state)),
             ],
           ),

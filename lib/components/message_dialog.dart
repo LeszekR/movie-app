@@ -49,7 +49,7 @@ class MessageDialog extends StatelessWidget {
           ),
           bottomNavigationBar: Container(
             height: AppSizes.dialogBottomBarHeight,
-            padding: EdgeInsets.all(AppSizes.padding),
+            padding: EdgeInsets.all(AppSizes.paddingForWidget),
             child: _makeButtonsRow(context),
           ),
         ),
@@ -61,17 +61,17 @@ class MessageDialog extends StatelessWidget {
     return Row(
       children: switch (_buttonSet) {
         EButtonSet.ok => [
-            AppSizes.spaceFiller(),
+            AppSizes.filler(),
             ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.ok).build(),
           ],
         EButtonSet.okCancel => [
-            AppSizes.spaceFiller(),
+            AppSizes.filler(),
             ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.ok).build(),
             AppSizes.horizontalSeparator(),
             ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.cancel).build(),
           ],
         EButtonSet.yesNo => [
-            AppSizes.spaceFiller(),
+            AppSizes.filler(),
             ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.yes).build(),
             AppSizes.horizontalSeparator(),
             ButtonBuilder(() => _appNavigator.popIfPossible(context)).text(Txt.get.no).build(),

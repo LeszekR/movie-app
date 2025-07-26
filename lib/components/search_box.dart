@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/common/config/app_sizes.dart';
 
 import '../common/ui_localized_texts/txt.dart';
 
@@ -17,8 +18,11 @@ class SearchBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
+        height: AppSizes.textFieldHeight,
+        width: AppSizes.textFieldWidth,
+        // padding: EdgeInsets.only(left: 5, bottom: 5),
         decoration: BoxDecoration(
-          color: Colors.amberAccent,
+          color: Colors.white70,
           border: Border(
             bottom: BorderSide(color: Colors.black.withValues(alpha: 0.1)),
           ),
@@ -29,7 +33,9 @@ class SearchBox extends StatelessWidget {
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
+            isDense: true,
+            contentPadding: EdgeInsets.all(AppSizes.paddingInText),
+            // prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
             hintText: Txt.get.search_prompt,
           ),
