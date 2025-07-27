@@ -13,7 +13,7 @@ final class MovieListState extends Equatable {
   const MovieListState({
     this.movieList,
     this.scrollOffset,
-    this.selectedMovieId,
+    this.selectedMovieId = 0,
     this.searchQuery,
     this.navCommand,
   });

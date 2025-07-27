@@ -31,12 +31,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   MovieListBloc({required MoviesRepository moviesRepository})
       : _moviesRepository = moviesRepository,
         _sorter = Sorter<Movie>(),
-        super(MovieListState(
-          movieList: null,
-          scrollOffset: null,
-          searchQuery: null,
-          selectedMovieId: null,
-        )) {
+        super(MovieListState()) {
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
     on<ShowMovieDetailsEvent>(_fetchMovie);
@@ -55,7 +50,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         emit(state.copyWith(
           movieList: MovieList(totalResults: 0, results: []),
           scrollOffset: 0,
-          selectedMovieId: null,
+          selectedMovieId: 0,
           searchQuery: query,
           navCommand: ShowMessage(DialogParams(EButtonSet.ok, null, Txt.get.no_searched_movies)),
         ));
@@ -64,7 +59,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         emit(state.copyWith(
           movieList: MovieList(totalResults: movies.length, results: movies),
           scrollOffset: 0,
-          selectedMovieId: null,
+          selectedMovieId: 0,
           searchQuery: query,
         ));
       }
@@ -76,7 +71,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
     var movieId = event.movieId;
-    if (movieId == null) {
+    if (movieId == 0) {
       emit(state.copyWith(navCommand: ShowMessage(DialogParams(EButtonSet.ok, null, Txt.get.no_movie_chosen))));
       return;
     }

@@ -119,7 +119,7 @@ class _MovieListViewState extends State<MovieListView> {
   }
 
   void _showMovieDetails(BuildContext context, MovieListState state) =>
-      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId));
+      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId!));
 
   void _fetchSearchedMovies(BuildContext context, String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 }

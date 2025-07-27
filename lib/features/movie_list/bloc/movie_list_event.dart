@@ -8,7 +8,7 @@ sealed class MovieListEvent extends Equatable {
 final class ShowProgressEvent extends MovieListEvent {}
 
 final class ShowMovieDetailsEvent extends MovieListEvent {
-  final int? movieId;
+  final int movieId;
   ShowMovieDetailsEvent(this.movieId);
   @override
   List<Object?> get props => [movieId];
