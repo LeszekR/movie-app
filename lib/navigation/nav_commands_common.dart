@@ -33,3 +33,5 @@ final class ShowError extends _NavigationCommandWithData<Exception> {
 final class ShowMessage extends _NavigationCommandWithData<DialogParams> {
   ShowMessage(super.dialogParams);
 }
+
+final class ShowMovieList extends NavigationCommand {}

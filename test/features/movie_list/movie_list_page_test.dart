@@ -13,8 +13,8 @@ import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../components/sorting/sorter_test.dart';
 import '../../test_utils.dart';
-import '../../utils/sorting/sorter_test.dart';
 import 'movie_list_page_test.mocks.dart';
 
 @GenerateMocks([MoviesRepository])

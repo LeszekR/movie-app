@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/navigation/nav_commands_common.dart';
-import 'package:flutter_demo/navigation/app_navigator.dart';
 
 import '../../../get_it_model.dart';
+import '../../../navigation/feature_navigator.dart';
 import '../../movie_details/model/movie.dart';
 import '../../movie_details/view/movie_details_view.dart';
-import '../bloc/movie_list_state.dart';
 
-class MovieListNavigator {
-  final AppNavigator _appNavigator;
+class MovieListNavigator extends FeatureNavigator {
+  MovieListNavigator(super.appNavigator);
 
-  MovieListNavigator(this._appNavigator);
+  @override
+  void onNullCommand(BuildContext context) {
+    appNavigator.popProgress(context);
+  }
 
-  void go(MovieListState state, BuildContext context) {
-    if (state.navCommand == null) {
-      _appNavigator.popProgress(context);
-    } else if (state.navCommand!.isConsumed) {
-      return;
-    } else if (state.navCommand is ShowLoading) {
-      _appNavigator.showProgress(context);
+  @override
+  void navigate(BuildContext context, NavigationCommand navCommand) {
+    if (navCommand is ShowLoading) {
+      appNavigator.showProgress(context);
     } else {
-      _appNavigator.popProgress(context);
-      if (state.navCommand is ShowMovieDetails) {
-        _showMovieDetails(state, context);
-      } else if (state.navCommand is ShowError) {
-        _appNavigator.dialogError(context, state.navCommand!.payload);
-      } else if (state.navCommand is ShowMessage) {
-        _appNavigator.dialogMessage(context, state.navCommand!.payload);
+      appNavigator.popProgress(context);
+      if (navCommand is ShowMovieDetails) {
+        _showMovieDetails(navCommand, context);
+      } else if (navCommand is ShowError) {
+        appNavigator.dialogError(context, navCommand.payload!);
+      } else if (navCommand is ShowMessage) {
+        appNavigator.dialogMessage(context, navCommand.payload!);
       }
     }
   }
 
-  void _showMovieDetails(MovieListState state, BuildContext context) {
-    Movie movie = state.navCommand!.payload;
+  void _showMovieDetails(NavigationCommand navCommand, BuildContext context) {
+    Movie movie = navCommand.payload;
     Navigator.push(
         context,
         MaterialPageRoute<MovieDetailsView>(

@@ -52,7 +52,7 @@ class _MovieListViewState extends State<MovieListView> {
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
       listenWhen: (previous, current) => previous.navCommand != current.navCommand,
-      listener: (context, state) => widget.moviesNavigator.go(state, context),
+      listener: (context, state) => widget.moviesNavigator.go(context, state.navCommand),
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
