@@ -18,7 +18,7 @@ abstract class FeatureNavigator {
   void go(BuildContext context, NavigationCommand? navCommand) {
     if (navCommand == null) {
       _appNavigator.popProgress(context);
-    } else if (navCommand.isConsumed) {
+    } else if (!navCommand.consumeOnceIfActive()) {
       return;
     } else {
       navigate(context, navCommand);

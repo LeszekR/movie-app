@@ -17,6 +17,6 @@ class TwoButtonCubit extends Cubit<TwoButtonState> {
   }
 
   void showMovieList() {
-    emit(state.copyWith(navCommand: ShowMovieList()));
+    emit(state.copyWith(navCommand: NavMovieList()));
   }
 }

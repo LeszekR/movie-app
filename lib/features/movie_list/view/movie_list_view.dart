@@ -56,21 +56,19 @@ class _MovieListViewState extends State<MovieListView> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              Txt.get.movie_list_title,
-            ),
+            title: Text(Txt.get.movie_list_title),
             automaticallyImplyLeading: false,
             backgroundColor: Colors.amberAccent.shade100,
             actions: [
               SearchBox(
                 controller: _searchTextController!,
-                onSubmitted: (searchQuery) => _fetchSearchedMovies(context, searchQuery),
+                onSubmitted: (searchQuery) => _fetchSearchedMovies(searchQuery),
               ),
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
               IconButton(
                 // icon: Icon(Icons.search),
                 icon: Icon(Icons.movie_creation_outlined),
-                onPressed: () => _showMovieDetails(context, state),
+                onPressed: () => _showMovieDetails(state),
               ),
               // AppSizes.filler(),
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 5),
@@ -87,7 +85,7 @@ class _MovieListViewState extends State<MovieListView> {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder(() => widget.appNavigator.twoButtons(context))
+                  ButtonBuilder(_showTwoButtons)
                       .text(Txt.get.goto_two_buttons)
                       .width(200)
                       .build(),
@@ -101,6 +99,7 @@ class _MovieListViewState extends State<MovieListView> {
 
   Widget _buildMovieList(BuildContext context, MovieListState state) {
     List<Movie> movieList = state.movieList?.results ?? List.empty();
+    int? selectedMovieId = state.selectedMovieId.id;
     return ListView.separated(
       controller: _scrollController,
       separatorBuilder: (context, index) => Container(
@@ -111,15 +110,17 @@ class _MovieListViewState extends State<MovieListView> {
         id: movieList[index].id,
         title: movieList[index].title,
         voteAverage: movieList[index].voteAverage,
-        isSelected: movieList[index].id == state.selectedMovieId,
+        isSelected: movieList[index].id == selectedMovieId,
         onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id, _scrollController!.offset)),
       ),
       itemCount: movieList.length,
     );
   }
 
-  void _showMovieDetails(BuildContext context, MovieListState state) =>
-      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId!));
+  void _fetchSearchedMovies(String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 
-  void _fetchSearchedMovies(BuildContext context, String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
+  void _showMovieDetails(MovieListState state) =>
+      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId, _scrollController!.offset));
+
+  void _showTwoButtons() => _bloc.add(ShowTwoButtonsEvent(_scrollController!.offset));
 }

@@ -16,7 +16,7 @@ void initGetIt() {
   getit.registerLazySingleton(() => MoviesRepository());
   getit.registerLazySingleton(() => AppNavigator());
   getit.registerLazySingleton(() => TwoButtonNavigator(getit<AppNavigator>()));
-  getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>()));
+  getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>(), getit<MovieDetailsController>()));
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());
   getit.registerFactory(() => MovieDetailsController());

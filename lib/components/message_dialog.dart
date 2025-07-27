@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/components/button_builder.dart';
@@ -72,10 +73,13 @@ class MessageDialog extends StatelessWidget {
   }
 }
 
-class DialogParams {
+class DialogParams extends Equatable {
   final EButtonSet buttonSet;
   final String? title;
   final String text;
 
   const DialogParams(this.buttonSet, this.title, this.text);
+
+  @override
+  List<Object?> get props => [buttonSet, title, text];
 }

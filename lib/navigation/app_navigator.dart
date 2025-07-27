@@ -26,6 +26,7 @@ class AppNavigator {
 
   void popProgress(BuildContext context) {
     if (!_isProgressVisible) return;
+    if (!Navigator.of(context).canPop()) return;
     _isProgressVisible = false;
     Navigator.of(context).pop();
   }
@@ -59,4 +60,6 @@ class AppNavigator {
       ),
     );
   }
+
+
 }

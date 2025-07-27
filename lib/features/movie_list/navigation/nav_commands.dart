@@ -1,5 +1,7 @@
 part of '../../../navigation/nav_commands_common.dart';
 
-final class ShowMovieDetails extends _NavigationCommandWithData<Movie> {
-  ShowMovieDetails(super.movie);
+final class NavMovieDetails extends NavigationCommand<Movie> {
+  NavMovieDetails(super.movie);
 }
+
+final class NavTwoButtons extends NavigationCommand<Movie> {}

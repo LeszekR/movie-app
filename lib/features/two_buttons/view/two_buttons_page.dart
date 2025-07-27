@@ -60,13 +60,4 @@ class TwoButtonsPage extends StatelessWidget {
           );
         });
   }
-
-  // void _onButtonValueChange({required int index, required bool isOn}) {
-  //   final int indexOtherButton = (index + 1) % _buttonIsOn.length;
-  //
-  //   _buttonIsOn[index] = isOn;
-  //   _buttonIsOn[indexOtherButton] = !isOn;
-  //
-  //   setState(() {});
-  // }
 }

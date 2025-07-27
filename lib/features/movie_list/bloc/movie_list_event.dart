@@ -1,18 +1,13 @@
 import 'package:equatable/equatable.dart';
 
+import 'movie_list_state.dart';
+
 sealed class MovieListEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
 final class ShowProgressEvent extends MovieListEvent {}
-
-final class ShowMovieDetailsEvent extends MovieListEvent {
-  final int movieId;
-  ShowMovieDetailsEvent(this.movieId);
-  @override
-  List<Object?> get props => [movieId];
-}
 
 final class SearchMoviesEvent extends MovieListEvent {
   final String? query;
@@ -27,4 +22,19 @@ final class SelectMovieEvent extends MovieListEvent {
   SelectMovieEvent(this.movieId, this.scrollOffset);
   @override
   List<Object?> get props => [movieId, scrollOffset];
+}
+
+final class ShowMovieDetailsEvent extends MovieListEvent {
+  final MovieId movieIdOption;
+  final double scrollOffset;
+  ShowMovieDetailsEvent(this.movieIdOption, this.scrollOffset);
+  @override
+  List<Object?> get props => [movieIdOption, scrollOffset];
+}
+
+final class ShowTwoButtonsEvent extends MovieListEvent {
+  final double scrollOffset;
+  ShowTwoButtonsEvent(this.scrollOffset);
+  @override
+  List<Object?> get props => [scrollOffset];
 }

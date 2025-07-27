@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_config.dart';
+import 'package:flutter_demo/common/utils/date_time_reader.dart';
 import 'package:flutter_demo/components/search_box.dart';
+import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart';
@@ -25,7 +27,9 @@ main() {
     getit.registerLazySingleton<MoviesRepository>(() => MockMoviesRepository());
     getit.registerLazySingleton(() => AppNavigator());
     getit.registerLazySingleton(() => AppConfig());
-    getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>()));
+    getit.registerSingleton(DateTimeReader());
+    getit.registerFactory(() => MovieDetailsController());
+    getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>(), getit<MovieDetailsController>()));
   });
 
   tearDown(() {

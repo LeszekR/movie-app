@@ -7,31 +7,37 @@ abstract class NavigationCommand<T> {
   final T? payload;
   bool _isConsumed = false;
 
-  NavigationCommand() : payload = null;
+  NavigationCommand([this.payload]);
 
-  NavigationCommand.withPayload(this.payload);
+  bool get isConsumed => _isConsumed;
 
-  bool get isConsumed {
-    if (_isConsumed) return true;
+  bool consumeOnceIfActive() {
+    if (_isConsumed) return false;
     _isConsumed = true;
-    return false;
+    return true;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return isConsumed == (other as NavigationCommand).isConsumed;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, this);
 }
 
-sealed class _NavigationCommandWithData<T> extends NavigationCommand<T> {
-  _NavigationCommandWithData(T super.payload) : super.withPayload();
+final class NavProgress extends NavigationCommand {
+  NavProgress() : super();
 }
 
-final class ShowLoading extends NavigationCommand {
-  ShowLoading() : super();
+final class NavErrorDialog extends NavigationCommand<Exception> {
+  NavErrorDialog(super.e);
 }
 
-final class ShowError extends _NavigationCommandWithData<Exception> {
-  ShowError(super.e);
+final class NavMessageDialog extends NavigationCommand<DialogParams> {
+  NavMessageDialog(super.dialogParams);
 }
 
-final class ShowMessage extends _NavigationCommandWithData<DialogParams> {
-  ShowMessage(super.dialogParams);
-}
-
-final class ShowMovieList extends NavigationCommand {}
+final class NavMovieList extends NavigationCommand {}
