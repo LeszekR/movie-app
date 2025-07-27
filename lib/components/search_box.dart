@@ -19,7 +19,7 @@ class SearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         height: AppSizes.textFieldHeight,
-        width: AppSizes.textFieldWidth,
+        width: AppSizes.textFieldWidth * 2,
         // padding: EdgeInsets.only(left: 5, bottom: 5),
         decoration: BoxDecoration(
           color: Colors.white70,

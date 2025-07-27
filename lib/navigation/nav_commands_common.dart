@@ -5,23 +5,31 @@ part '../features/movie_list/navigation/nav_commands.dart';
 
 abstract class NavigationCommand<T> {
   final T? payload;
-  const NavigationCommand() : payload = null;
-  const NavigationCommand.withPayload(this.payload);
+  bool _isConsumed = false;
+
+  NavigationCommand() : payload = null;
+
+  NavigationCommand.withPayload(this.payload);
+
+  bool get isConsumed {
+    if (_isConsumed) return true;
+    _isConsumed = true;
+    return false;
+  }
 }
 
 sealed class _NavigationCommandWithData<T> extends NavigationCommand<T> {
-  const _NavigationCommandWithData(T super.payload) : super.withPayload();
+  _NavigationCommandWithData(T super.payload) : super.withPayload();
 }
 
 final class ShowLoading extends NavigationCommand {
-  const ShowLoading() : super();
+  ShowLoading() : super();
 }
 
 final class ShowError extends _NavigationCommandWithData<Exception> {
-  const ShowError(super.e);
+  ShowError(super.e);
 }
 
 final class ShowMessage extends _NavigationCommandWithData<DialogParams> {
-  const ShowMessage(super.dialogParams);
+  ShowMessage(super.dialogParams);
 }
-

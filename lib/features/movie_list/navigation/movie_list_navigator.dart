@@ -16,6 +16,8 @@ class MovieListNavigator {
   void go(MovieListState state, BuildContext context) {
     if (state.navCommand == null) {
       _appNavigator.popProgress(context);
+    } else if (state.navCommand!.isConsumed) {
+      return;
     } else if (state.navCommand is ShowLoading) {
       _appNavigator.showProgress(context);
     } else {

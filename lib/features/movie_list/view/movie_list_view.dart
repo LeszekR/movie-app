@@ -5,7 +5,6 @@ import 'package:flutter_demo/components/button_builder.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
-import 'package:flutter_demo/navigation/nav_commands_common.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
@@ -52,21 +51,15 @@ class _MovieListViewState extends State<MovieListView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
-      listenWhen: (previous, current) {
-        var isCommandNew = previous.navCommand != current.navCommand;
-        var isShowDialog = current.navCommand is ShowMessage;
-        var isShowError = current.navCommand is ShowError;
-        return isCommandNew || isShowDialog || isShowError;
-      },
-      listener: (context, state) {
-        widget.moviesNavigator.go(state, context);
-      },
+      listenWhen: (previous, current) => previous.navCommand != current.navCommand,
+      listener: (context, state) => widget.moviesNavigator.go(state, context),
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
               Txt.get.movie_list_title,
             ),
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.amberAccent.shade100,
             actions: [
               SearchBox(
