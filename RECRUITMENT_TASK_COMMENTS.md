@@ -23,6 +23,7 @@ Overview
 New features and refactoring
 
 - introduced `flutter_bloc` package and refactored the whole project to its directives
+- replaced `Riverpod` DI with `get_it`
 - simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
   architecture with `flutter_bloc`
 - refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
@@ -31,13 +32,17 @@ New features and refactoring
   order to separate navigation concern from UI and business logic and keep feature-local navigation
   separated from global nav
 - refactored `MovieListState` to incorporate navigation commands in the form of abstract
-  class `NavigationCommand` implementations,
-- replaced `Riverpod` DI with `get_it`
-- introduced handling all exceptions by logging or rethrowing them to be handled in calling code
+  class `NavigationCommand` implementations, where `NavigationCommand` follows single-use pattern to
+  prevent unnecessary navigation calls
+- implemented the view's state management and navigation to and from `TwoButtonView` with
+  with `BLoC`, using `Cubit` for state management
+- introduced `CircularProgressIndicator` showing during async tasks, navigated to and from
+  in `BlocListener` by global `AppNavigator`
 - introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
   uses `ButtonBuilder` to create standardized buttons
 - centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
   code
+- introduced handling all exceptions by logging or rethrowing them to be handled in calling code
 
 #
 
@@ -55,7 +60,7 @@ Details
 - this solution can be seen last in commoit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
 - after that was replaced with simple `UseCase` allowing for clean mocking in tests
 
-#           
+#               
 
 ------------------
 

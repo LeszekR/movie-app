@@ -18,7 +18,7 @@ class MovieListNavigator extends FeatureNavigator {
 
   @override
   void navigate(BuildContext context, NavigationCommand navCommand) {
-    if (navCommand is NavProgress) {
+    if (navCommand is ProgressNav) {
       appNavigator.showProgress(context);
     } else {
       appNavigator.popProgress(context);
@@ -26,9 +26,9 @@ class MovieListNavigator extends FeatureNavigator {
         _showMovieDetails(context, navCommand.payload!);
       } else if (navCommand is NavTwoButtons) {
         appNavigator.twoButtons(context);
-      } else if (navCommand is NavErrorDialog) {
+      } else if (navCommand is ErrorDialogNav) {
         appNavigator.dialogError(context, navCommand.payload!);
-      } else if (navCommand is NavMessageDialog) {
+      } else if (navCommand is MessageDialogNav) {
         appNavigator.dialogMessage(context, navCommand.payload!);
       }
     }

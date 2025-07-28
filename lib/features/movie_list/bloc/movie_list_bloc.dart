@@ -43,7 +43,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (query == null) return;
     if (query.isEmpty) return;
 
-    emit(state.copyWith(navCommand: NavProgress()));
+    emit(state.copyWith(navCommand: ProgressNav()));
 
     try {
       List<Movie>? movies = await _moviesRepository.getSearchedMovies(event.query!);
@@ -53,7 +53,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           scrollOffset: 0,
           selectedMovieId: const MovieId.none(),
           searchQuery: query,
-          navCommand: NavMessageDialog(DialogParams(EButtonSet.ok, null, Txt.get.no_searched_movies)),
+          navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_searched_movies)),
         ));
       } else {
         _sorter.sortColumns(movies, _sortCriteriaList);
@@ -66,7 +66,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
-      emit(state.copyWith(navCommand: NavErrorDialog(e)));
+      emit(state.copyWith(navCommand: ErrorDialogNav(e)));
     }
   }
 
@@ -75,25 +75,25 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (!movieId.hasValue) {
       emit(state.copyWith(
           scrollOffset: event.scrollOffset,
-          navCommand: NavMessageDialog(DialogParams(EButtonSet.ok, null, Txt.get.no_movie_chosen))));
+          navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_movie_chosen))));
       return;
     }
 
-    emit(state.copyWith(navCommand: NavProgress()));
+    emit(state.copyWith(navCommand: ProgressNav()));
 
     try {
       var movie = await getit<MoviesRepository>().getMovie(movieId.id!);
       if (movie == null) {
         emit(state.copyWith(
             scrollOffset: event.scrollOffset,
-            navCommand: NavMessageDialog(DialogParams(EButtonSet.ok, null, Txt.get.no_such_movie))));
+            navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_such_movie))));
       } else {
         emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavMovieDetails(movie)));
       }
     } on Exception catch (e) {
       // TODO make logger log to console / file / service
       logger.severe('$LOG_ERR_MOVIE_DETAILS $e');
-      emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavErrorDialog(e)));
+      emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: ErrorDialogNav(e)));
     }
   }
 
