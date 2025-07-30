@@ -7,6 +7,7 @@ import 'package:flutter_demo/common/ui_localized_texts/app_localizations/app_loc
 import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 
 Future<void> prepareWidget(
   final WidgetTester tester, {
@@ -23,7 +24,7 @@ Future<void> prepareWidget(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: Builder(
         builder: (BuildContext context) {
-          Txt.setLanguage(context);
+          GetIt.instance<Txt>().setLanguage(context);
           return Scaffold(body: widgetBuilder == null ? null : widgetBuilder());
         },
       ),

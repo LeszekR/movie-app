@@ -14,10 +14,18 @@ import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
+  final Txt txt;
   final AppNavigator appNavigator;
   final MovieListNavigator moviesNavigator;
+  final MovieListScrollController scrollController;
 
-  const MovieListView({super.key, required this.appNavigator, required this.moviesNavigator});
+  const MovieListView({
+    super.key,
+    required this.txt, 
+    required this.appNavigator,
+    required this.moviesNavigator,
+    required this.scrollController,
+  });
 
   @override
   State<StatefulWidget> createState() => _MovieListViewState();
@@ -25,25 +33,23 @@ class MovieListView extends StatefulWidget {
 
 class _MovieListViewState extends State<MovieListView> {
   MovieListBloc get _bloc => context.read<MovieListBloc>();
-  ScrollController? _scrollController;
   TextEditingController? _searchTextController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
     _searchTextController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var state = _bloc.state;
-      _scrollController!.jumpTo(state.scrollOffset ?? 0);
+      widget.scrollController.jumpTo(state.scrollOffset ?? 0);
       _searchTextController!.text = state.searchQuery ?? '';
     });
   }
 
   @override
   void dispose() {
-    _scrollController!.dispose();
+    widget.scrollController.dispose();
     _searchTextController!.dispose();
     super.dispose();
   }
@@ -56,11 +62,12 @@ class _MovieListViewState extends State<MovieListView> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(Txt.get.movie_list_title),
+            title: Text(widget.txt.get.movie_list_title),
             automaticallyImplyLeading: false,
             backgroundColor: Colors.amberAccent.shade100,
             actions: [
               SearchBox(
+                txt: widget.txt,
                 controller: _searchTextController!,
                 onSubmitted: (searchQuery) => _fetchSearchedMovies(searchQuery),
               ),
@@ -85,10 +92,7 @@ class _MovieListViewState extends State<MovieListView> {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder(_showTwoButtons)
-                      .text(Txt.get.goto_two_buttons)
-                      .width(200)
-                      .build(),
+                  ButtonBuilder(_showTwoButtons).text(widget.txt.get.goto_two_buttons).width(200).build(),
                   AppSizes.horizontalSeparator()
                 ],
               )),
@@ -101,7 +105,7 @@ class _MovieListViewState extends State<MovieListView> {
     List<Movie> movieList = state.movieList?.results ?? List.empty();
     int? selectedMovieId = state.selectedMovieId.id;
     return ListView.separated(
-      controller: _scrollController,
+      controller: widget.scrollController,
       separatorBuilder: (context, index) => Container(
         height: 1.0,
         color: Colors.grey.shade300,
@@ -111,7 +115,7 @@ class _MovieListViewState extends State<MovieListView> {
         title: movieList[index].title,
         voteAverage: movieList[index].voteAverage,
         isSelected: movieList[index].id == selectedMovieId,
-        onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id, _scrollController!.offset)),
+        onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id, widget.scrollController.offset)),
       ),
       itemCount: movieList.length,
     );
@@ -120,7 +124,9 @@ class _MovieListViewState extends State<MovieListView> {
   void _fetchSearchedMovies(String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 
   void _showMovieDetails(MovieListState state) =>
-      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId, _scrollController!.offset));
+      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId, widget.scrollController.offset));
 
-  void _showTwoButtons() => _bloc.add(ShowTwoButtonsEvent(_scrollController!.offset));
+  void _showTwoButtons() => _bloc.add(ShowTwoButtonsEvent(widget.scrollController.offset));
 }
+
+class MovieListScrollController extends ScrollController {}

@@ -5,12 +5,14 @@ import '../utils/movie_details_controller.dart';
 import 'components/movie_details_content_line.dart';
 
 class MovieDetailsView extends StatelessWidget {
+  final Txt txt;
   final String title;
   final String budget;
   final String revenue;
   final MovieDetailsController controller;
 
   const MovieDetailsView(
+    this.txt,
     this.title,
     this.budget,
     this.revenue,
@@ -20,7 +22,7 @@ class MovieDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var details = makeMovieDetailsContentLine(controller, budget, revenue);
+    var details = _makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,15 +57,15 @@ class MovieDetailsView extends StatelessWidget {
     );
   }
 
-  List<MovieDetailsContentLine> makeMovieDetailsContentLine(
+  List<MovieDetailsContentLine> _makeMovieDetailsContentLine(
       MovieDetailsController controller, String budget, String revenue) {
     var budgetInDollars = controller.formatDollarAmount(budget);
     var revenueInDollars = controller.formatDollarAmount(revenue);
     var recommendOrNo = controller.recommendOrNo(budget, revenue);
     return [
-      MovieDetailsContentLine(label: Txt.get.budget, content: budgetInDollars),
-      MovieDetailsContentLine(label: Txt.get.revenue, content: revenueInDollars),
-      MovieDetailsContentLine(label: Txt.get.should_i_watch_today, content: recommendOrNo),
+      MovieDetailsContentLine(label: txt.get.budget, content: budgetInDollars),
+      MovieDetailsContentLine(label: txt.get.revenue, content: revenueInDollars),
+      MovieDetailsContentLine(label: txt.get.should_i_watch_today, content: recommendOrNo),
     ];
   }
 }

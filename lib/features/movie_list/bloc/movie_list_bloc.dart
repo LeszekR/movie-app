@@ -10,7 +10,6 @@ import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
 import '../../../components/sorting/sorter.dart';
-import '../../../get_it_model.dart';
 import '../../../main.dart';
 import '../../../repositories/data_movies_repository.dart';
 import '../../movie_details/model/movie.dart';
@@ -18,6 +17,7 @@ import '../model/movie_list.dart';
 import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
+  final Txt txt;
   final MoviesRepository _moviesRepository;
   final Sorter<Movie> _sorter;
 
@@ -28,7 +28,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   Movie? movieToShow;
 
-  MovieListBloc({required MoviesRepository moviesRepository})
+  MovieListBloc(this.txt, MoviesRepository moviesRepository)
       : _moviesRepository = moviesRepository,
         _sorter = Sorter<Movie>(),
         super(MovieListState()) {
@@ -43,7 +43,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (query == null) return;
     if (query.isEmpty) return;
 
-    emit(state.copyWith(navCommand: ProgressNav()));
+    emit(state.copyWith(navCommand: NavProgress()));
 
     try {
       List<Movie>? movies = await _moviesRepository.getSearchedMovies(event.query!);
@@ -53,7 +53,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           scrollOffset: 0,
           selectedMovieId: const MovieId.none(),
           searchQuery: query,
-          navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_searched_movies)),
+          navCommand: NavMessageDialog(dialogParamsSearchEmpty()),
         ));
       } else {
         _sorter.sortColumns(movies, _sortCriteriaList);
@@ -66,39 +66,45 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
-      emit(state.copyWith(navCommand: ErrorDialogNav(e)));
+      emit(state.copyWith(navCommand: NavErrorDialog(e)));
     }
   }
+
+  // Do not inline - necessary for test
+  DialogParams dialogParamsSearchEmpty() => DialogParams(EButtonSet.ok, null, txt.get.no_searched_movies);
 
   Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
     MovieId movieId = event.movieIdOption;
     if (!movieId.hasValue) {
       emit(state.copyWith(
           scrollOffset: event.scrollOffset,
-          navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_movie_chosen))));
+          navCommand: NavMessageDialog(dialogParamsMovieNotFound())));
       return;
     }
 
-    emit(state.copyWith(navCommand: ProgressNav()));
+    emit(state.copyWith(navCommand: NavProgress()));
 
     try {
-      var movie = await getit<MoviesRepository>().getMovie(movieId.id!);
+      var movie = await _moviesRepository.getMovie(movieId.id!);
       if (movie == null) {
         emit(state.copyWith(
             scrollOffset: event.scrollOffset,
-            navCommand: MessageDialogNav(DialogParams(EButtonSet.ok, null, Txt.get.no_such_movie))));
+            navCommand: NavMessageDialog(DialogParams(EButtonSet.ok, null, txt.get.no_such_movie))));
       } else {
         emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavMovieDetails(movie)));
       }
     } on Exception catch (e) {
       // TODO make logger log to console / file / service
       logger.severe('$LOG_ERR_MOVIE_DETAILS $e');
-      emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: ErrorDialogNav(e)));
+      emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavErrorDialog(e)));
     }
   }
 
+  // Do not inline - necessary for test
+  DialogParams dialogParamsMovieNotFound() => DialogParams(EButtonSet.ok, null, txt.get.no_movie_chosen);
+
   Future<void> _selectMovie(SelectMovieEvent event, Emitter<MovieListState> emit) async {
-    emit(state.copyWith(selectedMovieId: MovieId.of(event.movieId)));
+    emit(state.copyWith(selectedMovieId: MovieId.value(event.movieId)));
   }
 
   Future<void> _showTwoButtons(ShowTwoButtonsEvent event, Emitter<MovieListState> emit) async {

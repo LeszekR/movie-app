@@ -10,8 +10,9 @@ import '../bloc/two_button_cubit.dart';
 import '../components/button_two_states.dart';
 
 class TwoButtonsPage extends StatelessWidget {
+  final Txt txt;
   final TwoButtonNavigator _twoButtonNavigator;
-  const TwoButtonsPage(this._twoButtonNavigator, {super.key});
+  const TwoButtonsPage(this.txt, this._twoButtonNavigator, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class TwoButtonsPage extends StatelessWidget {
                   children: [
                     Expanded(child: SizedBox()),
                     ButtonBuilder(cubit.showMovieList)
-                        .text(Txt.get.goto_movie_list)
+                        .text(txt.get.goto_movie_list)
                         .width(200)
                         .build(),
                     AppSizes.horizontalSeparator()

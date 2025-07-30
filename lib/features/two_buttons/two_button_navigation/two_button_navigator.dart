@@ -5,8 +5,6 @@ import '../../../navigation/feature_navigator.dart';
 
 class TwoButtonNavigator extends FeatureNavigator {
 
-  const TwoButtonNavigator(super.appNavigator);
-
   @override
   void onNullCommand(BuildContext context) {}
 

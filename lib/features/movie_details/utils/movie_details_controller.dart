@@ -3,16 +3,14 @@ import 'package:intl/intl.dart';
 import '../../../common/config/app_config.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../common/utils/date_time_reader.dart';
-import '../../../get_it_model.dart';
 
 class MovieDetailsController {
   final AppConfig appConfig;
+  final Txt txt;
   final DateTimeReader dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
-  MovieDetailsController()
-      : dateTimeReader = getit<DateTimeReader>(),
-        appConfig = getit<AppConfig>();
+  MovieDetailsController(this.txt, this.dateTimeReader, this.appConfig);
 
   String formatDollarAmount(String amountString) {
     var amount = int.parse(amountString);
@@ -28,6 +26,6 @@ class MovieDetailsController {
     var profitThreshold = int.parse(appConfig.param(AppConfig.recommendationProfitThreshold));
     var isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
-    return isSunday && isProfitSatisfactory ? Txt.get.yes : Txt.get.no;
+    return isSunday && isProfitSatisfactory ? txt.get.yes : txt.get.no;
   }
 }

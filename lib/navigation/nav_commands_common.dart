@@ -28,16 +28,16 @@ abstract class NavigationCommand<T> {
   int get hashCode => Object.hash(runtimeType, this);
 }
 
-final class ProgressNav extends NavigationCommand {
-  ProgressNav() : super();
+final class NavProgress extends NavigationCommand {
+  NavProgress() : super();
 }
 
-final class ErrorDialogNav extends NavigationCommand<Exception> {
-  ErrorDialogNav(super.e);
+final class NavErrorDialog extends NavigationCommand<Exception> {
+  NavErrorDialog(super.e);
 }
 
-final class MessageDialogNav extends NavigationCommand<DialogParams> {
-  MessageDialogNav(super.dialogParams);
+final class NavMessageDialog extends NavigationCommand<DialogParams> {
+  NavMessageDialog(super.dialogParams);
 }
 
 final class MovieListNav extends NavigationCommand {}

@@ -32,7 +32,7 @@ class MovieApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => MovieListBloc(moviesRepository: getit<MoviesRepository>())),
+        BlocProvider(create: (context) => MovieListBloc(getit<Txt>(), getit<MoviesRepository>())),
         BlocProvider(
             create: (context) => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)))
       ],
@@ -45,8 +45,13 @@ class MovieApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: Builder(
           builder: (context) {
-            Txt.setLanguage(context);
-            return MovieListView(appNavigator: getit<AppNavigator>(), moviesNavigator: getit<MovieListNavigator>());
+            getit<Txt>().setLanguage(context);
+            return MovieListView(
+              txt: getit<Txt>(),
+              appNavigator: getit<AppNavigator>(),
+              moviesNavigator: getit<MovieListNavigator>(),
+              scrollController: getit<MovieListScrollController>(),
+            );
           },
         ),
       ),

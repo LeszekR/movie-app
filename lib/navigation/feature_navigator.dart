@@ -4,12 +4,11 @@ import 'package:flutter_demo/navigation/nav_commands_common.dart';
 import '../../../navigation/app_navigator.dart';
 
 abstract class FeatureNavigator {
-  final AppNavigator _appNavigator;
+  AppNavigator? _appNavigator;
 
-  const FeatureNavigator(AppNavigator appNavigator) : _appNavigator = appNavigator;
+  set appNavigator(AppNavigator appNavigator) => _appNavigator = appNavigator;
 
-  AppNavigator get appNavigator => _appNavigator;
-
+  AppNavigator get appNavigator => _appNavigator!;
 
   void onNullCommand(BuildContext context);
 
@@ -17,7 +16,7 @@ abstract class FeatureNavigator {
 
   void go(BuildContext context, NavigationCommand? navCommand) {
     if (navCommand == null) {
-      _appNavigator.popProgress(context);
+      _appNavigator!.popProgress(context);
     } else if (!navCommand.consumeOnceIfActive()) {
       return;
     } else {

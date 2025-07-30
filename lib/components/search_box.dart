@@ -4,6 +4,7 @@ import 'package:flutter_demo/common/config/app_sizes.dart';
 import '../common/ui_localized_texts/txt.dart';
 
 class SearchBox extends StatelessWidget {
+  final Txt txt;
   final TextEditingController controller;
   final void Function(String) onSubmitted;
 
@@ -12,6 +13,7 @@ class SearchBox extends StatelessWidget {
 
   const SearchBox({
     super.key,
+    required this.txt, 
     required this.controller,
     required this.onSubmitted,
   });
@@ -37,7 +39,7 @@ class SearchBox extends StatelessWidget {
             contentPadding: EdgeInsets.all(AppSizes.paddingInText),
             // prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
-            hintText: Txt.get.search_prompt,
+            hintText: txt.get.search_prompt,
           ),
           onSubmitted: (text) => onSubmitted(text),
         ),

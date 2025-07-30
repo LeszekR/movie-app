@@ -24,6 +24,8 @@ New features and refactoring
 
 - introduced `flutter_bloc` package and refactored the whole project to its directives
 - replaced `Riverpod` DI with `get_it`
+- decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
+  explainded below
 - simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
   architecture with `flutter_bloc`
 - refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
@@ -53,14 +55,47 @@ Details
 
 ###
 
-##### Using `flutter_clean_architecture`
+### Using `flutter_clean_architecture`
 
 - using `BackgroundUseCase` is an overkill here - I did it only for practise and skill presentation,
   although such a query might indeed be heavy
-- this solution can be seen last in commoit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
+- this solution can be seen last in commit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
 - after that was replaced with simple `UseCase` allowing for clean mocking in tests
 
-#               
+###
+
+### Dependency injection via constructors
+
+#### Available options
+
+- DI via constructors
+- DI via `GetIt` lookup calls inside classes
+- hybrid mix of both
+
+There are reasons to use each of those choices.   
+I decided on the last since
+
+- DI via constructors is best for large, easily scalable, multi-team, large-codebase projects. Or in
+  other wards - real-life commercial projects. The rationale for this is just below.
+- objects created with `GetIt` factory must not be dependecies of singletons because this will lead to
+  different object returned by `GetIt` while building the singleton and new objects of the type
+  injected where the factory provides them at rebuilds of `Widgets` that consume them
+
+#### Benefits of constructors DI:
+
+- Explicit dependencies – you know exactly what the class relies on
+- Great for testability without relying on global state
+- Makes classes pure and portable (can be reused in non-get_it environments)
+- Encourages immutability and decoupling
+- Easier for static analysis / code review / documentation
+
+#### Downsides of constructors DI:
+
+- Verbose, especially for deep trees (dependencies need to be thread through layers)
+- Constructor signatures grow
+- Negative result: oversized boilerplate for small apps or features
+
+#                    
 
 ------------------
 

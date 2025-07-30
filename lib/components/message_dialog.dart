@@ -8,10 +8,12 @@ import '../common/ui_localized_texts/txt.dart';
 enum EButtonSet { ok, yesNo, okCancel }
 
 class MessageDialog extends StatelessWidget {
-  final DialogParams params;
+  final Txt _txt;
+  final DialogParams _params;
 
   const MessageDialog(
-    this.params, {
+    this._txt,
+    this._params, {
     super.key,
   });
 
@@ -24,17 +26,17 @@ class MessageDialog extends StatelessWidget {
           maxHeight: AppSizes.dialogContentMaxHeight,
         ),
         child: Scaffold(
-          appBar: params.title == null
+          appBar: _params.title == null
               ? null
               : AppBar(
                   automaticallyImplyLeading: false,
-                  title: Text(params.title!),
+                  title: Text(_params.title!),
                 ),
           // TODO apply color from AppColors
           backgroundColor: Colors.amber.shade100,
           body: Center(
             child: Text(
-              params.text,
+              _params.text,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
             ),
@@ -51,22 +53,22 @@ class MessageDialog extends StatelessWidget {
 
   Row _makeButtonsRow(BuildContext context) {
     return Row(
-      children: switch (params.buttonSet) {
+      children: switch (_params.buttonSet) {
         EButtonSet.ok => [
             AppSizes.filler(),
-            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.ok).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
           ],
         EButtonSet.okCancel => [
             AppSizes.filler(),
-            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.ok).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
             AppSizes.horizontalSeparator(),
-            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.cancel).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.cancel).build(),
           ],
         EButtonSet.yesNo => [
             AppSizes.filler(),
-            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.yes).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.yes).build(),
             AppSizes.horizontalSeparator(),
-            ButtonBuilder(() => Navigator.of(context).pop()).text(Txt.get.no).build(),
+            ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.no).build(),
           ],
       },
     );

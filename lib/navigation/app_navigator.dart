@@ -11,6 +11,19 @@ import '../features/two_buttons/two_button_navigation/two_button_navigator.dart'
 import '../get_it_model.dart';
 
 class AppNavigator {
+  final Txt txt;
+  final MovieListNavigator movieListNavigator;
+  final TwoButtonNavigator twoButtonNavigator;
+
+  AppNavigator(
+    this.txt,
+    this.movieListNavigator,
+    this.twoButtonNavigator,
+  ) {
+    movieListNavigator.appNavigator = this;
+    twoButtonNavigator.appNavigator = this;
+  }
+
   bool _isProgressVisible = false;
 
   void showProgress(BuildContext context) {
@@ -36,18 +49,18 @@ class AppNavigator {
       context: context,
       barrierDismissible: false,
       barrierColor: AppColors.dialogBarrier(),
-      builder: (context) => MessageDialog(params),
+      builder: (context) => MessageDialog(txt, params),
     );
   }
 
   void dialogError(BuildContext context, Exception e) {
-    dialogMessage(context, DialogParams(EButtonSet.ok, Txt.get.dialog_title_error, errorMessage(e)));
+    dialogMessage(context, DialogParams(EButtonSet.ok, txt.get.dialog_title_error, errorMessage(e)));
   }
 
   void twoButtons(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TwoButtonsPage(getit<TwoButtonNavigator>()),
+        builder: (context) => TwoButtonsPage(txt, twoButtonNavigator),
       ),
     );
   }
@@ -55,11 +68,13 @@ class AppNavigator {
   void movieList(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            MovieListView(appNavigator: getit<AppNavigator>(), moviesNavigator: getit<MovieListNavigator>()),
+        builder: (context) => MovieListView(
+          txt: txt,
+          appNavigator: this,
+          moviesNavigator: movieListNavigator,
+          scrollController: getit<MovieListScrollController>(),
+        ),
       ),
     );
   }
-
-
 }

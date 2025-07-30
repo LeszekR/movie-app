@@ -4,20 +4,29 @@ import 'package:flutter_demo/repositories/data_movies_repository.dart';
 import 'package:get_it/get_it.dart';
 
 import 'common/config/app_config.dart';
+import 'common/ui_localized_texts/txt.dart';
 import 'common/utils/date_time_reader.dart';
 import 'features/two_buttons/two_button_navigation/two_button_navigator.dart';
 import 'navigation/app_navigator.dart';
+import 'features/movie_list/view/movie_list_view.dart';
 
-
-// no camelback for quicker typing of "getit"
 GetIt getit = GetIt.instance;
 
 void initGetIt() {
-  getit.registerLazySingleton(() => MoviesRepository());
-  getit.registerLazySingleton(() => AppNavigator());
-  getit.registerLazySingleton(() => TwoButtonNavigator(getit<AppNavigator>()));
-  getit.registerLazySingleton(() => MovieListNavigator(getit<AppNavigator>(), getit<MovieDetailsController>()));
+  getit.registerSingleton(Txt());
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());
-  getit.registerFactory(() => MovieDetailsController());
+  getit.registerLazySingleton(() => AppNavigator(
+        getit<Txt>(),
+        getit<MovieListNavigator>(),
+        getit<TwoButtonNavigator>(),
+      ));
+  getit.registerLazySingleton(() => MovieListNavigator(
+        getit<Txt>(),
+        getit<MovieDetailsController>(),
+      ));
+  getit.registerLazySingleton(() => MoviesRepository(getit<Txt>()));
+  getit.registerLazySingleton(() => TwoButtonNavigator());
+  getit.registerFactory(() => MovieDetailsController(getit<Txt>(), getit<DateTimeReader>(), getit<AppConfig>()));
+  getit.registerFactory(() => MovieListScrollController());
 }
