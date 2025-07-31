@@ -10,7 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> prepareWidget(
-  final WidgetTester tester, {
+  final WidgetTester tester,
+  final GetIt getit, {
   final Widget Function()? widgetBuilder,
   final String language = "pl",
 }) async {
@@ -24,7 +25,7 @@ Future<void> prepareWidget(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: Builder(
         builder: (BuildContext context) {
-          GetIt.instance<Txt>().setLanguage(context);
+          getit<Txt>().setLanguage(context);
           return Scaffold(body: widgetBuilder == null ? null : widgetBuilder());
         },
       ),

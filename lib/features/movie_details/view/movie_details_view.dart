@@ -61,7 +61,7 @@ class MovieDetailsView extends StatelessWidget {
       MovieDetailsController controller, String budget, String revenue) {
     var budgetInDollars = controller.formatDollarAmount(budget);
     var revenueInDollars = controller.formatDollarAmount(revenue);
-    var recommendOrNo = controller.recommendOrNo(budget, revenue);
+    var recommendOrNo = controller.recommendOrNo(budget, revenue) ? txt.get.yes : txt.get.no;
     return [
       MovieDetailsContentLine(label: txt.get.budget, content: budgetInDollars),
       MovieDetailsContentLine(label: txt.get.revenue, content: revenueInDollars),

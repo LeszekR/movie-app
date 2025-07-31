@@ -7,8 +7,6 @@ sealed class MovieListEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class ShowProgressEvent extends MovieListEvent {}
-
 final class SearchMoviesEvent extends MovieListEvent {
   final String? query;
   SearchMoviesEvent(this.query);

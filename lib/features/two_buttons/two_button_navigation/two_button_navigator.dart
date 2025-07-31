@@ -10,7 +10,7 @@ class TwoButtonNavigator extends FeatureNavigator {
 
   @override
   void navigate(BuildContext context, NavigationCommand navCommand) {
-    if (navCommand is MovieListNav) {
+    if (navCommand is NavMovieList) {
       appNavigator.movieList(context);
     }
   }

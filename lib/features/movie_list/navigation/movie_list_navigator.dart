@@ -28,10 +28,10 @@ class MovieListNavigator extends FeatureNavigator {
         _showMovieDetails(context, navCommand.payload!);
       } else if (navCommand is NavTwoButtons) {
         appNavigator.twoButtons(context);
-      } else if (navCommand is NavErrorDialog) {
-        appNavigator.dialogError(context, navCommand.payload!);
       } else if (navCommand is NavMessageDialog) {
         appNavigator.dialogMessage(context, navCommand.payload!);
+      } else if (navCommand is NavErrorDialog) {
+        appNavigator.dialogError(context, navCommand.payload!);
       }
     }
   }

@@ -6,7 +6,7 @@
 import 'dart:async' as _i3;
 
 import 'package:flutter_demo/features/movie_details/model/movie.dart' as _i4;
-import 'package:flutter_demo/repositories/data_movies_repository.dart' as _i2;
+import 'package:flutter_demo/repositories/movies_repository.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

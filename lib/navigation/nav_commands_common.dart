@@ -1,4 +1,4 @@
-import '../components/message_dialog.dart';
+import '../components/dialogs/dialog_factory.dart';
 import '../features/movie_details/model/movie.dart';
 
 part '../features/movie_list/navigation/nav_commands.dart';
@@ -32,12 +32,12 @@ final class NavProgress extends NavigationCommand {
   NavProgress() : super();
 }
 
-final class NavErrorDialog extends NavigationCommand<Exception> {
-  NavErrorDialog(super.e);
-}
+final class NavMovieList extends NavigationCommand {}
 
-final class NavMessageDialog extends NavigationCommand<DialogParams> {
+final class NavMessageDialog extends NavigationCommand<EDialogMsg> {
   NavMessageDialog(super.dialogParams);
 }
 
-final class MovieListNav extends NavigationCommand {}
+final class NavErrorDialog extends NavigationCommand<Exception> {
+  NavErrorDialog(super.e);
+}

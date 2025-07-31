@@ -21,13 +21,11 @@ var getit = GetIt.instance;
 
 @GenerateMocks([AppConfig, DateTimeReader])
 main() {
-  setUp(() {
+  setUpAll(() {
     getit.registerSingleton<Txt>(Txt());
-    getit.registerSingleton<DateTimeReader>(DateTimeReader());
-    getit.registerSingleton<AppConfig>(mockAppConfig);
     getit.registerSingleton<AppConfig>(mockAppConfig);
     getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
-    getit.registerLazySingleton(() => MovieDetailsController(getit<Txt>(), getit<DateTimeReader>(), getit<AppConfig>()));
+    getit.registerLazySingleton(() => MovieDetailsController(getit<DateTimeReader>(), getit<AppConfig>()));
   });
 
   tearDown(() {
@@ -40,7 +38,7 @@ main() {
     var thresholdLow = '50';
     var thresholdHigh = '150';
 
-    await prepareMovieDetailsWidget(tester, '1', sunday);
+    await prepareMovieDetailsWidget(tester, getit, '1', sunday);
     var txt = getit<Txt>();
     var yesString = txt.get.yes;
     var noString = txt.get.no;
@@ -53,16 +51,21 @@ main() {
     ];
 
     for (var testCase in testCaseList) {
-      await prepareMovieDetailsWidget(tester, testCase.profitThresh, testCase.day);
+      await prepareMovieDetailsWidget(tester, getit, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }
   });
 }
 
-Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProfitThreshold, DateTime mockDay) async {
+Future<void> prepareMovieDetailsWidget(
+  WidgetTester tester,
+  GetIt getit,
+  String recommendProfitThreshold,
+  DateTime mockDay,
+) async {
   when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
-  await prepareWidget(tester,
+  await prepareWidget(tester, getit,
       widgetBuilder: () => MovieDetailsView(getit<Txt>(), title, budget, revenue, getit<MovieDetailsController>()));
 }
 

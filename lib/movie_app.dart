@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/features/two_buttons/bloc/two_button_cubit.dart';
-import 'package:flutter_demo/features/two_buttons/bloc/two_button_state.dart';
-import 'package:flutter_demo/repositories/data_movies_repository.dart';
 
 import 'common/logging/loging_messages.dart';
 import 'common/ui_localized_texts/app_localizations/app_localizations.dart';
@@ -32,9 +30,8 @@ class MovieApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => MovieListBloc(getit<Txt>(), getit<MoviesRepository>())),
-        BlocProvider(
-            create: (context) => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)))
+        BlocProvider(create: (context) => getit<MovieListBloc>()),
+        BlocProvider(create: (context) => getit<TwoButtonCubit>()),
       ],
       child: MaterialApp(
         title: 'Movie Browser',
