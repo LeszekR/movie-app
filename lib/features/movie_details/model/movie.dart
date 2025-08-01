@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../components/sorting/sortable.dart';
@@ -5,7 +6,7 @@ import '../../../components/sorting/sortable.dart';
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Movie implements Sortable {
+class Movie extends Equatable implements Sortable {
   final int id;
   final String title;
   final double voteAverage;
@@ -14,11 +15,11 @@ class Movie implements Sortable {
   @JsonKey(defaultValue: 0)
   final int revenue;
 
-  static String keyId = 'id';
-  static String keyTitle = 'title';
-  static String keyVoteAverage = 'vote_average';
-  static String keyBudget = 'budget';
-  static String keyRevenue = 'revenue';
+  static const String keyId = 'id';
+  static const String keyTitle = 'title';
+  static const String keyVoteAverage = 'vote_average';
+  static const String keyBudget = 'budget';
+  static const String keyRevenue = 'revenue';
 
   Movie({
     required this.id,
@@ -30,10 +31,16 @@ class Movie implements Sortable {
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
+  Map<String, dynamic> toJson() => _$MovieToJson(this);
+
   @override
   Map<String, dynamic> getSortableFieldsMap() {
     return {keyTitle: title, keyVoteAverage: voteAverage};
   }
 
-  Map<String, dynamic> toJson() => _$MovieToJson(this);
+  @override
+  List<Object?> get props => [id, title, voteAverage, budget, revenue];
+
+  @override
+  bool? get stringify => true;
 }

@@ -7,18 +7,20 @@ import 'sort_criteria.dart';
 class Sorter<T extends Sortable> {
   List<SortCriteria>? _sortCriteriaList = [];
 
-  void sortColumns(List<T>? listToSort, final List<SortCriteria>? sortCriteriaList) {
-    if (listToSort == null || listToSort.isEmpty) return;
+  List<T>? sortColumns(List<T>? listToSort, final List<SortCriteria>? sortCriteriaList) {
+    if (listToSort == null || listToSort.isEmpty) return null;
 
     _sortCriteriaList = sortCriteriaList;
 
-    if (_sortCriteriaList == null) return;
-    if (_sortCriteriaList!.isEmpty) return;
+    if (_sortCriteriaList == null) return listToSort;
+    if (_sortCriteriaList!.isEmpty) return listToSort;
 
     _validateCriteriaListLength(listToSort[0], sortCriteriaList!);
     _validateCriteriaUnique(listToSort[0], sortCriteriaList);
 
     listToSort.sort(_compare);
+
+    return listToSort;
   }
 
   int _compare(Sortable a, Sortable b) {

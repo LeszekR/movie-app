@@ -21,7 +21,7 @@ class MovieListView extends StatefulWidget {
 
   const MovieListView({
     super.key,
-    required this.txt, 
+    required this.txt,
     required this.appNavigator,
     required this.moviesNavigator,
     required this.scrollController,
@@ -42,7 +42,7 @@ class _MovieListViewState extends State<MovieListView> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var state = _bloc.state;
-      widget.scrollController.jumpTo(state.scrollOffset ?? 0);
+      widget.scrollController.jumpTo(state.scrollOffset);
       _searchTextController!.text = state.searchQuery ?? '';
     });
   }
@@ -92,7 +92,7 @@ class _MovieListViewState extends State<MovieListView> {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder(_showTwoButtons).text(widget.txt.get.goto_two_buttons).width(200).build(),
+                  ButtonBuilder().onTap(_showTwoButtons).text(widget.txt.get.goto_two_buttons).width(200).build(),
                   AppSizes.horizontalSeparator()
                 ],
               )),
@@ -115,7 +115,7 @@ class _MovieListViewState extends State<MovieListView> {
         title: movieList[index].title,
         voteAverage: movieList[index].voteAverage,
         isSelected: movieList[index].id == selectedMovieId,
-        onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id, widget.scrollController.offset)),
+        onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id)),
       ),
       itemCount: movieList.length,
     );

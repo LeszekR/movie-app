@@ -53,25 +53,42 @@ class MessageDialog extends StatelessWidget {
     if (_params is DialogParamsOk) {
       return [
         AppSizes.filler(),
-        ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
+        ButtonBuilder().onTap(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
       ];
     }
     if (_params is DialogParamsOkCancel) {
       return [
         AppSizes.filler(),
-        ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
+        ButtonBuilder()
+            .onTap(() => _popAndThrow(context, "Dialog Ok-Cancel buttons' callbacks not implemented"))
+            .text(_txt.get.ok)
+            .build(),
         AppSizes.horizontalSeparator(),
-        ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.cancel).build(),
+        ButtonBuilder()
+            .onTap(() => _popAndThrow(context, "Dialog Ok-Cancel buttons' callbacks not implemented"))
+            .text(_txt.get.cancel)
+            .build(),
       ];
     }
     if (_params is DialogParamsYesNo) {
       return [
         AppSizes.filler(),
-        ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.yes).build(),
+        ButtonBuilder()
+            .onTap(() => _popAndThrow(context, 'Dialog Yes-No buttons callbacks not implemented'))
+            .text(_txt.get.yes)
+            .build(),
         AppSizes.horizontalSeparator(),
-        ButtonBuilder(() => Navigator.of(context).pop()).text(_txt.get.no).build(),
+        ButtonBuilder()
+            .onTap(() => _popAndThrow(context, 'Dialog Yes-No buttons callbacks not implemented'))
+            .text(_txt.get.no)
+            .build(),
       ];
     }
     throw UnimplementedError();
+  }
+
+  void _popAndThrow(BuildContext context, String msg) {
+    Navigator.of(context).pop();
+    throw UnimplementedError(msg);
   }
 }

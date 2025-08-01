@@ -6,8 +6,6 @@ import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/navigation/nav_commands_common.dart';
 
 import '../../../components/dialogs/dialog_factory.dart';
-import '../../../components/sorting/e_sort_direction.dart';
-import '../../../components/sorting/sort_criteria.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../main.dart';
 import '../../../repositories/movies_repository.dart';
@@ -26,11 +24,6 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     on<ShowTwoButtonsEvent>(_showTwoButtons);
   }
 
-  final List<SortCriteria> _sortCriteriaList = [
-    SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
-    SortCriteria(Movie.keyTitle, ESortDirection.asc),
-  ];
-
   Future<void> _fetchSearchedMovies(SearchMoviesEvent event, Emitter<MovieListState> emit) async {
     var query = event.query;
     if (query == null) return;
@@ -43,23 +36,23 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       if (movies.isEmpty) {
         emit(state.copyWith(
           movieList: MovieList(totalResults: 0, results: []),
-          scrollOffset: 0,
           selectedMovieId: const MovieId.none(),
+          scrollOffset: 0,
           searchQuery: query,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
         ));
       } else {
-        sorter.sortColumns(movies, _sortCriteriaList);
+        movies = sorter.sortColumns(movies, state.sortCriteriaList)!;
         emit(state.copyWith(
           movieList: MovieList(totalResults: movies.length, results: movies),
+          selectedMovieId: const MovieId.none(),
           scrollOffset: 0,
-          selectedMovieId: MovieId.none(),
           searchQuery: query,
         ));
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
-      emit(state.copyWith(navCommand: NavErrorDialog(e)));
+      emit(state.copyWith(searchQuery: event.query, navCommand: NavErrorDialog(e)));
     }
   }
 
@@ -82,9 +75,16 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     try {
       var movie = await moviesRepository.getMovie(movieId.id!);
       if (movie == null) {
-        emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavMessageDialog(EDialogMsg.noSuchMovie)));
+        emit(state.copyWith(
+          scrollOffset: event.scrollOffset,
+          navCommand: NavMessageDialog(EDialogMsg.noSuchMovie),
+        ));
       } else {
-        emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavMovieDetails(movie)));
+        emit(state.copyWith(
+          selectedMovieId: movieId,
+          scrollOffset: event.scrollOffset,
+          navCommand: NavMovieDetails(movie),
+        ));
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');

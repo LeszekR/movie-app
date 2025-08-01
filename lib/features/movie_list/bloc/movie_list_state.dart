@@ -1,28 +1,39 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../components/sorting/e_sort_direction.dart';
+import '../../../components/sorting/sort_criteria.dart';
+import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
 import '../../../navigation/nav_commands_common.dart';
 
 final class MovieListState extends Equatable {
   final MovieList? movieList;
   final MovieId selectedMovieId;
-  final double? scrollOffset;
+  final double scrollOffset;
   final String? searchQuery;
+  final List<SortCriteria>? sortCriteriaList;
   final NavigationCommand? navCommand;
+
+  static const defaultSortCriteriaList = [
+    SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
+    SortCriteria(Movie.keyTitle, ESortDirection.asc),
+  ];
 
   const MovieListState({
     this.movieList,
     this.selectedMovieId = const MovieId.none(),
-    this.scrollOffset,
+    this.scrollOffset = 0,
     this.searchQuery,
+    this.sortCriteriaList = defaultSortCriteriaList,
     this.navCommand,
   });
 
   MovieListState copyWith({
     MovieList? movieList,
     MovieId? selectedMovieId,
-    double? scrollOffset = 0,
+    double? scrollOffset,
     String? searchQuery,
+    List<SortCriteria>? sortCriteriaList,
     NavigationCommand? navCommand,
   }) {
     return MovieListState(
@@ -30,15 +41,16 @@ final class MovieListState extends Equatable {
       selectedMovieId: selectedMovieId ?? this.selectedMovieId,
       scrollOffset: scrollOffset ?? this.scrollOffset,
       searchQuery: searchQuery ?? this.searchQuery,
+      sortCriteriaList: sortCriteriaList ?? this.sortCriteriaList,
       navCommand: navCommand,
     );
   }
 
   @override
-  List<Object?> get props => [movieList, selectedMovieId, scrollOffset, searchQuery, navCommand];
+  List<Object?> get props => [movieList, selectedMovieId, scrollOffset, searchQuery, sortCriteriaList, navCommand];
 }
 
-class MovieId {
+class MovieId extends Equatable {
   final bool hasValue;
   final int? id;
 
@@ -47,4 +59,7 @@ class MovieId {
         id = null;
 
   const MovieId.value(int this.id) : hasValue = true;
+
+  @override
+  List<Object?> get props => [hasValue, id];
 }

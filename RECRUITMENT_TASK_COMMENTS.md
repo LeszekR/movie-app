@@ -25,23 +25,31 @@ New features and refactoring
 - introduced `flutter_bloc` package and refactored the whole project to its directives
 - replaced `Riverpod` DI with `get_it`
 - decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
-  explainded below
+  explained below
 - simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
   architecture with `flutter_bloc`
 - refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
   removed `go_router` package
 - extracted app navigation to hybrid pattern: local `MovieListNavigator`, global `AppNavigator` in
   order to separate navigation concern from UI and business logic and keep feature-local navigation
-  separated from global nav
-- refactored `MovieListState` to incorporate navigation commands in the form of abstract
-  class `NavigationCommand` implementations, where `NavigationCommand` follows single-use pattern to
-  prevent unnecessary navigation calls
-- implemented the view's state management and navigation to and from `TwoButtonView` with
-  with `BLoC`, using `Cubit` for state management
-- introduced `CircularProgressIndicator` showing during async tasks, navigated to and from
-  in `BlocListener` by global `AppNavigator`
+  separated from global navigation
+- refactored `MovieListState` to incorporate navigation commands in the form of `NavigationCommand`
+  class implementations, where `NavigationCommand` follows single-use pattern to prevent unnecessary
+  rebuilds
+- added `TwoButtonView` to app navigation
+- implemented `TwoButtonView`'s state management and navigation to and from it with with `BLoC`,
+  using `Cubit` for state management
+- consciously proposed example `BLoC` test in a controversial fashion - using a sequence of states
+  to test closest-to-life scenario where `MovieListBloc` traverses multiple states, with all
+  possible transition types; such test is perhaps more difficult to maintain and create than a
+  series of isolated tests but does their work in one go - the cost/benefit tradeoff to be discussed
+- introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
+  by global `AppNavigator`
 - introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
-  uses `ButtonBuilder` to create standardized buttons
+  uses `ButtonBuilder` to create standardized buttons and `DialogFactory` to create task-composed
+  dialogs
+- introduced custom `Exceptions` that control specialized error-dialogs to separate business logic
+  from UI and precisely identify and show to the user predicted causes of app's failures
 - centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
   code
 - introduced handling all exceptions by logging or rethrowing them to be handled in calling code
@@ -73,12 +81,14 @@ Details
 - hybrid mix of both
 
 There are reasons to use each of those choices.   
-I decided on the last since
+I decided on the last since.  
+Whether it is the right choice it can be discussed. For presentation purposes used it here although
+just as well one might decide on any other - depending on given app architecture decisions.
 
 - DI via constructors is best for large, easily scalable, multi-team, large-codebase projects. Or in
   other wards - real-life commercial projects. The rationale for this is just below.
-- objects created with `GetIt` factory must not be dependecies of singletons because this will lead to
-  different object returned by `GetIt` while building the singleton and new objects of the type
+- objects created with `GetIt` factory must not be dependecies of singletons because this will lead
+  to different object returned by `GetIt` while building the singleton and new objects of the type
   injected where the factory provides them at rebuilds of `Widgets` that consume them
 
 #### Benefits of constructors DI:
@@ -95,7 +105,7 @@ I decided on the last since
 - Constructor signatures grow
 - Negative result: oversized boilerplate for small apps or features
 
-#                    
+#                            
 
 ------------------
 

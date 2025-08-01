@@ -12,6 +12,7 @@ import '../components/button_two_states.dart';
 class TwoButtonsPage extends StatelessWidget {
   final Txt txt;
   final TwoButtonNavigator _twoButtonNavigator;
+
   const TwoButtonsPage(this.txt, this._twoButtonNavigator, {super.key});
 
   @override
@@ -51,10 +52,7 @@ class TwoButtonsPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(child: SizedBox()),
-                    ButtonBuilder(cubit.showMovieList)
-                        .text(txt.get.goto_movie_list)
-                        .width(200)
-                        .build(),
+                    ButtonBuilder().onTap(cubit.showMovieList).text(txt.get.goto_movie_list).width(200).build(),
                     AppSizes.horizontalSeparator()
                   ],
                 )),

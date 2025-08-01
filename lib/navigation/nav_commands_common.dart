@@ -25,7 +25,8 @@ abstract class NavigationCommand<T> {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, this);
+  int get hashCode => Object.hash(runtimeType, payload);
+  // int get hashCode => Object.hash(runtimeType, this);
 }
 
 final class NavProgress extends NavigationCommand {
