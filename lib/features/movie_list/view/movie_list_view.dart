@@ -123,8 +123,7 @@ class _MovieListViewState extends State<MovieListView> {
 
   void _fetchSearchedMovies(String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 
-  void _showMovieDetails(MovieListState state) =>
-      _bloc.add(ShowMovieDetailsEvent(state.selectedMovieId, widget.scrollController.offset));
+  void _showMovieDetails(MovieListState state) => _bloc.add(ShowMovieDetailsEvent(widget.scrollController.offset));
 
   void _showTwoButtons() => _bloc.add(ShowTwoButtonsEvent(widget.scrollController.offset));
 }

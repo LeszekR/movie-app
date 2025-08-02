@@ -66,7 +66,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   }
 
   Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
-    MovieId movieId = event.movieIdOption;
+    MovieId movieId = state.selectedMovieId;
     if (!movieId.hasValue) {
       emit(state.copyWith(
         scrollOffset: event.scrollOffset,

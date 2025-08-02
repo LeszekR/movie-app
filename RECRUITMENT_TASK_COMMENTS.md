@@ -41,8 +41,7 @@ New features and refactoring
 - added `TwoButtonView` to app navigation
 - implemented `TwoButtonView`'s state management and navigation to and from it with with `BLoC`,
   using `Cubit` for state management
-- consciously proposed example `BLoC` test in a controversial fashion - using a sequence of states (
-  explained in detail below)
+- created tests of `MovieListBloc` covering all possible transitions
 - introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
   by global `AppNavigator`
 - introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
@@ -95,17 +94,6 @@ just as well one might decide on any other - depending on given app architecture
 - Verbose, especially for deep trees (dependencies need to be thread through layers)
 - Constructor signatures grow
 - Negative result: oversized boilerplate for small apps or features
-
-###
-
-### `Bloc` test with sequence of cases
-
-- Sequence of cases (events => states) in the test is closest-to-life scenario where `MovieListBloc`
-  traverses multiple states. Included all states and most possible transition types.
-- Test-cases isolation is achieved with in-loop var declarations and fresh `Bloc` build for every
-  case - this does not reflect real life but should be close enough
-- Such test is more difficult to maintain and create than a series of isolated tests - yet does
-  their work in one go - the cost/benefit tradeoff is a matter of team decisions
 
 ------------------
 
