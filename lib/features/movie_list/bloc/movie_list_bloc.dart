@@ -35,7 +35,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       List<Movie>? movies = await moviesRepository.getSearchedMovies(event.query!);
       if (movies.isEmpty) {
         emit(state.copyWith(
-          movieList: MovieList(totalResults: 0, results: []),
+          movieList: MovieList.empty(),
           selectedMovieId: const MovieId.none(),
           scrollOffset: 0,
           searchQuery: query,
@@ -52,7 +52,12 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
-      emit(state.copyWith(searchQuery: event.query, navCommand: NavErrorDialog(e)));
+      emit(state.copyWith(
+          movieList: MovieList.empty(),
+          selectedMovieId: const MovieId.none(),
+          scrollOffset: 0,
+          searchQuery: query,
+          navCommand: NavErrorDialog(e)));
     }
   }
 
@@ -81,14 +86,15 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         ));
       } else {
         emit(state.copyWith(
-          selectedMovieId: movieId,
           scrollOffset: event.scrollOffset,
           navCommand: NavMovieDetails(movie),
         ));
       }
     } on Exception catch (e) {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
-      emit(state.copyWith(navCommand: NavErrorDialog(e)));
+      emit(state.copyWith(
+          scrollOffset: event.scrollOffset,
+          navCommand: NavErrorDialog(e)));
     }
   }
 

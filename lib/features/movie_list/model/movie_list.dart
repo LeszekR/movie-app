@@ -10,10 +10,14 @@ class MovieList extends Equatable {
   final int totalResults;
   final List<Movie> results;
 
-  MovieList({
+  const MovieList({
     required this.totalResults,
     required this.results,
   });
+
+  const MovieList.empty() :
+    totalResults = 0,
+    results = const [];
 
   factory MovieList.fromJson(Map<String, dynamic> json) => _$MovieListFromJson(json);
 

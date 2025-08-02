@@ -22,6 +22,8 @@ Overview
 ----------------------------------  
 New features and refactoring
 
+- this stage was developed from previous based on `flutter_clean_architecture`, `riverpod`
+  , `go_router` which is maintained in its own branch
 - introduced `flutter_bloc` package and refactored the whole project to its directives
 - replaced `Riverpod` DI with `get_it`
 - decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
@@ -39,17 +41,15 @@ New features and refactoring
 - added `TwoButtonView` to app navigation
 - implemented `TwoButtonView`'s state management and navigation to and from it with with `BLoC`,
   using `Cubit` for state management
-- consciously proposed example `BLoC` test in a controversial fashion - using a sequence of states
-  to test closest-to-life scenario where `MovieListBloc` traverses multiple states, with all
-  possible transition types; such test is perhaps more difficult to maintain and create than a
-  series of isolated tests but does their work in one go - the cost/benefit tradeoff to be discussed
+- consciously proposed example `BLoC` test in a controversial fashion - using a sequence of states (
+  explained in detail below)
 - introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
   by global `AppNavigator`
 - introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
-  uses `ButtonBuilder` to create standardized buttons and `DialogFactory` to create task-composed
-  dialogs
+  uses custom `ButtonBuilder` and `DialogFactory` to create standardized buttons and
+  case-specialised dialogs with only minimal amount of code
 - introduced custom `Exceptions` that control specialized error-dialogs to separate business logic
-  from UI and precisely identify and show to the user predicted causes of app's failures
+  from UI and precisely identify and show to the user app's failures'  causes
 - centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
   code
 - introduced handling all exceptions by logging or rethrowing them to be handled in calling code
@@ -60,15 +60,6 @@ New features and refactoring
 
 Details
 ----------------------------------  
-
-###
-
-### Using `flutter_clean_architecture`
-
-- using `BackgroundUseCase` is an overkill here - I did it only for practise and skill presentation,
-  although such a query might indeed be heavy
-- this solution can be seen last in commit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
-- after that was replaced with simple `UseCase` allowing for clean mocking in tests
 
 ###
 
@@ -105,7 +96,16 @@ just as well one might decide on any other - depending on given app architecture
 - Constructor signatures grow
 - Negative result: oversized boilerplate for small apps or features
 
-#                            
+###
+
+### `Bloc` test with sequence of cases
+
+- Sequence of cases (events => states) in the test is closest-to-life scenario where `MovieListBloc`
+  traverses multiple states. Included all states and most possible transition types.
+- Test-cases isolation is achieved with in-loop var declarations and fresh `Bloc` build for every
+  case - this does not reflect real life but should be close enough
+- Such test is more difficult to maintain and create than a series of isolated tests - yet does
+  their work in one go - the cost/benefit tradeoff is a matter of team decisions
 
 ------------------
 
