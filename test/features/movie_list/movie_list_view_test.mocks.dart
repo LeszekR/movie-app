@@ -34,16 +34,19 @@ class MockMoviesRepository extends _i1.Mock implements _i2.MoviesRepository {
   @override
   _i3.Future<List<_i4.Movie>> getSearchedMovies(String? query) =>
       (super.noSuchMethod(
-            Invocation.method(#getSearchedMovies, [query]),
-            returnValue: _i3.Future<List<_i4.Movie>>.value(<_i4.Movie>[]),
-          )
-          as _i3.Future<List<_i4.Movie>>);
+        Invocation.method(
+          #getSearchedMovies,
+          [query],
+        ),
+        returnValue: _i3.Future<List<_i4.Movie>>.value(<_i4.Movie>[]),
+      ) as _i3.Future<List<_i4.Movie>>);
 
   @override
-  _i3.Future<_i4.Movie?> getMovie(int? movieId) =>
-      (super.noSuchMethod(
-            Invocation.method(#getMovie, [movieId]),
-            returnValue: _i3.Future<_i4.Movie?>.value(),
-          )
-          as _i3.Future<_i4.Movie?>);
+  _i3.Future<_i4.Movie?> getMovie(int? movieId) => (super.noSuchMethod(
+        Invocation.method(
+          #getMovie,
+          [movieId],
+        ),
+        returnValue: _i3.Future<_i4.Movie?>.value(),
+      ) as _i3.Future<_i4.Movie?>);
 }

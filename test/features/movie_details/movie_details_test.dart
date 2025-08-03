@@ -5,11 +5,10 @@ import 'package:flutter_demo/features/movie_details/utils/movie_details_controll
 import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/common_mocks.mocks.dart';
 import '../../test_utils.dart';
-import 'movie_details_test.mocks.dart';
 
 var mockAppConfig = MockAppConfig();
 var mockDateTimeReader = MockDateTimeReader();
@@ -19,7 +18,6 @@ var title = 'Avatar';
 
 var getit = GetIt.instance;
 
-@GenerateMocks([AppConfig, DateTimeReader])
 main() {
   setUpAll(() {
     getit.registerSingleton<Txt>(Txt());
