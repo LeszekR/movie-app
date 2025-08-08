@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'components/button_two_states.dart';
 
-class TwoButtonsPage extends StatefulWidget {
+class TwoButtonsView extends StatefulWidget {
   // TODO refactor to flutter_clean_architecture
-  const TwoButtonsPage({super.key});
+  const TwoButtonsView({super.key});
 
   @override
-  TwoButtonsPageState createState() => TwoButtonsPageState();
+  TwoButtonsViewState createState() => TwoButtonsViewState();
 }
 
-class TwoButtonsPageState extends State<TwoButtonsPage> {
+class TwoButtonsViewState extends State<TwoButtonsView> {
   final List<bool> _buttonIsOn = [true, false];
 
   @override

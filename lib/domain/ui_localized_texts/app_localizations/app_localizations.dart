@@ -95,6 +95,12 @@ abstract class AppLocalizations {
     Locale('pl')
   ];
 
+  /// No description provided for @ok.
+  ///
+  /// In pl, this message translates to:
+  /// **'OK'**
+  String get ok;
+
   /// No description provided for @yes.
   ///
   /// In pl, this message translates to:
@@ -106,6 +112,18 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Niee...'**
   String get no;
+
+  /// No description provided for @cancel.
+  ///
+  /// In pl, this message translates to:
+  /// **'Anuluj'**
+  String get cancel;
+
+  /// No description provided for @dialog_title_error.
+  ///
+  /// In pl, this message translates to:
+  /// **'Błąd'**
+  String get dialog_title_error;
 
   /// No description provided for @movie_list_title.
   ///
@@ -136,6 +154,54 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'szukaj...'**
   String get search_prompt;
+
+  /// No description provided for @error_get_movie.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie udało się pobrać filmu.\n\n'**
+  String get error_get_movie;
+
+  /// No description provided for @error_get_searched_movies.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie udało się pobrać listy szukanych filmów.\n\n'**
+  String get error_get_searched_movies;
+
+  /// No description provided for @error_http.
+  ///
+  /// In pl, this message translates to:
+  /// **'HTTP error: '**
+  String get error_http;
+
+  /// No description provided for @no_such_movie.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie znaleziono wybranego filmu w bazie danych.'**
+  String get no_such_movie;
+
+  /// No description provided for @no_searched_movies.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie znaleziono filmów o podobnym tytule'**
+  String get no_searched_movies;
+
+  /// No description provided for @no_movie_chosen.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nie wybrano żadnego filmu'**
+  String get no_movie_chosen;
+
+  /// No description provided for @goto_two_buttons.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż Dwa Przyciski'**
+  String get goto_two_buttons;
+
+  /// No description provided for @goto_movie_list.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pokaż listę filmów'**
+  String get goto_movie_list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -155,6 +221,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
 
+
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en': return AppLocalizationsEn();
     case 'pl': return AppLocalizationsPl();

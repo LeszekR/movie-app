@@ -1,7 +1,7 @@
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:intl/intl.dart';
 
-import '../../../data/app_config.dart';
+import '../../../data/config/app_config.dart';
 import '../../../domain/utils/date_time_reader.dart';
 import '../../../get_it_model.dart';
 

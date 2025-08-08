@@ -1,5 +1,5 @@
 import 'package:flutter_demo/app/pages/movie_list/movie_list_view.dart';
-import 'package:flutter_demo/data/app_config.dart';
+import 'package:flutter_demo/data/config/app_config.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:get_it/get_it.dart';
 

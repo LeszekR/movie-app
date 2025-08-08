@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
 
-import 'package:flutter_demo/data/app_config.dart' as _i2;
+import 'package:flutter_demo/data/config/app_config.dart' as _i2;
 import 'package:flutter_demo/data/repositories/data_movies_repository.dart'
     as _i5;
 import 'package:flutter_demo/domain/entities/movie.dart' as _i7;
