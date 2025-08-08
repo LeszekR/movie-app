@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/features/movie_list/utils.dart';
 
 class MovieCard extends StatelessWidget {
@@ -18,13 +19,13 @@ class MovieCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) =>
-      InkWell(
+  Widget build(BuildContext context) {
+    return InkWell(
         onTap: () => onTap(id),
         child: Container(
           height: 48.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          decoration: BoxDecoration(color: isSelected ?  Colors.grey.shade300 : null),
+          decoration: BoxDecoration(color: isSelected ?  AppColors.selectedMovieBackground : null),
           child: Row(
             children: [
               Expanded(
@@ -49,4 +50,5 @@ class MovieCard extends StatelessWidget {
           ),
         ),
       );
+  }
 }

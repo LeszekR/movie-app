@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ButtonTwoStates extends StatefulWidget {
+  static var colorOn = Colors.green;
+  static var colorOff = Colors.red;
+
   final bool isOn;
   final int index;
   final ValueChanged<bool> onChange;
@@ -26,14 +29,16 @@ class ButtonTwoStatesState extends State<ButtonTwoStates> {
   }
 
   @override
-  Widget build(BuildContext context) => InkWell(
+  Widget build(BuildContext context) {
+    return InkWell(
         onTap: _toggleState,
         child: Container(
           width: 80.0,
           height: 56.0,
-          color: _isOn ? Colors.red : Colors.green,
+          color: _isOn ? ButtonTwoStates.colorOn : ButtonTwoStates.colorOff,
         ),
       );
+  }
 
   void _toggleState() {
     _isOn = !_isOn;

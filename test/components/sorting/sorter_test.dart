@@ -43,7 +43,7 @@ void main() {
 
     for (var testCase in testCases) {
       test(testCase.title, () {
-        movieList = makeTestMovieList();
+        movieList = makeBlocTestMovieList();
 
         sorter.sortColumns(movieList, testCase.sortCriteriaList);
 
@@ -59,7 +59,7 @@ void main() {
     Sorter<Movie> sorter = Sorter();
     String badKey1 = 'bad_key_1';
     String badKey2 = 'bad_key_2';
-    List<TMovie> movieList = makeTestMovieList();
+    List<TMovie> movieList = makeBlocTestMovieList();
 
     List<SortCriteria> sortCriteriaList = [
       SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
@@ -78,7 +78,7 @@ void main() {
 
   test('throws on criteria-list longer than class-sortable-fields number', () {
     Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    List<TMovie> movieList = makeBlocTestMovieList();
 
     List<SortCriteria> sortCriteriaList = [
       SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
@@ -115,7 +115,7 @@ void main() {
 
   test('accepts empty and null sort-criteria list', () {
     Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    List<TMovie> movieList = makeBlocTestMovieList();
 
     // list to sort is empty
     sorter.sortColumns(movieList, []);

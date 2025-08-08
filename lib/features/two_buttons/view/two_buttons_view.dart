@@ -9,11 +9,15 @@ import '../../../components/button_builder.dart';
 import '../bloc/two_button_cubit.dart';
 import '../components/button_two_states.dart';
 
-class TwoButtonsPage extends StatelessWidget {
+class TwoButtonsView extends StatelessWidget {
+  static var movieListButtonKey = Key("movieListButtonKey");
+  static var button1Key = Key('button1Key');
+  static var button2Key = Key('button2Key');
+
   final Txt txt;
   final TwoButtonNavigator _twoButtonNavigator;
 
-  const TwoButtonsPage(this.txt, this._twoButtonNavigator, {super.key});
+  const TwoButtonsView(this.txt, this._twoButtonNavigator, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +37,14 @@ class TwoButtonsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ButtonTwoStates(
+                    key: TwoButtonsView.button1Key,
                     index: 0,
                     isOn: state.buttonStates[0],
                     onChange: (bool isOn) => cubit.toggleOn(0), //_onButtonValueChange(index: 0, isOn: isOn),
                   ),
                   const SizedBox(width: 8),
                   ButtonTwoStates(
+                    key: TwoButtonsView.button2Key,
                     index: 1,
                     isOn: state.buttonStates[1],
                     onChange: (bool isOn) => cubit.toggleOn(1), //_onButtonValueChange(index: 1, isOn: isOn),
@@ -52,7 +58,12 @@ class TwoButtonsPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(child: SizedBox()),
-                    ButtonBuilder().onTap(cubit.showMovieList).text(txt.get.goto_movie_list).width(200).build(),
+                    ButtonBuilder()
+                        .onTap(cubit.showMovieList)
+                        .key(TwoButtonsView.movieListButtonKey)
+                        .text(txt.get.goto_movie_list)
+                        .width(200)
+                        .build(),
                     AppSizes.horizontalSeparator()
                   ],
                 )),

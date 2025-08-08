@@ -21,8 +21,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../components/sorting/sorter_test.dart';
+import '../../mocks/common_mocks.mocks.dart';
 import '../../test_utils.dart';
-import 'movie_list_view_test.mocks.dart';
 
 @GenerateMocks([MoviesRepository])
 main() {
@@ -52,7 +52,7 @@ main() {
   });
 
   testWidgets('fetched movies are sorted', (final WidgetTester tester) async {
-    var fetchedMovieList = makeTestMovieList();
+    var fetchedMovieList = makeBlocTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
     when((getit<MoviesRepository>() as MockMoviesRepository).getSearchedMovies(any))

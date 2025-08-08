@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
-import 'package:flutter_demo/features/two_buttons/view/two_buttons_page.dart';
+import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
 
 import '../common/config/app_colors.dart';
 import '../common/ui_localized_texts/txt.dart';
@@ -66,7 +66,7 @@ class AppNavigator {
   void twoButtons(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TwoButtonsPage(txt, twoButtonNavigator),
+        builder: (context) => TwoButtonsView(txt, twoButtonNavigator),
       ),
     );
   }

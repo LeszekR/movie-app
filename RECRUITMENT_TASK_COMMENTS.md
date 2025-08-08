@@ -52,6 +52,9 @@ New features and refactoring
 - centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
   code
 - introduced handling all exceptions by logging or rethrowing them to be handled in calling code
+- switched colors of `ButtonTwoStates` - unless this was intentional (project decision to be
+  asked?) the colors were assigned counterintuitively for any user in our civilisation (**red** was
+  **ON** - **green** was **OFF** - now it is the opposite)
 
 #
 

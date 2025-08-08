@@ -25,7 +25,7 @@ class _SorterTestCase {
   const _SorterTestCase(this.title, this.sortCriteriaList, this.expectedList);
 }
 
-List<TMovie> makeTestMovieList() => [
+List<TMovie> makeBlocTestMovieList() => [
   TMovie(title: "aa", voteAverage: 1, budget: 1),
   TMovie(title: "aa", voteAverage: 5, budget: 0),
   TMovie(title: "ab", voteAverage: 7, budget: 4),

@@ -14,6 +14,9 @@ import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
+  static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
+  static var twoButButtonKey = Key("twoButtonsButtonKey");
+  static var listViewKey = ValueKey('movieListKey');
   final Txt txt;
   final AppNavigator appNavigator;
   final MovieListNavigator moviesNavigator;
@@ -57,7 +60,7 @@ class _MovieListViewState extends State<MovieListView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MovieListBloc, MovieListState>(
-      listenWhen: (previous, current) => previous.navCommand != current.navCommand,
+      listenWhen: (previous, current) => true, //previous.navCommand != current.navCommand,
       listener: (context, state) => widget.moviesNavigator.go(context, state.navCommand),
       builder: (context, state) {
         return Scaffold(
@@ -73,7 +76,7 @@ class _MovieListViewState extends State<MovieListView> {
               ),
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
               IconButton(
-                // icon: Icon(Icons.search),
+                key: MovieListView.movieDetailsButtonKey,
                 icon: Icon(Icons.movie_creation_outlined),
                 onPressed: () => _showMovieDetails(state),
               ),
@@ -92,7 +95,12 @@ class _MovieListViewState extends State<MovieListView> {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder().onTap(_showTwoButtons).text(widget.txt.get.goto_two_buttons).width(200).build(),
+                  ButtonBuilder()
+                      .onTap(_showTwoButtons)
+                      .key(MovieListView.twoButButtonKey)
+                      .text(widget.txt.get.goto_two_buttons)
+                      .width(200)
+                      .build(),
                   AppSizes.horizontalSeparator()
                 ],
               )),
@@ -105,6 +113,7 @@ class _MovieListViewState extends State<MovieListView> {
     List<Movie> movieList = state.movieList?.results ?? List.empty();
     int? selectedMovieId = state.selectedMovieId.id;
     return ListView.separated(
+      key: MovieListView.listViewKey,
       controller: widget.scrollController,
       separatorBuilder: (context, index) => Container(
         height: 1.0,
