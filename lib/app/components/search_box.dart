@@ -4,7 +4,7 @@ import '../../domain/ui_localized_texts/txt.dart';
 import '../../get_it_model.dart';
 
 class SearchBox extends StatelessWidget {
-  final Txt txt;
+  final Txt _txt;
   final void Function(String)? onSubmitted;
 
   static final keySearchBox = Key('search_box');
@@ -12,7 +12,7 @@ class SearchBox extends StatelessWidget {
   SearchBox({
     super.key,
     this.onSubmitted,
-  }) : txt = getit<Txt>();
+  }) : _txt = getit<Txt>();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -30,7 +30,7 @@ class SearchBox extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
-            hintText: txt.get.search_prompt,
+            hintText: _txt.get.search_prompt,
           ),
           onSubmitted: onSubmitted,
         ),

@@ -23,12 +23,6 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   MovieListViewState() : super(getit<MovieListController>());
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    widget._txt.setLanguage(context);
-  }
-
-  @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
