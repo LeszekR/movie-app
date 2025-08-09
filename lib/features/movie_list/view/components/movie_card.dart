@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
-import 'package:flutter_demo/features/movie_list/utils.dart';
+
+import '../../../../common/config/app_config.dart';
+import '../../../../get_it_model.dart';
 
 class MovieCard extends StatelessWidget {
   final int id;
@@ -52,3 +54,7 @@ class MovieCard extends StatelessWidget {
       );
   }
 }
+
+String makeRating(double voteAverage) =>
+    '${(voteAverage * 10).toInt()}%  '
+        '${(voteAverage * 10).toInt() >= int.parse(getit<AppConfig>().param(AppConfig.starRatingThreshold)) ? "🌟" : "    "}';
