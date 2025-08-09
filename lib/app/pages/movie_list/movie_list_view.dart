@@ -63,7 +63,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
       itemBuilder: (context, index) => MovieCard(
         id: movieList[index].id,
         title: movieList[index].title,
-        rating: '${(movieList[index].voteAverage * 10).toInt()}%',
+        voteAverage: movieList[index].voteAverage,
         onTap: controller.setSelectedMovieId,
         isSelected: movieList[index].id == controller.getSelectedMovieId(),
       ),

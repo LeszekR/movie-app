@@ -5,6 +5,7 @@ import 'package:flutter_demo/domain/repositories/movies_repository.dart';
 import 'package:http/http.dart' as http;
 
 import '../../domain/entities/movie_list.dart';
+import '../../domain/repositories/movies_repository_exception.dart';
 
 class DataMoviesRepository extends MoviesRepository {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
@@ -26,11 +27,10 @@ class DataMoviesRepository extends MoviesRepository {
         final movieList = MovieList.fromJson(json);
         return movieList.results;
       } else {
-        throw Exception('Get Searched Movies from web API => HTTP error: ${response.statusCode}');
+        throw MovieListHttpException(response.statusCode);
       }
     } catch (error) {
-      // the error will be processed in the Controller
-      rethrow;
+      throw MovieListOtherException();
     }
   }
 
@@ -49,11 +49,10 @@ class DataMoviesRepository extends MoviesRepository {
         var fetchedMovie = Movie.fromJson(json);
         return fetchedMovie;
       } else {
-        throw Exception('Get Movie from web API => => HTTP error: ${response.statusCode}');
+        throw MovieDetailsHttpException(response.statusCode);
       }
     } catch (error) {
-      // the error will be processed in the Controller
-      rethrow;
+      throw MovieDetailsOtherException();
     }
   }
 }

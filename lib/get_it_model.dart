@@ -2,6 +2,7 @@ import 'package:flutter_demo/app/pages/movie_list/movie_list_view.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:get_it/get_it.dart';
 
+import 'app/components/dialogs/dialog_factory.dart';
 import 'app/components/search_box.dart';
 import 'app/config/app_config.dart';
 import 'app/pages/movie_details/movie_details_controller.dart';
@@ -29,4 +30,5 @@ void initGetIt() {
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());
   getit.registerLazySingleton(() => MovieDetailsController());
+  getit.registerFactory(() => DialogFactory());
 }
