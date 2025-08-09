@@ -11,7 +11,9 @@ import 'components/movie_card.dart';
 import 'controller/movie_list_controller.dart';
 
 class MovieListView extends CleanView {
-  const MovieListView({super.key});
+  final Txt _txt;
+
+  MovieListView({super.key}) : _txt = getit<Txt>();
 
   @override
   MovieListViewState createState() => MovieListViewState();
@@ -20,11 +22,10 @@ class MovieListView extends CleanView {
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   MovieListViewState() : super(getit<MovieListController>());
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Txt.setLanguage(context);
+    widget._txt.setLanguage(context);
   }
 
   @override
@@ -45,7 +46,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               onPressed: controller.fetchMovie,
             ),
           ],
-          title: Text(Txt.get.movie_list_title),
+          title: Text(widget._txt.get.movie_list_title),
         ),
         body: Column(
           children: <Widget>[
@@ -91,4 +92,4 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   }
 }
 
-class MovieListScrollController extends ScrollController{}
+class MovieListScrollController extends ScrollController {}

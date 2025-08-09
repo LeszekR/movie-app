@@ -1,6 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
+import '../../app/components/sorting/sortable.dart';
 
-import '../../app/utils/sorting/sortable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
 

@@ -7,9 +7,9 @@ import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
 import '../../../../get_it_model.dart';
 import '../../../components/search_box.dart';
-import '../../../utils/sorting/e_sort_direction.dart';
-import '../../../utils/sorting/sort_criteria.dart';
-import '../../../utils/sorting/sorter.dart';
+import '../../../components/sorting/e_sort_direction.dart';
+import '../../../components/sorting/sort_criteria.dart';
+import '../../../components/sorting/sorter.dart';
 import '../movie_list_view.dart';
 
 class MovieListController extends Controller {

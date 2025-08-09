@@ -1,6 +1,6 @@
+import 'package:flutter_demo/app/config/app_config.dart';
 import 'package:flutter_demo/app/pages/movie_details/movie_details_controller.dart';
 import 'package:flutter_demo/app/pages/movie_details/movie_details_view.dart';
-import 'package:flutter_demo/data/config/app_config.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,8 +22,9 @@ main() {
   var getit = GetIt.instance;
 
   setUp(() {
-    getit.registerSingleton<AppConfig>(mockAppConfig);
-    getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
+    getit.registerSingleton(Txt());
+    getit.registerSingleton<MockAppConfig>(mockAppConfig);
+    getit.registerSingleton<MockDateTimeReader>(mockDateTimeReader);
     getit.registerLazySingleton(() => MovieDetailsController());
   });
 
@@ -38,8 +39,8 @@ main() {
     var thresholdHigh = '150';
 
     await prepareMovieDetailsWidget(tester, '1', sunday);
-    var yesString = Txt.get.yes;
-    var noString = Txt.get.no;
+    var yesString = getit<Txt>().get.yes;
+    var noString = getit<Txt>().get.no;
 
     var testCaseList = [
       _MovieDetailsTestCase('high profit / Sunday', thresholdLow, sunday, yesString),

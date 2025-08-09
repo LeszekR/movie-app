@@ -1,6 +1,6 @@
-import 'package:flutter_demo/app/utils/sorting/e_sort_direction.dart';
-import 'package:flutter_demo/app/utils/sorting/sort_criteria.dart';
-import 'package:flutter_demo/app/utils/sorting/sorter.dart';
+import 'package:flutter_demo/app/components/sorting/e_sort_direction.dart';
+import 'package:flutter_demo/app/components/sorting/sort_criteria.dart';
+import 'package:flutter_demo/app/components/sorting/sorter.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_test/flutter_test.dart';
 

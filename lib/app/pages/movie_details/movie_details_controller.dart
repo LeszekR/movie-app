@@ -1,18 +1,20 @@
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:intl/intl.dart';
 
-import '../../../data/config/app_config.dart';
 import '../../../domain/utils/date_time_reader.dart';
 import '../../../get_it_model.dart';
+import '../../config/app_config.dart';
 
 class MovieDetailsController {
-  final AppConfig appConfig;
-  final DateTimeReader dateTimeReader;
+  final Txt _txt;
+  final AppConfig _appConfig;
+  final DateTimeReader _dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
   MovieDetailsController()
-      : dateTimeReader = getit<DateTimeReader>(),
-        appConfig = getit<AppConfig>();
+      : _txt = getit<Txt>(),
+        _appConfig = getit<AppConfig>(),
+        _dateTimeReader = getit<DateTimeReader>();
 
   String formatDollarAmount(String amountString) {
     var amount = int.parse(amountString);
@@ -21,13 +23,13 @@ class MovieDetailsController {
   }
 
   String recommendOrNo(String budgeString, String revenueString) {
-    var isSunday = dateTimeReader.now().weekday == 7;
+    var isSunday = _dateTimeReader.now().weekday == 7;
 
     var revenue = int.parse(revenueString);
     var budget = int.parse(budgeString);
-    var profitThreshold = int.parse(appConfig.param(AppConfig.recommendationProfitThreshold));
+    var profitThreshold = int.parse(_appConfig.param(AppConfig.recommendationProfitThreshold));
     var isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
-    return isSunday && isProfitSatisfactory ? Txt.get.yes : Txt.get.no;
+    return isSunday && isProfitSatisfactory ? _txt.get.yes : _txt.get.no;
   }
 }

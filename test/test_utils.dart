@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/app/config/app_config.dart';
+import 'package:flutter_demo/get_it_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_demo/data/config/app_config.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,7 +23,7 @@ Future<void> prepareWidget(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: Builder(
         builder: (BuildContext context) {
-          Txt.setLanguage(context);
+          getit<Txt>().setLanguage(context);
           return Scaffold(body: widgetBuilder == null ? null : widgetBuilder());
         },
       ),

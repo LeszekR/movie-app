@@ -6,16 +6,17 @@ import 'components/movie_details_content_line.dart';
 import 'movie_details_controller.dart';
 
 class MovieDetailsView extends StatelessWidget {
+  final Txt _txt;
   final String title;
   final String budget;
   final String revenue;
 
-  const MovieDetailsView(
+  MovieDetailsView(
     this.title,
     this.budget,
     this.revenue, {
     super.key,
-  });
+  }) : _txt = getit<Txt>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +62,9 @@ class MovieDetailsView extends StatelessWidget {
     var revenueInDollars = controller.formatDollarAmount(revenue);
     var recommendOrNo = controller.recommendOrNo(budget, revenue);
     return [
-      MovieDetailsContentLine(label: Txt.get.budget, content: budgetInDollars),
-      MovieDetailsContentLine(label: Txt.get.revenue, content: revenueInDollars),
-      MovieDetailsContentLine(label: Txt.get.should_i_watch_today, content: recommendOrNo),
+      MovieDetailsContentLine(label: _txt.get.budget, content: budgetInDollars),
+      MovieDetailsContentLine(label: _txt.get.revenue, content: revenueInDollars),
+      MovieDetailsContentLine(label: _txt.get.should_i_watch_today, content: recommendOrNo),
     ];
   }
 }
