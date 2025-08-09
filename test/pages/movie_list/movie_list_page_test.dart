@@ -6,6 +6,7 @@ import 'package:flutter_demo/app/pages/movie_list/controller/state/movie_list_vi
 import 'package:flutter_demo/app/pages/movie_list/movie_list_view.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
 import 'package:flutter_demo/data/repositories/data_movies_repository.dart';
+import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/get_searched_movies_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +23,7 @@ main() {
   var getit = GetIt.instance;
 
   setUp(() {
+    getit.registerSingleton(Txt());
     getit.registerLazySingleton<DataMoviesRepository>(() => MockDataMoviesRepository());
 
     getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<DataMoviesRepository>()));

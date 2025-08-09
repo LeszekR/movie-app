@@ -23,8 +23,8 @@ main() {
 
   setUp(() {
     getit.registerSingleton(Txt());
-    getit.registerSingleton<MockAppConfig>(mockAppConfig);
-    getit.registerSingleton<MockDateTimeReader>(mockDateTimeReader);
+    getit.registerSingleton<AppConfig>(mockAppConfig);
+    getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
     getit.registerLazySingleton(() => MovieDetailsController());
   });
 
