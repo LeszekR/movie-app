@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../navigation/feature_navigator.dart';
-import '../../../navigation/nav_commands_common.dart';
+import '../../../navigation/app_nav_commands.dart';
+import '../../../navigation/navigation_command.dart';
 
 class TwoButtonNavigator extends FeatureNavigator {
 

@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../navigation/feature_navigator.dart';
 import '../../../navigation/go_router_const_strings.dart';
-import '../../../navigation/nav_commands_common.dart';
+import '../../../navigation/app_nav_commands.dart';
+import '../../../navigation/navigation_command.dart';
 import 'nav_commands.dart';
 
 class MovieListNavigator extends FeatureNavigator {

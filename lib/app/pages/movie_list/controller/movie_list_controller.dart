@@ -11,7 +11,7 @@ import '../../../../domain/utils/logging/logging_actions.dart';
 import '../../../../get_it_model.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
-import '../../../navigation/nav_commands_common.dart';
+import '../../../navigation/app_nav_commands.dart';
 
 class MovieListController extends Controller {
   MovieListState state;

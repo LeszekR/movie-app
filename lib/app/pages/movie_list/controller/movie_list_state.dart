@@ -4,7 +4,7 @@ import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
 import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
-import '../../../navigation/nav_commands_common.dart';
+import '../../../navigation/navigation_command.dart';
 
 final class MovieListState {
   MovieList? movieList;
