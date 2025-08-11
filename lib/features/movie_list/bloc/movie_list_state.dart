@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
+import '../../../navigation/navigation_command.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
-import '../../../navigation/nav_commands_common.dart';
 
 final class MovieListState extends Equatable {
   final MovieList? movieList;

@@ -3,7 +3,7 @@ import 'package:flutter_demo/features/movie_details/model/movie.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/features/movie_list/model/movie_list.dart';
-import 'package:flutter_demo/repositories/movies_repository_exception.dart';
+import 'package:flutter_demo/repositories/movie_repository_exception.dart';
 
 import '../../../mocks/common_mocks.mocks.dart';
 

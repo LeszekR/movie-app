@@ -1,14 +1,9 @@
-import 'package:flutter_demo/repositories/movies_repository_exception.dart';
+import 'package:flutter_demo/repositories/movie_repository_exception.dart';
 
 import '../../common/ui_localized_texts/txt.dart';
 import 'dialog_params.dart';
+import 'e_dialog_msg.dart';
 import 'message_dialog.dart';
-
-enum EDialogMsg {
-  searchQueryNotFound,
-  noMovieSelected,
-  noSuchMovie,
-}
 
 class DialogFactory {
   final Txt txt;

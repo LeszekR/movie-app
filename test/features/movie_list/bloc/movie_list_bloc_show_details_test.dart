@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_demo/components/dialogs/dialog_factory.dart';
+import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/navigation/nav_commands_common.dart';
+import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

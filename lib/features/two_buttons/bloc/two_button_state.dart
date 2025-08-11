@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_demo/navigation/nav_commands_common.dart';
+
+import '../../../navigation/navigation_command.dart';
 
 class TwoButtonState extends Equatable {
   final List<bool> buttonStates;

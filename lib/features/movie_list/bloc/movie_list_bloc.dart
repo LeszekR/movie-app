@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_demo/common/logging/loging_messages.dart';
+import 'package:flutter_demo/common/logging/logging_messages.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
-import 'package:flutter_demo/navigation/nav_commands_common.dart';
+import 'package:flutter_demo/navigation/app_nav_commands.dart';
 
-import '../../../components/dialogs/dialog_factory.dart';
+import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../main.dart';
 import '../../../repositories/movies_repository.dart';

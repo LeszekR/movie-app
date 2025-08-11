@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_demo/repositories/movies_repository_exception.dart';
+import 'package:flutter_demo/repositories/movie_repository_exception.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/movie_details/model/movie.dart';
@@ -28,8 +28,7 @@ class MoviesRepository {
         throw MovieListHttpException(response.statusCode);
       }
     } catch (error) {
-      // the error will be processed by the Bloc
-      rethrow;
+      throw MovieDetailsOtherException();
     }
   }
 
@@ -51,8 +50,7 @@ class MoviesRepository {
         throw MovieDetailsHttpException(response.statusCode);
       }
     } catch (error) {
-      // the error will be processed in the Controller
-      rethrow;
+      throw  MovieListOtherException();
     }
   }
 }

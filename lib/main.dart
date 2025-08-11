@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
 
 import 'common/config/app_config.dart';
-import 'common/logging/loging_messages.dart';
+import 'common/logging/logging_messages.dart';
 
 final logger = Logger("MOVIE_APP_LOGGER");
 
