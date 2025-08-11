@@ -1,6 +1,6 @@
-import '../entities/movie.dart';
+import '../../entities/movie.dart';
 
-abstract class MoviesRepository {
+abstract class MovieRepository {
   Future<List<Movie>> getSearchedMovies(String query);
 
   Future<Movie?> getMovie(int movieId);

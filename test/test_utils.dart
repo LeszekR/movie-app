@@ -23,7 +23,7 @@ Future<void> prepareWidget(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: Builder(
         builder: (BuildContext context) {
-          getit<Txt>().setLanguage(context);
+          getIt<Txt>().setLanguage(context);
           return Scaffold(body: widgetBuilder == null ? null : widgetBuilder());
         },
       ),

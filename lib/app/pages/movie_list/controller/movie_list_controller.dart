@@ -1,92 +1,127 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/app/pages/movie_list/controller/state/movie_list_view_state_data.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
 
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
+import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
+import '../../../../domain/utils/logging/logging_actions.dart';
 import '../../../../get_it_model.dart';
-import '../../../components/search_box.dart';
-import '../../../components/sorting/e_sort_direction.dart';
-import '../../../components/sorting/sort_criteria.dart';
+import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
-import '../movie_list_view.dart';
+import '../../../navigation/nav_commands_common.dart';
 
 class MovieListController extends Controller {
+  MovieListState state;
   final MovieListPresenter _movieListPresenter;
-  final MovieListViewStateData state;
+  final LoggingActions _loggingActions;
   final ScrollController scrollController;
   final TextEditingController searchTextController;
   final Sorter<Movie> _sorter;
 
-  final List<SortCriteria> _sortCriteriaList = [
-    SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
-    SortCriteria(Movie.keyTitle, ESortDirection.asc),
-  ];
-
-  Movie? movieToShow;
+  bool restoreView = false;
 
   MovieListController()
-      : _movieListPresenter = getit<MovieListPresenter>(),
-        state = getit<MovieListViewStateData>(),
-        scrollController = getit<MovieListScrollController>(),
-        searchTextController = getit<SearchMoviesTextEditingController>(),
+      : state = getIt<MovieListState>(),
+        _movieListPresenter = getIt<MovieListPresenter>(),
+        _loggingActions = getIt<LoggingActions>(),
+        scrollController = ScrollController(),
+        searchTextController = TextEditingController(),
         _sorter = Sorter<Movie>(),
         super();
 
   @override
   void initListeners() {
-    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => updateMovieList(movieList);
+    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => _updateMovieList(movieList);
     _movieListPresenter.getSearchedMoviesOnError = (e) {
-      // TODO show error dialog to the user
-      logger.severe("Error - failed to fetch movies from web API", e);
+      _loggingActions.error(e);
+      _dialogErrorMovieList(e);
     };
-    _movieListPresenter.getMovieDetailsOnNext = (movie) => showMovieDetails(movie);
+
+    _movieListPresenter.getMovieDetailsOnNext = (movie) => _showMovieDetails(movie);
     _movieListPresenter.getMovieDetailsOnError = (e) {
-      // TODO show error dialog to the user
-      logger.severe("Error - failed to fetch movie details from web API", e);
+      _loggingActions.error(e);
+      _dialogErrorMovieDetails(e);
     };
   }
 
   void fetchSearchedMovies(String query) {
     if (query.isEmpty) return;
+
     _movieListPresenter.getSearchedMovies(query);
+
+    state.update(searchQuery: query, navCommand: NavProgress());
+    refreshUI();
   }
 
-  void updateMovieList(List<Movie> movies) {
-    _sorter.sortColumns(movies, _sortCriteriaList);
-    state.movieList = MovieList(totalResults: movies.length, results: movies);
+  void _updateMovieList(List<Movie> movies) {
+    if (movies.isEmpty) {
+      state.update(
+        movieList: MovieList.empty(),
+        selectedMovieId: const MovieId.none(),
+        scrollOffset: 0,
+        navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
+      );
+    } else {
+      movies = _sorter.sortColumns(movies, state.sortCriteriaList)!;
+      state.update(
+        movieList: MovieList(totalResults: movies.length, results: movies),
+        selectedMovieId: const MovieId.none(),
+        scrollOffset: 0,
+      );
+    }
+    refreshUI();
+  }
+
+  void _dialogErrorMovieList(MovieRepositoryException e) {
+    state.update(
+        movieList: MovieList.empty(),
+        selectedMovieId: const MovieId.none(),
+        scrollOffset: 0,
+        navCommand: NavErrorDialog(e));
+    refreshUI();
+  }
+
+  void fetchMovie() {
+    if (state.selectedMovieId == MovieId.none()) {
+      state.update(navCommand: NavMessageDialog(EDialogMsg.noMovieSelected));
+    } else {
+      _movieListPresenter.getMovieDetails(state.selectedMovieId.id!);
+      state.update(navCommand: NavProgress());
+    }
+    refreshUI();
+  }
+
+  void _showMovieDetails(Movie? movie) {
+    if (movie == null) {
+      state.update(navCommand: NavMessageDialog(EDialogMsg.noSuchMovie));
+    } else {
+      state.update(navCommand: NavMovieDetails(movie));
+    }
+    refreshUI();
+  }
+
+  void _dialogErrorMovieDetails(MovieRepositoryException e) {
+    state.update(navCommand: NavErrorDialog(e));
     refreshUI();
   }
 
   void setSelectedMovieId(int movieId) {
-    state.selectedMovieId = movieId;
+    state.update(selectedMovieId: MovieId.value(movieId));
     refreshUI();
   }
 
   int? getSelectedMovieId() {
-    return state.selectedMovieId;
-  }
-
-  void fetchMovie() {
-    var selectedMovieId = state.selectedMovieId;
-    if (selectedMovieId == null) return;
-    _movieListPresenter.getMovieDetails(selectedMovieId);
-  }
-
-  void showMovieDetails(Movie? movie) {
-    movieToShow = movie;
-    if (movie == null) return;
-    refreshUI();
-  }
-
-  void onMovieDetailsShown() {
-    movieToShow = null;
+    return state.selectedMovieId.id;
   }
 
   void saveViewState() {
-    state.searchQuery = searchTextController.text;
-    state.scrollOffset = scrollController.offset;
+    state.update(
+      searchQuery: searchTextController.text,
+      scrollOffset: scrollController.offset,
+    );
   }
 
   void restoreViewState() {
@@ -96,7 +131,7 @@ class MovieListController extends Controller {
 
   void _restoreScroll() {
     double? scrollOffset = state.scrollOffset;
-    if (scrollOffset == null) return;
+    if (scrollOffset == 0) return;
     scrollController.jumpTo(scrollOffset);
   }
 

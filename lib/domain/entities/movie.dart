@@ -14,11 +14,11 @@ class Movie implements Sortable {
   @JsonKey(defaultValue: 0)
   final int revenue;
 
-  static String keyId = 'id';
-  static String keyTitle = 'title';
-  static String keyVoteAverage = 'vote_average';
-  static String keyBudget = 'budget';
-  static String keyRevenue = 'revenue';
+  static const String keyId = 'id';
+  static const String keyTitle = 'title';
+  static const String keyVoteAverage = 'vote_average';
+  static const String keyBudget = 'budget';
+  static const String keyRevenue = 'revenue';
 
   Movie({
     required this.id,

@@ -7,18 +7,20 @@ import 'sort_criteria.dart';
 class Sorter<T extends Sortable> {
   List<SortCriteria>? _sortCriteriaList = [];
 
-  void sortColumns(List<T>? listToSort, final List<SortCriteria>? sortCriteriaList) {
-    if (listToSort == null || listToSort.isEmpty) return;
+  List<T>? sortColumns(List<T>? listToSort, final List<SortCriteria>? sortCriteriaList) {
+    if (listToSort == null || listToSort.isEmpty) return null;
 
     _sortCriteriaList = sortCriteriaList;
 
-    if (_sortCriteriaList == null) return;
-    if (_sortCriteriaList!.isEmpty) return;
+    if (_sortCriteriaList == null) return listToSort;
+    if (_sortCriteriaList!.isEmpty) return listToSort;
 
     _validateCriteriaListLength(listToSort[0], sortCriteriaList!);
     _validateCriteriaUnique(listToSort[0], sortCriteriaList);
 
     listToSort.sort(_compare);
+
+    return listToSort;
   }
 
   int _compare(Sortable a, Sortable b) {
@@ -53,7 +55,7 @@ class Sorter<T extends Sortable> {
     var sortCriteriaFieldNames = sortCriteriaList.map((entry) => entry.fieldKey).toList();
 
     List<String> absentFieldsList =
-        sortCriteriaFieldNames.where((fieldName) => !sortedClassFieldNames.contains(fieldName)).toList();
+    sortCriteriaFieldNames.where((fieldName) => !sortedClassFieldNames.contains(fieldName)).toList();
 
     if (absentFieldsList.isEmpty) return;
 
@@ -64,8 +66,8 @@ class Sorter<T extends Sortable> {
 
   String makeErrMsgTooManyCriteria(Sortable sortedElement, int nSortableFields, int nSortCriteria) =>
       'Forbidden attempt at sorting list of ${sortedElement.runtimeType.toString()}'
-      ' having $nSortableFields sortable fields '
-      'with $nSortCriteria sort criteria';
+          ' having $nSortableFields sortable fields '
+          'with $nSortCriteria sort criteria';
 
   String makeErrMsgForeignKeys(Sortable sortedElement, String foreignKeyNames) =>
       'Attempt to sort by fields: "$foreignKeyNames" which are absent in class ${sortedElement.runtimeType.toString()}';

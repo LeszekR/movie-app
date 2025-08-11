@@ -18,21 +18,6 @@ GoRouter goRouter() {
             final String revenue = state.pathParameters[paramMovieRevenue]!;
             return MovieDetailsView(title, budget, revenue);
           }),
-      GoRoute(
-          name: routeMessageDialog,
-          path: pathMessageDialog,
-          builder: (context, state) {
-            final String eDialogMsgName = state.pathParameters[paramEDialogMsgName]!;
-            return getit<DialogFactory>().message(eDialogMsgName);
-          }),
-      GoRoute(
-          name: routeErrorDialog,
-          path: pathErrorDialog,
-          builder: (context, state) {
-            final String eDialogMsgName = state.pathParameters[paramEDialogMsgName]!;
-            // TU PRZERWAŁEM - obsłużyć przekazanie exceptions do dialogu poprzez String param dla GoRouter
-            return getit<DialogFactory>().error(eDialogMsgName);
-          }),
     ],
   );
 }

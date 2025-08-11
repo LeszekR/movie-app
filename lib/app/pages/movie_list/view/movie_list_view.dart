@@ -1,37 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../get_it_model.dart';
-import '../../components/search_box.dart';
-import '../../navigation/go_router_const_strings.dart';
+import '../../../../get_it_model.dart';
+import '../../../components/search_box.dart';
+import '../controller/movie_list_controller.dart';
 import 'components/movie_card.dart';
-import 'controller/movie_list_controller.dart';
 
 class MovieListView extends CleanView {
-  final Txt _txt;
+  static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
+  static var twoButButtonKey = Key("twoButtonsButtonKey");
+  static var listViewKey = ValueKey('movieListKey');
 
-  MovieListView({super.key}) : _txt = getit<Txt>();
+  const MovieListView({super.key});
 
   @override
   MovieListViewState createState() => MovieListViewState();
 }
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
-  MovieListViewState() : super(getit<MovieListController>());
+  MovieListViewState() : super(getIt<MovieListController>());
+
+  final Txt _txt = getIt<Txt>();
+  final MovieListController _controllerRef = getIt<MovieListController>();  // name must vary from _controller - CleanViewState field
+  final MovieListNavigator _moviesNavigator = getIt<MovieListNavigator>();
 
   @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (controller.movieToShow != null) {
-          _showMovieDetails(controller);
-        } else {
-          controller.restoreViewState();
-        }
-      });
+      if (_controllerRef.state.navCommand != _controllerRef.state.prevNavCommand) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _moviesNavigator.go(context, _controllerRef.state.navCommand);
+          _controllerRef.restoreView = true;
+        });
+      }
+      // else if (_controllerRef.restoreView) {
+      //   _controllerRef.restoreView = false;
+      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+      //     // _controllerRef.restoreViewState();
+      //   });
+      // }
       return Scaffold(
         appBar: AppBar(
           actions: [
@@ -40,11 +50,14 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               onPressed: controller.fetchMovie,
             ),
           ],
-          title: Text(widget._txt.get.movie_list_title),
+          title: Text(_txt.get.movie_list_title),
         ),
         body: Column(
           children: <Widget>[
-            SearchBox(onSubmitted: controller.fetchSearchedMovies),
+            SearchBox(
+              textEditingController: controller.searchTextController,
+              onSubmitted: controller.fetchSearchedMovies,
+            ),
             Expanded(child: _buildMovieList(controller)),
           ],
         ),
@@ -70,20 +83,4 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
       itemCount: movieList.length,
     );
   }
-
-  void _showMovieDetails(MovieListController controller) {
-    controller.saveViewState();
-
-    context.pushNamed(
-      routeMovieDetails,
-      pathParameters: {
-        paramMovieTitle: controller.movieToShow!.title.toString(),
-        paramMovieBudget: controller.movieToShow!.budget.toString(),
-        paramMovieRevenue: controller.movieToShow!.revenue.toString(),
-      },
-    );
-    controller.onMovieDetailsShown();
-  }
 }
-
-class MovieListScrollController extends ScrollController {}

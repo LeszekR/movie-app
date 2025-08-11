@@ -4,15 +4,17 @@ import '../../domain/ui_localized_texts/txt.dart';
 import '../../get_it_model.dart';
 
 class SearchBox extends StatelessWidget {
-  final Txt _txt;
-  final void Function(String)? onSubmitted;
-
   static final keySearchBox = Key('search_box');
+
+  final Txt _txt;
+  final TextEditingController textEditingController;
+  final void Function(String) onSubmitted;
 
   SearchBox({
     super.key,
-    this.onSubmitted,
-  }) : _txt = getit<Txt>();
+    required this.textEditingController,
+    required this.onSubmitted,
+  }) : _txt = getIt<Txt>();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -24,7 +26,7 @@ class SearchBox extends StatelessWidget {
         ),
         child: TextField(
           key: keySearchBox,
-          controller: getit<SearchMoviesTextEditingController>(),
+          controller: textEditingController, // getit<SearchMoviesTextEditingController>(),
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(

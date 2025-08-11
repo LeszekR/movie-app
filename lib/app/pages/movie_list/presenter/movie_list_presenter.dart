@@ -14,11 +14,11 @@ class MovieListPresenter extends Presenter {
   Function? getSearchedMoviesOnError;
 
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
-  final UseCase _getSearchedMoviesUseCase;
+  final GetSearchedMoviesUseCase _getSearchedMoviesUseCase;
 
   MovieListPresenter()
-      : _getMovieDetailsUseCase = getit<GetMovieDetailsUseCase>(),
-        _getSearchedMoviesUseCase = getit<GetSearchedMoviesUseCase>(),
+      : _getMovieDetailsUseCase = getIt<GetMovieDetailsUseCase>(),
+        _getSearchedMoviesUseCase = getIt<GetSearchedMoviesUseCase>(),
         super();
 
   @override

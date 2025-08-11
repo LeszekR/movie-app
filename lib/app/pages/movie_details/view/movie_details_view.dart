@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/ui_localized_texts/txt.dart';
-import '../../../get_it_model.dart';
+import '../../../../domain/ui_localized_texts/txt.dart';
+import '../../../../get_it_model.dart';
+import '../utils/movie_details_utils.dart';
 import 'components/movie_details_content_line.dart';
-import 'movie_details_controller.dart';
 
 class MovieDetailsView extends StatelessWidget {
   final Txt _txt;
@@ -16,11 +16,11 @@ class MovieDetailsView extends StatelessWidget {
     this.budget,
     this.revenue, {
     super.key,
-  }) : _txt = getit<Txt>();
+  }) : _txt = getIt<Txt>();
 
   @override
   Widget build(BuildContext context) {
-    var controller = getit<MovieDetailsController>();
+    var controller = getIt<MovieDetailsUtils>();
     var details = makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(
@@ -57,7 +57,7 @@ class MovieDetailsView extends StatelessWidget {
   }
 
   List<MovieDetailsContentLine> makeMovieDetailsContentLine(
-      MovieDetailsController controller, String budget, String revenue) {
+      MovieDetailsUtils controller, String budget, String revenue) {
     var budgetInDollars = controller.formatDollarAmount(budget);
     var revenueInDollars = controller.formatDollarAmount(revenue);
     var recommendOrNo = controller.recommendOrNo(budget, revenue);

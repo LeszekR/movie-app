@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_demo/domain/entities/movie.dart';
-import 'package:flutter_demo/domain/repositories/movies_repository.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository.dart';
 import 'package:http/http.dart' as http;
 
-import '../../domain/entities/movie_list.dart';
-import '../../domain/repositories/movies_repository_exception.dart';
+import '../../../domain/entities/movie_list.dart';
+import '../../../domain/repositories/movie_repository/movie_repository_exception.dart';
 
-class DataMoviesRepository extends MoviesRepository {
+class DataMovieRepository extends MovieRepository {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
 
@@ -29,7 +29,7 @@ class DataMoviesRepository extends MoviesRepository {
       } else {
         throw MovieListHttpException(response.statusCode);
       }
-    } catch (error) {
+    } catch (e) {
       throw MovieListOtherException();
     }
   }
@@ -51,7 +51,7 @@ class DataMoviesRepository extends MoviesRepository {
       } else {
         throw MovieDetailsHttpException(response.statusCode);
       }
-    } catch (error) {
+    } catch (e) {
       throw MovieDetailsOtherException();
     }
   }

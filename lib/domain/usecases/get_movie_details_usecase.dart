@@ -1,14 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/domain/repositories/movies_repository.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository.dart';
 import 'package:flutter_demo/domain/utils/utils.dart';
 
 import '../entities/movie.dart';
 
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
-  final MoviesRepository moviesRepository;
+  final MovieRepository moviesRepository;
 
+  // DI in constructor to satisfy dependency inversion principle with all dependencies pointing inwards -
+  // if getit<DataMoviesRepository>() was used then domain would have to know about data what is forbidden in fca
   GetMovieDetailsUseCase(this.moviesRepository);
 
   @override

@@ -1,14 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart';
 import 'package:flutter_demo/app/components/search_box.dart';
-import 'package:flutter_demo/app/pages/movie_list/components/movie_card.dart';
+import 'package:flutter_demo/app/config/app_config.dart';
+import 'package:flutter_demo/app/navigation/app_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
-import 'package:flutter_demo/app/pages/movie_list/controller/state/movie_list_view_state_data.dart';
-import 'package:flutter_demo/app/pages/movie_list/movie_list_view.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
-import 'package:flutter_demo/data/repositories/data_movies_repository.dart';
+import 'package:flutter_demo/app/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
+import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/get_searched_movies_usecase.dart';
+import 'package:flutter_demo/domain/utils/logging/logging_actions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
@@ -18,22 +24,25 @@ import '../../test_utils.dart';
 import '../../utils/sorting/sorter_test.dart';
 import 'movie_list_page_test.mocks.dart';
 
-@GenerateMocks([DataMoviesRepository])
+@GenerateMocks([DataMovieRepository])
 main() {
   var getit = GetIt.instance;
 
   setUp(() {
     getit.registerSingleton(Txt());
-    getit.registerLazySingleton<DataMoviesRepository>(() => MockDataMoviesRepository());
+    getit.registerSingleton(AppConfig());
+    getit.registerSingleton(LoggingActions());
+    getit.registerLazySingleton(() => DialogFactory());
+    getit.registerLazySingleton(() => MovieListNavigator());
+    getit.registerLazySingleton(() => TwoButtonNavigator());
+    getit.registerSingleton(AppNavigator());
 
-    getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<DataMoviesRepository>()));
+    getit.registerLazySingleton(() => MovieListState());
+    getit.registerLazySingleton<DataMovieRepository>(() => MockDataMoviesRepository());
+    getit.registerLazySingleton(() => GetMovieDetailsUseCase(getit<DataMovieRepository>()));
     getit.registerLazySingleton(() => GetSearchedMoviesUseCase());
-    getit.registerLazySingleton(() => MovieListPresenter());
-
-    getit.registerLazySingleton(() => MovieListViewStateData());
-    getit.registerLazySingleton(() => MovieListScrollController());
-    getit.registerLazySingleton(() => SearchMoviesTextEditingController());
     getit.registerLazySingleton(() => MovieListController());
+    getit.registerLazySingleton(() => MovieListPresenter());
   });
 
   tearDown(() {
@@ -44,7 +53,7 @@ main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when((getit<DataMoviesRepository>() as MockDataMoviesRepository).getSearchedMovies(any))
+    when((getit<DataMovieRepository>() as MockDataMoviesRepository).getSearchedMovies(any))
         .thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester, widgetBuilder: () => MovieListView());

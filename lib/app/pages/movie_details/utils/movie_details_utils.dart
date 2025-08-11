@@ -1,20 +1,20 @@
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:intl/intl.dart';
 
-import '../../../domain/utils/date_time_reader.dart';
-import '../../../get_it_model.dart';
-import '../../config/app_config.dart';
+import '../../../../domain/ui_localized_texts/txt.dart';
+import '../../../../domain/utils/date_time_reader.dart';
+import '../../../../get_it_model.dart';
+import '../../../config/app_config.dart';
 
-class MovieDetailsController {
+class MovieDetailsUtils {
   final Txt _txt;
   final AppConfig _appConfig;
   final DateTimeReader _dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
-  MovieDetailsController()
-      : _txt = getit<Txt>(),
-        _appConfig = getit<AppConfig>(),
-        _dateTimeReader = getit<DateTimeReader>();
+  MovieDetailsUtils()
+      : _txt = getIt<Txt>(),
+        _appConfig = getIt<AppConfig>(),
+        _dateTimeReader = getIt<DateTimeReader>();
 
   String formatDollarAmount(String amountString) {
     var amount = int.parse(amountString);

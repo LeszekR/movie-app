@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../get_it_model.dart';
-import '../../../config/app_config.dart';
+import '../../../../../get_it_model.dart';
+import '../../../../config/app_config.dart';
 
 class MovieCard extends StatelessWidget {
   final int id;
@@ -55,4 +55,4 @@ class MovieCard extends StatelessWidget {
 
 String makeRating(double voteAverage) =>
     '${(voteAverage * 10).toInt()}%  '
-        '${(voteAverage * 10).toInt() >= int.parse(getit<AppConfig>().param(AppConfig.starRatingThreshold)) ? "🌟" : "    "}';
+        '${(voteAverage * 10).toInt() >= int.parse(getIt<AppConfig>().param(AppConfig.starRatingThreshold)) ? "🌟" : "    "}';
