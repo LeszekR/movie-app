@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/app/config/app_style.dart';
 
 import '../../../../domain/ui_localized_texts/txt.dart';
 import '../../../../get_it_model.dart';
+import '../../../config/app_colors.dart';
 import '../utils/movie_details_utils.dart';
 import 'components/movie_details_content_line.dart';
 
@@ -26,14 +28,11 @@ class MovieDetailsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.amberAccent.shade400,
+        backgroundColor: AppColors.appBarBackground ,
         automaticallyImplyLeading: true,
       ),
       body: ListView.separated(
-        separatorBuilder: (context, index) => Container(
-          height: 1.0,
-          color: Colors.grey.shade300,
-        ),
+        separatorBuilder: AppStyle.listViewSeparatorBuilder,
         itemBuilder: (context, index) => Container(
           padding: EdgeInsets.all(16.0),
           child: Column(

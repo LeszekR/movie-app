@@ -8,7 +8,9 @@ import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import '../../../../get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
 import '../../../components/search_box.dart';
+import '../../../config/app_colors.dart';
 import '../../../config/app_sizes.dart';
+import '../../../config/app_style.dart';
 import '../controller/movie_list_controller.dart';
 import 'components/movie_card.dart';
 
@@ -49,7 +51,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         appBar: AppBar(
           title: Text(_txt.get.movie_list_title),
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.amberAccent.shade100,
+          backgroundColor: AppColors.appBarBackground,
           actions: [
             SearchBox(
               txt: _txt,
@@ -73,7 +75,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         ),
         bottomNavigationBar: Container(
             height: AppSizes.dialogBottomBarHeight,
-            color: Colors.amberAccent.shade100,
+            color: AppColors.appBarBackground,
             child: Row(
               children: [
                 Expanded(child: SizedBox()),
@@ -86,56 +88,17 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 AppSizes.horizontalSeparator()
               ],
             )),
-        // appBar: AppBar(
-        //   actions: [
-        //     IconButton(
-        //       icon: Icon(Icons.movie_creation_outlined),
-        //       onPressed: controller.fetchMovie,
-        //     ),
-        //   ],
-        //   title: Text(_txt.get.movie_list_title),
-        // ),
-        // body: Column(
-        //   children: <Widget>[
-        //     SearchBox(
-        //       textEditingController: controller.searchTextController,
-        //       onSubmitted: controller.fetchSearchedMovies,
-        //     ),
-        //     Expanded(child: _buildMovieList(controller)),
-        //   ],
-        // ),
       );
     });
   }
 
-  // Widget _buildMovieList(MovieListController controller) {
-  //   List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
-  //   return ListView.separated(
-  //     controller: controller.scrollController,
-  //     separatorBuilder: (context, index) => Container(
-  //       height: 1.0,
-  //       color: Colors.grey.shade300,
-  //     ),
-  //     itemBuilder: (context, index) => MovieCard(
-  //       id: movieList[index].id,
-  //       title: movieList[index].title,
-  //       voteAverage: movieList[index].voteAverage,
-  //       onTap: controller.setSelectedMovieId,
-  //       isSelected: movieList[index].id == controller.getSelectedMovieId(),
-  //     ),
-  //     itemCount: movieList.length,
-  //   );
-  // }
   Widget _buildMovieList(BuildContext context, MovieListController controller) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     int? selectedMovieId = controller.state.selectedMovieId.id;
     return ListView.separated(
       key: MovieListView.listViewKey,
       controller: controller.scrollController,
-      separatorBuilder: (context, index) => Container(
-        height: 1.0,
-        color: Colors.grey.shade300,
-      ),
+      separatorBuilder: AppStyle.listViewSeparatorBuilder,
       itemBuilder: (context, index) => MovieCard(
         id: movieList[index].id,
         title: movieList[index].title,

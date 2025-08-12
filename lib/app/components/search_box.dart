@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/ui_localized_texts/txt.dart';
+import '../config/app_colors.dart';
 import '../config/app_sizes.dart';
 
 class SearchBox extends StatelessWidget {
@@ -22,11 +23,10 @@ class SearchBox extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: AppSizes.textFieldHeight,
     width: AppSizes.textFieldWidth * 2,
-    // padding: EdgeInsets.only(left: 5, bottom: 5),
     decoration: BoxDecoration(
-      color: Colors.white70,
+      color: AppColors.textFieldBackground,
       border: Border(
-        bottom: BorderSide(color: Colors.black.withValues(alpha: 0.1)),
+        bottom: BorderSide(color: AppColors.textFieldBorder),
       ),
     ),
     child: TextField(
@@ -37,7 +37,6 @@ class SearchBox extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.all(AppSizes.paddingInText),
-        // prefixIcon: Icon(Icons.search),
         border: InputBorder.none,
         hintText: txt.get.search_prompt,
       ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:go_router/go_router.dart';
@@ -29,7 +30,7 @@ class MovieApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'Movie Browser',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(primarySwatch: AppColors.primarySwatch),
       routerConfig: goRouter(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
