@@ -34,6 +34,7 @@ class MovieApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         getIt<Txt>().setLanguage(context);
         return child!;
