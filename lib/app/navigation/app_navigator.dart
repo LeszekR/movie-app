@@ -69,10 +69,5 @@ class AppNavigator {
 
   void twoButtons(BuildContext context) {
     throw UnimplementedError('use GoRouter');
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => TwoButtonsView(txt, twoButtonNavigator),
-    //   ),
-    // );
   }
 }

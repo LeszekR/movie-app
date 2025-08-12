@@ -26,7 +26,7 @@ class SearchBox extends StatelessWidget {
         ),
         child: TextField(
           key: keySearchBox,
-          controller: textEditingController, // getit<SearchMoviesTextEditingController>(),
+          controller: textEditingController,
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(

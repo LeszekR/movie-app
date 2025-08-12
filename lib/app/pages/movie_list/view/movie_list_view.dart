@@ -23,9 +23,10 @@ class MovieListView extends CleanView {
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   MovieListViewState() : super(getIt<MovieListController>());
 
-  final Txt _txt = getIt<Txt>();
-  final MovieListController _controllerRef = getIt<MovieListController>();  // name must vary from _controller - CleanViewState field
+  // name must vary from _controller which is CleanViewState field and will get shadowed if it is used here
+  final MovieListController _controllerRef = getIt<MovieListController>();
   final MovieListNavigator _moviesNavigator = getIt<MovieListNavigator>();
+  final Txt _txt = getIt<Txt>();
 
   @override
   Widget get view {
@@ -36,6 +37,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           _controllerRef.restoreView = true;
         });
       }
+      // TODO finish this properly - either keep the whole controllers or restore state here
       // else if (_controllerRef.restoreView) {
       //   _controllerRef.restoreView = false;
       //   WidgetsBinding.instance.addPostFrameCallback((_) {
