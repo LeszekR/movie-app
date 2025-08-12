@@ -8,6 +8,7 @@ class AppSizes {
   static const double buttonHeight = 30;
   static const double paddingForWidget = 10;
   static const double paddingInText = 7;
+  static const double separatorLineHeight = 1.0;
   static const double separatorHeight = paddingForWidget;
   static const double separatorWidth = paddingForWidget;
 

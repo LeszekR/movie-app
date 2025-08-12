@@ -27,7 +27,7 @@ class MovieCard extends StatelessWidget {
         child: Container(
           height: 48.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          decoration: BoxDecoration(color: isSelected ?  AppColors.selectedMovieBackground : null),
+          decoration: BoxDecoration(color: isSelected ?  AppColors.selectedTableRowBackground : null),
           child: Row(
             children: [
               Expanded(

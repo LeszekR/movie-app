@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/components/button_builder.dart';
 
@@ -30,8 +31,7 @@ class MessageDialog extends StatelessWidget {
                   automaticallyImplyLeading: false,
                   title: Text(_params.title!),
                 ),
-          // TODO apply color from AppColors
-          backgroundColor: Colors.amber.shade100,
+          backgroundColor: AppColors.dialogBackground,
           body: Center(
             child: Text(
               _params.text,

@@ -6,8 +6,10 @@ import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
 
+import '../../../common/config/app_colors.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
+import '../../../common/config/app_style.dart';
 import '../../../navigation/app_navigator.dart';
 import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
@@ -67,7 +69,7 @@ class _MovieListViewState extends State<MovieListView> {
           appBar: AppBar(
             title: Text(widget.txt.get.movie_list_title),
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.amberAccent.shade100,
+            backgroundColor: AppColors.appBarBackground,
             actions: [
               SearchBox(
                 txt: widget.txt,
@@ -91,7 +93,7 @@ class _MovieListViewState extends State<MovieListView> {
           ),
           bottomNavigationBar: Container(
               height: AppSizes.dialogBottomBarHeight,
-              color: Colors.amberAccent.shade100,
+              color: AppColors.appBarBackground,
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
@@ -115,10 +117,7 @@ class _MovieListViewState extends State<MovieListView> {
     return ListView.separated(
       key: MovieListView.listViewKey,
       controller: widget.scrollController,
-      separatorBuilder: (context, index) => Container(
-        height: 1.0,
-        color: Colors.grey.shade300,
-      ),
+      separatorBuilder: AppStyle.listViewSeparatorBuilder,
       itemBuilder: (context, index) => MovieCard(
         id: movieList[index].id,
         title: movieList[index].title,

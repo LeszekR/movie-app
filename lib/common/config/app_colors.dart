@@ -5,6 +5,13 @@ import 'package:flutter/material.dart';
 class AppColors {
  // TODO make app theme and all colors here
 
-  static Color dialogBarrier() => Color.fromRGBO(0, 0, 0, 0.0);
-  static Color selectedMovieBackground = Colors.grey.shade300;
+  static MaterialColor primarySwatch = Colors.amber;
+
+  static Color dialogBarrier() => const Color.fromRGBO(0, 0, 0, 0.0);
+  static Color selectedTableRowBackground = Colors.grey.shade300;
+  static Color appBarBackground = Colors.amberAccent.shade200;
+  static Color dialogBackground = Colors.amber.shade100;
+  static Color textFieldBackground = Colors.white;
+  static Color textFieldBorder = Colors.black.withValues(alpha: 0.1);
+  static Color separator = Colors.grey.shade300;
 }

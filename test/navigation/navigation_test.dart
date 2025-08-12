@@ -29,7 +29,7 @@ void main() {
 
   // must be either late or in further code complete not with just movie but Future.value(movie)
   // late Completer<Movie> movieCompleter = Completer(); // version shorter but less explicit than completer.complete(Future.value(...))
-  Completer<Movie> movieCompleter = Completer();  // verbose version requiring completer.complete(Future.value(...))
+  Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
 
   setUpAll(() {
     initGetIt();
@@ -69,7 +69,7 @@ void main() {
     // selecting one movie from the list
     await tester.tap(movieFinder);
     await tester.pump();
-    expect(selectedMovieColor(tester, movieFinder), AppColors.selectedMovieBackground);
+    expect(selectedMovieColor(tester, movieFinder), AppColors.selectedTableRowBackground);
 
     // showing progress bar
     await tester.tap(find.byKey(MovieListView.movieDetailsButtonKey));
