@@ -12,8 +12,8 @@ import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter
 import 'package:flutter_demo/app/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
-import 'package:flutter_demo/domain/usecases/get_searched_movies_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
 import 'package:flutter_demo/domain/utils/logging/logging_actions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';

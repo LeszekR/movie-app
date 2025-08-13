@@ -4,7 +4,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository.dart';
 import 'package:flutter_demo/domain/utils/utils.dart';
 
-import '../entities/movie.dart';
+import '../../entities/movie.dart';
 
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
   final MovieRepository moviesRepository;

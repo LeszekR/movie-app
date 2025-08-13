@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/domain/usecases/get_movie_details_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 
-import '../../../../domain/usecases/get_searched_movies_usecase.dart';
+import '../../../../domain/usecases/movie_list/get_searched_movies_usecase.dart';
 import '../../../../get_it_model.dart';
 
 class MovieListPresenter extends Presenter {
@@ -43,23 +43,23 @@ class MovieListPresenter extends Presenter {
 }
 
 class _GetMovieDetailsObserver extends Observer<GetMovieDetailsUseCaseResponse> {
-  final MovieListPresenter _movieListPresenter;
+  final MovieListPresenter _presenter;
 
-  _GetMovieDetailsObserver(this._movieListPresenter);
+  _GetMovieDetailsObserver(this._presenter);
 
   @override
   void onNext(GetMovieDetailsUseCaseResponse? response) {
-    _movieListPresenter.getMovieDetailsOnNext?.call(response!.movie);
+    _presenter.getMovieDetailsOnNext?.call(response!.movie);
   }
 
   @override
   void onComplete() {
-    _movieListPresenter.getMovieDetailsOnComplete?.call();
+    _presenter.getMovieDetailsOnComplete?.call();
   }
 
   @override
   void onError(e) {
-    _movieListPresenter.getMovieDetailsOnError?.call(e);
+    _presenter.getMovieDetailsOnError?.call(e);
   }
 }
 

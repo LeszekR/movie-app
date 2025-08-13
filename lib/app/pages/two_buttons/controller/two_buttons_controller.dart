@@ -1,0 +1,29 @@
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.dart';
+import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter.dart';
+import 'package:flutter_demo/domain/usecases/two_buttons/click_button_usecase.dart';
+
+import '../../../../get_it_model.dart';
+
+class TwoButtonsController extends Controller {
+  final TwoButtonsState state;
+  final TwoButtonsPresenter _presenter;
+
+  TwoButtonsController()
+      : _presenter = getIt<TwoButtonsPresenter>(),
+        state = getIt<TwoButtonsState>();
+
+  @override
+  void initListeners() {
+    _presenter.clickButtonOnNext = _setButtonsState;
+  }
+
+  void clickButton(int buttonIndex) {
+    _presenter.clickButton(buttonIndex, state.buttonStates[buttonIndex]);
+  }
+
+  _setButtonsState(ClickButtonUseCaseResponse response) {
+    state.update(buttonState: ButtonState(response.clickedButtonIndex, response.clickedButtonIsOn));
+    refreshUI();
+  }
+}
