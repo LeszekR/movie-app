@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository.dart';
-import 'package:flutter_demo/domain/utils/utils.dart';
+import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 
 import '../../entities/movie.dart';
 

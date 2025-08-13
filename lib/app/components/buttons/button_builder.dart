@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../config/app_sizes.dart';
-
 
 class ButtonBuilder {
   void Function()? _onTap;
@@ -10,6 +10,7 @@ class ButtonBuilder {
   double _height = AppSizes.buttonHeight;
   String? _caption;
   IconData? _iconData;
+  List<LogicalKeyboardKey>? _shortcutKey;
 
   ButtonBuilder();
 
@@ -35,6 +36,11 @@ class ButtonBuilder {
     return this;
   }
 
+  ButtonBuilder shortcutKey(List<LogicalKeyboardKey> shortcut) {
+    _shortcutKey = shortcut;
+    return this;
+  }
+
   ButtonBuilder iconData(IconData iconData) {
     _iconData = iconData;
     return this;
@@ -50,9 +56,7 @@ class ButtonBuilder {
     return this;
   }
 
-  Widget build() {
-    assert(_onTap != null);
-    assert((_caption == null) != (_iconData == null));
+  SizedBox _buildButton() {
     return SizedBox(
       width: _width,
       height: _height,
@@ -63,5 +67,30 @@ class ButtonBuilder {
         child: _caption != null ? Text(_caption!) : Icon(_iconData!),
       ),
     );
+  }
+
+  Shortcuts _wrapWithShortcuts(List<LogicalKeyboardKey> keyList, Widget child) {
+    return Shortcuts(
+      shortcuts: Map.fromIterable(keyList, key: (k) => k, value: (_) => const ActivateIntent()),
+      // TU PRZERWAŁEM
+      child: Actions(
+        actions: {
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (intent) => _onTap!(),
+          )
+        },
+        child: _buildButton(),
+      ),
+    )
+  }
+
+  Widget build() {
+    assert(_onTap != null);
+    assert((_caption == null) != (_iconData == null));
+    if (_shortcutKey != null) {
+      return _buildButton();
+    } else {
+      return _wrapWithShortcuts(_buildButton());
+    }
   }
 }

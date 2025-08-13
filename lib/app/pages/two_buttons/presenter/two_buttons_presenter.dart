@@ -1,12 +1,10 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import '../../../../domain/usecases/two_buttons/click_button_usecase.dart';
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 
 class TwoButtonsPresenter extends Presenter {
   Function? clickButtonOnNext;
-  Function? clickButtonOnComplete;
-  Function? clickButtonOnError;
 
   final ClickButtonUseCase _clickButtonUseCase;
 
@@ -32,12 +30,12 @@ class _TwoButtonsClickObserver extends Observer<ClickButtonUseCaseResponse> {
 
   @override
   void onComplete() {
-    _presenter.clickButtonOnComplete?.call();
+    // no op
   }
 
   @override
   void onError(e) {
-    _presenter.clickButtonOnError?.call(e);
+    // no op
   }
 
   @override

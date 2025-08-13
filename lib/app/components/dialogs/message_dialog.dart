@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../domain/ui_localized_texts/txt.dart';
 import '../../config/app_colors.dart';
@@ -53,7 +54,7 @@ class MessageDialog extends StatelessWidget {
     if (_params is DialogParamsOk) {
       return [
         AppSizes.filler(),
-        ButtonBuilder().onTap(() => Navigator.of(context).pop()).text(_txt.get.ok).build(),
+        ButtonBuilder().onTap(() => Navigator.of(context).pop()).text(_txt.get.ok).shortcutKey([LogicalKeyboardKey.enter]).build(),
       ];
     }
     if (_params is DialogParamsOkCancel) {

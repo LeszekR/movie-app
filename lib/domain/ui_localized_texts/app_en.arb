@@ -20,5 +20,6 @@
     "no_searched_movies": "No movies with similar title have been found.",
     "no_movie_chosen": "No movie was selected.",
     "goto_two_buttons": "Open Two Buttons",
-    "goto_movie_list": "Show movie list"
+    "goto_movie_list": "Show movie list",
+    "two_button_view_title": "2-state buttons"
 }

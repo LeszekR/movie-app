@@ -10,6 +10,8 @@ class TwoButtonNavigator extends FeatureNavigator {
   void navigate(BuildContext context, NavigationCommand navCommand) {
     if (navCommand is NavMovieList) {
       appNavigator.movieList(context);
+    } else {
+      appNavigator.throwOnMissingNav(navCommand);
     }
   }
 }

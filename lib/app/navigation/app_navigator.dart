@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/app/navigation/navigation_command.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../get_it_model.dart';
+import '../../bootstrap/get_it_model.dart';
 import '../components/dialogs/dialog_factory.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import '../config/app_colors.dart';
@@ -26,6 +27,10 @@ class AppNavigator {
   }
 
   bool _isProgressVisible = false;
+
+  void throwOnMissingNav(NavigationCommand navCommand){
+    throw UnimplementedError('No navigation implemented for NavCommand: ${navCommand.runtimeType}');
+  }
 
   void showProgress(BuildContext context) {
     if (_isProgressVisible) return;
@@ -68,6 +73,6 @@ class AppNavigator {
   }
 
   void twoButtons(BuildContext context) {
-    throw UnimplementedError('use GoRouter');
+    context.goNamed(routeTwoButtons);
   }
 }

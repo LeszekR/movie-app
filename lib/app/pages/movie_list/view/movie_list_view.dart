@@ -5,7 +5,7 @@ import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigato
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
 import '../../../components/search_box.dart';
 import '../../../config/app_colors.dart';
@@ -26,10 +26,13 @@ class MovieListView extends CleanView {
 }
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
-  MovieListViewState() : super(getIt<MovieListController>());
+  final Txt _txt;
+
+  MovieListViewState()
+      : _txt = getIt<Txt>(),
+        super(getIt<MovieListController>());
 
   // name must vary from _controller which is CleanViewState field and will get shadowed if it is used here
-  final Txt _txt = getIt<Txt>();
 
   @override
   Widget get view {
@@ -83,7 +86,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                     .onTap(() => getIt<AppNavigator>().twoButtons(context))
                     .key(MovieListView.twoButButtonKey)
                     .text(_txt.get.goto_two_buttons)
-                    .width(200)
+                    .width(AppSizes.navButtonWidth)
                     .build(),
                 AppSizes.horizontalSeparator()
               ],

@@ -1,4 +1,4 @@
-import '../../../main.dart';
+import '../../../bootstrap/app_runner.dart';
 import '../../repositories/movie_repository/movie_repository_exception.dart';
 import 'logging_messages.dart';
 

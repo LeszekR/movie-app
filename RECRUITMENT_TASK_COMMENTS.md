@@ -24,12 +24,22 @@ New features and refactoring
 
 - introduced `flutter_clean_architecture` package and refactored the whole project to its directives
   and API
-- used `BackgroundUseCase` for searched movies query alternatively with `UseCase` for web in `GetSearchedMoviesUseCaseFactory` factory
+- decided on inside-class `GetIt` lookup pattern instead of constructor-injection- for reasons
+  explained below
+- used `BackgroundUseCase` for searched movies query alternatively with `UseCase` for web
+  in `GetSearchedMoviesUseCaseFactory` factory
 - extracted generic methods for sending data from usecases via `Stream` or between-isolates message
-- then simplified `GetSearchedMoviesUseCaseFactory` to the basic `UseCase` (no multi-isolates) to allow for clean mocking in tests (see details below)
-- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier` architecture with `flutter-clean-architecture`'s `refreshUI` - but unsure whether direct exposing of its fields is a good practise?
-- replaced `Riverpod` DI with `get_it` 
-- introduced handling all exceptions by logging or rethrowing them to `Controllers` which then handle them
+- then simplified `GetSearchedMoviesUseCaseFactory` to the basic `UseCase` (no multi-isolates) to
+  allow for clean mocking in tests (see details below)
+- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
+  architecture with `flutter-clean-architecture`'s `refreshUI` - but unsure whether direct exposing
+  of its fields is a good practise?
+- replaced `Riverpod` DI with `get_it`
+- introduced handling all exceptions by logging or rethrowing them to `Controllers` which then
+  handle them
+- attached `TwoButtonView` to navigation and refactored its logic to `flutter_clean_architecture`
+- applied the same call chain for all navigation in the app to keep single standard (commented in "
+  Details" below)
 
 #
 
@@ -40,15 +50,65 @@ Details
 
 ###
 
-##### Using `flutter_clean_architecture`
+### Dependency injection via in-class `getIt` lookup
 
-- using `BackgroundUseCase` is an overkill here - I did it only for practise and skill presentation,
-  although such a query might indeed be heavy
-- this solution can be seen last in commoit b6753fc1c7e01dde1d3202fb8531a1d031a3bcc0
-- after that was replaced with simple `UseCase` allowing for clean mocking in tests
+#### Available options
 
+- DI via constructors
+- DI via `GetIt` lookup calls inside classes
+- hybrid mix of both
 
-#    
+There are reasons to use each of those choices.   
+I decided on the last since.  
+Whether it is the right choice it can be discussed. For presentation purposes used it here although
+just as well one might decide on any other - depending on given app architecture decisions.
+
+#### DI via `GetIt` lookup calls inside classes is best for
+- Small apps, prototypes, or solo projects where speed > ceremony.
+- Well-isolated feature modules where you accept global DI for convenience.
+- Read-mostly services (e.g., config, logging) with simple lifecycles.
+
+#### Benefits of `GetIt` lookups inside classes
+
+- Low boilerplate: No constructor threading; quick to wire small/medium features. 
+- Late binding: Resolve at use-site; easy to swap registrations centrally. 
+- Global reach: Access anywhere (including deep widgets without extra params). 
+- Constructor stability: Widget/class signatures stay small and stable over time. 
+- Incremental adoption: You can retrofit DI into legacy code without wide refactors.
+
+#### Downsides of `GetIt` lookups inside classes
+- Hidden dependencies: Not visible in constructor; harder to read/review & reason about. 
+- Tighter coupling to locator: Classes aren’t portable without GetIt present (service‑locator anti‑pattern). 
+- Harder testing/mocking: Must prime/reset the global container; tests become order‑dependent; parallel tests risky. 
+- Lifecycle ambiguity: Who owns/disposes instances? Easy to leak streams/controllers if not carefully scoped. 
+- Init order traps: Using a service before it’s registered causes runtime failures; async init is especially tricky. 
+- Multiple instance pitfalls: If you mix factories/singletons, you may accidentally get different instances across code paths. 
+- Refactor friction: IDE “find usages” won’t reveal consumers; dependencies are discovered only at runtime. 
+- Implicit singletons: Encourages using singletons where a scoped instance would be safer (e.g., per screen). 
+- Hot reload surprises: Re-registration/state carryover can yield stale or duplicated singletons. 
+- Boundary blur: Domain layer silently depends on app layer if it pulls from GetIt, weakening architecture boundaries.
+
+###
+
+##### Triggering all navigation through a `Controller`
+
+- since a `Controller` exists outside UI layer then to keep clear separation of responsibilities
+  routing should not be called from there
+- but in many cases the `Controller` actually must call routing
+- hence routing from `MovieListView` to `MovieDetailsView` or any dialog is done with the use of
+  its `Controller.state.navCommand` field, which then triggers navigation from inside the `Widget`
+- with this solution necessary for some routes I had to choose: keep the routing path consistent
+  across the whole app? - what forces other navigation calls to be done the same way, or call
+  routing directly in a button's `onTap` callback?
+- I decided to keep the code as simple as possible hence routing that is initiated by a `Widget` is
+  called directly from there
+- that is why navigation to `TwoButtonView` and back to `MovieDetailsView` is called this simpler
+  way
+- this solution is disputable though since it breaks consistency of the architecture; so if the
+  priority is strict architectural rules it should be changed to passing all navigation through the
+  related `Controller`'s `state.navCommand`
+
+#                       
 
 ------------------
 

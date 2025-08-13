@@ -1,4 +1,4 @@
-part of '../../movie_app.dart';
+part of '../movie_app.dart';
 
 GoRouter goRouter() {
   return GoRouter(
@@ -10,14 +10,20 @@ GoRouter goRouter() {
         builder: (context, state) => MovieListView(),
       ),
       GoRoute(
-          name: routeMovieDetails,
-          path: pathMovieDetails,
-          builder: (context, state) {
-            final String title = state.pathParameters[paramMovieTitle]!;
-            final String budget = state.pathParameters[paramMovieBudget]!;
-            final String revenue = state.pathParameters[paramMovieRevenue]!;
-            return MovieDetailsView(title, budget, revenue);
-          }),
+        name: routeMovieDetails,
+        path: pathMovieDetails,
+        builder: (context, state) {
+          final String title = state.pathParameters[paramMovieTitle]!;
+          final String budget = state.pathParameters[paramMovieBudget]!;
+          final String revenue = state.pathParameters[paramMovieRevenue]!;
+          return MovieDetailsView(title, budget, revenue);
+        },
+      ),
+      GoRoute(
+        name: routeTwoButtons,
+        path: pathTwoButtons,
+        builder: (context, state) => TwoButtonsView(),
+      ),
     ],
   );
 }

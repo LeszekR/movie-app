@@ -9,7 +9,6 @@ import '../../../navigation/navigation_command.dart';
 import 'nav_commands.dart';
 
 class MovieListNavigator extends FeatureNavigator {
-
   @override
   void navigate(BuildContext context, NavigationCommand navCommand) {
     if (navCommand is NavProgress) {
@@ -24,6 +23,8 @@ class MovieListNavigator extends FeatureNavigator {
         appNavigator.dialogMessage(context, navCommand.payload!);
       } else if (navCommand is NavErrorDialog) {
         appNavigator.dialogError(context, navCommand.payload!);
+      } else {
+        appNavigator.throwOnMissingNav(navCommand);
       }
     }
   }

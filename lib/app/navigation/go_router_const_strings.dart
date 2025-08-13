@@ -7,3 +7,6 @@ const paramMovieTitle = 'title';
 const paramMovieBudget = 'budget';
 const paramMovieRevenue = 'revenue';
 
+const routeTwoButtons = 'two_buttons_route';
+const pathTwoButtons = '/two_buttons';
+

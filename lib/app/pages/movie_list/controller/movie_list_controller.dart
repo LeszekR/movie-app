@@ -8,7 +8,7 @@ import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
 import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
 import '../../../../domain/utils/logging/logging_actions.dart';
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../navigation/app_nav_commands.dart';

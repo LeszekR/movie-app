@@ -11,7 +11,7 @@ class AppColors {
   static Color selectedTableRowBackground = Colors.grey.shade300;
   static Color appBarBackground = Colors.amberAccent.shade200;
   static Color dialogBackground = Colors.amber.shade100;
-  static Color textFieldBackground = Colors.white70;
+  static Color textFieldBackground = Colors.white;
   static Color textFieldBorder = Colors.black.withValues(alpha: 0.1);
   static Color separator = Colors.grey.shade300;
 }

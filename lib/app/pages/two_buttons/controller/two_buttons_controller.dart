@@ -3,7 +3,7 @@ import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.
 import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter.dart';
 import 'package:flutter_demo/domain/usecases/two_buttons/click_button_usecase.dart';
 
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 
 class TwoButtonsController extends Controller {
   final TwoButtonsState state;
@@ -22,8 +22,8 @@ class TwoButtonsController extends Controller {
     _presenter.clickButton(buttonIndex, state.buttonStates[buttonIndex]);
   }
 
-  _setButtonsState(ClickButtonUseCaseResponse response) {
-    state.update(buttonState: ButtonState(response.clickedButtonIndex, response.clickedButtonIsOn));
+  _setButtonsState(ClickButtonUseCaseResponse r) {
+    state.update(buttonState: ButtonState(r.clickedButtonIndex, r.clickedButtonIsOn));
     refreshUI();
   }
 }

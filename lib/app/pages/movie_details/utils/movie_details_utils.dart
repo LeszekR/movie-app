@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../domain/ui_localized_texts/txt.dart';
 import '../../../../domain/utils/date_time_reader.dart';
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 import '../../../config/app_config.dart';
 
 class MovieDetailsUtils {

@@ -2,7 +2,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 
 import '../../../../domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import '../../../../get_it_model.dart';
+import '../../../../bootstrap/get_it_model.dart';
 
 class MovieListPresenter extends Presenter {
   Function? getMovieDetailsOnNext;
