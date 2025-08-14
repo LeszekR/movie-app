@@ -12,7 +12,7 @@ import '../app/pages/movie_list/controller/movie_list_state.dart';
 import '../app/pages/movie_list/presenter/movie_list_presenter.dart';
 import '../app/pages/two_buttons/controller/two_buttons_controller.dart';
 import '../app/pages/two_buttons/presenter/two_buttons_presenter.dart';
-import '../app/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
+import '../app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
 import '../data/repositories/movie_repository/data_movie_repository.dart';
 import '../domain/ui_localized_texts/txt.dart';
 import '../domain/usecases/movie_details/get_movie_details_usecase.dart';
@@ -29,7 +29,7 @@ void initGetIt() {
   getIt.registerSingleton(LoggingActions());
   getIt.registerLazySingleton(() => DialogFactory());
   getIt.registerLazySingleton(() => MovieListNavigator());
-  getIt.registerLazySingleton(() => TwoButtonNavigator());
+  getIt.registerLazySingleton(() => TwoButtonsNavigator());
   getIt.registerSingleton(AppNavigator());
 
   getIt.registerLazySingleton(() => MovieListState());

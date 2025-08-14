@@ -72,6 +72,7 @@ class MovieListController extends Controller {
         scrollOffset: 0,
       );
     }
+    _saveViewState();
     refreshUI();
   }
 
@@ -98,6 +99,7 @@ class MovieListController extends Controller {
     if (movie == null) {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noSuchMovie));
     } else {
+      _saveViewState();
       state.update(navCommand: NavMovieDetails(movie));
     }
     refreshUI();
@@ -117,7 +119,7 @@ class MovieListController extends Controller {
     return state.selectedMovieId.id;
   }
 
-  void saveViewState() {
+  void _saveViewState() {
     state.update(
       searchQuery: searchTextController.text,
       scrollOffset: scrollController.offset,

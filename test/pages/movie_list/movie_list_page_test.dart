@@ -9,7 +9,7 @@ import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dar
 import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
-import 'package:flutter_demo/app/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
+import 'package:flutter_demo/app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
@@ -34,7 +34,7 @@ main() {
     getit.registerSingleton(LoggingActions());
     getit.registerLazySingleton(() => DialogFactory());
     getit.registerLazySingleton(() => MovieListNavigator());
-    getit.registerLazySingleton(() => TwoButtonNavigator());
+    getit.registerLazySingleton(() => TwoButtonsNavigator());
     getit.registerSingleton(AppNavigator());
 
     getit.registerLazySingleton(() => MovieListState());

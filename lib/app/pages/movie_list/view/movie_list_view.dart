@@ -45,9 +45,9 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
       }
       // TODO finish this properly - either keep the whole controllers or restore state here
       // else if (controller.restoreView) {
-      //   controller.restoreView = false;
       //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //     // controller.restoreViewState();
+      //   controller.restoreView = false;
+      //     controller.restoreViewState();
       //   });
       // }
       return Scaffold(
@@ -82,8 +82,8 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
             child: Row(
               children: [
                 Expanded(child: SizedBox()),
-                ButtonBuilder()
-                    .onTap(() => getIt<AppNavigator>().twoButtons(context))
+                ButtonBuilder(context)
+                    .onTap((c) => getIt<AppNavigator>().twoButtons(c))
                     .key(MovieListView.twoButButtonKey)
                     .text(_txt.get.goto_two_buttons)
                     .width(AppSizes.navButtonWidth)
