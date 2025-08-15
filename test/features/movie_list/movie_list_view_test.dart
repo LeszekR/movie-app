@@ -44,7 +44,6 @@ main() {
     getit.registerLazySingleton<MoviesRepository>(() => MockMoviesRepository());
     getit.registerLazySingleton(() => TwoButtonNavigator());
     getit.registerFactory(() => MovieDetailsController(getit<DateTimeReader>(), getit<AppConfig>()));
-    getit.registerFactory(() => MovieListScrollController());
   });
 
   tearDown(() {
@@ -65,7 +64,6 @@ main() {
                 txt: getit<Txt>(),
                 appNavigator: getit<AppNavigator>(),
                 moviesNavigator: getit<MovieListNavigator>(),
-                scrollController: getit<MovieListScrollController>(),
               ),
             ));
 

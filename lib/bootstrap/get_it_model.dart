@@ -14,15 +14,14 @@ import '../features/movie_list/bloc/movie_list_bloc.dart';
 import '../features/two_buttons/bloc/two_button_state.dart';
 import '../features/two_buttons/two_button_navigation/two_button_navigator.dart';
 import '../navigation/app_navigator.dart';
-import '../features/movie_list/view/movie_list_view.dart';
 
 GetIt getit = GetIt.instance;
 
 void initGetIt() {
+  getit.registerSingleton(Txt());
   getit.registerSingleton(AppConfig());
   getit.registerSingleton(DateTimeReader());
-  getit.registerSingleton(Txt());
-  getit.registerLazySingleton(() => DialogFactory(getit<Txt>()));
+
   getit.registerLazySingleton(() => AppNavigator(
         getit<Txt>(),
         getit<DialogFactory>(),
@@ -33,11 +32,15 @@ void initGetIt() {
         getit<Txt>(),
         getit<MovieDetailsController>(),
       ));
-  getit.registerLazySingleton(() => MoviesRepository());
-  getit.registerLazySingleton(() => Sorter<Movie>());
-  getit.registerLazySingleton(() => MovieListBloc(getit<MoviesRepository>(), getit<Sorter<Movie>>()));
-  getit.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)));
   getit.registerLazySingleton(() => TwoButtonNavigator());
+
+  getit.registerFactory(() => DialogFactory(getit<Txt>()));
+  getit.registerFactory(() => MoviesRepository());
+  getit.registerFactory(() => Sorter<Movie>());
+
+  getit.registerLazySingleton(() => MovieListBloc(getit<MoviesRepository>(), getit<Sorter<Movie>>()));
+
+  getit.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)));
+
   getit.registerFactory(() => MovieDetailsController(getit<DateTimeReader>(), getit<AppConfig>()));
-  getit.registerFactory(() => MovieListScrollController());
 }

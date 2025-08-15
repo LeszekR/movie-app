@@ -8,7 +8,6 @@ import '../components/dialogs/dialog_factory.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import '../features/movie_list/navigation/movie_list_navigator.dart';
 import '../features/two_buttons/two_button_navigation/two_button_navigator.dart';
-import '../bootstrap/get_it_model.dart';
 import 'navigation_command.dart';
 
 class AppNavigator {
@@ -84,7 +83,6 @@ class AppNavigator {
           txt: txt,
           appNavigator: this,
           moviesNavigator: movieListNavigator,
-          scrollController: getit<MovieListScrollController>(),
         ),
       ),
     );

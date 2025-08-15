@@ -47,7 +47,6 @@ class MovieApp extends StatelessWidget {
               txt: getit<Txt>(),
               appNavigator: getit<AppNavigator>(),
               moviesNavigator: getit<MovieListNavigator>(),
-              scrollController: getit<MovieListScrollController>(),
             );
           },
         ),
