@@ -10,8 +10,8 @@ import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/features/two_buttons/components/button_two_states.dart';
 import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
-import 'package:flutter_demo/get_it_model.dart';
-import 'package:flutter_demo/movie_app.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/features/movie_app.dart';
 import 'package:flutter_demo/repositories/movies_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';

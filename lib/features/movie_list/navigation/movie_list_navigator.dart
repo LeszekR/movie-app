@@ -28,6 +28,8 @@ class MovieListNavigator extends FeatureNavigator {
         appNavigator.dialogMessage(context, navCommand.payload!);
       } else if (navCommand is NavErrorDialog) {
         appNavigator.dialogError(context, navCommand.payload!);
+      } else {
+        appNavigator.throwOnMissingNav(navCommand);
       }
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/features/two_buttons/bloc/two_button_state.dart';
 import 'package:flutter_demo/features/two_buttons/two_button_navigation/two_button_navigator.dart';
 
@@ -14,10 +15,10 @@ class TwoButtonsView extends StatelessWidget {
   static var button1Key = Key('button1Key');
   static var button2Key = Key('button2Key');
 
-  final Txt txt;
+  final Txt _txt;
   final TwoButtonNavigator _twoButtonNavigator;
 
-  const TwoButtonsView(this.txt, this._twoButtonNavigator, {super.key});
+  const TwoButtonsView(this._txt, this._twoButtonNavigator, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,10 @@ class TwoButtonsView extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('2-state buttons'),
+              title: Text(_txt.get.two_button_view_title),
               centerTitle: true,
               automaticallyImplyLeading: false,
+              backgroundColor: AppColors.appBarBackground,
             ),
             body: Center(
               child: Row(
@@ -53,20 +55,21 @@ class TwoButtonsView extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: Container(
-                height: AppSizes.dialogBottomBarHeight,
-                color: Colors.amberAccent.shade100,
-                child: Row(
-                  children: [
-                    Expanded(child: SizedBox()),
-                    ButtonBuilder()
-                        .onTap(cubit.showMovieList)
-                        .key(TwoButtonsView.movieListButtonKey)
-                        .text(txt.get.goto_movie_list)
-                        .width(200)
-                        .build(),
-                    AppSizes.horizontalSeparator()
-                  ],
-                )),
+              height: AppSizes.dialogBottomBarHeight,
+              color: AppColors.appBarBackground,
+              child: Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  ButtonBuilder()
+                      .onTap(cubit.showMovieList)
+                      .key(TwoButtonsView.movieListButtonKey)
+                      .text(_txt.get.goto_movie_list)
+                      .width(200)
+                      .build(),
+                  AppSizes.horizontalSeparator()
+                ],
+              ),
+            ),
           );
         });
   }

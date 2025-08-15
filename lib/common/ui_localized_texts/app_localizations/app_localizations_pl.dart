@@ -61,4 +61,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get goto_movie_list => 'Pokaż listę filmów';
+
+  @override
+  String get two_button_view_title => 'Guziki o dwóch stanach';
 }

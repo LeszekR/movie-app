@@ -5,9 +5,9 @@ import 'package:flutter_demo/common/logging/logging_messages.dart';
 import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 
+import '../../../bootstrap/app_runner.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
-import '../../../main.dart';
 import '../../../repositories/movies_repository.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';

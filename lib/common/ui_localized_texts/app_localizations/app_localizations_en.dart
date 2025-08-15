@@ -61,4 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goto_movie_list => 'Show movie list';
+
+  @override
+  String get two_button_view_title => '2-state buttons';
 }

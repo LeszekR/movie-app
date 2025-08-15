@@ -19,6 +19,5 @@
     "no_searched_movies": "Nie znaleziono filmów o podobnym tytule",
     "no_movie_chosen": "Nie wybrano żadnego filmu",
     "goto_two_buttons": "Pokaż Dwa Przyciski",
-    "goto_movie_list": "Pokaż listę filmów"
-
-}
+    "goto_movie_list": "Pokaż listę filmów",
+    "two_button_view_title": "Guziki o dwóch stanach"}

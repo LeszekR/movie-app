@@ -202,6 +202,12 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Pokaż listę filmów'**
   String get goto_movie_list;
+
+  /// No description provided for @two_button_view_title.
+  ///
+  /// In pl, this message translates to:
+  /// **'Guziki o dwóch stanach'**
+  String get two_button_view_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
