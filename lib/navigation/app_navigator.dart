@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
 
+import '../bootstrap/get_it_model.dart';
 import '../common/config/app_colors.dart';
 import '../common/ui_localized_texts/txt.dart';
 import '../components/dialogs/dialog_factory.dart';
@@ -13,14 +14,12 @@ import 'navigation_command.dart';
 class AppNavigator {
   final Txt txt;
   final DialogFactory dialogFactory;
-  final MovieListNavigator movieListNavigator;
-  final TwoButtonNavigator twoButtonNavigator;
 
   AppNavigator(
     this.txt,
     this.dialogFactory,
-    this.movieListNavigator,
-    this.twoButtonNavigator,
+    MovieListNavigator movieListNavigator,
+    TwoButtonNavigator twoButtonNavigator,
   ) {
     movieListNavigator.appNavigator = this;
     twoButtonNavigator.appNavigator = this;
@@ -28,7 +27,7 @@ class AppNavigator {
 
   bool _isProgressVisible = false;
 
-  void throwOnMissingNav(NavigationCommand navCommand){
+  void throwOnMissingNav(NavigationCommand navCommand) {
     throw UnimplementedError('No navigation implemented for NavCommand: ${navCommand.runtimeType}');
   }
 
@@ -71,7 +70,7 @@ class AppNavigator {
   void twoButtons(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TwoButtonsView(txt, twoButtonNavigator),
+        builder: (context) => getIt<TwoButtonsView>(),
       ),
     );
   }
@@ -79,11 +78,7 @@ class AppNavigator {
   void movieList(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => MovieListView(
-          txt: txt,
-          appNavigator: this,
-          moviesNavigator: movieListNavigator,
-        ),
+        builder: (context) => getIt<MovieListView>(),
       ),
     );
   }

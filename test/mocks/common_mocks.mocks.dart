@@ -8,7 +8,7 @@ import 'dart:async' as _i6;
 import 'package:flutter_demo/common/config/app_config.dart' as _i2;
 import 'package:flutter_demo/common/utils/date_time_reader.dart' as _i4;
 import 'package:flutter_demo/features/movie_details/model/movie.dart' as _i7;
-import 'package:flutter_demo/repositories/movies_repository.dart' as _i5;
+import 'package:flutter_demo/repositories/movie_repository.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
 
@@ -87,7 +87,7 @@ class MockDateTimeReader extends _i1.Mock implements _i4.DateTimeReader {
 /// A class which mocks [MoviesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMoviesRepository extends _i1.Mock implements _i5.MoviesRepository {
+class MockMoviesRepository extends _i1.Mock implements _i5.MovieRepository {
   MockMoviesRepository() {
     _i1.throwOnMissingStub(this);
   }

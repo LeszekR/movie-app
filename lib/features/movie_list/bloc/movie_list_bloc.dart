@@ -8,13 +8,13 @@ import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import '../../../bootstrap/app_runner.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
-import '../../../repositories/movies_repository.dart';
+import '../../../repositories/movie_repository.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
 import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
-  final MoviesRepository moviesRepository;
+  final MovieRepository moviesRepository;
   final Sorter<Movie> sorter;
 
   MovieListBloc(this.moviesRepository, this.sorter) : super(MovieListState()) {

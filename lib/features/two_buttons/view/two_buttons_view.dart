@@ -15,21 +15,25 @@ class TwoButtonsView extends StatelessWidget {
   static var button1Key = Key('button1Key');
   static var button2Key = Key('button2Key');
 
-  final Txt _txt;
-  final TwoButtonNavigator _twoButtonNavigator;
+  final Txt txt;
+  final TwoButtonNavigator twoButtonNavigator;
 
-  const TwoButtonsView(this._txt, this._twoButtonNavigator, {super.key});
+  const TwoButtonsView({
+    super.key,
+    required this.txt,
+    required this.twoButtonNavigator,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<TwoButtonCubit>();
     return BlocConsumer<TwoButtonCubit, TwoButtonState>(
         listenWhen: (prev, curr) => prev.navCommand != curr.navCommand,
-        listener: (context, state) => _twoButtonNavigator.go(context, state.navCommand),
+        listener: (context, state) => twoButtonNavigator.go(context, state.navCommand),
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(_txt.get.two_button_view_title),
+              title: Text(txt.get.two_button_view_title),
               centerTitle: true,
               automaticallyImplyLeading: false,
               backgroundColor: AppColors.appBarBackground,
@@ -63,8 +67,8 @@ class TwoButtonsView extends StatelessWidget {
                   ButtonBuilder(context)
                       .onTap(cubit.showMovieList)
                       .key(TwoButtonsView.movieListButtonKey)
-                      .text(_txt.get.goto_movie_list)
-                      .width(200)
+                      .text(txt.get.goto_movie_list)
+                      .width(AppSizes.navButtonWidth)
                       .build(),
                   AppSizes.horizontalSeparator()
                 ],

@@ -12,7 +12,7 @@ import 'package:flutter_demo/features/two_buttons/components/button_two_states.d
 import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/features/movie_app.dart';
-import 'package:flutter_demo/repositories/movies_repository.dart';
+import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -33,8 +33,8 @@ void main() {
 
   setUpAll(() {
     initGetIt();
-    getIt.unregister<MoviesRepository>();
-    getIt.registerLazySingleton<MoviesRepository>(() {
+    getIt.unregister<MovieRepository>();
+    getIt.registerLazySingleton<MovieRepository>(() {
       return mockMoviesRepository;
     });
 

@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColors {
- // TODO make app theme and all colors here
-
   static MaterialColor primarySwatch = Colors.amber;
 
   static Color dialogBarrier() => const Color.fromRGBO(0, 0, 0, 0.0);

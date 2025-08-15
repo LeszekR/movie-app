@@ -10,7 +10,6 @@ import '../../../common/config/app_colors.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
 import '../../../common/config/app_style.dart';
-import '../../../navigation/app_navigator.dart';
 import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
@@ -20,13 +19,11 @@ class MovieListView extends StatefulWidget {
   static var twoButButtonKey = Key("twoButtonsButtonKey");
   static var listViewKey = ValueKey('movieListKey');
   final Txt txt;
-  final AppNavigator appNavigator;
   final MovieListNavigator moviesNavigator;
 
   const MovieListView({
     super.key,
     required this.txt,
-    required this.appNavigator,
     required this.moviesNavigator,
   });
 
@@ -101,7 +98,7 @@ class _MovieListViewState extends State<MovieListView> {
                       .onTap(_showTwoButtons)
                       .key(MovieListView.twoButButtonKey)
                       .text(widget.txt.get.goto_two_buttons)
-                      .width(200)
+                      .width(AppSizes.navButtonWidth)
                       .build(),
                   AppSizes.horizontalSeparator()
                 ],
