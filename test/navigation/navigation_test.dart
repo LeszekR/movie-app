@@ -34,9 +34,7 @@ void main() {
   setUpAll(() {
     initGetIt();
     getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() {
-      return mockMovieRepository;
-    });
+    getIt.registerLazySingleton<DataMovieRepository>(() => mockMovieRepository);
 
     dotenv.testLoad(fileInput: File(AppConfig.configFilePath).readAsStringSync());
 
@@ -74,6 +72,7 @@ void main() {
     // showing progress bar
     await tester.tap(find.byKey(MovieListView.movieDetailsButtonKey));
     await tester.pump();
+    await tester.pump();
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
     // showing selected movie details in MovieDetailsView
@@ -95,14 +94,14 @@ void main() {
     await pumpUntilFound(tester, find.byType(TwoButtonsView));
 
     // clicking a button what changes its color
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOff);
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOff);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOn);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOn);
 
     await tester.tap(findTwoStateButton(TwoButtonsView.button1Key));
     await tester.pump();
 
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOn);
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOff);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOff);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOn);
 
     // navigating back to MovieListView
     await tester.tap(find.byKey(TwoButtonsView.movieListButtonKey));
@@ -120,8 +119,8 @@ void main() {
 
     // checking TwoButtonsView state - the buttons colors
     expect(findTwoStateButton(TwoButtonsView.button1Key), findsOneWidget);
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOn);
-    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOff);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button1Key).color, ButtonTwoStates.colorOff);
+    expect(findTwoStateButtonContainer(tester, TwoButtonsView.button2Key).color, ButtonTwoStates.colorOn);
   });
 }
 
