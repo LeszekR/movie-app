@@ -16,21 +16,16 @@ class MovieListNavigator extends FeatureNavigator {
 
   @override
   void navigate(BuildContext context, NavigationCommand navCommand) {
-    if (navCommand is NavProgress) {
-      appNavigator.showProgress(context);
+    if (navCommand is NavMovieDetails) {
+      _showMovieDetails(context, navCommand.payload!);
+    } else if (navCommand is NavTwoButtons) {
+      appNavigator.twoButtons(context);
+    } else if (navCommand is NavMessageDialog) {
+      appNavigator.dialogMessage(context, navCommand.payload!);
+    } else if (navCommand is NavErrorDialog) {
+      appNavigator.dialogError(context, navCommand.payload!);
     } else {
-      appNavigator.popProgress(context);
-      if (navCommand is NavMovieDetails) {
-        _showMovieDetails(context, navCommand.payload!);
-      } else if (navCommand is NavTwoButtons) {
-        appNavigator.twoButtons(context);
-      } else if (navCommand is NavMessageDialog) {
-        appNavigator.dialogMessage(context, navCommand.payload!);
-      } else if (navCommand is NavErrorDialog) {
-        appNavigator.dialogError(context, navCommand.payload!);
-      } else {
-        appNavigator.throwOnMissingNav(navCommand);
-      }
+      appNavigator.throwOnMissingNav(navCommand);
     }
   }
 

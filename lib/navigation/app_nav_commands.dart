@@ -4,18 +4,18 @@ import 'navigation_command.dart';
 
 part '../features/movie_list/navigation/nav_commands.dart';
 
-final class NavProgress extends NavigationCommand {
-  NavProgress() : super();
-}
+final class NavProgressOn extends NavigationCommand {}
+
+final class NavProgressOff extends NavigationCommand {}
 
 final class NavMovieList extends NavigationCommand {}
 
 final class NavTwoButtons extends NavigationCommand<Movie> {}
 
 final class NavMessageDialog extends NavigationCommand<EDialogMsg> {
-  NavMessageDialog(super.dialogParams);
+NavMessageDialog(super.eDialogMessage);
 }
 
 final class NavErrorDialog extends NavigationCommand<Exception> {
-  NavErrorDialog(super.e);
+NavErrorDialog(super.e);
 }

@@ -15,32 +15,32 @@ import '../features/two_buttons/bloc/two_button_state.dart';
 import '../features/two_buttons/two_button_navigation/two_button_navigator.dart';
 import '../navigation/app_navigator.dart';
 
-GetIt getit = GetIt.instance;
+GetIt getIt = GetIt.instance;
 
 void initGetIt() {
-  getit.registerSingleton(Txt());
-  getit.registerSingleton(AppConfig());
-  getit.registerSingleton(DateTimeReader());
+  getIt.registerSingleton(Txt());
+  getIt.registerSingleton(AppConfig());
+  getIt.registerSingleton(DateTimeReader());
 
-  getit.registerLazySingleton(() => AppNavigator(
-        getit<Txt>(),
-        getit<DialogFactory>(),
-        getit<MovieListNavigator>(),
-        getit<TwoButtonNavigator>(),
+  getIt.registerLazySingleton(() => AppNavigator(
+        getIt<Txt>(),
+        getIt<DialogFactory>(),
+        getIt<MovieListNavigator>(),
+        getIt<TwoButtonNavigator>(),
       ));
-  getit.registerLazySingleton(() => MovieListNavigator(
-        getit<Txt>(),
-        getit<MovieDetailsController>(),
+  getIt.registerLazySingleton(() => MovieListNavigator(
+        getIt<Txt>(),
+        getIt<MovieDetailsController>(),
       ));
-  getit.registerLazySingleton(() => TwoButtonNavigator());
+  getIt.registerLazySingleton(() => TwoButtonNavigator());
 
-  getit.registerFactory(() => DialogFactory(getit<Txt>()));
-  getit.registerFactory(() => MoviesRepository());
-  getit.registerFactory(() => Sorter<Movie>());
+  getIt.registerFactory(() => DialogFactory(getIt<Txt>()));
+  getIt.registerFactory(() => MoviesRepository());
+  getIt.registerFactory(() => Sorter<Movie>());
 
-  getit.registerLazySingleton(() => MovieListBloc(getit<MoviesRepository>(), getit<Sorter<Movie>>()));
+  getIt.registerLazySingleton(() => MovieListBloc(getIt<MoviesRepository>(), getIt<Sorter<Movie>>()));
 
-  getit.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)));
+  getIt.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)));
 
-  getit.registerFactory(() => MovieDetailsController(getit<DateTimeReader>(), getit<AppConfig>()));
+  getIt.registerFactory(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppConfig>()));
 }

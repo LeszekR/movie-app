@@ -33,8 +33,8 @@ void main() {
 
   setUpAll(() {
     initGetIt();
-    getit.unregister<MoviesRepository>();
-    getit.registerLazySingleton<MoviesRepository>(() {
+    getIt.unregister<MoviesRepository>();
+    getIt.registerLazySingleton<MoviesRepository>(() {
       return mockMoviesRepository;
     });
 

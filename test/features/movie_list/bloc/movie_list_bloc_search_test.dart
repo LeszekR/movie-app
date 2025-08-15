@@ -34,14 +34,14 @@ void main() {
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_A)),
       expect: () => [
         MovieListState(
-          navCommand: NavProgress(),
+          navCommand: NavProgressOn(),
         ),
         MovieListState(
           movieList: d.movieList_A,
           selectedMovieId: MovieId.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
-          navCommand: null,
+          navCommand: NavProgressOff(),
         )
       ],
     );
@@ -229,7 +229,7 @@ void main() {
           selectedMovieId: MovieId.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
-          navCommand: null,
+          navCommand: NavProgressOff(),
         )
       ],
       verify: (bloc) {
@@ -255,7 +255,7 @@ void main() {
           selectedMovieId: MovieId.none(),
           scrollOffset: 0,
           searchQuery: d.query_B,
-          navCommand: null,
+          navCommand: NavProgressOff(),
         )
       ],
       verify: (bloc) {

@@ -29,7 +29,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     if (query == null) return;
     if (query.isEmpty) return;
 
-    emit(state.copyWith(navCommand: NavProgress()));
+    emit(state.copyWith(navCommand: NavProgressOn()));
 
     try {
       List<Movie>? movies = await moviesRepository.getSearchedMovies(event.query!);
@@ -48,6 +48,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           selectedMovieId: const MovieId.none(),
           scrollOffset: 0,
           searchQuery: query,
+          navCommand: NavProgressOff(),
         ));
       }
     } on Exception catch (e) {
@@ -75,7 +76,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       return;
     }
 
-    emit(state.copyWith(navCommand: NavProgress()));
+    emit(state.copyWith(navCommand: NavProgressOn()));
 
     try {
       var movie = await moviesRepository.getMovie(movieId.id!);

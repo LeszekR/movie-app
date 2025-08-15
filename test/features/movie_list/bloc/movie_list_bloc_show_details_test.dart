@@ -43,7 +43,7 @@ void main() {
         selectedMovieId: MovieId.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
-        navCommand: NavProgress(),
+        navCommand: NavProgressOn(),
       ),
       MovieListState(
         movieList: d.movieList_A,
