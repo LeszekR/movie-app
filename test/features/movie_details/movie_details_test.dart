@@ -1,3 +1,4 @@
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/common/utils/date_time_reader.dart';
@@ -16,18 +17,17 @@ var budget = '100';
 var revenue = '200';
 var title = 'Avatar';
 
-var getit = GetIt.instance;
 
 main() {
   setUpAll(() {
-    getit.registerSingleton<Txt>(Txt());
-    getit.registerSingleton<AppConfig>(mockAppConfig);
-    getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
-    getit.registerLazySingleton(() => MovieDetailsController(getit<DateTimeReader>(), getit<AppConfig>()));
+    getIt.registerSingleton<Txt>(Txt());
+    getIt.registerSingleton<AppConfig>(mockAppConfig);
+    getIt.registerSingleton<DateTimeReader>(mockDateTimeReader);
+    getIt.registerLazySingleton(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppConfig>()));
   });
 
   tearDown(() {
-    getit.reset();
+    getIt.reset();
   });
 
   testWidgets('should recommend model depending on conditions', (final WidgetTester tester) async {
@@ -36,8 +36,8 @@ main() {
     var thresholdLow = '50';
     var thresholdHigh = '150';
 
-    await prepareMovieDetailsWidget(tester, getit, '1', sunday);
-    var txt = getit<Txt>();
+    await prepareMovieDetailsWidget(tester, getIt, '1', sunday);
+    var txt = getIt<Txt>();
     var yesString = txt.get.yes;
     var noString = txt.get.no;
 
@@ -49,7 +49,7 @@ main() {
     ];
 
     for (var testCase in testCaseList) {
-      await prepareMovieDetailsWidget(tester, getit, testCase.profitThresh, testCase.day);
+      await prepareMovieDetailsWidget(tester, getIt, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }
   });
