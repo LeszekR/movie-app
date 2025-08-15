@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.dart';
 import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter.dart';
-import 'package:flutter_demo/domain/usecases/two_buttons/click_button_usecase.dart';
+import 'package:flutter_demo/domain/usecases/two_buttons/click_two_button_usecase.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
 
@@ -10,8 +10,8 @@ class TwoButtonsController extends Controller {
   final TwoButtonsPresenter _presenter;
 
   TwoButtonsController()
-      : _presenter = getIt<TwoButtonsPresenter>(),
-        state = getIt<TwoButtonsState>();
+      : state = getIt<TwoButtonsState>(),
+        _presenter = getIt<TwoButtonsPresenter>();
 
   @override
   void initListeners() {

@@ -5,6 +5,7 @@ import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:get_it/get_it.dart';
 
 import '../app/components/dialogs/dialog_factory.dart';
+import '../app/components/sorting/sorter.dart';
 import '../app/config/app_config.dart';
 import '../app/pages/movie_details/utils/movie_details_utils.dart';
 import '../app/pages/movie_list/controller/movie_list_controller.dart';
@@ -14,35 +15,45 @@ import '../app/pages/two_buttons/controller/two_buttons_controller.dart';
 import '../app/pages/two_buttons/presenter/two_buttons_presenter.dart';
 import '../app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
 import '../data/repositories/movie_repository/data_movie_repository.dart';
+import '../domain/entities/movie.dart';
 import '../domain/ui_localized_texts/txt.dart';
 import '../domain/usecases/movie_details/get_movie_details_usecase.dart';
 import '../domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import '../domain/usecases/two_buttons/click_button_usecase.dart';
+import '../domain/usecases/two_buttons/click_two_button_usecase.dart';
 import '../domain/utils/logging/logging_actions.dart';
 
 GetIt getIt = GetIt.instance;
 
 void initGetIt() {
+  // data
+  getIt.registerFactory(() => DataMovieRepository());
+
+  // app
   getIt.registerSingleton(Txt());
   getIt.registerSingleton(AppConfig());
-  getIt.registerSingleton(DateTimeReader());
-  getIt.registerSingleton(LoggingActions());
-  getIt.registerLazySingleton(() => DialogFactory());
-  getIt.registerLazySingleton(() => MovieListNavigator());
-  getIt.registerLazySingleton(() => TwoButtonsNavigator());
-  getIt.registerSingleton(AppNavigator());
+
+  getIt.registerLazySingleton(() => AppNavigator());
+  getIt.registerFactory(() => MovieListNavigator(getIt<AppNavigator>()));
+  getIt.registerFactory(() => TwoButtonsNavigator(getIt<AppNavigator>()));
+
+  getIt.registerFactory(() => DateTimeReader());
+  getIt.registerFactory(() => LoggingActions());
+  getIt.registerFactory(() => DialogFactory());
+  getIt.registerFactory(() => Sorter<Movie>());
 
   getIt.registerLazySingleton(() => MovieListState());
-  getIt.registerFactory(() => DataMovieRepository());
-  getIt.registerFactory(() => GetMovieDetailsUseCase(getIt<DataMovieRepository>()));
-  getIt.registerFactory(() => GetSearchedMoviesUseCase());
   getIt.registerFactory(() => MovieListPresenter());
   getIt.registerFactory(() => MovieListController());
 
-  getIt.registerFactory(() => MovieDetailsUtils());
-  
   getIt.registerLazySingleton(() => TwoButtonsState());
-  getIt.registerFactory(() => ClickButtonUseCase());
   getIt.registerFactory(() => TwoButtonsPresenter());
   getIt.registerFactory(() => TwoButtonsController());
+
+  getIt.registerFactory(() => MovieDetailsUtils());
+
+  // domain
+  getIt.registerFactory(() => GetMovieDetailsUseCase(getIt<DataMovieRepository>()));
+  getIt.registerFactory(() => GetSearchedMoviesUseCase(getIt<DataMovieRepository>()));
+
+  getIt.registerFactory(() => ClickTwoButtonUseCase());
 }

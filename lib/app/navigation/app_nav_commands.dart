@@ -2,11 +2,9 @@ import '../../domain/entities/movie.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import 'navigation_command.dart';
 
-final class NavNone extends NavigationCommand {}
+final class NavProgressOn extends NavigationCommand {}
 
-final class NavProgress extends NavigationCommand {
-  NavProgress() : super();
-}
+final class NavProgressOff extends NavigationCommand {}
 
 final class NavMovieList extends NavigationCommand {}
 
@@ -19,4 +17,3 @@ final class NavMessageDialog extends NavigationCommand<EDialogMsg> {
 final class NavErrorDialog extends NavigationCommand<Exception> {
   NavErrorDialog(super.e);
 }
-

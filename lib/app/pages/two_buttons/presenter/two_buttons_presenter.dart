@@ -1,14 +1,14 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-import '../../../../domain/usecases/two_buttons/click_button_usecase.dart';
+import '../../../../domain/usecases/two_buttons/click_two_button_usecase.dart';
 import '../../../../bootstrap/get_it_model.dart';
 
 class TwoButtonsPresenter extends Presenter {
   Function? clickButtonOnNext;
 
-  final ClickButtonUseCase _clickButtonUseCase;
+  final ClickTwoButtonUseCase _clickButtonUseCase;
 
-  TwoButtonsPresenter() : _clickButtonUseCase = getIt<ClickButtonUseCase>();
+  TwoButtonsPresenter() : _clickButtonUseCase = getIt<ClickTwoButtonUseCase>();
 
   @override
   void dispose() {

@@ -1,7 +1,7 @@
 import 'package:flutter_demo/app/navigation/navigation_command.dart';
 
 class TwoButtonsState {
-  final List<bool> buttonStates = [true, false];
+  final List<bool> buttonStates = [true, true];
   NavigationCommand? navCommand;
   NavigationCommand? prevNavCommand;
 

@@ -24,12 +24,12 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [DataMoviesRepository].
+/// A class which mocks [DataMovieRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDataMoviesRepository extends _i1.Mock
+class MockDataMovieRepository extends _i1.Mock
     implements _i2.DataMovieRepository {
-  MockDataMoviesRepository() {
+  MockDataMovieRepository() {
     _i1.throwOnMissingStub(this);
   }
 

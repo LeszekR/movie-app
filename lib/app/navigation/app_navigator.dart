@@ -7,28 +7,19 @@ import '../components/dialogs/dialog_factory.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import '../config/app_colors.dart';
 import '../../domain/ui_localized_texts/txt.dart';
-import '../pages/movie_list/navigation/movie_list_navigator.dart';
-import '../pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
 import 'go_router_const_strings.dart';
 
 class AppNavigator {
   final Txt txt;
   final DialogFactory dialogFactory;
-  final MovieListNavigator movieListNavigator;
-  final TwoButtonsNavigator twoButtonNavigator;
 
   AppNavigator()
       : txt = getIt<Txt>(),
-        dialogFactory = getIt<DialogFactory>(),
-        movieListNavigator = getIt<MovieListNavigator>(),
-        twoButtonNavigator = getIt<TwoButtonsNavigator>() {
-    movieListNavigator.appNavigator = this;
-    twoButtonNavigator.appNavigator = this;
-  }
+        dialogFactory = getIt<DialogFactory>();
 
   bool _isProgressVisible = false;
 
-  void throwOnMissingNav(NavigationCommand navCommand){
+  void throwOnMissingNav(NavigationCommand navCommand) {
     throw UnimplementedError('No navigation implemented for NavCommand: ${navCommand.runtimeType}');
   }
 

@@ -7,16 +7,16 @@ import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 import '../../entities/movie.dart';
 
 class GetMovieDetailsUseCase extends UseCase<GetMovieDetailsUseCaseResponse?, GetMovieDetailsUseCaseParams> {
-  final MovieRepository moviesRepository;
+  final MovieRepository _movieRepository;
 
   // DI in constructor to satisfy dependency inversion principle with all dependencies pointing inwards -
-  // if getit<DataMoviesRepository>() was used then domain would have to know about data what is forbidden in fca
-  GetMovieDetailsUseCase(this.moviesRepository);
+  // if getit<DataMovieRepository>() was used then domain would have to know about data what is forbidden in fca
+  GetMovieDetailsUseCase(this._movieRepository);
 
   @override
   Future<Stream<GetMovieDetailsUseCaseResponse?>> buildUseCaseStream(GetMovieDetailsUseCaseParams? params) async {
     try {
-      final Movie? movie = await moviesRepository.getMovie(params!.movieId);
+      final Movie? movie = await _movieRepository.getMovie(params!.movieId);
       return sendInStream(payload: GetMovieDetailsUseCaseResponse(movie));
     } on Exception catch (e) {
       return sendInStream(exception: e);

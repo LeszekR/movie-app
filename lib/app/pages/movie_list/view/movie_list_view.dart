@@ -36,17 +36,13 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
-      if (controller.state.navCommand != controller.state.prevNavCommand) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (controller.state.navCommand != null && !controller.state.navCommand!.isConsumed) {
-          controller.restoreView = true;
           _navigate(context, controller);
-        } else if ( controller.state.navCommand == null) {
-          _navigate(context, controller);
-        } else if (controller.restoreView) {
-          controller.restoreView = false;
+        } else if (controller.state.restoreView) {
           _restoreViewState(controller);
         }
-      }
+      });
       return Scaffold(
         appBar: AppBar(
           title: Text(_txt.get.movie_list_title),
@@ -94,7 +90,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
 
   Widget _buildMovieList(BuildContext context, MovieListController controller) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
-    int? selectedMovieId = controller.state.selectedMovieId.id;
+    int? selectedMovieId = controller.state.selectedMovieId.value;
     return ListView.separated(
       key: MovieListView.listViewKey,
       controller: _scrollController,
@@ -115,17 +111,15 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   }
 
   void _navigate(BuildContext context, MovieListController controller) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getIt<MovieListNavigator>().go(context, controller.state.navCommand);
-    });
+    getIt<MovieListNavigator>().go(context, controller.state.navCommand);
   }
 
   void _restoreViewState(MovieListController controller) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      var offset = controller.state.scrollOffset;
-      if (offset != 0) _scrollController.jumpTo(offset);
+    var offset = controller.state.scrollOffset;
+    if (offset != 0) _scrollController.jumpTo(offset);
 
-      _searchTextController.text = controller.state.searchQuery ?? '';
-    });
+    _searchTextController.text = controller.state.searchQuery ?? '';
+
+    controller.setViewRestored();
   }
 }

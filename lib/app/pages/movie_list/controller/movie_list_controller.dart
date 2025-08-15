@@ -10,6 +10,7 @@ import '../../../../domain/utils/logging/logging_actions.dart';
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
+import '../../../components/three_state_value.dart';
 import '../../../navigation/app_nav_commands.dart';
 
 class MovieListController extends Controller {
@@ -18,13 +19,11 @@ class MovieListController extends Controller {
   final LoggingActions _loggingActions;
   final Sorter<Movie> _sorter;
 
-  bool restoreView = false;
-
   MovieListController()
-      : state = MovieListState(),
+      : state = getIt<MovieListState>(),
         _movieListPresenter = getIt<MovieListPresenter>(),
         _loggingActions = getIt<LoggingActions>(),
-        _sorter = Sorter<Movie>(),
+        _sorter = getIt<Sorter<Movie>>(),
         super();
 
   @override
@@ -47,7 +46,7 @@ class MovieListController extends Controller {
 
     _movieListPresenter.getSearchedMovies(query);
 
-    state.update(searchQuery: query, navCommand: NavProgress());
+    state.update(searchQuery: query, navCommand: NavProgressOn());
     refreshUI();
   }
 
@@ -55,7 +54,7 @@ class MovieListController extends Controller {
     if (movies.isEmpty) {
       state.update(
         movieList: MovieList.empty(),
-        selectedMovieId: const MovieId.none(),
+        selectedMovieId: const ThreeStateInt.none(),
         scrollOffset: 0,
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
       );
@@ -63,8 +62,9 @@ class MovieListController extends Controller {
       movies = _sorter.sortColumns(movies, state.sortCriteriaList)!;
       state.update(
         movieList: MovieList(totalResults: movies.length, results: movies),
-        selectedMovieId: const MovieId.none(),
+        selectedMovieId: const ThreeStateInt.none(),
         scrollOffset: 0,
+        navCommand: NavProgressOff(),
       );
     }
     refreshUI();
@@ -73,18 +73,18 @@ class MovieListController extends Controller {
   void _dialogErrorMovieList(MovieRepositoryException e) {
     state.update(
         movieList: MovieList.empty(),
-        selectedMovieId: const MovieId.none(),
+        selectedMovieId: const ThreeStateInt.none(),
         scrollOffset: 0,
         navCommand: NavErrorDialog(e));
     refreshUI();
   }
 
   void fetchMovie() {
-    if (state.selectedMovieId == MovieId.none()) {
+    if (state.selectedMovieId == ThreeStateInt.none()) {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noMovieSelected));
     } else {
-      _movieListPresenter.getMovieDetails(state.selectedMovieId.id!);
-      state.update(navCommand: NavProgress());
+      _movieListPresenter.getMovieDetails(state.selectedMovieId.value!);
+      state.update(navCommand: NavProgressOn());
     }
     refreshUI();
   }
@@ -93,7 +93,10 @@ class MovieListController extends Controller {
     if (movie == null) {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noSuchMovie));
     } else {
-      state.update(navCommand: NavMovieDetails(movie));
+      state.update(
+        restoreView: true,
+        navCommand: NavMovieDetails(movie),
+      );
     }
     refreshUI();
   }
@@ -104,20 +107,25 @@ class MovieListController extends Controller {
   }
 
   void setSelectedMovieId(int movieId) {
-    state.update(selectedMovieId: MovieId.value(movieId));
+    state.update(selectedMovieId: ThreeStateInt.value(movieId));
     refreshUI();
   }
 
   int? getSelectedMovieId() {
-    return state.selectedMovieId.id;
+    return state.selectedMovieId.value;
   }
 
   void navTwoButtons(String searchQuery, double scrollOffset) {
     state.update(
       searchQuery: searchQuery,
       scrollOffset: scrollOffset,
+      restoreView: true,
       navCommand: NavTwoButtons(),
     );
     refreshUI();
+  }
+
+  void setViewRestored() {
+    state.update(restoreView: false);
   }
 }
