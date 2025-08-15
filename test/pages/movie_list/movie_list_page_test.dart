@@ -5,21 +5,19 @@ import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/common_mocks.mocks.dart';
 import '../../test_utils.dart';
 import '../../utils/sorting/sorter_test.dart';
-import 'movie_list_page_test.mocks.dart';
 
-@GenerateMocks([DataMovieRepository])
 main() {
-  MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
+  MockDataMovieRepository mockMovieRepository = MockDataMovieRepository();
 
   setUp(() async {
     initGetIt();
     getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() => mockDataMovieRepository);
+    getIt.registerLazySingleton<DataMovieRepository>(() => mockMovieRepository);
   });
 
   tearDown(() {
@@ -30,7 +28,7 @@ main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
+    when(mockMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester, widgetBuilder: () => MovieListView());
 

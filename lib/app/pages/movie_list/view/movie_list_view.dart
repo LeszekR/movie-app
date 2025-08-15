@@ -34,6 +34,13 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         super(getIt<MovieListController>());
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchTextController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -106,12 +113,12 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     );
   }
 
-  void _navTwoButtons(MovieListController controller) {
-    controller.navTwoButtons(_searchTextController.text, _scrollController.offset);
-  }
-
   void _navigate(BuildContext context, MovieListController controller) {
     getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+  }
+
+  void _navTwoButtons(MovieListController controller) {
+    controller.navTwoButtons(_searchTextController.text, _scrollController.offset);
   }
 
   void _restoreViewState(MovieListController controller) {

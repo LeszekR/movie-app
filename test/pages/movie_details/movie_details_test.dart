@@ -5,11 +5,10 @@ import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/common_mocks.mocks.dart';
 import '../../test_utils.dart';
-import 'movie_details_test.mocks.dart';
 
 var mockAppConfig = MockAppConfig();
 var mockDateTimeReader = MockDateTimeReader();
@@ -17,7 +16,6 @@ var budget = '100';
 var revenue = '200';
 var title = 'Avatar';
 
-@GenerateMocks([AppConfig, DateTimeReader])
 main() {
   var getit = GetIt.instance;
 
