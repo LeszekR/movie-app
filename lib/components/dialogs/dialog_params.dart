@@ -21,3 +21,7 @@ class DialogParamsYesNo extends DialogParams {
 class DialogParamsOkCancel extends DialogParams {
   const DialogParamsOkCancel(super.text, [super.title]);
 }
+
+class DialogParamsYesNoCancel extends DialogParams {
+  const DialogParamsYesNoCancel(super.text, [super.title]);
+}

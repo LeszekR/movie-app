@@ -97,7 +97,7 @@ class _MovieListViewState extends State<MovieListView> {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder()
+                  ButtonBuilder(context)
                       .onTap(_showTwoButtons)
                       .key(MovieListView.twoButButtonKey)
                       .text(widget.txt.get.goto_two_buttons)
@@ -133,7 +133,7 @@ class _MovieListViewState extends State<MovieListView> {
 
   void _showMovieDetails(MovieListState state) => _bloc.add(ShowMovieDetailsEvent(widget.scrollController.offset));
 
-  void _showTwoButtons() => _bloc.add(ShowTwoButtonsEvent(widget.scrollController.offset));
+  void _showTwoButtons(BuildContext context) => _bloc.add(ShowTwoButtonsEvent(widget.scrollController.offset));
 }
 
 class MovieListScrollController extends ScrollController {}

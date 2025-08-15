@@ -60,7 +60,7 @@ class TwoButtonsView extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(child: SizedBox()),
-                  ButtonBuilder()
+                  ButtonBuilder(context)
                       .onTap(cubit.showMovieList)
                       .key(TwoButtonsView.movieListButtonKey)
                       .text(_txt.get.goto_movie_list)
