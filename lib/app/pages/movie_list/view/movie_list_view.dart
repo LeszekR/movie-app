@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/app/navigation/app_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
@@ -27,29 +26,27 @@ class MovieListView extends CleanView {
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   final Txt _txt;
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchTextController = TextEditingController();
 
   MovieListViewState()
       : _txt = getIt<Txt>(),
         super(getIt<MovieListController>());
 
-  // name must vary from _controller which is CleanViewState field and will get shadowed if it is used here
-
   @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
       if (controller.state.navCommand != controller.state.prevNavCommand) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+        if (controller.state.navCommand != null && !controller.state.navCommand!.isConsumed) {
           controller.restoreView = true;
-        });
+          _navigate(context, controller);
+        } else if ( controller.state.navCommand == null) {
+          _navigate(context, controller);
+        } else if (controller.restoreView) {
+          controller.restoreView = false;
+          _restoreViewState(controller);
+        }
       }
-      // TODO finish this properly - either keep the whole controllers or restore state here
-      // else if (controller.restoreView) {
-      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   controller.restoreView = false;
-      //     controller.restoreViewState();
-      //   });
-      // }
       return Scaffold(
         appBar: AppBar(
           title: Text(_txt.get.movie_list_title),
@@ -58,7 +55,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           actions: [
             SearchBox(
               txt: _txt,
-              controller: controller.searchTextController,
+              controller: _searchTextController,
               onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
             ),
             AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
@@ -83,7 +80,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               children: [
                 Expanded(child: SizedBox()),
                 ButtonBuilder(context)
-                    .onTap((c) => getIt<AppNavigator>().twoButtons(c))
+                    .onTap((context) => _navTwoButtons(controller))
                     .key(MovieListView.twoButButtonKey)
                     .text(_txt.get.goto_two_buttons)
                     .width(AppSizes.navButtonWidth)
@@ -100,7 +97,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     int? selectedMovieId = controller.state.selectedMovieId.id;
     return ListView.separated(
       key: MovieListView.listViewKey,
-      controller: controller.scrollController,
+      controller: _scrollController,
       separatorBuilder: AppStyle.listViewSeparatorBuilder,
       itemBuilder: (context, index) => MovieCard(
         id: movieList[index].id,
@@ -111,5 +108,24 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
       ),
       itemCount: movieList.length,
     );
+  }
+
+  void _navTwoButtons(MovieListController controller) {
+    controller.navTwoButtons(_searchTextController.text, _scrollController.offset);
+  }
+
+  void _navigate(BuildContext context, MovieListController controller) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+    });
+  }
+
+  void _restoreViewState(MovieListController controller) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var offset = controller.state.scrollOffset;
+      if (offset != 0) _scrollController.jumpTo(offset);
+
+      _searchTextController.text = controller.state.searchQuery ?? '';
+    });
   }
 }

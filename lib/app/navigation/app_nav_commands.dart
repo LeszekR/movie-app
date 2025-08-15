@@ -2,6 +2,8 @@ import '../../domain/entities/movie.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import 'navigation_command.dart';
 
+final class NavNone extends NavigationCommand {}
+
 final class NavProgress extends NavigationCommand {
   NavProgress() : super();
 }

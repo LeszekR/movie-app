@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
@@ -17,18 +16,14 @@ class MovieListController extends Controller {
   MovieListState state;
   final MovieListPresenter _movieListPresenter;
   final LoggingActions _loggingActions;
-  final ScrollController scrollController;
-  final TextEditingController searchTextController;
   final Sorter<Movie> _sorter;
 
   bool restoreView = false;
 
   MovieListController()
-      : state = getIt<MovieListState>(),
+      : state = MovieListState(),
         _movieListPresenter = getIt<MovieListPresenter>(),
         _loggingActions = getIt<LoggingActions>(),
-        scrollController = ScrollController(),
-        searchTextController = TextEditingController(),
         _sorter = Sorter<Movie>(),
         super();
 
@@ -72,7 +67,6 @@ class MovieListController extends Controller {
         scrollOffset: 0,
       );
     }
-    _saveViewState();
     refreshUI();
   }
 
@@ -99,7 +93,6 @@ class MovieListController extends Controller {
     if (movie == null) {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noSuchMovie));
     } else {
-      _saveViewState();
       state.update(navCommand: NavMovieDetails(movie));
     }
     refreshUI();
@@ -119,25 +112,12 @@ class MovieListController extends Controller {
     return state.selectedMovieId.id;
   }
 
-  void _saveViewState() {
+  void navTwoButtons(String searchQuery, double scrollOffset) {
     state.update(
-      searchQuery: searchTextController.text,
-      scrollOffset: scrollController.offset,
+      searchQuery: searchQuery,
+      scrollOffset: scrollOffset,
+      navCommand: NavTwoButtons(),
     );
-  }
-
-  void restoreViewState() {
-    _restoreScroll();
-    _restoreSearchQuery();
-  }
-
-  void _restoreScroll() {
-    double? scrollOffset = state.scrollOffset;
-    if (scrollOffset == 0) return;
-    scrollController.jumpTo(scrollOffset);
-  }
-
-  void _restoreSearchQuery() {
-    searchTextController.text = state.searchQuery ?? '';
+    refreshUI();
   }
 }
