@@ -13,12 +13,12 @@ import '../../components/sorting/sorter_test.dart';
 
 
 main() {
-  MockDataMovieRepository mockMovieRepository = MockDataMovieRepository();
+  MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
 
   setUp(() async {
     initGetIt();
     getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() => mockMovieRepository);
+    getIt.registerLazySingleton<DataMovieRepository>(() => mockDataMovieRepository);
   });
 
   tearDown(() {
@@ -29,7 +29,7 @@ main() {
     var fetchedMovieList = makeTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when(mockMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
+    when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester, widgetBuilder: () => MovieListView());
 

@@ -21,7 +21,7 @@ import '../test_tools/mocks/common_mocks.mocks.dart';
 import 'navigation_test_data.dart';
 
 void main() {
-  var mockMovieRepository = MockDataMovieRepository();
+  var mockDataMovieRepository = MockDataMovieRepository();
   int selectedIndex = (nMovies * .8).toInt();
   var selectedTitle = makeMovieTitle(selectedIndex);
   var movieList = makeNavTestMovieList();
@@ -34,12 +34,12 @@ void main() {
   setUpAll(() {
     initGetIt();
     getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() => mockMovieRepository);
+    getIt.registerLazySingleton<DataMovieRepository>(() => mockDataMovieRepository);
 
     dotenv.testLoad(fileInput: File(AppConfig.configFilePath).readAsStringSync());
 
-    when(mockMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(movieList));
-    when(mockMovieRepository.getMovie(selectedIndex)).thenAnswer((_) => movieCompleter.future);
+    when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(movieList));
+    when(mockDataMovieRepository.getMovie(selectedIndex)).thenAnswer((_) => movieCompleter.future);
   });
 
   testWidgets('all navigation transitions without errors', (final tester) async {

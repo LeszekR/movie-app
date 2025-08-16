@@ -12,8 +12,8 @@ final class MovieListState {
   double scrollOffset;
   String? searchQuery;
   List<SortCriteria>? sortCriteriaList;
-  bool restoreView;
   NavigationCommand? navCommand;
+  bool restoreView;
 
   static const defaultSortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
@@ -26,8 +26,8 @@ final class MovieListState {
     this.scrollOffset = 0,
     this.searchQuery,
     this.sortCriteriaList = defaultSortCriteriaList,
-    this.restoreView = false,
     this.navCommand,
+    this.restoreView = false,
   });
 
   void update({

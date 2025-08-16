@@ -3,11 +3,11 @@ import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.da
 import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
 
+import '../../../../bootstrap/get_it_model.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
 import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
 import '../../../../domain/utils/logging/logging_actions.dart';
-import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../components/three_state_value.dart';
@@ -94,8 +94,8 @@ class MovieListController extends Controller {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noSuchMovie));
     } else {
       state.update(
-        restoreView: true,
         navCommand: NavMovieDetails(movie),
+        restoreView: true,
       );
     }
     refreshUI();
@@ -119,8 +119,8 @@ class MovieListController extends Controller {
     state.update(
       searchQuery: searchQuery,
       scrollOffset: scrollOffset,
-      restoreView: true,
       navCommand: NavTwoButtons(),
+      restoreView: true,
     );
     refreshUI();
   }
