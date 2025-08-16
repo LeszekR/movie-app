@@ -1,4 +1,4 @@
-import 'package:flutter_demo/features/movie_details/model/movie.dart';
+import 'package:flutter_demo/pages/movie_details/model/movie.dart';
 
 var nMovies = 30;
 

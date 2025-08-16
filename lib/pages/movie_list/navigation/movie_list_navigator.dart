@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
+import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 
 import '../../../common/ui_localized_texts/txt.dart';

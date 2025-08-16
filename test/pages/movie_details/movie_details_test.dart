@@ -2,14 +2,14 @@ import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/common/utils/date_time_reader.dart';
-import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
-import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart';
+import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
+import 'package:flutter_demo/pages/movie_details/view/movie_details_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../mocks/common_mocks.mocks.dart';
-import '../../test_utils.dart';
+import '../../test_tools/mocks/common_mocks.mocks.dart';
+import '../../test_tools/test_utils.dart';
 
 var mockAppConfig = MockAppConfig();
 var mockDateTimeReader = MockDateTimeReader();

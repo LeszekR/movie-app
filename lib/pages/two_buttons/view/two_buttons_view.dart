@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
-import 'package:flutter_demo/features/two_buttons/bloc/two_button_state.dart';
-import 'package:flutter_demo/features/two_buttons/two_button_navigation/two_button_navigator.dart';
+import 'package:flutter_demo/pages/two_buttons/bloc/two_button_state.dart';
+import 'package:flutter_demo/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
 
 import '../../../common/config/app_sizes.dart';
 import '../../../common/ui_localized_texts/txt.dart';

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
-import 'package:flutter_demo/features/two_buttons/bloc/two_button_cubit.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_bloc.dart';
+import 'package:flutter_demo/pages/two_buttons/bloc/two_button_cubit.dart';
 
 import '../bootstrap/app_runner.dart';
 import '../common/logging/logging_messages.dart';

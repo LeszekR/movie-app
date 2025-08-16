@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_demo/features/two_buttons/bloc/two_button_state.dart';
+import 'package:flutter_demo/pages/two_buttons/bloc/two_button_state.dart';
 
 import '../../../navigation/app_nav_commands.dart';
 

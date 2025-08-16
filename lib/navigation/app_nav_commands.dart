@@ -1,8 +1,8 @@
 import '../components/dialogs/e_dialog_msg.dart';
-import '../features/movie_details/model/movie.dart';
+import '../pages/movie_details/model/movie.dart';
 import 'navigation_command.dart';
 
-part '../features/movie_list/navigation/nav_commands.dart';
+part '../pages/movie_list/navigation/nav_commands.dart';
 
 final class NavProgressOn extends NavigationCommand {}
 

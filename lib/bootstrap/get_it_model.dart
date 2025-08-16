@@ -1,8 +1,8 @@
 import 'package:flutter_demo/components/sorting/sorter.dart';
-import 'package:flutter_demo/features/movie_details/utils/movie_details_controller.dart';
-import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
-import 'package:flutter_demo/features/two_buttons/bloc/two_button_cubit.dart';
-import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
+import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
+import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
+import 'package:flutter_demo/pages/two_buttons/bloc/two_button_cubit.dart';
+import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:get_it/get_it.dart';
 
@@ -10,11 +10,11 @@ import '../common/config/app_config.dart';
 import '../common/ui_localized_texts/txt.dart';
 import '../common/utils/date_time_reader.dart';
 import '../components/dialogs/dialog_factory.dart';
-import '../features/movie_details/model/movie.dart';
-import '../features/movie_list/bloc/movie_list_bloc.dart';
-import '../features/movie_list/view/movie_list_view.dart';
-import '../features/two_buttons/bloc/two_button_state.dart';
-import '../features/two_buttons/two_button_navigation/two_button_navigator.dart';
+import '../pages/movie_details/model/movie.dart';
+import '../pages/movie_list/bloc/movie_list_bloc.dart';
+import '../pages/movie_list/view/movie_list_view.dart';
+import '../pages/two_buttons/bloc/two_button_state.dart';
+import '../pages/two_buttons/two_button_navigation/two_button_navigator.dart';
 import '../navigation/app_navigator.dart';
 
 GetIt getIt = GetIt.instance;

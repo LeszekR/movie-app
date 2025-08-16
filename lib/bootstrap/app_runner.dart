@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
 
 import '../common/config/app_config.dart';
-import '../features/movie_app.dart';
+import '../pages/movie_app.dart';
 import 'get_it_model.dart';
 
 final logger = Logger("MOVIE_APP_LOGGER");

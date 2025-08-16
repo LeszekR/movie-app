@@ -1,10 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../mocks/common_mocks.mocks.dart';
+import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/components/button_builder.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_event.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/features/movie_list/navigation/movie_list_navigator.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
+import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 
 import '../../../common/config/app_colors.dart';
 import '../../../common/ui_localized_texts/txt.dart';

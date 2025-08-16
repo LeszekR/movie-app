@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/components/search_box.dart';
-import 'package:flutter_demo/features/movie_details/model/movie.dart';
-import 'package:flutter_demo/features/movie_details/view/movie_details_view.dart';
-import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
-import 'package:flutter_demo/features/two_buttons/components/button_two_states.dart';
-import 'package:flutter_demo/features/two_buttons/view/two_buttons_view.dart';
+import 'package:flutter_demo/pages/movie_details/model/movie.dart';
+import 'package:flutter_demo/pages/movie_details/view/movie_details_view.dart';
+import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/pages/two_buttons/components/button_two_states.dart';
+import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/features/movie_app.dart';
+import 'package:flutter_demo/pages/movie_app.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mocks/common_mocks.mocks.dart';
+import '../test_tools/mocks/common_mocks.mocks.dart';
 import 'navigation_test_data.dart';
 
 void main() {

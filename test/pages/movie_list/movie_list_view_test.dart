@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/components/sorting/sorter.dart';
-import 'package:flutter_demo/features/movie_details/model/movie.dart';
-import 'package:flutter_demo/features/movie_list/bloc/movie_list_bloc.dart';
-import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart';
-import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/pages/movie_details/model/movie.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_bloc.dart';
+import 'package:flutter_demo/pages/movie_list/view/components/movie_card.dart';
+import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../components/sorting/sorter_test.dart';
-import '../../mocks/common_mocks.mocks.dart';
-import '../../test_utils.dart';
+import '../../test_tools/mocks/common_mocks.mocks.dart';
+import '../../test_tools/test_utils.dart';
 
 main() {
   setUp(() {

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter_demo/repositories/movie_repository_exception.dart';
 import 'package:http/http.dart' as http;
 
-import '../features/movie_details/model/movie.dart';
-import '../features/movie_list/model/movie_list.dart';
+import '../pages/movie_details/model/movie.dart';
+import '../pages/movie_list/model/movie_list.dart';
 
 class MovieRepository {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
