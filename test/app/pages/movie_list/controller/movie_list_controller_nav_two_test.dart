@@ -12,6 +12,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../../../test_tools/controller_test/controller_test.dart';
 import '../../../../test_tools/mocks/common_mocks.mocks.dart';
+import '../../../../test_tools/test_utils.dart';
 import 'movie_list_controller_test_data.dart';
 
 void main() {
@@ -55,8 +56,4 @@ void main() {
       verifyNever(mockDataMovieRepository.getMovie(any));
     },
   );
-}
-
-void unregisterSafely<T extends Object>() {
-  if (getIt.isRegistered<T>()) getIt.unregister<T>();
 }

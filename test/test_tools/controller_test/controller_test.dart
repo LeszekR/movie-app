@@ -12,29 +12,27 @@ void controllerTest<C extends Controller, T extends Object>(
   required List<T> Function() expect,
   void Function()? verify,
 }) {
-  test(description, () {
+  test(description, () async {
+    print('${"=" * 40}\n$description');
+
     if (getIt.isRegistered<T>()) getIt.unregister<T>();
     getIt.registerLazySingleton<T>(() => seed());
 
     final C controller = build();
 
-    act(controller);
+    await () async {
+      act(controller);
+      await Future.delayed(Duration.zero);
+    }();
 
     // TODO refactor to logging to console instead of print()
     print('==> expect functions');
     for (var expectElement in expect.call()) {
-      stateComparator(controller, expectElement);
+      stateExpect(controller, expectElement);
     }
 
     // TODO refactor to logging to console instead of print()
     print('==> verify functions');
     verify?.call();
   });
-}
-
-class ControllerTestExpect<C extends Controller, T> {
-  final T actualState;
-  final T expectedState;
-
-  const ControllerTestExpect(this.actualState, this.expectedState);
 }

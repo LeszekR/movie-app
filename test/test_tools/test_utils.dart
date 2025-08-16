@@ -30,3 +30,28 @@ Future<void> prepareWidget(
     ),
   );
 }
+
+Future<void> pumpUntilFound(
+    WidgetTester tester,
+    Finder finder, {
+      Duration timeout = const Duration(seconds: 2),
+      Duration step = const Duration(milliseconds: 100),
+    }) async {
+  final end = DateTime.now().add(timeout);
+  while (DateTime.now().isBefore(end)) {
+    await tester.pump(step);
+    if (finder.evaluate().isNotEmpty) {
+      // must be pumpAndSettle(), NOT just pump(), since in test Flutter can keep temp copies of widgets in the tree...
+      // ... we want to get rid of them...
+      // Even after popping a route, widgets from the previous screen might linger for a few frames in the tree
+      // — just long enough to confuse find!
+      await tester.pumpAndSettle();
+      return;
+    }
+  }
+  throw TestFailure('Timeout: widget not found: $finder');
+}
+
+void unregisterSafely<T extends Object>() {
+  if (getIt.isRegistered<T>()) getIt.unregister<T>();
+}

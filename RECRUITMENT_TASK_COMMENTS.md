@@ -35,7 +35,7 @@ Overview
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (
   e.g. `lib/routing/go_router_const_strings.dart` and other)
-- created `controllerTest` blueprinted on `blocTest` for easy testing `Controller.state` reactions
+- created `controllerTest` blueprinted on `controllerTest` for easy testing `Controller.state` reactions
   to calls to their methods
 - created gitlab pipeline
 

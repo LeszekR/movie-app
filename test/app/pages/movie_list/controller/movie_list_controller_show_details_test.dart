@@ -26,9 +26,9 @@
 //     reset(mockDataMovieRepository);
 //   });
 //
-//   blocTest(
+//   controllerTest(
 //     'show movie details => show progress',
-//     build: () => d.makeMovieListBloc(mockDataMovieRepository),
+//     build: () => MovieListController(),
 //     seed: () => MovieListState(
 //       movieList: d.movieList_A,
 //       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
@@ -36,7 +36,7 @@
 //       searchQuery: d.query_A,
 //       navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
 //     ),
-//     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
+//     act: (controller) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
 //     expect: () => [
 //       MovieListState(
 //         movieList: d.movieList_A,
@@ -53,14 +53,14 @@
 //         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
 //       )
 //     ],
-//     verify: (bloc) {
+//     verify: () {
 //       verify(mockDataMovieRepository.getMovie(d.movieId_A2)).called(1);
 //     },
 //   );
 //
-//   blocTest(
+//   controllerTest(
 //     'show movie details => none selected',
-//     build: () => d.makeMovieListBloc(mockDataMovieRepository),
+//     build: () => MovieListController(),
 //     seed: () => MovieListState(
 //       movieList: d.movieList_B,
 //       selectedMovieId: ThreeStateInt.none(),
@@ -68,7 +68,7 @@
 //       searchQuery: d.query_B,
 //       navCommand: null,
 //     ),
-//     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
+//     act: (controller) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
 //     expect: () => [
 //       MovieListState(
 //         movieList: d.movieList_B,
@@ -78,15 +78,15 @@
 //         navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
 //       ),
 //     ],
-//     skip: 0,
-//     verify: (bloc) {
+//     
+//     verify: () {
 //       verifyNever(mockDataMovieRepository.getMovie(any));
 //     },
 //   );
 //
-//   blocTest(
+//   controllerTest(
 //     'show movie details => http error',
-//     build: () => d.makeMovieListBloc(mockDataMovieRepository),
+//     build: () => MovieListController(),
 //     seed: () => MovieListState(
 //       movieList: d.movieList_B,
 //       selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
@@ -94,7 +94,7 @@
 //       searchQuery: d.query_B,
 //       navCommand: null,
 //     ),
-//     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+//     act: (controller) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
 //     expect: () => [
 //       MovieListState(
 //         movieList: d.movieList_B,
@@ -104,15 +104,15 @@
 //         navCommand: NavErrorDialog(d.errMovieHttp),
 //       ),
 //     ],
-//     skip: 1,
-//     verify: (bloc) {
+//     
+//     verify: () {
 //       verify(mockDataMovieRepository.getMovie(d.movieId_ErrHttp)).called(1);
 //     },
 //   );
 //
-//   blocTest(
+//   controllerTest(
 //     'show movie details => other error',
-//     build: () => d.makeMovieListBloc(mockDataMovieRepository),
+//     build: () => MovieListController(),
 //     seed: () => MovieListState(
 //       movieList: d.movieList_A,
 //       selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
@@ -120,7 +120,7 @@
 //       searchQuery: d.query_A,
 //       navCommand: null,
 //     ),
-//     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+//     act: (controller) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
 //     expect: () => [
 //       MovieListState(
 //         movieList: d.movieList_A,
@@ -130,15 +130,15 @@
 //         navCommand: NavErrorDialog(d.errRepoOther),
 //       ),
 //     ],
-//     skip: 1,
-//     verify: (bloc) {
+//     
+//     verify: () {
 //       verify(mockDataMovieRepository.getMovie(d.movieId_ErrOther)).called(1);
 //     },
 //   );
 //
-//   blocTest(
+//   controllerTest(
 //     'show movie details => success',
-//     build: () => d.makeMovieListBloc(mockDataMovieRepository),
+//     build: () => MovieListController(),
 //     seed: () => MovieListState(
 //       movieList: d.movieList_B,
 //       selectedMovieId: ThreeStateInt.value(d.movieId_B3),
@@ -146,7 +146,7 @@
 //       searchQuery: d.query_B,
 //       navCommand: null,
 //     ),
-//     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+//     act: (controller) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
 //     expect: () => [
 //       MovieListState(
 //         movieList: d.movieList_B,
@@ -156,8 +156,8 @@
 //         navCommand: NavMovieDetails(d.movieList_B.results[d.movieId_B3]),
 //       ),
 //     ],
-//     skip: 1,
-//     verify: (bloc) {
+//     
+//     verify: () {
 //       verify(mockDataMovieRepository.getMovie(d.movieId_B3)).called(1);
 //     },
 //   );

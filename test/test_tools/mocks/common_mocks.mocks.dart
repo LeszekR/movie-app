@@ -3,15 +3,23 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i9;
 
-import 'package:flutter_demo/app/config/app_config.dart' as _i2;
+import 'package:flutter/material.dart' as _i12;
+import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart' as _i3;
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart' as _i13;
+import 'package:flutter_demo/app/config/app_config.dart' as _i5;
+import 'package:flutter_demo/app/navigation/app_navigator.dart' as _i4;
+import 'package:flutter_demo/app/navigation/navigation_command.dart' as _i11;
+import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart'
+    as _i14;
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart'
-    as _i5;
-import 'package:flutter_demo/domain/entities/movie.dart' as _i7;
-import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i4;
+    as _i8;
+import 'package:flutter_demo/domain/entities/movie.dart' as _i10;
+import 'package:flutter_demo/domain/ui_localized_texts/txt.dart' as _i2;
+import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i3;
+import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,10 +40,25 @@ class _FakeDateTime_0 extends _i1.SmartFake implements DateTime {
     : super(parent, parentInvocation);
 }
 
+class _FakeTxt_1 extends _i1.SmartFake implements _i2.Txt {
+  _FakeTxt_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeDialogFactory_2 extends _i1.SmartFake implements _i3.DialogFactory {
+  _FakeDialogFactory_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeAppNavigator_3 extends _i1.SmartFake implements _i4.AppNavigator {
+  _FakeAppNavigator_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AppConfig].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfig extends _i1.Mock implements _i2.AppConfig {
+class MockAppConfig extends _i1.Mock implements _i5.AppConfig {
   MockAppConfig() {
     _i1.throwOnMissingStub(this);
   }
@@ -44,7 +67,7 @@ class MockAppConfig extends _i1.Mock implements _i2.AppConfig {
   String param(String? paramName) =>
       (super.noSuchMethod(
             Invocation.method(#param, [paramName]),
-            returnValue: _i3.dummyValue<String>(
+            returnValue: _i6.dummyValue<String>(
               this,
               Invocation.method(#param, [paramName]),
             ),
@@ -55,7 +78,7 @@ class MockAppConfig extends _i1.Mock implements _i2.AppConfig {
 /// A class which mocks [DateTimeReader].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDateTimeReader extends _i1.Mock implements _i4.DateTimeReader {
+class MockDateTimeReader extends _i1.Mock implements _i7.DateTimeReader {
   MockDateTimeReader() {
     _i1.throwOnMissingStub(this);
   }
@@ -73,24 +96,136 @@ class MockDateTimeReader extends _i1.Mock implements _i4.DateTimeReader {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDataMovieRepository extends _i1.Mock
-    implements _i5.DataMovieRepository {
+    implements _i8.DataMovieRepository {
   MockDataMovieRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<List<_i7.Movie>> getSearchedMovies(String? query) =>
+  _i9.Future<List<_i10.Movie>> getSearchedMovies(String? query) =>
       (super.noSuchMethod(
             Invocation.method(#getSearchedMovies, [query]),
-            returnValue: _i6.Future<List<_i7.Movie>>.value(<_i7.Movie>[]),
+            returnValue: _i9.Future<List<_i10.Movie>>.value(<_i10.Movie>[]),
           )
-          as _i6.Future<List<_i7.Movie>>);
+          as _i9.Future<List<_i10.Movie>>);
 
   @override
-  _i6.Future<_i7.Movie?> getMovie(int? movieId) =>
+  _i9.Future<_i10.Movie?> getMovie(int? movieId) =>
       (super.noSuchMethod(
             Invocation.method(#getMovie, [movieId]),
-            returnValue: _i6.Future<_i7.Movie?>.value(),
+            returnValue: _i9.Future<_i10.Movie?>.value(),
           )
-          as _i6.Future<_i7.Movie?>);
+          as _i9.Future<_i10.Movie?>);
+}
+
+/// A class which mocks [AppNavigator].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppNavigator extends _i1.Mock implements _i4.AppNavigator {
+  MockAppNavigator() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.Txt get txt =>
+      (super.noSuchMethod(
+            Invocation.getter(#txt),
+            returnValue: _FakeTxt_1(this, Invocation.getter(#txt)),
+          )
+          as _i2.Txt);
+
+  @override
+  _i3.DialogFactory get dialogFactory =>
+      (super.noSuchMethod(
+            Invocation.getter(#dialogFactory),
+            returnValue: _FakeDialogFactory_2(
+              this,
+              Invocation.getter(#dialogFactory),
+            ),
+          )
+          as _i3.DialogFactory);
+
+  @override
+  void throwOnMissingNav(_i11.NavigationCommand<dynamic>? navCommand) =>
+      super.noSuchMethod(
+        Invocation.method(#throwOnMissingNav, [navCommand]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void showProgress(_i12.BuildContext? context) => super.noSuchMethod(
+    Invocation.method(#showProgress, [context]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void popProgress(_i12.BuildContext? context) => super.noSuchMethod(
+    Invocation.method(#popProgress, [context]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dialogMessage(_i12.BuildContext? context, _i13.EDialogMsg? dialogType) =>
+      super.noSuchMethod(
+        Invocation.method(#dialogMessage, [context, dialogType]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dialogError(_i12.BuildContext? context, Exception? e) =>
+      super.noSuchMethod(
+        Invocation.method(#dialogError, [context, e]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void movieList(_i12.BuildContext? context) => super.noSuchMethod(
+    Invocation.method(#movieList, [context]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void twoButtons(_i12.BuildContext? context) => super.noSuchMethod(
+    Invocation.method(#twoButtons, [context]),
+    returnValueForMissingStub: null,
+  );
+}
+
+/// A class which mocks [MovieListNavigator].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieListNavigator extends _i1.Mock
+    implements _i14.MovieListNavigator {
+  MockMovieListNavigator() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.AppNavigator get appNavigator =>
+      (super.noSuchMethod(
+            Invocation.getter(#appNavigator),
+            returnValue: _FakeAppNavigator_3(
+              this,
+              Invocation.getter(#appNavigator),
+            ),
+          )
+          as _i4.AppNavigator);
+
+  @override
+  void navigate(
+    _i12.BuildContext? context,
+    _i11.NavigationCommand<dynamic>? navCommand,
+  ) => super.noSuchMethod(
+    Invocation.method(#navigate, [context, navCommand]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void go(
+    _i12.BuildContext? context,
+    _i11.NavigationCommand<dynamic>? navCommand,
+  ) => super.noSuchMethod(
+    Invocation.method(#go, [context, navCommand]),
+    returnValueForMissingStub: null,
+  );
 }

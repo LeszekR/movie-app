@@ -24,7 +24,7 @@ class MovieListTestData {
 
   var errSearchHttp = MovieListHttpException(404);
   var errMovieHttp = MovieDetailsHttpException(404);
-  var errRepoOther = Exception('other exception');
+  var errRepoOther = MovieListOtherException();
 
   MovieList movieList_A = MovieList(
       totalResults: 4,

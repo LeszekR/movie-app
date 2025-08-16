@@ -18,6 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../test_tools/mocks/common_mocks.mocks.dart';
+import '../../test_tools/test_utils.dart';
 import 'navigation_test_data.dart';
 
 void main() {
@@ -27,7 +28,8 @@ void main() {
   var movieList = makeNavTestMovieList();
   var searchQuery = 'Drama';
 
-  // must be either late or in further code complete not with just movie but Future.value(movie)
+  // must  either a) be late or b) finally complete not with just movie but Future.value(movie)
+  // decided on b) explicit return of a Future - for code readability
   // late Completer<Movie> movieCompleter = Completer(); // version shorter but less explicit than completer.complete(Future.value(...))
   Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
 
@@ -124,35 +126,16 @@ void main() {
   });
 }
 
+Finder findTwoStateButton(Key key) {
+  return find.byKey(key);
+}
+
 Container findTwoStateButtonContainer(WidgetTester tester, Key key) {
   var finder = find.descendant(of: findTwoStateButton(key), matching: find.byType(Container));
   return tester.widget<Container>(finder);
 }
 
-Finder findTwoStateButton(Key key) => find.byKey(key);
-
 Color? selectedMovieColor(WidgetTester tester, Finder movieFinder) {
   var ancestorContainer = tester.widget(find.ancestor(of: movieFinder, matching: find.byType(Container)));
   return ((ancestorContainer as Container).decoration as BoxDecoration).color;
-}
-
-Future<void> pumpUntilFound(
-  WidgetTester tester,
-  Finder finder, {
-  Duration timeout = const Duration(seconds: 2),
-  Duration step = const Duration(milliseconds: 100),
-}) async {
-  final end = DateTime.now().add(timeout);
-  while (DateTime.now().isBefore(end)) {
-    await tester.pump(step);
-    if (finder.evaluate().isNotEmpty) {
-      // must be pumpAndSettle(), NOT just pump(), since in test Flutter can keep temp copies of widgets in the tree...
-      // ... we want to get rid of them...
-      // Even after popping a route, widgets from the previous screen might linger for a few frames in the tree
-      // — just long enough to confuse find!
-      await tester.pumpAndSettle();
-      return;
-    }
-  }
-  throw TestFailure('Timeout: widget not found: $finder');
 }
