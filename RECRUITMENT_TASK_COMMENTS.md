@@ -1,31 +1,42 @@
 Intro
 ===================================================================
 
-This file is here only for recruitment purposes. It would not exist in regular work task.
+This file is here only for recruitment purposes. It would not exist in regular work task. It explains most important decisions in the project.
 
 Overview
 ----------------------------------  
-New features and refactoring
 
-- introduced `flutter_clean_architecture` package and refactored the whole project to its directives
-  and API
-- introduced DI with `get_it`
+###
+
+#### External libraries
+
+- `flutter_clean_architecture`
+- `get_it`
+- `GoRouter`
+
+###
+
+#### Features and choices
+
 - decided on inside-class `GetIt` lookup pattern instead of constructor-injection- for reasons
   explained below
 - introduced handling all exceptions by logging or rethrowing them to `Controllers` which then
   handle them
-- Introduced `restoreView` field in `MovieListState` to reduce the nymber of `Widget's` rebuilds to
+- Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
   returns from navigation only
 - attached `TwoButtonView` to navigation and refactored its logic to `flutter_clean_architecture`
-- used two types of call chain for navigation - triggered by `Controllers` via `NavigationCommand`
-  field in the `view`'s `state`, triggered by the `View` via direct call to its `...Navigator`
-  object
-- introduced `GoRouter`
+- used two types of call chain for navigation:
+    - triggered by `Controllers` via `NavigationCommand`
+      field in the `view`'s `state`,
+    - triggered by the `View` via direct call to its `<PageName>Navigator`
+      object
 - introduced localization to prepare the app for dynamic change of UI language
 - introduced '.env' file with app parameters (`AppConfig`)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (
   e.g. `lib/routing/go_router_const_strings.dart` and other)
+- created `controllerTest` blueprinted on `blocTest` for easy testing `Controller.state` reactions
+  to calls to their methods
 - created gitlab pipeline
 
 #
