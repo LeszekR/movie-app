@@ -7,9 +7,10 @@ import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repos
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../mocks/common_mocks.mocks.dart';
-import '../../test_utils.dart';
-import '../../utils/sorting/sorter_test.dart';
+import '../../../test_tools/mocks/common_mocks.mocks.dart';
+import '../../../test_tools/test_utils.dart';
+import '../../components/sorting/sorter_test.dart';
+
 
 main() {
   MockDataMovieRepository mockMovieRepository = MockDataMovieRepository();

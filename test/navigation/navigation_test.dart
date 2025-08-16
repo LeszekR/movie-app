@@ -17,7 +17,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mocks/common_mocks.mocks.dart';
+import '../test_tools/mocks/common_mocks.mocks.dart';
 import 'navigation_test_data.dart';
 
 void main() {
