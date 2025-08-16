@@ -9,19 +9,17 @@ import 'package:flutter_demo/features/movie_list/view/components/movie_card.dart
 import 'package:flutter_demo/features/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../components/sorting/sorter_test.dart';
 import '../../mocks/common_mocks.mocks.dart';
 import '../../test_utils.dart';
 
-@GenerateMocks([MovieRepository])
 main() {
   setUp(() {
     initGetIt();
     getIt.unregister<MovieRepository>();
-    getIt.registerLazySingleton<MovieRepository>(() => MockMoviesRepository());
+    getIt.registerLazySingleton<MovieRepository>(() => MockMovieRepository());
   });
 
   tearDown(() {
@@ -32,7 +30,7 @@ main() {
     var fetchedMovieList = makeBlocTestMovieList();
     var fetchedFirstTitle = fetchedMovieList[0].title;
 
-    when((getIt<MovieRepository>() as MockMoviesRepository).getSearchedMovies(any))
+    when((getIt<MovieRepository>() as MockMovieRepository).getSearchedMovies(any))
         .thenAnswer((_) => Future.value(fetchedMovieList));
 
     await prepareWidget(tester, getIt,

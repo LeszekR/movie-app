@@ -9,8 +9,8 @@ import '../../../mocks/common_mocks.mocks.dart';
 
 
 class MovieListTestData {
-  MovieListBloc makeMovieListBloc(MockMoviesRepository mockMoviesRepository) =>
-      MovieListBloc(mockMoviesRepository, Sorter<Movie>());
+  MovieListBloc makeMovieListBloc(MockMovieRepository mockMovieRepository) =>
+      MovieListBloc(mockMovieRepository, Sorter<Movie>());
 
   String query_A = 'QUERY_A';
   String query_B = 'QUERY_B';

@@ -10,25 +10,25 @@ import '../../../mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
-  MockMoviesRepository mockMoviesRepository = MockMoviesRepository();
+  MockMovieRepository mockMovieRepository = MockMovieRepository();
   MovieListTestData d = MovieListTestData();
 
   setUp(() {
-    when(mockMoviesRepository.getMovie(d.movieId_A2))
+    when(mockMovieRepository.getMovie(d.movieId_A2))
         .thenAnswer((_) => Future.value(d.movieList_A.results[d.movieId_A2]));
-    when(mockMoviesRepository.getMovie(d.movieId_B3))
+    when(mockMovieRepository.getMovie(d.movieId_B3))
         .thenAnswer((_) => Future.value(d.movieList_B.results[d.movieId_B3]));
-    when(mockMoviesRepository.getMovie(d.movieId_ErrHttp)).thenThrow(d.errMovieHttp);
-    when(mockMoviesRepository.getMovie(d.movieId_ErrOther)).thenThrow(d.errRepoOther);
+    when(mockMovieRepository.getMovie(d.movieId_ErrHttp)).thenThrow(d.errMovieHttp);
+    when(mockMovieRepository.getMovie(d.movieId_ErrOther)).thenThrow(d.errRepoOther);
   });
 
   tearDown(() {
-    reset(mockMoviesRepository);
+    reset(mockMovieRepository);
   });
 
   blocTest(
     'show movie details => show progress',
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_A,
       selectedMovieId: MovieId.value(d.movieId_A2),
@@ -54,13 +54,13 @@ void main() {
       )
     ],
     verify: (bloc) {
-      verify(mockMoviesRepository.getMovie(d.movieId_A2)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieId_A2)).called(1);
     },
   );
 
   blocTest(
     'show movie details => none selected',
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
       selectedMovieId: MovieId.none(),
@@ -80,13 +80,13 @@ void main() {
     ],
     skip: 0,
     verify: (bloc) {
-      verifyNever(mockMoviesRepository.getMovie(any));
+      verifyNever(mockMovieRepository.getMovie(any));
     },
   );
 
   blocTest(
     'show movie details => http error',
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
       selectedMovieId: MovieId.value(d.movieId_ErrHttp),
@@ -106,13 +106,13 @@ void main() {
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMoviesRepository.getMovie(d.movieId_ErrHttp)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieId_ErrHttp)).called(1);
     },
   );
 
   blocTest(
     'show movie details => other error',
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_A,
       selectedMovieId: MovieId.value(d.movieId_ErrOther),
@@ -132,13 +132,13 @@ void main() {
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMoviesRepository.getMovie(d.movieId_ErrOther)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieId_ErrOther)).called(1);
     },
   );
 
   blocTest(
     'show movie details => success',
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
       selectedMovieId: MovieId.value(d.movieId_B3),
@@ -158,7 +158,7 @@ void main() {
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMoviesRepository.getMovie(d.movieId_B3)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieId_B3)).called(1);
     },
   );
 }

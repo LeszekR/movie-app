@@ -11,26 +11,26 @@ import '../../../mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
-  MockMoviesRepository mockMoviesRepository = MockMoviesRepository();
+  MockMovieRepository mockMovieRepository = MockMovieRepository();
   MovieListTestData d = MovieListTestData();
 
   setUp(() {
-    when(mockMoviesRepository.getSearchedMovies(d.query_A)).thenAnswer((_) => Future.value(d.movieList_A.results));
-    when(mockMoviesRepository.getSearchedMovies(d.query_B)).thenAnswer((_) => Future.value(d.movieList_B.results));
-    when(mockMoviesRepository.getSearchedMovies(d.query_NotFound)).thenAnswer((_) => Future.value(List.empty()));
-    when(mockMoviesRepository.getSearchedMovies(d.query_HttpErr)).thenThrow(d.errSearchHttp);
-    when(mockMoviesRepository.getSearchedMovies(d.query_OtherErr)).thenThrow(d.errRepoOther);
+    when(mockMovieRepository.getSearchedMovies(d.query_A)).thenAnswer((_) => Future.value(d.movieList_A.results));
+    when(mockMovieRepository.getSearchedMovies(d.query_B)).thenAnswer((_) => Future.value(d.movieList_B.results));
+    when(mockMovieRepository.getSearchedMovies(d.query_NotFound)).thenAnswer((_) => Future.value(List.empty()));
+    when(mockMovieRepository.getSearchedMovies(d.query_HttpErr)).thenThrow(d.errSearchHttp);
+    when(mockMovieRepository.getSearchedMovies(d.query_OtherErr)).thenThrow(d.errRepoOther);
   });
 
   tearDown(() {
-    reset(mockMoviesRepository);
+    reset(mockMovieRepository);
   });
 
   group('search movies - progress indicator', () {
     blocTest(
       'search show progress',
       seed: () => MovieListState(),
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_A)),
       expect: () => [
         MovieListState(
@@ -50,25 +50,25 @@ void main() {
   group('search movies - edge cases', () {
     blocTest(
       'search query null',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(null)),
       seed: () => MovieListState(),
       expect: () => [],
       skip: 0,
       verify: (bloc) {
-        verifyNever(mockMoviesRepository.getSearchedMovies(d.query_A));
+        verifyNever(mockMovieRepository.getSearchedMovies(d.query_A));
       },
     );
 
     blocTest(
       'search query empty string',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent('')),
       seed: () => MovieListState(),
       expect: () => [],
       skip: 0,
       verify: (bloc) {
-        verifyNever(mockMoviesRepository.getSearchedMovies(any));
+        verifyNever(mockMovieRepository.getSearchedMovies(any));
       },
     );
   });
@@ -76,7 +76,7 @@ void main() {
   group('empty list => search movies => failed', () {
     blocTest(
       'empty => search not found',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_NotFound)),
       skip: 1,
       seed: () => MovieListState(),
@@ -90,13 +90,13 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_NotFound)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_NotFound)).called(1);
       },
     );
 
     blocTest(
       'empty  => search http error',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_HttpErr)),
       skip: 1,
       seed: () => MovieListState(),
@@ -110,13 +110,13 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_HttpErr)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_HttpErr)).called(1);
       },
     );
 
     blocTest(
       'empty  => search other error',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_OtherErr)),
       skip: 1,
       seed: () => MovieListState(),
@@ -130,7 +130,7 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_OtherErr)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_OtherErr)).called(1);
       },
     );
   });
@@ -138,7 +138,7 @@ void main() {
   group('full list => search movies => failed', () {
     blocTest(
       'full => search not found',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_NotFound)),
       seed: () => MovieListState(
         movieList: d.movieList_B,
@@ -158,13 +158,13 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_NotFound)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_NotFound)).called(1);
       },
     );
 
     blocTest(
       'full => search http error',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_HttpErr)),
       skip: 1,
       seed: () => MovieListState(
@@ -184,13 +184,13 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_HttpErr)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_HttpErr)).called(1);
       },
     );
 
     blocTest(
       'full => search other error',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_OtherErr)),
       skip: 1,
       seed: () => MovieListState(
@@ -210,7 +210,7 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_OtherErr)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_OtherErr)).called(1);
       },
     );
   });
@@ -219,7 +219,7 @@ void main() {
   group('search movies => successful', () {
     blocTest(
       'empty list => search => successful',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_A)),
       seed: () => MovieListState(),
       skip: 1,
@@ -233,13 +233,13 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_A)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_A)).called(1);
       },
     );
 
     blocTest(
       'full list => search => successful',
-      build: () => d.makeMovieListBloc(mockMoviesRepository),
+      build: () => d.makeMovieListBloc(mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_B)),
       seed: () => MovieListState(
         movieList: d.movieList_A,
@@ -259,7 +259,7 @@ void main() {
         )
       ],
       verify: (bloc) {
-        verify(mockMoviesRepository.getSearchedMovies(d.query_B)).called(1);
+        verify(mockMovieRepository.getSearchedMovies(d.query_B)).called(1);
       },
     );
   });

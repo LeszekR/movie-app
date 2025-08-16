@@ -84,11 +84,11 @@ class MockDateTimeReader extends _i1.Mock implements _i4.DateTimeReader {
       ) as DateTime);
 }
 
-/// A class which mocks [MoviesRepository].
+/// A class which mocks [MovieRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMoviesRepository extends _i1.Mock implements _i5.MovieRepository {
-  MockMoviesRepository() {
+class MockMovieRepository extends _i1.Mock implements _i5.MovieRepository {
+  MockMovieRepository() {
     _i1.throwOnMissingStub(this);
   }
 

@@ -8,7 +8,7 @@ import '../../../mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
-  MockMoviesRepository mockMoviesRepository = MockMoviesRepository();
+  MockMovieRepository mockMovieRepository = MockMovieRepository();
   MovieListTestData d = MovieListTestData();
 
   blocTest(
@@ -20,7 +20,7 @@ void main() {
       searchQuery: d.query_A,
       navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
     ),
-    build: () => d.makeMovieListBloc(mockMoviesRepository),
+    build: () => d.makeMovieListBloc(mockMovieRepository),
     act: (bloc) => bloc.add(ShowTwoButtonsEvent(d.scrollOffset_230)),
     expect: () => [
       MovieListState(
@@ -32,7 +32,7 @@ void main() {
       )
     ],
     verify: (bloc) {
-      verifyNever(mockMoviesRepository.getMovie(any));
+      verifyNever(mockMovieRepository.getMovie(any));
     },
   );
 }

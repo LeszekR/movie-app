@@ -14,10 +14,10 @@ import '../model/movie_list.dart';
 import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
-  final MovieRepository moviesRepository;
+  final MovieRepository movieRepository;
   final Sorter<Movie> sorter;
 
-  MovieListBloc(this.moviesRepository, this.sorter) : super(MovieListState()) {
+  MovieListBloc(this.movieRepository, this.sorter) : super(MovieListState()) {
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
     on<ShowMovieDetailsEvent>(_fetchMovie);
@@ -32,7 +32,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     emit(state.copyWith(navCommand: NavProgressOn()));
 
     try {
-      List<Movie>? movies = await moviesRepository.getSearchedMovies(event.query!);
+      List<Movie>? movies = await movieRepository.getSearchedMovies(event.query!);
       if (movies.isEmpty) {
         emit(state.copyWith(
           movieList: MovieList.empty(),
@@ -79,7 +79,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     emit(state.copyWith(navCommand: NavProgressOn()));
 
     try {
-      var movie = await moviesRepository.getMovie(movieId.id!);
+      var movie = await movieRepository.getMovie(movieId.id!);
       if (movie == null) {
         emit(state.copyWith(
           scrollOffset: event.scrollOffset,

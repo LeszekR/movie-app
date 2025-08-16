@@ -40,7 +40,7 @@ void initGetIt() {
         moviesNavigator: getIt<MovieListNavigator>(),
       ));
 
-  getIt.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [false, false], navCommand: null)));
+  getIt.registerLazySingleton(() => TwoButtonCubit(TwoButtonState(buttonStates: [true, true], navCommand: null)));
   getIt.registerFactory<TwoButtonsView>(() => TwoButtonsView(
         txt: getIt<Txt>(),
         twoButtonNavigator: getIt<TwoButtonNavigator>(),
