@@ -2,7 +2,6 @@ import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/app/components/sorting/sorter.dart';
 import 'package:flutter_demo/app/components/three_state_value.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
-import 'package:flutter_demo/app/navigation/app_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
@@ -18,7 +17,7 @@ import 'package:flutter_demo/domain/utils/logging/logging_actions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../test_tools/controller_test/controller_test.dart';
+import '../../../../test_tools/controller_test/controller_test_runner.dart';
 import '../../../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../../../test_tools/test_utils.dart';
 import 'movie_list_controller_test_data.dart';
@@ -29,17 +28,13 @@ void main() {
   MockMovieListNavigator mockMovieListNavigator = MockMovieListNavigator();
 
   setUpAll(() {
-    unregisterSafely<DataMovieRepository>();
-    getIt.registerFactory(() => mockDataMovieRepository);
     getIt.registerFactory(() => LoggingActions());
     getIt.registerFactory(() => Sorter<Movie>());
-    unregisterSafely<GetSearchedMoviesUseCase>();
-    getIt.registerFactory(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
-    unregisterSafely<GetMovieDetailsUseCase>();
-    getIt.registerFactory(() => GetMovieDetailsUseCase(mockDataMovieRepository));
-    getIt.registerFactory(() => MovieListPresenter());
-    unregisterSafely<AppNavigator>();
-    getIt.registerFactory<MovieListNavigator>(() => mockMovieListNavigator);
+    getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
+    getItReplaceFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
+    getItReplaceFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
+    getItReplaceFactory<MovieListPresenter>(() => MovieListPresenter());
+    getItReplaceFactory<MovieListNavigator>(() => mockMovieListNavigator);
   });
 
   setUp(() {
@@ -61,7 +56,16 @@ void main() {
       seed: () => MovieListState(),
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_A),
+      asyncTicks: 1,
       expect: () => [
+        MovieListState(
+          movieList: d.movieList_Empty,
+          selectedMovieId: ThreeStateInt.none(),
+          scrollOffset: 0,
+          searchQuery: d.query_A,
+          navCommand: NavProgressOn(),
+          restoreView: true,
+        ),
         MovieListState(
           movieList: d.movieList_A,
           selectedMovieId: ThreeStateInt.none(),
@@ -69,7 +73,7 @@ void main() {
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
           restoreView: true,
-        )
+        ),
       ],
     );
   });
@@ -91,10 +95,10 @@ void main() {
     controllerTest(
       'empty => search not found',
       build: () => MovieListController(),
-      act: (controller) {
-        controller.fetchSearchedMovies(d.query_NotFound);
-      },
+      act: (controller) => controller.fetchSearchedMovies(d.query_NotFound),
       seed: () => MovieListState(),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -115,6 +119,8 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_HttpErr),
       seed: () => MovieListState(),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -135,6 +141,8 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_OtherErr),
       seed: () => MovieListState(),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -164,6 +172,8 @@ void main() {
         navCommand: null,
         restoreView: false,
       ),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -191,6 +201,8 @@ void main() {
         navCommand: null,
         restoreView: false,
       ),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -218,6 +230,8 @@ void main() {
         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
         restoreView: false,
       ),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: MovieList.empty(),
@@ -237,10 +251,12 @@ void main() {
   // SEARCH SUCCESSFUL
   group('search movies => successful', () {
     controllerTest(
-      'empty list => search => successful',
+      'empty list => search => successful A',
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_A),
       seed: () => MovieListState(),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: d.movieList_A,
@@ -257,7 +273,7 @@ void main() {
     );
 
     controllerTest(
-      'full list => search => successful',
+      'full list => search => successful B',
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_B),
       seed: () => MovieListState(
@@ -268,6 +284,8 @@ void main() {
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
         restoreView: true,
       ),
+      skip: 1,
+      asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieList: d.movieList_B,

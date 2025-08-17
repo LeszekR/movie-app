@@ -1,7 +1,8 @@
 Intro
 ===================================================================
 
-This file is here only for recruitment purposes. It would not exist in regular work task. It explains most important decisions in the project.
+This file is here only for recruitment purposes. It would not exist in regular work task. It
+explains most important decisions in the project.
 
 Overview
 ----------------------------------  
@@ -35,8 +36,8 @@ Overview
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (
   e.g. `lib/routing/go_router_const_strings.dart` and other)
-- created `controllerTest` blueprinted on `controllerTest` for easy testing `Controller.state` reactions
-  to calls to their methods
+- created `controllerTest` blueprinted on `blocTest` for easy testing `Controllers`
+  reactions to calls to their methods (commented further down)
 - created gitlab pipeline
 
 #
@@ -116,12 +117,22 @@ just as well one might decide on any other - depending on given app architecture
   priority is strict architectural rules it should be changed to passing all navigation through the
   related `Controller`'s `state.navCommand`
 
-#
+###
 
-------------------
+##### `controllerTest` function blueprinted on `blocTest`
 
-Details
-----------------------------------  
+Packages:
+
+- `test/test_tools/test_runner`
+- `test/app/pages/movie_list/controller`
+
+Inspired by blocTest:
+
+- Like `blocTest` my `controllerTest` offers declarative test helper for FCA Controllers.
+- Sets mocks, registers seed state, builds controller, performs act, skips states to be ignored,
+  asserts expected states and verifications.
+- Allowed for possibly easiest and most consistent transfer of tests between `BLoC`
+  and `flutter_clean_architecture` implementations of the same app for skill presentation purposes
 
 ###
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../domain/entities/movie.dart';
+import '../../../navigation/app_nav_commands.dart';
 import '../../../navigation/feature_navigator.dart';
 import '../../../navigation/go_router_const_strings.dart';
-import '../../../navigation/app_nav_commands.dart';
 import '../../../navigation/navigation_command.dart';
 import 'nav_commands.dart';
 

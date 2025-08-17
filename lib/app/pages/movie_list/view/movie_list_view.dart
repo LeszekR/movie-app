@@ -26,8 +26,8 @@ class MovieListView extends CleanView {
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   final Txt _txt;
-  final ScrollController _scrollController = ScrollController();
-  final TextEditingController _searchTextController = TextEditingController();
+  final ScrollController _scrollController = getIt<ScrollController>();
+  final TextEditingController _searchTextController = getIt<TextEditingController>();
 
   MovieListViewState()
       : _txt = getIt<Txt>(),
@@ -98,27 +98,31 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   Widget _buildMovieList(BuildContext context, MovieListController controller) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     int? selectedMovieId = controller.state.selectedMovieId.value;
-    return ListView.separated(
-      key: MovieListView.listViewKey,
-      controller: _scrollController,
-      separatorBuilder: AppStyle.listViewSeparatorBuilder,
-      itemBuilder: (context, index) => MovieCard(
-        id: movieList[index].id,
-        title: movieList[index].title,
-        voteAverage: movieList[index].voteAverage,
-        isSelected: movieList[index].id == selectedMovieId,
-        onTap: controller.setSelectedMovieId,
-      ),
-      itemCount: movieList.length,
-    );
-  }
-
-  void _navigate(BuildContext context, MovieListController controller) {
-    getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+    return Scrollbar(
+        thumbVisibility: true,
+        controller: _scrollController,
+        child: ListView.separated(
+          key: MovieListView.listViewKey,
+          controller: _scrollController,
+          separatorBuilder: AppStyle.listViewSeparatorBuilder,
+          itemBuilder: (context, index) => MovieCard(
+            id: movieList[index].id,
+            title: movieList[index].title,
+            voteAverage: movieList[index].voteAverage,
+            isSelected: movieList[index].id == selectedMovieId,
+            onTap: controller.setSelectedMovieId,
+          ),
+          itemCount: movieList.length,
+        ));
   }
 
   void _navTwoButtons(MovieListController controller) {
-    controller.navTwoButtons(_searchTextController.text, _scrollController.offset);
+    controller.navTwoButtons();
+  }
+
+  void _navigate(BuildContext context, MovieListController controller) {
+    controller.saveState(_searchTextController.text, _scrollController.offset);
+    getIt<MovieListNavigator>().go(context, controller.state.navCommand);
   }
 
   void _restoreViewState(MovieListController controller) {

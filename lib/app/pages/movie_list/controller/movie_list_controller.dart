@@ -80,7 +80,7 @@ class MovieListController extends Controller {
   }
 
   void fetchMovie() {
-    if (state.selectedMovieId == ThreeStateInt.none()) {
+    if (!state.selectedMovieId.hasValue) {
       state.update(navCommand: NavMessageDialog(EDialogMsg.noMovieSelected));
     } else {
       _movieListPresenter.getMovieDetails(state.selectedMovieId.value!);
@@ -115,14 +115,17 @@ class MovieListController extends Controller {
     return state.selectedMovieId.value;
   }
 
-  void navTwoButtons(String searchQuery, double scrollOffset) {
+  void navTwoButtons() {
+    state.update(navCommand: NavTwoButtons());
+    refreshUI();
+  }
+
+  void saveState(String searchQuery, double scrollOffset) {
     state.update(
       searchQuery: searchQuery,
       scrollOffset: scrollOffset,
-      navCommand: NavTwoButtons(),
       restoreView: true,
     );
-    refreshUI();
   }
 
   void setViewRestored() {

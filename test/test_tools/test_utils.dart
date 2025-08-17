@@ -52,6 +52,17 @@ Future<void> pumpUntilFound(
   throw TestFailure('Timeout: widget not found: $finder');
 }
 
-void unregisterSafely<T extends Object>() {
+void getItReplaceFactory<T extends Object>(T Function() builder) {
   if (getIt.isRegistered<T>()) getIt.unregister<T>();
+  getIt.registerFactory<T>(builder);
+}
+
+void getItReplaceLazySingleton<T extends Object>(T Function() builder) {
+  if (getIt.isRegistered<T>()) getIt.unregister<T>();
+  getIt.registerLazySingleton<T>(builder);
+}
+
+void getItReplaceSingleton<T extends Object>(T Function() builder) {
+  if (getIt.isRegistered<T>()) getIt.unregister<T>();
+  getIt.registerSingleton<T>(builder());
 }

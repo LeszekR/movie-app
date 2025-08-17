@@ -26,6 +26,8 @@ class MovieListTestData {
   var errMovieHttp = MovieDetailsHttpException(404);
   var errRepoOther = MovieListOtherException();
 
+  MovieList movieList_Empty = MovieList(totalResults: 0, results: List.empty());
+
   MovieList movieList_A = MovieList(
       totalResults: 4,
       results: Sorter<Movie>().sortColumns([

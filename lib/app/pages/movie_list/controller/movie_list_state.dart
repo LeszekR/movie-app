@@ -44,7 +44,7 @@ final class MovieListState {
     this.scrollOffset = scrollOffset ?? this.scrollOffset;
     this.searchQuery = searchQuery ?? this.searchQuery;
     this.sortCriteriaList = sortCriteriaList ?? this.sortCriteriaList;
-    this.navCommand = navCommand;
+    this.navCommand = navCommand ?? this.navCommand;
     this.restoreView = restoreView ?? (navCommand != null || this.restoreView);
   }
 }
