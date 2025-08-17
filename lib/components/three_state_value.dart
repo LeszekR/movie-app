@@ -1,4 +1,6 @@
-sealed class ThreeStateValue<T> {
+import 'package:equatable/equatable.dart';
+
+sealed class ThreeStateValue<T> extends Equatable{
   final T? value;
   final bool hasValue;
 
@@ -7,6 +9,9 @@ sealed class ThreeStateValue<T> {
   const ThreeStateValue.none()
       : value = null,
         hasValue = false;
+
+  @override
+  List<Object?> get props => [value, hasValue];
 }
 
 class ThreeStateInt extends ThreeStateValue<int> {
