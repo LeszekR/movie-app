@@ -14,6 +14,7 @@ Overview
 - `flutter_clean_architecture`
 - `get_it`
 - `GoRouter`
+- `dotenv`
 
 ###
 
@@ -32,7 +33,7 @@ Overview
     - triggered by the `View` via direct call to its `<PageName>Navigator`
       object
 - introduced localization to prepare the app for dynamic change of UI language
-- introduced '.env' file with app parameters (`AppConfig`)
+- introduced 'dotenv' file with app parameters (`AppConfig`)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (
   e.g. `lib/routing/go_router_const_strings.dart` and other)
@@ -51,6 +52,8 @@ Details
 
 ### Dependency injection via in-class `getIt` lookup
 
+###
+
 #### Available options
 
 - DI via constructors
@@ -68,6 +71,8 @@ just as well one might decide on any other - depending on given app architecture
 - Well-isolated feature modules where you accept global DI for convenience.
 - Read-mostly services (e.g., config, logging) with simple lifecycles.
 
+###
+
 #### Benefits of `GetIt` lookups inside classes
 
 - Low boilerplate: No constructor threading; quick to wire small/medium features.
@@ -75,6 +80,8 @@ just as well one might decide on any other - depending on given app architecture
 - Global reach: Access anywhere (including deep widgets without extra params).
 - Constructor stability: Widget/class signatures stay small and stable over time.
 - Incremental adoption: You can retrofit DI into legacy code without wide refactors.
+
+###
 
 #### Downsides of `GetIt` lookups inside classes
 
@@ -99,7 +106,7 @@ just as well one might decide on any other - depending on given app architecture
 
 ###
 
-##### Triggering navigation through a `Controller`
+### Triggering navigation through a `Controller`
 
 - since a `Controller` exists outside UI layer then to keep clear separation of responsibilities
   routing should not be called from there
@@ -119,14 +126,18 @@ just as well one might decide on any other - depending on given app architecture
 
 ###
 
-##### `controllerTest` function blueprinted on `blocTest`
+### Function `controllerTest` blueprinted on `blocTest`
 
-Packages:
+###
+
+#### Packages:
 
 - `test/test_tools/test_runner`
 - `test/app/pages/movie_list/controller`
 
-Inspired by blocTest:
+###
+
+#### Inspired by blocTest:
 
 - Like `blocTest` my `controllerTest` offers declarative test helper for FCA Controllers.
 - Sets mocks, registers seed state, builds controller, performs act, skips states to be ignored,
@@ -136,7 +147,17 @@ Inspired by blocTest:
 
 ###
 
-##### Separate files for GoRouter and routing const strings
+#### Additional params
+
+The `controllerTest` has extra params to adjust to `flutter_clean_architecture`
+
+- `asyncTicks` - `asyncTicks`: total number of: `Futures`, `onNext(...)` calls and other `async`
+  calls - between each two states of the controller
+- `setMocks` - self explanatory
+
+###
+
+### Separate files for GoRouter and routing const strings
 
 (Package: `lib/routing`)
 
@@ -153,7 +174,7 @@ further down this file.
 
 ###
 
-##### Sorting by multiple columns (class fields)
+### Sorting by multiple columns (class fields)
 
 (Package: `lib/utils/sorting`)
 
@@ -179,7 +200,7 @@ further down this file.
 
 ###
 
-##### Const strings in place of hardcoding strings
+### Const strings in place of hardcoding strings
 
 I always use static const string instead of hardcoded string ids because:
 

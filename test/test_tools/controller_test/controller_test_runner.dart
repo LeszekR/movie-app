@@ -4,12 +4,43 @@ import 'package:flutter_test/flutter_test.dart';
 import '../test_utils.dart';
 import 'state_comparator.dart';
 
-/// Tested `Controller` must hold its state in an `Object`. If the state encompasses only one variable then for
-/// `controllerTest` to work it must be wrapped with a state-class anyway and provided by getIt
-/// `skip`: number of `States` to ignore before verifying the state important for the test - if set to more than 0
-/// then also `asyncTicks` must be provided
-/// `asyncTicks`: total number of: Futures, onNext(...) calls, other async calls - between each two states of the
-/// controller
+/// A reusable test helper inspired by `blocTest`, adapted for testing Clean Architecture `Controller`s.
+///
+/// Runs a complete test cycle: seed state, build controller, perform action, expect emitted states, and verify mocks.
+///
+/// **Notes:**
+/// - The tested `Controller` must expose its state as a full object of type `T`.
+/// - If your controller's state consists of just one value (e.g. `int`, `bool`), you still need to wrap it in a state class and register it in `getIt`.
+///
+/// **Parameters:**
+/// - `description`: Name of the test.
+/// - `seed`: Provides the initial state object to be registered in `getIt`.
+/// - `build`: Creates a new controller instance.
+/// - `act`: Performs the action on the controller (e.g. `controller.fetchData()`).
+/// - `expect`: Returns the list of expected controller states (in order).
+/// - `skip`: Skips the first `n` emitted states. Useful if the test only cares about state changes after a given point.
+/// - `asyncTicks`: The number of event-loop ticks (microtask flushes) to wait between each state check.
+///   - Use this if the controller has multiple asynchronous operations (e.g., API call → log → update state).
+///   - One tick (`Future.delayed(Duration.zero)`) is usually enough, but increase this when needed.
+/// - `setMocks`: Optional setup function to prepare mock behaviors.
+/// - `verify`: Optional function to verify mock invocations.
+///
+/// Example usage:
+/// ```dart
+/// controllerTest<MyController, MyState>(
+///   'loads and displays data',
+///   seed: () => MyState.initial(),
+///   build: () => MyController(),
+///   act: (controller) => controller.loadData(),
+///   expect: () => [
+///     MyState.loading(),
+///     MyState.success(data),
+///   ],
+///   verify: () {
+///     verify(mockRepo.fetchData()).called(1);
+///   },
+/// );
+/// ```
 void controllerTest<C extends Controller, T extends Object>(
   String description, {
   void Function()? setMocks,
