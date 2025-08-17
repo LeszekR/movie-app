@@ -7,9 +7,9 @@ import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 
 import '../../../common/config/app_colors.dart';
+import '../../../common/config/app_style.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
-import '../../../common/config/app_style.dart';
 import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
