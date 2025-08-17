@@ -8,6 +8,7 @@ import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import '../../../bootstrap/app_runner.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
+import '../../../components/three_state_value.dart';
 import '../../../repositories/movie_repository.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
@@ -36,7 +37,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       if (movies.isEmpty) {
         emit(state.copyWith(
           movieList: MovieList.empty(),
-          selectedMovieId: const MovieId.none(),
+          selectedMovieId: const ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: query,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
@@ -45,7 +46,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         movies = sorter.sortColumns(movies, state.sortCriteriaList)!;
         emit(state.copyWith(
           movieList: MovieList(totalResults: movies.length, results: movies),
-          selectedMovieId: const MovieId.none(),
+          selectedMovieId: const ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: query,
           navCommand: NavProgressOff(),
@@ -55,7 +56,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
       emit(state.copyWith(
           movieList: MovieList.empty(),
-          selectedMovieId: const MovieId.none(),
+          selectedMovieId: const ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: query,
           navCommand: NavErrorDialog(e)));
@@ -63,11 +64,11 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   }
 
   Future<void> _selectMovie(SelectMovieEvent event, Emitter<MovieListState> emit) async {
-    emit(state.copyWith(selectedMovieId: MovieId.value(event.movieId)));
+    emit(state.copyWith(selectedMovieId: ThreeStateInt.value(event.movieId)));
   }
 
   Future<void> _fetchMovie(ShowMovieDetailsEvent event, Emitter<MovieListState> emit) async {
-    MovieId movieId = state.selectedMovieId;
+    ThreeStateInt movieId = state.selectedMovieId;
     if (!movieId.hasValue) {
       emit(state.copyWith(
         scrollOffset: event.scrollOffset,
@@ -79,7 +80,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     emit(state.copyWith(navCommand: NavProgressOn()));
 
     try {
-      var movie = await movieRepository.getMovie(movieId.id!);
+      var movie = await movieRepository.getMovie(movieId.value!);
       if (movie == null) {
         emit(state.copyWith(
           scrollOffset: event.scrollOffset,

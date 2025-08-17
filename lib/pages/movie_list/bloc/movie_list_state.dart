@@ -2,13 +2,14 @@ import 'package:equatable/equatable.dart';
 
 import '../../../components/sorting/e_sort_direction.dart';
 import '../../../components/sorting/sort_criteria.dart';
+import '../../../components/three_state_value.dart';
 import '../../../navigation/navigation_command.dart';
 import '../../movie_details/model/movie.dart';
 import '../model/movie_list.dart';
 
 final class MovieListState extends Equatable {
   final MovieList? movieList;
-  final MovieId selectedMovieId;
+  final ThreeStateInt selectedMovieId;
   final double scrollOffset;
   final String? searchQuery;
   final List<SortCriteria>? sortCriteriaList;
@@ -21,7 +22,7 @@ final class MovieListState extends Equatable {
 
   const MovieListState({
     this.movieList,
-    this.selectedMovieId = const MovieId.none(),
+    this.selectedMovieId = const ThreeStateInt.none(),
     this.scrollOffset = 0,
     this.searchQuery,
     this.sortCriteriaList = defaultSortCriteriaList,
@@ -30,7 +31,7 @@ final class MovieListState extends Equatable {
 
   MovieListState copyWith({
     MovieList? movieList,
-    MovieId? selectedMovieId,
+    ThreeStateInt? selectedMovieId,
     double? scrollOffset,
     String? searchQuery,
     List<SortCriteria>? sortCriteriaList,
@@ -48,18 +49,4 @@ final class MovieListState extends Equatable {
 
   @override
   List<Object?> get props => [movieList, selectedMovieId, scrollOffset, searchQuery, sortCriteriaList, navCommand];
-}
-
-class MovieId extends Equatable {
-  final bool hasValue;
-  final int? id;
-
-  const MovieId.none()
-      : hasValue = false,
-        id = null;
-
-  const MovieId.value(int this.id) : hasValue = true;
-
-  @override
-  List<Object?> get props => [hasValue, id];
 }

@@ -1,8 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/components/three_state_value.dart';
+import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -31,7 +32,7 @@ void main() {
     build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_A,
-      selectedMovieId: MovieId.value(d.movieId_A2),
+      selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
       navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
@@ -40,14 +41,14 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_A,
-        selectedMovieId: MovieId.value(d.movieId_A2),
+        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavProgressOn(),
       ),
       MovieListState(
         movieList: d.movieList_A,
-        selectedMovieId: MovieId.value(d.movieId_A2),
+        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_A,
         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
@@ -63,7 +64,7 @@ void main() {
     build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
-      selectedMovieId: MovieId.none(),
+      selectedMovieId: ThreeStateInt.none(),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_B,
       navCommand: null,
@@ -72,7 +73,7 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_B,
-        selectedMovieId: MovieId.none(),
+        selectedMovieId: ThreeStateInt.none(),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_B,
         navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
@@ -89,7 +90,7 @@ void main() {
     build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
-      selectedMovieId: MovieId.value(d.movieId_ErrHttp),
+      selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
       navCommand: null,
@@ -98,7 +99,7 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_B,
-        selectedMovieId: MovieId.value(d.movieId_ErrHttp),
+        selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
         navCommand: NavErrorDialog(d.errMovieHttp),
@@ -115,7 +116,7 @@ void main() {
     build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_A,
-      selectedMovieId: MovieId.value(d.movieId_ErrOther),
+      selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
       navCommand: null,
@@ -124,7 +125,7 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_A,
-        selectedMovieId: MovieId.value(d.movieId_ErrOther),
+        selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavErrorDialog(d.errRepoOther),
@@ -141,7 +142,7 @@ void main() {
     build: () => d.makeMovieListBloc(mockMovieRepository),
     seed: () => MovieListState(
       movieList: d.movieList_B,
-      selectedMovieId: MovieId.value(d.movieId_B3),
+      selectedMovieId: ThreeStateInt.value(d.movieId_B3),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
       navCommand: null,
@@ -150,7 +151,7 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_B,
-        selectedMovieId: MovieId.value(d.movieId_B3),
+        selectedMovieId: ThreeStateInt.value(d.movieId_B3),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
         navCommand: NavMovieDetails(d.movieList_B.results[d.movieId_B3]),

@@ -110,19 +110,23 @@ class _MovieListViewState extends State<MovieListView> {
 
   Widget _buildMovieList(BuildContext context, MovieListState state) {
     List<Movie> movieList = state.movieList?.results ?? List.empty();
-    int? selectedMovieId = state.selectedMovieId.id;
-    return ListView.separated(
-      key: MovieListView.listViewKey,
+    int? selectedMovieId = state.selectedMovieId.value;
+    return Scrollbar(
+      thumbVisibility: true,
       controller: _scrollController,
-      separatorBuilder: AppStyle.listViewSeparatorBuilder,
-      itemBuilder: (context, index) => MovieCard(
-        id: movieList[index].id,
-        title: movieList[index].title,
-        voteAverage: movieList[index].voteAverage,
-        isSelected: movieList[index].id == selectedMovieId,
-        onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id)),
+      child: ListView.separated(
+        key: MovieListView.listViewKey,
+        controller: _scrollController,
+        separatorBuilder: AppStyle.listViewSeparatorBuilder,
+        itemBuilder: (context, index) => MovieCard(
+          id: movieList[index].id,
+          title: movieList[index].title,
+          voteAverage: movieList[index].voteAverage,
+          isSelected: movieList[index].id == selectedMovieId,
+          onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id)),
+        ),
+        itemCount: movieList.length,
       ),
-      itemCount: movieList.length,
     );
   }
 

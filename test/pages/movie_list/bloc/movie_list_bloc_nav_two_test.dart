@@ -1,7 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_demo/components/three_state_value.dart';
+import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../test_tools/mocks/common_mocks.mocks.dart';
@@ -15,7 +16,7 @@ void main() {
     'show two buttons view',
     seed: () => MovieListState(
       movieList: d.movieList_A,
-      selectedMovieId: MovieId.value(d.movieId_A2),
+      selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_A,
       navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
@@ -25,7 +26,7 @@ void main() {
     expect: () => [
       MovieListState(
         movieList: d.movieList_A,
-        selectedMovieId: MovieId.value(d.movieId_A2),
+        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavTwoButtons(),
