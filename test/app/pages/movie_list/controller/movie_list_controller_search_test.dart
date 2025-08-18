@@ -13,7 +13,6 @@ import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/entities/movie_list.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import 'package:flutter_demo/domain/utils/logging/logging_actions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -28,7 +27,6 @@ void main() {
   MockMovieListNavigator mockMovieListNavigator = MockMovieListNavigator();
 
   setUpAll(() {
-    getIt.registerFactory(() => LoggingActions());
     getIt.registerFactory(() => Sorter<Movie>());
     getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
     getItReplaceFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));

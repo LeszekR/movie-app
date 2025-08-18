@@ -8,8 +8,8 @@ import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_loc
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../bootstrap/app_runner.dart';
 import '../../../../bootstrap/get_it_model.dart';
+import '../../../../bootstrap/logger_setup.dart';
 import '../../../navigation/go_router_const_strings.dart';
 import '../../movie_details/view/movie_details_view.dart';
 import '../../movie_list/view/movie_list_view.dart';
@@ -35,7 +35,7 @@ class _MovieAppState extends CleanViewState<MovieApp, MovieAppController> {
 
         // catch unhandled errors other than framework errors (those will be logged by the framework)
         PlatformDispatcher.instance.onError = (error, stack) {
-          logger.severe(null, error, stack);
+          log.severe(null, error, stack);
           return true;
         };
 

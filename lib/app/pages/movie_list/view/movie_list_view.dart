@@ -77,7 +77,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               child: IconButton(
                 key: MovieListView.languagePlButtonKey,
                 icon: Image.asset('assets/icons/PL_flag.png'),
-                onPressed: () => getIt<MovieAppController>().setLanguage(ELanguage.pl),
+                onPressed: () => _setLanguage(controller, ELanguage.pl),
               ),
             ),
             // AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget / 4),
@@ -86,7 +86,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               child: IconButton(
                 key: MovieListView.languageEnButtonKey,
                 icon: Image.asset('assets/icons/EN_flag.png'),
-                onPressed: () => getIt<MovieAppController>().setLanguage(ELanguage.en),
+                onPressed: () => _setLanguage(controller, ELanguage.en),
               ),
             ),
             // AppSizes.filler(),
@@ -145,6 +145,11 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   void _navigate(BuildContext context, MovieListController controller) {
     controller.saveState(_searchTextController.text, _scrollController.offset);
     getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+  }
+
+  void _setLanguage(MovieListController controller, ELanguage eLanguage){
+    controller.saveState(_searchTextController.text, _scrollController.offset);
+    getIt<MovieAppController>().setLanguage(eLanguage);
   }
 
   void _restoreViewState(MovieListController controller) {

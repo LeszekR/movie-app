@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/app/config/app_config.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
@@ -14,7 +14,7 @@ Future<void> prepareWidget(
   final String language = "pl",
 }) async {
   //
-  dotenv.testLoad(fileInput: File(AppConfig.configFilePath).readAsStringSync());
+  dotenv.testLoad(fileInput: File(AppParams.configFilePath).readAsStringSync());
 
   await tester.pumpWidget(
     MaterialApp(

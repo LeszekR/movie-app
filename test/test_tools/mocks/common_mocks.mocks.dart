@@ -9,7 +9,7 @@ import 'dart:ui' as _i15;
 import 'package:flutter/material.dart' as _i5;
 import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart' as _i3;
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart' as _i13;
-import 'package:flutter_demo/app/config/app_config.dart' as _i6;
+import 'package:flutter_demo/bootstrap/app_params.dart' as _i6;
 import 'package:flutter_demo/app/navigation/app_navigator.dart' as _i4;
 import 'package:flutter_demo/app/navigation/navigation_command.dart' as _i12;
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart'
@@ -85,7 +85,7 @@ class _FakeTextSpan_7 extends _i1.SmartFake implements _i5.TextSpan {
 /// A class which mocks [AppConfig].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfig extends _i1.Mock implements _i6.AppConfig {
+class MockAppConfig extends _i1.Mock implements _i6.AppParams {
   MockAppConfig() {
     _i1.throwOnMissingStub(this);
   }

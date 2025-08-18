@@ -1,4 +1,4 @@
-import 'package:flutter_demo/app/config/app_config.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
@@ -22,7 +22,7 @@ main() {
 
   setUp(() {
     getit.registerSingleton(Txt());
-    getit.registerSingleton<AppConfig>(mockAppConfig);
+    getit.registerSingleton<AppParams>(mockAppConfig);
     getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
     getit.registerLazySingleton(() => MovieDetailsUtils());
   });
@@ -56,7 +56,7 @@ main() {
 }
 
 Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProfitThreshold, DateTime mockDay) async {
-  when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
+  when(mockAppConfig.param(AppParams.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
   await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue));
 }

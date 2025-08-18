@@ -3,17 +3,17 @@ import 'package:intl/intl.dart';
 import '../../../../domain/ui_localized_texts/txt.dart';
 import '../../../../domain/utils/date_time_reader.dart';
 import '../../../../bootstrap/get_it_model.dart';
-import '../../../config/app_config.dart';
+import '../../../../bootstrap/app_params.dart';
 
 class MovieDetailsUtils {
   final Txt _txt;
-  final AppConfig _appConfig;
+  final AppParams _appConfig;
   final DateTimeReader _dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
   MovieDetailsUtils()
       : _txt = getIt<Txt>(),
-        _appConfig = getIt<AppConfig>(),
+        _appConfig = getIt<AppParams>(),
         _dateTimeReader = getIt<DateTimeReader>();
 
   String formatDollarAmount(String amountString) {
@@ -27,7 +27,7 @@ class MovieDetailsUtils {
 
     var revenue = int.parse(revenueString);
     var budget = int.parse(budgeString);
-    var profitThreshold = int.parse(_appConfig.param(AppConfig.recommendationProfitThreshold));
+    var profitThreshold = int.parse(_appConfig.param(AppParams.recommendationProfitThreshold));
     var isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
     return isSunday && isProfitSatisfactory ? _txt.get.yes : _txt.get.no;

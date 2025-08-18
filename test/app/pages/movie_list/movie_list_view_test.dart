@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/components/search_box.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
-import 'package:flutter_demo/bootstrap/app_runner.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
