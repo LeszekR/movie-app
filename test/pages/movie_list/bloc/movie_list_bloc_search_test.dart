@@ -43,6 +43,7 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
+          restoreView: true,
         )
       ],
     );
@@ -231,6 +232,7 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
+          restoreView: true,
         )
       ],
       verify: (bloc) {
@@ -257,6 +259,7 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_B,
           navCommand: NavProgressOff(),
+          restoreView: true,
         )
       ],
       verify: (bloc) {

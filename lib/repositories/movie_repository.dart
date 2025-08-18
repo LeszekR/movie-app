@@ -19,6 +19,7 @@ class MovieRepository {
     final endpoint = Uri.https(baseUrl, '/3/search/movie', parameters);
 
     try {
+      // throw MovieListHttpException(404);
       final response = await http.get(endpoint);
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);

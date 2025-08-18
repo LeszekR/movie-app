@@ -1,35 +1,28 @@
 Intro
 ===================================================================
 
-1. This file is here only for recruitment purposes. It would not exist in regular work task.
-2. On **02.05.2025** feature implementation is completed but the solution is still under works -
-   remaining issues are listed in issues in GitLab repo.
-4. With current tiny size of the project some of my solutions are an overkill. But they prepare the
-   project for smooth codebase growth.
-
-## Implementation stages
-
-- STAGE 1: At this stage all the task requirements were fulfilled with addition some additional
-  features. They have already been presented to the recruitment team and the original comments to
-  them are located at the end of this file.
-
-- STAGE 2: Now next elements have been implemented following directions received from the
-  recruitment team
-
-# STAGE 2
+This file is here only for recruitment purposes. It would not exist in regular work task. It
+explains most important decisions in the project.
 
 Overview
 ----------------------------------  
-New features and refactoring
 
-- this stage was developed from previous based on `flutter_clean_architecture`, `riverpod`
-  , `go_router` which is maintained in its own branch
+###
+
+#### External libraries
+
+- `flutter_bloc`
+- `get_it`
+- `dotenv`
+
+###
+
+#### Features and choices
+
 - introduced `flutter_bloc` package and refactored the whole project to its directives
 - replaced `Riverpod` DI with `get_it`
 - decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
   explained below
-- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
-  architecture with `flutter_bloc`
 - refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
   removed `go_router` package
 - extracted app navigation to hybrid pattern: local `MovieListNavigator`, global `AppNavigator` in
@@ -55,6 +48,21 @@ New features and refactoring
 - switched colors of `ButtonTwoStates` - unless this was intentional (project decision to be
   asked?) the colors were assigned counterintuitively for any user in our civilisation (**red** was
   **ON** - **green** was **OFF** - now it is the opposite)
+- created multi-column, stable, generic sorting class (`Sorter`)
+- refactored string literals to constant strings to prevent typos and enable intellisense (
+  e.g. `lib/routing/go_router_const_strings.dart` and other)
+- introduced localization and dynamic change of UI language via `MovieAppController`, app starts
+  with language declared in dotenv
+- introduced 'dotenv' file with app parameters (`AppConfig`)
+- created some unit tests (`Sorter` tests)
+- created some tests using mocked dependencies and localized strings (`MovieListPage`
+  , `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
+  life)
+- created gitlab pipeline
+
+
+- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
+  architecture with `flutter_bloc`
 
 #
 
@@ -108,21 +116,6 @@ Overview
 Additional features  
 (apart recruitment task requirements, features essential for any project):
 
-- introduced `GoRouter`
-- introduced `Riverpod` for state management and DI (first used `Provider` then refactored)
-- created multi-column, stable, generic sorting class (`Sorter`)
-- separated business logic from `Widget` ui-concerned code (classes: `MovieListController`
-  , `MovieDetailsController`)
-- wrapped web requests with error-handling (`ApiService`)
-- refactored string literals to constant strings to prevent typos and enable intellisense (
-  e.g. `lib/routing/go_router_const_strings.dart` and other)
-- introduced localization to prepare the app for dynamic change of UI language
-- introduced '.env' file with app parameters (`AppConfig`)
-- created some unit tests (`Sorter` tests)
-- created some tests using mocked dependencies and localized strings (`MovieListPage`
-  , `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
-  life)
-- created gitlab pipeline
 
 #
 

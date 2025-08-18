@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
 
-import 'package:flutter_demo/common/config/app_config.dart' as _i2;
+import 'package:flutter_demo/bootstrap/app_params.dart' as _i2;
 import 'package:flutter_demo/common/utils/date_time_reader.dart' as _i4;
 import 'package:flutter_demo/pages/movie_details/model/movie.dart' as _i7;
 import 'package:flutter_demo/repositories/movie_repository.dart' as _i5;
@@ -36,11 +36,11 @@ class _FakeDateTime_0 extends _i1.SmartFake implements DateTime {
         );
 }
 
-/// A class which mocks [AppConfig].
+/// A class which mocks [AppParams].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfig extends _i1.Mock implements _i2.AppConfig {
-  MockAppConfig() {
+class MockAppParams extends _i1.Mock implements _i2.AppParams {
+  MockAppParams() {
     _i1.throwOnMissingStub(this);
   }
 

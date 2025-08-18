@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
-import '../../../common/config/app_config.dart';
+import '../../../bootstrap/app_params.dart';
 
 enum ELanguage { pl, en }
 
 class MovieAppState extends Equatable {
   final String languageId;
 
-  MovieAppState() : languageId = getIt<AppConfig>().param(AppConfig.languageOnStart);
+  MovieAppState() : languageId = getIt<AppParams>().param(AppParams.languageOnStart);
 
   const MovieAppState.withLanguage({required this.languageId});
 

@@ -2,17 +2,16 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/bootstrap/app_runner.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
-import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/components/search_box.dart';
+import 'package:flutter_demo/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/pages/movie_details/model/movie.dart';
 import 'package:flutter_demo/pages/movie_details/view/movie_details_view.dart';
 import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/pages/two_buttons/components/button_two_states.dart';
 import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,7 +39,7 @@ void main() {
       return mockMovieRepository;
     });
 
-    dotenv.testLoad(fileInput: File(AppConfig.configFilePath).readAsStringSync());
+    dotenv.testLoad(fileInput: File(AppParams.configFilePath).readAsStringSync());
 
     when(mockMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(movieList));
     when(mockMovieRepository.getMovie(selectedIndex)).thenAnswer((_) => movieCompleter.future);

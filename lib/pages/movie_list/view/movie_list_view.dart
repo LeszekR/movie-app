@@ -37,6 +37,7 @@ class MovieListView extends StatefulWidget {
 
 class _MovieListViewState extends State<MovieListView> {
   MovieAppCubit get _appCubit => context.read<MovieAppCubit>();
+
   MovieListBloc get _bloc => context.read<MovieListBloc>();
   TextEditingController? _searchTextController;
   ScrollController? _scrollController;
@@ -48,9 +49,7 @@ class _MovieListViewState extends State<MovieListView> {
     _scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var state = _bloc.state;
-      _scrollController!.jumpTo(state.scrollOffset);
-      _searchTextController!.text = state.searchQuery ?? '';
+      _restoreViewState();
     });
   }
 
@@ -67,6 +66,11 @@ class _MovieListViewState extends State<MovieListView> {
       listenWhen: (previous, current) => previous.navCommand != current.navCommand,
       listener: (context, state) => widget.moviesNavigator.go(context, state.navCommand),
       builder: (context, state) {
+        if (state.restoreView) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _restoreViewState();
+          });
+        }
         return Scaffold(
           appBar: AppBar(
             title: Text(widget.txt.get.movie_list_title),
@@ -154,11 +158,21 @@ class _MovieListViewState extends State<MovieListView> {
     );
   }
 
-  void _setAppLanguage(ELanguage eLanguage) => _appCubit.setLanguage(eLanguage);
+  void _setAppLanguage(ELanguage eLanguage) {
+    _bloc.add(SaveStateMoviesEvent(_searchTextController!.text, _scrollController!.offset));
+    _appCubit.setLanguage(eLanguage);
+  }
 
   void _fetchSearchedMovies(String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 
   void _showMovieDetails(MovieListState state) => _bloc.add(ShowMovieDetailsEvent(_scrollController!.offset));
 
   void _showTwoButtons(BuildContext context) => _bloc.add(ShowTwoButtonsEvent(_scrollController!.offset));
+
+  void _restoreViewState() {
+    _bloc.add(StateRestoredMoviesEvent());
+    var state = _bloc.state;
+    _scrollController!.jumpTo(state.scrollOffset);
+    _searchTextController!.text = state.searchQuery ?? '';
+  }
 }

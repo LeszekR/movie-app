@@ -14,6 +14,7 @@ final class MovieListState extends Equatable {
   final String? searchQuery;
   final List<SortCriteria>? sortCriteriaList;
   final NavigationCommand? navCommand;
+  final bool restoreView;
 
   static const defaultSortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
@@ -27,6 +28,7 @@ final class MovieListState extends Equatable {
     this.searchQuery,
     this.sortCriteriaList = defaultSortCriteriaList,
     this.navCommand,
+    this.restoreView = false,
   });
 
   MovieListState copyWith({
@@ -36,6 +38,7 @@ final class MovieListState extends Equatable {
     String? searchQuery,
     List<SortCriteria>? sortCriteriaList,
     NavigationCommand? navCommand,
+    bool? restoreView,
   }) {
     return MovieListState(
       movieList: movieList ?? this.movieList,
@@ -44,9 +47,18 @@ final class MovieListState extends Equatable {
       searchQuery: searchQuery ?? this.searchQuery,
       sortCriteriaList: sortCriteriaList ?? this.sortCriteriaList,
       navCommand: navCommand,
+      restoreView:  restoreView ?? false,
     );
   }
 
   @override
-  List<Object?> get props => [movieList, selectedMovieId, scrollOffset, searchQuery, sortCriteriaList, navCommand];
+  List<Object?> get props => [
+        movieList,
+        selectedMovieId,
+        scrollOffset,
+        searchQuery,
+        sortCriteriaList,
+        navCommand,
+        restoreView,
+      ];
 }

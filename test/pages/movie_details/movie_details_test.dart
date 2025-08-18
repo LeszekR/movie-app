@@ -1,5 +1,5 @@
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/common/config/app_config.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/common/utils/date_time_reader.dart';
 import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import '../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../test_tools/test_utils.dart';
 
-var mockAppConfig = MockAppConfig();
+var mockAppParams = MockAppParams();
 var mockDateTimeReader = MockDateTimeReader();
 var budget = '100';
 var revenue = '200';
@@ -21,9 +21,9 @@ var title = 'Avatar';
 main() {
   setUpAll(() {
     getIt.registerSingleton<Txt>(Txt());
-    getIt.registerSingleton<AppConfig>(mockAppConfig);
+    getIt.registerSingleton<AppParams>(mockAppParams);
     getIt.registerSingleton<DateTimeReader>(mockDateTimeReader);
-    getIt.registerLazySingleton(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppConfig>()));
+    getIt.registerLazySingleton(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppParams>()));
   });
 
   tearDown(() {
@@ -61,7 +61,7 @@ Future<void> prepareMovieDetailsWidget(
   String recommendProfitThreshold,
   DateTime mockDay,
 ) async {
-  when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
+  when(mockAppParams.param(AppParams.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
   await prepareWidget(tester, getit,
       widgetBuilder: () => MovieDetailsView(getit<Txt>(), title, budget, revenue, getit<MovieDetailsController>()));

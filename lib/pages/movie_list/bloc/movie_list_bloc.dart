@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_demo/common/logging/logging_messages.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 
-import '../../../bootstrap/app_runner.dart';
+import '../../../bootstrap/logger_messages.dart';
+import '../../../bootstrap/logger_setup.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/sorting/sorter.dart';
 import '../../../components/three_state_value.dart';
@@ -19,16 +19,27 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   final Sorter<Movie> sorter;
 
   MovieListBloc(this.movieRepository, this.sorter) : super(MovieListState()) {
+    on<StateRestoredMoviesEvent>(_setStateRestored);
+    on<SaveStateMoviesEvent>(_saveState);
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
     on<ShowMovieDetailsEvent>(_fetchMovie);
     on<ShowTwoButtonsEvent>(_showTwoButtons);
   }
 
+  Future<void> _saveState(SaveStateMoviesEvent event, Emitter<MovieListState> emit) async {
+    emit(state.copyWith(
+      searchQuery: event.query,
+      scrollOffset: event.scrollOffset,
+      restoreView: true,
+    ));
+  }
+
   Future<void> _fetchSearchedMovies(SearchMoviesEvent event, Emitter<MovieListState> emit) async {
     var query = event.query;
     if (query == null) return;
     if (query.isEmpty) return;
+    if (query == state.searchQuery) return;
 
     emit(state.copyWith(navCommand: NavProgressOn()));
 
@@ -50,16 +61,18 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           scrollOffset: 0,
           searchQuery: query,
           navCommand: NavProgressOff(),
+          restoreView: true,
         ));
       }
     } on Exception catch (e) {
-      logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
+      log.severe(logErrSearchMovies, e);
       emit(state.copyWith(
-          movieList: MovieList.empty(),
-          selectedMovieId: const ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: query,
-          navCommand: NavErrorDialog(e)));
+        movieList: MovieList.empty(),
+        selectedMovieId: const ThreeStateInt.none(),
+        scrollOffset: 0,
+        searchQuery: query,
+        navCommand: NavErrorDialog(e),
+      ));
     }
   }
 
@@ -93,14 +106,22 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         ));
       }
     } on Exception catch (e) {
-      logger.severe('$LOG_ERR_SEARCH_MOVIES $e');
+      log.severe(logErrMovieDetails, e);
       emit(state.copyWith(
-          scrollOffset: event.scrollOffset,
-          navCommand: NavErrorDialog(e)));
+        scrollOffset: event.scrollOffset,
+        navCommand: NavErrorDialog(e),
+      ));
     }
   }
 
   Future<void> _showTwoButtons(ShowTwoButtonsEvent event, Emitter<MovieListState> emit) async {
-    emit(state.copyWith(scrollOffset: event.scrollOffset, navCommand: NavTwoButtons()));
+    emit(state.copyWith(
+      scrollOffset: event.scrollOffset,
+      navCommand: NavTwoButtons(),
+    ));
+  }
+
+  Future<void> _setStateRestored(StateRestoredMoviesEvent event, Emitter<MovieListState> emit) async {
+    emit(state.copyWith(restoreView: false));
   }
 }

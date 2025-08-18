@@ -8,7 +8,7 @@ import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:get_it/get_it.dart';
 
-import '../common/config/app_config.dart';
+import 'app_params.dart';
 import '../common/ui_localized_texts/txt.dart';
 import '../common/utils/date_time_reader.dart';
 import '../components/dialogs/dialog_factory.dart';
@@ -23,7 +23,7 @@ GetIt getIt = GetIt.instance;
 
 void initGetIt() {
   getIt.registerSingleton(Txt());
-  getIt.registerSingleton(AppConfig());
+  getIt.registerSingleton(AppParams());
   getIt.registerSingleton(DateTimeReader());
   getIt.registerFactory(() => DialogFactory(getIt<Txt>()));
   getIt.registerSingleton(MovieAppState());
@@ -50,7 +50,7 @@ void initGetIt() {
         twoButtonNavigator: getIt<TwoButtonNavigator>(),
       ));
 
-  getIt.registerFactory(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppConfig>()));
+  getIt.registerFactory(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppParams>()));
 
   getIt.registerSingleton(AppNavigator(
     getIt<Txt>(),
