@@ -4,6 +4,7 @@ import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
+import 'package:flutter_demo/bootstrap/app_runner.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +19,8 @@ void main() {
   MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
   MovieListTestData d = MovieListTestData();
 
-  setUpAll(() {
+  setUpAll(() async {
+    await loadConfigFile();
     initGetIt();
     getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
   });

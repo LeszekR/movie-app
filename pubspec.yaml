@@ -37,3 +37,4 @@ flutter:
   generate: true
   assets:
     - dotenv
+    - assets/icons/

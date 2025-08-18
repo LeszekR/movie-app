@@ -32,7 +32,7 @@ Overview
       field in the `view`'s `state`,
     - triggered by the `View` via direct call to its `<PageName>Navigator`
       object
-- introduced localization to prepare the app for dynamic change of UI language
+- introduced localization and dynamic change of UI language via `MovieAppController`
 - introduced 'dotenv' file with app parameters (`AppConfig`)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (

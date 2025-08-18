@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/navigation/app_navigator.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
@@ -32,6 +34,8 @@ void initGetIt() {
   // app
   getIt.registerSingleton(Txt());
   getIt.registerSingleton(AppConfig());
+  getIt.registerSingleton(MovieAppState());
+  getIt.registerSingleton(MovieAppController());
 
   getIt.registerLazySingleton(() => AppNavigator());
   getIt.registerFactory(() => MovieListNavigator(getIt<AppNavigator>()));

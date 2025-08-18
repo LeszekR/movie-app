@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
@@ -15,6 +17,8 @@ import 'components/movie_card.dart';
 
 class MovieListView extends CleanView {
   static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
+  static var languagePlButtonKey = Key('languagePlButtonKey');
+  static var languageEnButtonKey = Key('languageEnButtonKey');
   static var twoButButtonKey = Key("twoButtonsButtonKey");
   static var listViewKey = ValueKey('movieListKey');
 
@@ -67,8 +71,26 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               icon: Icon(Icons.movie_creation_outlined),
               onPressed: () => controller.fetchMovie(),
             ),
-            // AppSizes.filler(),
             AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 5),
+            SizedBox(
+              height: AppSizes.textFieldHeight * 1.4,
+              child: IconButton(
+                key: MovieListView.languagePlButtonKey,
+                icon: Image.asset('assets/icons/PL_flag.png'),
+                onPressed: () => getIt<MovieAppController>().setLanguage(ELanguage.pl),
+              ),
+            ),
+            // AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget / 4),
+            SizedBox(
+              height: AppSizes.textFieldHeight * 1.4,
+              child: IconButton(
+                key: MovieListView.languageEnButtonKey,
+                icon: Image.asset('assets/icons/EN_flag.png'),
+                onPressed: () => getIt<MovieAppController>().setLanguage(ELanguage.en),
+              ),
+            ),
+            // AppSizes.filler(),
+            AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
           ],
         ),
         body: Column(

@@ -1,4 +1,4 @@
-part of '../movie_app.dart';
+part of '../pages/movie_app/view/movie_app.dart';
 
 GoRouter goRouter() {
   return GoRouter(
