@@ -1,4 +1,6 @@
 import 'package:flutter_demo/components/sorting/sorter.dart';
+import 'package:flutter_demo/pages/movie_app/bloc/movie_app_cubit.dart';
+import 'package:flutter_demo/pages/movie_app/bloc/movie_app_state.dart';
 import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/pages/two_buttons/bloc/two_button_cubit.dart';
@@ -24,6 +26,8 @@ void initGetIt() {
   getIt.registerSingleton(AppConfig());
   getIt.registerSingleton(DateTimeReader());
   getIt.registerFactory(() => DialogFactory(getIt<Txt>()));
+  getIt.registerSingleton(MovieAppState());
+  getIt.registerSingleton(MovieAppCubit());
 
   getIt.registerLazySingleton(() => MovieListNavigator(
         getIt<Txt>(),

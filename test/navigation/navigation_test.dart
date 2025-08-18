@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/bootstrap/app_runner.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_config.dart';
 import 'package:flutter_demo/components/search_box.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/pages/two_buttons/components/button_two_states.dart';
 import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/pages/movie_app.dart';
+import 'package:flutter_demo/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/repositories/movie_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,7 +32,8 @@ void main() {
   // late Completer<Movie> movieCompleter = Completer(); // version shorter but less explicit than completer.complete(Future.value(...))
   Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
 
-  setUpAll(() {
+  setUpAll(() async {
+    await loadConfigFile();
     initGetIt();
     getIt.unregister<MovieRepository>();
     getIt.registerLazySingleton<MovieRepository>(() {

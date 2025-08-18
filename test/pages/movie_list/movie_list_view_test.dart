@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/bootstrap/app_runner.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/components/sorting/sorter.dart';
@@ -16,7 +17,8 @@ import '../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../test_tools/test_utils.dart';
 
 main() {
-  setUp(() {
+  setUp(() async {
+    await loadConfigFile();
     initGetIt();
     getIt.unregister<MovieRepository>();
     getIt.registerLazySingleton<MovieRepository>(() => MockMovieRepository());

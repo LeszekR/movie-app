@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
 import 'package:flutter_demo/components/button_builder.dart';
+import 'package:flutter_demo/pages/movie_app/bloc/movie_app_cubit.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
@@ -10,12 +11,15 @@ import '../../../common/config/app_colors.dart';
 import '../../../common/config/app_style.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
+import '../../movie_app/bloc/movie_app_state.dart';
 import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
   static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
+  static var languagePlButtonKey = Key('languagePlButtonKey');
+  static var languageEnButtonKey = Key('languageEnButtonKey');
   static var twoButButtonKey = Key("twoButtonsButtonKey");
   static var listViewKey = ValueKey('movieListKey');
   final Txt txt;
@@ -32,6 +36,7 @@ class MovieListView extends StatefulWidget {
 }
 
 class _MovieListViewState extends State<MovieListView> {
+  MovieAppCubit get _appCubit => context.read<MovieAppCubit>();
   MovieListBloc get _bloc => context.read<MovieListBloc>();
   TextEditingController? _searchTextController;
   ScrollController? _scrollController;
@@ -81,6 +86,25 @@ class _MovieListViewState extends State<MovieListView> {
               ),
               // AppSizes.filler(),
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 5),
+              SizedBox(
+                height: AppSizes.textFieldHeight * 1.4,
+                child: IconButton(
+                  key: MovieListView.languagePlButtonKey,
+                  icon: Image.asset('assets/icons/PL_flag.png'),
+                  onPressed: () => _setAppLanguage(ELanguage.pl),
+                ),
+              ),
+              // AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget / 4),
+              SizedBox(
+                height: AppSizes.textFieldHeight * 1.4,
+                child: IconButton(
+                  key: MovieListView.languageEnButtonKey,
+                  icon: Image.asset('assets/icons/EN_flag.png'),
+                  onPressed: () => _setAppLanguage(ELanguage.en),
+                ),
+              ),
+              // AppSizes.filler(),
+              AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
             ],
           ),
           body: Column(
@@ -129,6 +153,8 @@ class _MovieListViewState extends State<MovieListView> {
       ),
     );
   }
+
+  void _setAppLanguage(ELanguage eLanguage) => _appCubit.setLanguage(eLanguage);
 
   void _fetchSearchedMovies(String? searchQuery) => _bloc.add(SearchMoviesEvent(searchQuery));
 

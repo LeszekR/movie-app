@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_demo/common/logging/logging_messages.dart';
-import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 
 import '../../../bootstrap/app_runner.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
