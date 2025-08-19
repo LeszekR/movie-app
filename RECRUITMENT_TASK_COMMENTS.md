@@ -20,7 +20,7 @@ Overview
 #### Features and choices
 
 - introduced `flutter_bloc` package and refactored the whole project to its directives
-- replaced `Riverpod` DI with `get_it`
+- introduced `get_it`
 - decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
   explained below
 - refactored all navigation to Flutter's native `Navigator` called in `BlocListener` and
@@ -31,9 +31,7 @@ Overview
 - refactored `MovieListState` to incorporate navigation commands in the form of `NavigationCommand`
   class implementations, where `NavigationCommand` follows single-use pattern to prevent unnecessary
   rebuilds
-- added `TwoButtonView` to app navigation
-- implemented `TwoButtonView`'s state management and navigation to and from it with with `BLoC`,
-  using `Cubit` for state management
+- use to use `ListView.builder` in `MovieListView` to speed up the build
 - created tests of `MovieListBloc` covering all possible transitions
 - introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
   by global `AppNavigator`
@@ -45,8 +43,8 @@ Overview
 - centralized Widget sizes in single class `AppSizes` to control app's look from one place in the
   code
 - introduced handling all exceptions by logging or rethrowing them to be handled in calling code
-- switched colors of `ButtonTwoStates` - unless this was intentional (project decision to be
-  asked?) the colors were assigned counterintuitively for any user in our civilisation (**red** was
+- switched colors of `ButtonTwoStates` - unless this was intentional (project decision to be asked?)
+  the colors were assigned counterintuitively for any user in our civilisation (**red** was
   **ON** - **green** was **OFF** - now it is the opposite)
 - created multi-column, stable, generic sorting class (`Sorter`)
 - refactored string literals to constant strings to prevent typos and enable intellisense (
@@ -59,10 +57,6 @@ Overview
   , `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
   life)
 - created gitlab pipeline
-
-
-- simplified `MovieListState` as a consequence of replacing `riverpod`'s `StateNotifier`
-  architecture with `flutter_bloc`
 
 #
 
@@ -115,7 +109,6 @@ Overview
 
 Additional features  
 (apart recruitment task requirements, features essential for any project):
-
 
 #
 
