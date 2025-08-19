@@ -7,5 +7,5 @@ void setLogger() {
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}: ${record.error}');
   });
-  Logger.root.level = Level.INFO;
+  Logger.root.level = Level.WARNING;
 }

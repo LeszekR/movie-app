@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
 
@@ -32,6 +34,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   final Txt _txt;
   final ScrollController _scrollController = getIt<ScrollController>();
   final TextEditingController _searchTextController = getIt<TextEditingController>();
+  final int _starRatingThreshold = int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold));
 
   MovieListViewState()
       : _txt = getIt<Txt>(),
@@ -60,10 +63,15 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.appBarBackground,
           actions: [
-            SearchBox(
-              txt: _txt,
-              controller: _searchTextController,
-              onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
+            Focus(
+              onFocusChange: (hasFocus) {
+                if (!hasFocus) _saveState(controller);
+              },
+              child: SearchBox(
+                txt: _txt,
+                controller: _searchTextController,
+                onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
+              ),
             ),
             AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
             IconButton(
@@ -95,7 +103,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         ),
         body: Column(
           children: <Widget>[
-            Expanded(child: _buildMovieList(context, controller)),
+            Expanded(child: _buildMovieList(context, controller, _starRatingThreshold)),
           ],
         ),
         bottomNavigationBar: Container(
@@ -117,25 +125,33 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     });
   }
 
-  Widget _buildMovieList(BuildContext context, MovieListController controller) {
+  Widget _buildMovieList(BuildContext context, MovieListController controller, int starRatingThreshold) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     int? selectedMovieId = controller.state.selectedMovieId.value;
     return Scrollbar(
-        thumbVisibility: true,
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: ListView.builder(
+        key: MovieListView.listViewKey,
         controller: _scrollController,
-        child: ListView.separated(
-          key: MovieListView.listViewKey,
-          controller: _scrollController,
-          separatorBuilder: AppStyle.listViewSeparatorBuilder,
-          itemBuilder: (context, index) => MovieCard(
-            id: movieList[index].id,
-            title: movieList[index].title,
-            voteAverage: movieList[index].voteAverage,
-            isSelected: movieList[index].id == selectedMovieId,
-            onTap: controller.setSelectedMovieId,
+        itemBuilder: (context, index) => RepaintBoundary(
+          child: Column(
+            children: [
+              MovieCard(
+                id: movieList[index].id,
+                title: movieList[index].title,
+                voteAverage: (movieList[index].voteAverage * 10).toInt(),
+                starRatingThreshold: starRatingThreshold,
+                isSelected: movieList[index].id == selectedMovieId,
+                onTap: controller.setSelectedMovieId,
+              ),
+              AppStyle.listViewSeparatorBuilder(context, index),
+            ],
           ),
-          itemCount: movieList.length,
-        ));
+        ),
+        itemCount: movieList.length,
+      ),
+    );
   }
 
   void _navTwoButtons(MovieListController controller) {
@@ -143,18 +159,21 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   }
 
   void _navigate(BuildContext context, MovieListController controller) {
-    controller.saveState(_searchTextController.text, _scrollController.offset);
+    _saveState(controller);
     getIt<MovieListNavigator>().go(context, controller.state.navCommand);
   }
 
-  void _setLanguage(MovieListController controller, ELanguage eLanguage){
-    controller.saveState(_searchTextController.text, _scrollController.offset);
+  void _setLanguage(MovieListController controller, ELanguage eLanguage) {
+    if (controller.state.navCommand is! NavProgressOff) _saveState(controller);
     getIt<MovieAppController>().setLanguage(eLanguage);
   }
 
+  void _saveState(MovieListController controller) =>
+      controller.saveState(_searchTextController.text, _scrollController.offset);
+
   void _restoreViewState(MovieListController controller) {
     var offset = controller.state.scrollOffset;
-    if (offset != 0) _scrollController.jumpTo(offset);
+    _scrollController.jumpTo(offset);
 
     _searchTextController.text = controller.state.searchQuery ?? '';
 
