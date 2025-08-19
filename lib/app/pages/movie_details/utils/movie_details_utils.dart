@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../../../../domain/ui_localized_texts/txt.dart';
+import '../../../../app/ui_localized_texts/txt.dart';
 import '../../../../domain/utils/date_time_reader.dart';
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../../bootstrap/app_params.dart';

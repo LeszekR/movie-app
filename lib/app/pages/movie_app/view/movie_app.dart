@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../bootstrap/get_it_model.dart';

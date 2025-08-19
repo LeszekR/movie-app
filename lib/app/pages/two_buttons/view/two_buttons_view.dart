@@ -3,7 +3,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_controller.dart';
 
-import '../../../../domain/ui_localized_texts/txt.dart';
+import '../../../../app/ui_localized_texts/txt.dart';
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
 import '../../../config/app_colors.dart';

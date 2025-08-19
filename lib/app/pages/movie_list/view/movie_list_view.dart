@@ -6,7 +6,7 @@ import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';

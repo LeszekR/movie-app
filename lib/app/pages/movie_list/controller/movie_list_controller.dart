@@ -20,24 +20,27 @@ class MovieListController extends Controller {
   MovieListController()
       : state = getIt<MovieListState>(),
         _movieListPresenter = getIt<MovieListPresenter>(),
-        // _sorter = getIt<Sorter<Movie>>(),
         super();
 
   @override
   void initListeners() {
     _movieListPresenter.getSearchedMoviesOnNext = (movieList) => _receiveMovieList(movieList);
-    _movieListPresenter.getSearchedMoviesOnError = (e) {
-      log.severe(logErrSearchMovies, e);
-      _dialogErrorMovieList(e);
-    };
+    _movieListPresenter.getSearchedMoviesOnError = (e) => _logAndShowSearchedMoviesError(e);
 
     _movieListPresenter.getMovieDetailsOnNext = (movie) => _showMovieDetails(movie);
-    _movieListPresenter.getMovieDetailsOnError = (e) {
-      log.severe(logErrMovieDetails, e);
-      _dialogErrorMovieDetails(e);
-    };
+    _movieListPresenter.getMovieDetailsOnError = (e) => _logAndShowMovieDetailsError(e);
 
     _movieListPresenter.sortMoviesOnNext = (movieList) => _updateMovieList(movieList);
+  }
+
+  void _logAndShowMovieDetailsError(e) {
+    log.severe(logErrMovieDetails, e);
+    _dialogErrorMovieDetails(e);
+  }
+
+  void _logAndShowSearchedMoviesError(e) {
+    log.severe(logErrSearchMovies, e);
+    _dialogErrorMovieList(e);
   }
 
   void fetchSearchedMovies(String query) {

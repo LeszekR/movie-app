@@ -17,7 +17,7 @@ import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigato
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart'
     as _i9;
 import 'package:flutter_demo/domain/entities/movie.dart' as _i11;
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart' as _i2;
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart' as _i2;
 import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;

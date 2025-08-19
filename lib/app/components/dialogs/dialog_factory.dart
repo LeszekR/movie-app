@@ -1,5 +1,5 @@
 import '../../../domain/repositories/movie_repository/movie_repository_exception.dart';
-import '../../../domain/ui_localized_texts/txt.dart';
+import '../../../app/ui_localized_texts/txt.dart';
 import '../../../bootstrap/get_it_model.dart';
 import 'dialog_params.dart';
 import 'e_dialog_msg.dart';
