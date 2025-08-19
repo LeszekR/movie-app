@@ -70,6 +70,7 @@ class MessageDialog extends StatelessWidget {
           appBar: _params.title == null
               ? null
               : AppBar(
+            backgroundColor: AppColors.appBarBackground,
             automaticallyImplyLeading: false,
             title: Text(_params.title!),
           ),

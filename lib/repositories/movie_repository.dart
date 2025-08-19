@@ -9,7 +9,7 @@ import '../pages/movie_list/model/movie_list.dart';
 class MovieRepository {
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
-  
+
   Future<List<Movie>> getSearchedMovies(String query) async {
     final parameters = {
       'api_key': apiKey,
@@ -19,7 +19,6 @@ class MovieRepository {
     final endpoint = Uri.https(baseUrl, '/3/search/movie', parameters);
 
     try {
-      // throw MovieListHttpException(404);
       final response = await http.get(endpoint);
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
@@ -32,7 +31,6 @@ class MovieRepository {
       throw MovieDetailsOtherException();
     }
   }
-
 
   Future<Movie?> getMovie(int movieId) async {
     final parameters = {
@@ -51,7 +49,7 @@ class MovieRepository {
         throw MovieDetailsHttpException(response.statusCode);
       }
     } catch (error) {
-      throw  MovieListOtherException();
+      throw MovieListOtherException();
     }
   }
 }

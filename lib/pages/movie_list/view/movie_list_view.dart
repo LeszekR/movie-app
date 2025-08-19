@@ -7,6 +7,7 @@ import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 
+import '../../../bootstrap/app_params.dart';
 import '../../../common/config/app_colors.dart';
 import '../../../common/config/app_style.dart';
 import '../../../common/ui_localized_texts/txt.dart';
@@ -23,11 +24,13 @@ class MovieListView extends StatefulWidget {
   static var twoButButtonKey = Key("twoButtonsButtonKey");
   static var listViewKey = ValueKey('movieListKey');
   final Txt txt;
+  final AppParams appParams;
   final MovieListNavigator moviesNavigator;
 
   const MovieListView({
     super.key,
     required this.txt,
+    required this.appParams,
     required this.moviesNavigator,
   });
 
@@ -41,12 +44,14 @@ class _MovieListViewState extends State<MovieListView> {
   MovieListBloc get _bloc => context.read<MovieListBloc>();
   TextEditingController? _searchTextController;
   ScrollController? _scrollController;
+  int _starRatingThreshold = 0;
 
   @override
   void initState() {
     super.initState();
     _searchTextController = TextEditingController();
     _scrollController = ScrollController();
+    _starRatingThreshold = int.parse(widget.appParams.param(AppParams.starRatingThreshold));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _restoreViewState();
@@ -113,7 +118,7 @@ class _MovieListViewState extends State<MovieListView> {
           ),
           body: Column(
             children: <Widget>[
-              Expanded(child: _buildMovieList(context, state)),
+              Expanded(child: _buildMovieList(context, state, _starRatingThreshold)),
             ],
           ),
           bottomNavigationBar: Container(
@@ -136,7 +141,7 @@ class _MovieListViewState extends State<MovieListView> {
     );
   }
 
-  Widget _buildMovieList(BuildContext context, MovieListState state) {
+  Widget _buildMovieList(BuildContext context, MovieListState state, int starRatingThreshold) {
     List<Movie> movieList = state.movieList?.results ?? List.empty();
     int? selectedMovieId = state.selectedMovieId.value;
     return Scrollbar(
@@ -149,7 +154,8 @@ class _MovieListViewState extends State<MovieListView> {
         itemBuilder: (context, index) => MovieCard(
           id: movieList[index].id,
           title: movieList[index].title,
-          voteAverage: movieList[index].voteAverage,
+          voteAverage: (movieList[index].voteAverage * 10).toInt(),
+          starRatingThreshold: starRatingThreshold,
           isSelected: movieList[index].id == selectedMovieId,
           onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id)),
         ),
@@ -159,7 +165,6 @@ class _MovieListViewState extends State<MovieListView> {
   }
 
   void _setAppLanguage(ELanguage eLanguage) {
-    _bloc.add(SaveStateMoviesEvent(_searchTextController!.text, _scrollController!.offset));
     _appCubit.setLanguage(eLanguage);
   }
 

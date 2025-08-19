@@ -20,26 +20,16 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   MovieListBloc(this.movieRepository, this.sorter) : super(MovieListState()) {
     on<StateRestoredMoviesEvent>(_setStateRestored);
-    on<SaveStateMoviesEvent>(_saveState);
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
     on<ShowMovieDetailsEvent>(_fetchMovie);
     on<ShowTwoButtonsEvent>(_showTwoButtons);
   }
 
-  Future<void> _saveState(SaveStateMoviesEvent event, Emitter<MovieListState> emit) async {
-    emit(state.copyWith(
-      searchQuery: event.query,
-      scrollOffset: event.scrollOffset,
-      restoreView: true,
-    ));
-  }
-
   Future<void> _fetchSearchedMovies(SearchMoviesEvent event, Emitter<MovieListState> emit) async {
     var query = event.query;
     if (query == null) return;
     if (query.isEmpty) return;
-    if (query == state.searchQuery) return;
 
     emit(state.copyWith(navCommand: NavProgressOn()));
 

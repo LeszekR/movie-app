@@ -8,14 +8,6 @@ sealed class MovieListEvent extends Equatable {
 
 final class StateRestoredMoviesEvent extends MovieListEvent {}
 
-final class SaveStateMoviesEvent extends MovieListEvent {
-  final String? query;
-  final double scrollOffset;
-  SaveStateMoviesEvent(this.query, this.scrollOffset);
-  @override
-  List<Object?> get props => [query, scrollOffset];
-}
-
 final class SearchMoviesEvent extends MovieListEvent {
   final String? query;
   SearchMoviesEvent(this.query);

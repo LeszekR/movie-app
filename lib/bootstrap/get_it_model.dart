@@ -41,6 +41,7 @@ void initGetIt() {
   getIt.registerLazySingleton(() => MovieListBloc(getIt<MovieRepository>(), getIt<Sorter<Movie>>()));
   getIt.registerFactory(() => MovieListView(
         txt: getIt<Txt>(),
+        appParams: getIt<AppParams>(),
         moviesNavigator: getIt<MovieListNavigator>(),
       ));
 

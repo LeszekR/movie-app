@@ -48,6 +48,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_http => 'HTTP error: ';
 
   @override
+  String get error_other => 'Server error.';
+
+  @override
   String get no_such_movie => 'Chosen movie details have not been found in the database.';
 
   @override
