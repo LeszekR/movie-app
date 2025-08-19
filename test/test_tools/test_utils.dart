@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> prepareWidget(

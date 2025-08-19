@@ -1,7 +1,7 @@
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
-import 'package:flutter_demo/domain/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';

@@ -18,7 +18,7 @@ import '../app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.da
 import '../data/repositories/movie_repository/data_movie_repository.dart';
 import '../domain/entities/movie.dart';
 import '../domain/services/sorting/sorter.dart';
-import '../domain/ui_localized_texts/txt.dart';
+import '../app/ui_localized_texts/txt.dart';
 import '../domain/usecases/movie_details/get_movie_details_usecase.dart';
 import '../domain/usecases/movie_list/get_searched_movies_usecase.dart';
 import '../domain/usecases/two_buttons/click_two_button_usecase.dart';

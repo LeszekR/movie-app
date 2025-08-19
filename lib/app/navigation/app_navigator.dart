@@ -6,7 +6,7 @@ import '../../bootstrap/get_it_model.dart';
 import '../components/dialogs/dialog_factory.dart';
 import '../components/dialogs/e_dialog_msg.dart';
 import '../config/app_colors.dart';
-import '../../domain/ui_localized_texts/txt.dart';
+import '../../app/ui_localized_texts/txt.dart';
 import 'go_router_const_strings.dart';
 
 class AppNavigator {
