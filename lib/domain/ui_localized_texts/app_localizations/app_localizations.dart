@@ -170,8 +170,14 @@ abstract class AppLocalizations {
   /// No description provided for @error_http.
   ///
   /// In pl, this message translates to:
-  /// **'HTTP error: '**
+  /// **'Błąd HTTP: '**
   String get error_http;
+
+  /// No description provided for @error_other.
+  ///
+  /// In pl, this message translates to:
+  /// **'Błąd po stronie serwera.'**
+  String get error_other;
 
   /// No description provided for @no_such_movie.
   ///

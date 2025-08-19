@@ -16,6 +16,7 @@
     "error_get_movie": "Failed to fetch movie from web.\n\n",
     "error_get_searched_movies": "Failed to fetch searched movies.\n\n",
     "error_http": "HTTP error: ",
+    "error_other": "Server error.",
     "no_such_movie": "Chosen movie details have not been found in the database.",
     "no_searched_movies": "No movies with similar title have been found.",
     "no_movie_chosen": "No movie was selected.",

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../bootstrap/get_it_model.dart';
 import '../../../../config/app_colors.dart';
-import '../../../../../bootstrap/app_params.dart';
 
 class MovieCard extends StatelessWidget {
   final int id;
   final String title;
-  final double voteAverage;
+  final int voteAverage;
   final void Function(int) onTap;
+  final int starRatingThreshold;
   final bool isSelected;
 
   const MovieCard({
@@ -17,36 +16,30 @@ class MovieCard extends StatelessWidget {
     required this.title,
     required this.voteAverage,
     required this.onTap,
+    required this.starRatingThreshold,
     this.isSelected = false,
   });
 
   @override
-  Widget build(BuildContext context) =>
-      InkWell(
+  Widget build(BuildContext context) => InkWell(
         onTap: () => onTap(id),
         child: Container(
           height: 48.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          decoration: BoxDecoration(color: isSelected ?  AppColors.selectedTableRowBackground : null),
+          decoration: BoxDecoration(color: isSelected ? AppColors.selectedTableRowBackground : null),
           child: Row(
             children: [
               Expanded(
                 child: Text(
                   title,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .titleSmall,
+                  style: Theme.of(context).textTheme.titleSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               SizedBox(width: 16.0),
               Text(
-                makeRating(voteAverage),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleMedium,
+                makeRating(voteAverage, starRatingThreshold),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ],
           ),
@@ -54,6 +47,6 @@ class MovieCard extends StatelessWidget {
       );
 }
 
-String makeRating(double voteAverage) =>
-    '${(voteAverage * 10).toInt()}%  '
-        '${(voteAverage * 10).toInt() >= int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold)) ? "🌟" : "    "}';
+String makeRating(int voteAverage, int starRatingThreshold) {
+  return '$voteAverage%  ${voteAverage >= starRatingThreshold ? "🌟" : "    "}';
+}

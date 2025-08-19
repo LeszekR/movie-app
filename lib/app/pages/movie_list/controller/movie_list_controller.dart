@@ -42,6 +42,7 @@ class MovieListController extends Controller {
 
   void fetchSearchedMovies(String query) {
     if (query.isEmpty) return;
+    if (query == state.searchQuery) return;
 
     _movieListPresenter.getSearchedMovies(query);
 
@@ -49,7 +50,7 @@ class MovieListController extends Controller {
     refreshUI();
   }
 
-  void _updateMovieList(List<Movie> movies) {
+  void _updateMovieList(List<Movie> movies) async {
     if (movies.isEmpty) {
       state.update(
         movieList: MovieList.empty(),

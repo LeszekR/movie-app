@@ -1,22 +1,22 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../bootstrap/get_it_model.dart';
 import '../../../domain/ui_localized_texts/txt.dart';
 import '../../config/app_colors.dart';
 import '../../config/app_sizes.dart';
 import '../buttons/button_builder.dart';
 import 'dialog_params.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class MessageDialog extends StatelessWidget {
   final Txt _txt;
   final DialogParams _params;
 
-  const MessageDialog(
-    this._txt,
+  MessageDialog(
     this._params, {
     super.key,
-  });
+  }) : _txt = getIt<Txt>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +70,7 @@ class MessageDialog extends StatelessWidget {
           appBar: _params.title == null
               ? null
               : AppBar(
+                  backgroundColor: AppColors.appBarBackground,
                   automaticallyImplyLeading: false,
                   title: Text(_params.title!),
                 ),
