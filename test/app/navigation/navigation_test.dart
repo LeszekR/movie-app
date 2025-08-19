@@ -62,14 +62,17 @@ void main() {
     // scrolling down
     var movieListFinder = find.byKey(MovieListView.listViewKey);
     final listFinder = find.descendant(of: movieListFinder, matching: find.byType(Scrollable));
-    final movieFinder = find.text(makeMovieTitle(selectedIndex));
+    expect(listFinder, findsOneWidget);
+    final movieFinder = find.text(selectedTitle);
     expect(movieFinder, findsNothing);
-    await tester.scrollUntilVisible(movieFinder, 700, scrollable: listFinder);
-    expect(find.text(selectedTitle), findsOneWidget);
+    await tester.scrollUntilVisible(movieFinder, 900, scrollable: listFinder);
+    expect(movieFinder, findsOneWidget);
 
     // selecting one movie from the list
     await tester.tap(movieFinder);
     await tester.pump();
+    await tester.scrollUntilVisible(movieFinder, 900, scrollable: listFinder);  // KEEP THIS LINE HERE! Flutter test tap can scroll the widget out!
+    expect(movieFinder, findsOneWidget);
     expect(selectedMovieColor(tester, movieFinder), AppColors.selectedTableRowBackground);
 
     // showing progress bar
@@ -137,6 +140,12 @@ Container findTwoStateButtonContainer(WidgetTester tester, Key key) {
 }
 
 Color? selectedMovieColor(WidgetTester tester, Finder movieFinder) {
-  var ancestorContainer = tester.widget(find.ancestor(of: movieFinder, matching: find.byType(Container)));
-  return ((ancestorContainer as Container).decoration as BoxDecoration).color;
+  // var ancestorContainer = tester.widget(find.ancestor(of: movieFinder, matching: find.byType(Container)));
+  // return ((ancestorContainer as Container).decoration as BoxDecoration).color;
+  expect(movieFinder, findsOneWidget); // good for debugging
+  final ancestor = find.ancestor(of: movieFinder, matching: find.byType(Container));
+  expect(ancestor, findsOneWidget); // good for debugging
+
+  final container = tester.widget<Container>(ancestor);
+  return (container.decoration as BoxDecoration).color;
 }
