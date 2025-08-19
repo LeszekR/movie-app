@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/navigation/app_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
@@ -47,9 +46,6 @@ void initGetIt() {
   getIt.registerLazySingleton(() => MovieListState());
   getIt.registerFactory(() => MovieListPresenter());
   getIt.registerFactory(() => MovieListController());
-  getIt.registerFactory(() => ScrollController());
-  getIt.registerFactory(() => TextEditingController());
-
 
   getIt.registerLazySingleton(() => TwoButtonsState());
   getIt.registerFactory(() => TwoButtonsPresenter());

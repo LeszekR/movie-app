@@ -32,9 +32,12 @@ class MovieListView extends CleanView {
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   final Txt _txt;
-  final ScrollController _scrollController = getIt<ScrollController>();
-  final TextEditingController _searchTextController = getIt<TextEditingController>();
+
   final int _starRatingThreshold = int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold));
+
+  final TextEditingController _searchTextController = TextEditingController();
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: getIt<MovieListController>().state.scrollOffset);
 
   MovieListViewState()
       : _txt = getIt<Txt>(),
@@ -50,28 +53,19 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
   @override
   Widget get view {
     return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (controller.state.navCommand != null && !controller.state.navCommand!.isConsumed) {
-          _navigate(context, controller);
-        } else if (controller.state.restoreView) {
-          _restoreViewState(controller);
-        }
-      });
+      if (controller.state.navCommand != null) {
+        _navigateOrRestoreState(controller, context);
+      }
       return Scaffold(
         appBar: AppBar(
           title: Text(_txt.get.movie_list_title),
           automaticallyImplyLeading: false,
           backgroundColor: AppColors.appBarBackground,
           actions: [
-            Focus(
-              onFocusChange: (hasFocus) {
-                if (!hasFocus) _saveState(controller);
-              },
-              child: SearchBox(
-                txt: _txt,
-                controller: _searchTextController,
-                onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
-              ),
+            SearchBox(
+              txt: _txt,
+              controller: _searchTextController,
+              onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
             ),
             AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
             IconButton(
@@ -88,7 +82,6 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 onPressed: () => _setLanguage(controller, ELanguage.pl),
               ),
             ),
-            // AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget / 4),
             SizedBox(
               height: AppSizes.textFieldHeight * 1.4,
               child: IconButton(
@@ -97,86 +90,91 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 onPressed: () => _setLanguage(controller, ELanguage.en),
               ),
             ),
-            // AppSizes.filler(),
             AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
           ],
         ),
         body: Column(
           children: <Widget>[
-            Expanded(child: _buildMovieList(context, controller, _starRatingThreshold)),
+            Expanded(child: _buildMovieList(context, controller)),
           ],
         ),
         bottomNavigationBar: Container(
-            height: AppSizes.dialogBottomBarHeight,
-            color: AppColors.appBarBackground,
-            child: Row(
-              children: [
-                Expanded(child: SizedBox()),
-                ButtonBuilder(context)
-                    .onTap((context) => _navTwoButtons(controller))
-                    .key(MovieListView.twoButButtonKey)
-                    .text(_txt.get.goto_two_buttons)
-                    .width(AppSizes.navButtonWidth)
-                    .build(),
-                AppSizes.horizontalSeparator()
-              ],
-            )),
+          height: AppSizes.dialogBottomBarHeight,
+          color: AppColors.appBarBackground,
+          child: Row(
+            children: [
+              Expanded(child: SizedBox()),
+              ButtonBuilder(context)
+                  .onTap((context) => _navTwoButtons(controller))
+                  .key(MovieListView.twoButButtonKey)
+                  .text(_txt.get.goto_two_buttons)
+                  .width(AppSizes.navButtonWidth)
+                  .build(),
+              AppSizes.horizontalSeparator()
+            ],
+          ),
+        ),
       );
     });
   }
 
-  Widget _buildMovieList(BuildContext context, MovieListController controller, int starRatingThreshold) {
+  Widget _buildMovieList(BuildContext context, MovieListController controller) {
     List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
     int? selectedMovieId = controller.state.selectedMovieId.value;
-    return Scrollbar(
-      thumbVisibility: true,
-      controller: _scrollController,
-      child: ListView.builder(
-        key: MovieListView.listViewKey,
+    return RepaintBoundary(
+      child: Scrollbar(
+        thumbVisibility: true,
         controller: _scrollController,
-        itemBuilder: (context, index) => RepaintBoundary(
-          child: Column(
+        child: ListView.builder(
+          key: MovieListView.listViewKey,
+          controller: _scrollController,
+          itemBuilder: (context, index) => Column(
             children: [
               MovieCard(
                 id: movieList[index].id,
                 title: movieList[index].title,
                 voteAverage: (movieList[index].voteAverage * 10).toInt(),
-                starRatingThreshold: starRatingThreshold,
+                starRatingThreshold: _starRatingThreshold,
                 isSelected: movieList[index].id == selectedMovieId,
                 onTap: controller.setSelectedMovieId,
               ),
               AppStyle.listViewSeparatorBuilder(context, index),
             ],
           ),
+          itemCount: movieList.length,
         ),
-        itemCount: movieList.length,
       ),
     );
+  }
+
+  void _navigateOrRestoreState(MovieListController controller, BuildContext context) {
+    if (!controller.state.navCommand!.isConsumed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if(controller.state.navCommand is! NavProgressOff) _saveState(controller);
+        getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+      });
+    }
+    if (controller.state.navCommand!.isConsumed || controller.state.navCommand is NavProgressOff) {
+      _restoreState(controller);
+    }
   }
 
   void _navTwoButtons(MovieListController controller) {
     controller.navTwoButtons();
   }
 
-  void _navigate(BuildContext context, MovieListController controller) {
-    _saveState(controller);
-    getIt<MovieListNavigator>().go(context, controller.state.navCommand);
-  }
-
   void _setLanguage(MovieListController controller, ELanguage eLanguage) {
-    if (controller.state.navCommand is! NavProgressOff) _saveState(controller);
+    _saveState(controller);
     getIt<MovieAppController>().setLanguage(eLanguage);
   }
 
   void _saveState(MovieListController controller) =>
       controller.saveState(_searchTextController.text, _scrollController.offset);
 
-  void _restoreViewState(MovieListController controller) {
-    var offset = controller.state.scrollOffset;
-    _scrollController.jumpTo(offset);
-
+  void _restoreState(MovieListController controller) {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(controller.state.scrollOffset);
+    }
     _searchTextController.text = controller.state.searchQuery ?? '';
-
-    controller.setViewRestored();
   }
 }

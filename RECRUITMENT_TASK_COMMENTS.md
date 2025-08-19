@@ -32,6 +32,8 @@ Overview
       field in the `view`'s `state`,
     - triggered by the `View` via direct call to its `<PageName>Navigator`
       object
+- refactored `MovieListView` to use `ListView.builder` in place of `ListFiew.separated` to speed up
+  the build
 - introduced localization and dynamic change of UI language via `MovieAppController`, app starts
   with language declared in dotenv
 - introduced 'dotenv' file with app parameters (`AppConfig`)
