@@ -2,8 +2,8 @@ import 'package:flutter_demo/app/components/three_state_value.dart';
 
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
-import '../../../components/sorting/e_sort_direction.dart';
-import '../../../components/sorting/sort_criteria.dart';
+import '../../../../domain/services/sorting/e_sort_direction.dart';
+import '../../../../domain/services/sorting/sort_criteria.dart';
 import '../../../navigation/navigation_command.dart';
 
 final class MovieListState {

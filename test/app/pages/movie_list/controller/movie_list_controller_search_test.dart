@@ -1,5 +1,4 @@
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
-import 'package:flutter_demo/app/components/sorting/sorter.dart';
 import 'package:flutter_demo/app/components/three_state_value.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
@@ -11,14 +10,15 @@ import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/entities/movie_list.dart';
+import 'package:flutter_demo/domain/services/sorting/sorter.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../test_tools/controller_test/controller_test_runner.dart';
 import '../../../../test_tools/mocks/common_mocks.mocks.dart';
-import '../../../../test_tools/test_utils.dart';
 import 'movie_list_controller_test_data.dart';
 
 void main() {
@@ -28,11 +28,12 @@ void main() {
 
   setUpAll(() {
     getIt.registerFactory(() => Sorter<Movie>());
-    getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
-    getItReplaceFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
-    getItReplaceFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
-    getItReplaceFactory<MovieListPresenter>(() => MovieListPresenter());
-    getItReplaceFactory<MovieListNavigator>(() => mockMovieListNavigator);
+    getIt.registerFactory<DataMovieRepository>(() => mockDataMovieRepository);
+    getIt.registerFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
+    getIt.registerFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
+    getIt.registerFactory<SortMoviesUseCase>(() => SortMoviesUseCase(getIt<Sorter<Movie>>()));
+    getIt.registerFactory<MovieListPresenter>(() => MovieListPresenter());
+    getIt.registerFactory<MovieListNavigator>(() => mockMovieListNavigator);
   });
 
   setUp(() {

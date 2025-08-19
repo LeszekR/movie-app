@@ -116,16 +116,25 @@ just as well one might decide on any other - depending on given app architecture
 - but in many cases the `Controller` actually must call routing
 - hence routing from `MovieListView` to `MovieDetailsView` or any dialog is done with the use of
   its `Controller.state.navCommand` field, which then triggers navigation from inside the `Widget`
+  using `postFrameCallback`
+- This pattern maintains a clear separation between business logic and UI, and keeps the Controller
+  testable and platform-independent.
 - with this solution necessary for some routes I had to choose: keep the routing path consistent
-  across the whole app? - what forces other navigation calls to be done the same way, or call
-  routing directly in a button's `onTap` callback?
-- I decided to keep the code as simple as possible hence routing that is initiated by a `Widget` is
-  called directly from there
-- that is why navigation to `TwoButtonView` and back to `MovieDetailsView` is called this simpler
-  way
-- this solution is disputable though since it breaks consistency of the architecture; so if the
-  priority is strict architectural rules it should be changed to passing all navigation through the
-  related `Controller`'s `state.navCommand`
+  across the whole app? - do other navigation calls the same way, or call such routing directly in a
+  button's `onTap` callback?
+- I decided to keep the code consistent hence routing that is initiated by a `Widget` is done via
+  the same chain - that is why navigation to `TwoButtonView` and back to `MovieDetailsView` is
+  called this way
+- it is also possible in **flutter_clean_architecture** to invoke UI elements directly from the
+  `Controller` using `getState()`, yet I chose my approach for stricter adherence to Clean
+  Architecture principles and easier testing
+  this solution is disputable though since it complicates the code making it more difficult to read,
+  so the choice of one of those solutions would be the team's in a production project then to be
+  followed by the dev
+
+While it's also possible in flutter_clean_architecture to invoke UI elements directly from the
+Controller using getState(), I chose this approach for stricter adherence to Clean Architecture
+principles and easier testing.
 
 ###
 

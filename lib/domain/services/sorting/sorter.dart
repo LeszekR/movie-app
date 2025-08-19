@@ -1,5 +1,4 @@
-
-import 'package:flutter_demo/app/components/sorting/sortable.dart';
+import 'package:flutter_demo/domain/services/sorting/sortable.dart';
 
 import 'e_sort_direction.dart';
 import 'sort_criteria.dart';

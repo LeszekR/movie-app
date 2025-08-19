@@ -10,24 +10,22 @@ import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/movie_list.dart';
 import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
-import '../../../components/sorting/sorter.dart';
 import '../../../components/three_state_value.dart';
 import '../../../navigation/app_nav_commands.dart';
 
 class MovieListController extends Controller {
   MovieListState state;
   final MovieListPresenter _movieListPresenter;
-  final Sorter<Movie> _sorter;
 
   MovieListController()
       : state = getIt<MovieListState>(),
         _movieListPresenter = getIt<MovieListPresenter>(),
-        _sorter = getIt<Sorter<Movie>>(),
+        // _sorter = getIt<Sorter<Movie>>(),
         super();
 
   @override
   void initListeners() {
-    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => _updateMovieList(movieList);
+    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => _receiveMovieList(movieList);
     _movieListPresenter.getSearchedMoviesOnError = (e) {
       log.severe(logErrSearchMovies, e);
       _dialogErrorMovieList(e);
@@ -38,6 +36,8 @@ class MovieListController extends Controller {
       log.severe(logErrMovieDetails, e);
       _dialogErrorMovieDetails(e);
     };
+
+    _movieListPresenter.sortMoviesOnNext = (movieList) => _updateMovieList(movieList);
   }
 
   void fetchSearchedMovies(String query) {
@@ -50,23 +50,31 @@ class MovieListController extends Controller {
     refreshUI();
   }
 
-  void _updateMovieList(List<Movie> movies) async {
-    if (movies.isEmpty) {
-      state.update(
-        movieList: MovieList.empty(),
-        selectedMovieId: const ThreeStateInt.none(),
-        scrollOffset: 0,
-        navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-      );
-    } else {
-      movies = _sorter.sortColumns(movies, state.sortCriteriaList)!;
-      state.update(
-        movieList: MovieList(totalResults: movies.length, results: movies),
-        selectedMovieId: const ThreeStateInt.none(),
-        scrollOffset: 0,
-        navCommand: NavProgressOff(),
-      );
+  void _receiveMovieList(List<Movie> movies) async {
+    if (movies.isNotEmpty) {
+      sortMovies(movies);
+      return;
     }
+    state.update(
+      movieList: MovieList.empty(),
+      selectedMovieId: const ThreeStateInt.none(),
+      scrollOffset: 0,
+      navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
+    );
+    refreshUI();
+  }
+
+  void sortMovies(List<Movie> movies) {
+    _movieListPresenter.sortMovies(movies, state.sortCriteriaList!);
+  }
+
+  void _updateMovieList(List<Movie> movies) {
+    state.update(
+      movieList: MovieList(totalResults: movies.length, results: movies),
+      selectedMovieId: const ThreeStateInt.none(),
+      scrollOffset: 0,
+      navCommand: NavProgressOff(),
+    );
     refreshUI();
   }
 

@@ -3,11 +3,11 @@ import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:get_it/get_it.dart';
 
 import '../app/components/dialogs/dialog_factory.dart';
-import '../app/components/sorting/sorter.dart';
 import '../app/pages/movie_details/utils/movie_details_utils.dart';
 import '../app/pages/movie_list/controller/movie_list_controller.dart';
 import '../app/pages/movie_list/controller/movie_list_state.dart';
@@ -17,6 +17,7 @@ import '../app/pages/two_buttons/presenter/two_buttons_presenter.dart';
 import '../app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
 import '../data/repositories/movie_repository/data_movie_repository.dart';
 import '../domain/entities/movie.dart';
+import '../domain/services/sorting/sorter.dart';
 import '../domain/ui_localized_texts/txt.dart';
 import '../domain/usecases/movie_details/get_movie_details_usecase.dart';
 import '../domain/usecases/movie_list/get_searched_movies_usecase.dart';
@@ -56,6 +57,7 @@ void initGetIt() {
   // domain
   getIt.registerFactory(() => GetMovieDetailsUseCase(getIt<DataMovieRepository>()));
   getIt.registerFactory(() => GetSearchedMoviesUseCase(getIt<DataMovieRepository>()));
+  getIt.registerFactory(() => SortMoviesUseCase(getIt<Sorter<Movie>>()));
 
   getIt.registerFactory(() => ClickTwoButtonUseCase());
 }

@@ -10,7 +10,7 @@ class GetSearchedMoviesUseCase extends UseCase<GetSearchedMoviesUseCaseResponse?
   final DataMovieRepository _movieRepository;
 
   // DI in constructor to satisfy dependency inversion principle with all dependencies pointing inwards -
-  // if getit<DataMovieRepository>() was used then domain would have to know about data what is forbidden in fca
+  // if getIt<DataMovieRepository>() was used then domain would have to know about data what is forbidden in fca
   GetSearchedMoviesUseCase(this._movieRepository);
 
   @override
@@ -31,7 +31,7 @@ class GetSearchedMoviesUseCaseParams {
 }
 
 class GetSearchedMoviesUseCaseResponse {
-  final List<Movie> movieList;
+  final List<Movie> movies;
 
-  const GetSearchedMoviesUseCaseResponse(this.movieList);
+  const GetSearchedMoviesUseCaseResponse(this.movies);
 }

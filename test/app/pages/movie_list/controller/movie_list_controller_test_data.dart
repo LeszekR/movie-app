@@ -1,8 +1,8 @@
-import 'package:flutter_demo/app/components/sorting/sorter.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/entities/movie_list.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
+import 'package:flutter_demo/domain/services/sorting/sorter.dart';
 
 class MovieListTestData {
   String query_A = 'QUERY_A';

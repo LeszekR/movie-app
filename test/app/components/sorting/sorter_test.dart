@@ -1,7 +1,7 @@
-import 'package:flutter_demo/app/components/sorting/e_sort_direction.dart';
-import 'package:flutter_demo/app/components/sorting/sort_criteria.dart';
-import 'package:flutter_demo/app/components/sorting/sorter.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/services/sorting/e_sort_direction.dart';
+import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
+import 'package:flutter_demo/domain/services/sorting/sorter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 part 'sorter_test_movie_list.dart';
