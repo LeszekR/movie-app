@@ -64,7 +64,6 @@ void controllerTest<C extends Controller, T extends Object>(
     await () async {
       act(controller);
 
-      // TODO refactor to logging to console instead of print()
       print('==> expect functions');
 
       var expectedStates = expect();
@@ -81,7 +80,6 @@ void controllerTest<C extends Controller, T extends Object>(
       }
     }();
 
-    // TODO refactor to logging to console instead of print()
     print('==> verify functions');
     verify?.call();
   });
