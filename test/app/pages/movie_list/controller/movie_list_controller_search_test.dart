@@ -58,7 +58,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: d.movieList_Empty,
+          movieCardDataList: d.movieList_Empty,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
@@ -66,7 +66,7 @@ void main() {
           restoreView: true,
         ),
         MovieListState(
-          movieList: d.movieList_A,
+          movieCardDataList: d.movieList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
@@ -100,7 +100,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
@@ -122,7 +122,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
@@ -144,7 +144,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
@@ -164,7 +164,7 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_NotFound),
       seed: () => MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_B,
@@ -175,7 +175,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
@@ -193,7 +193,7 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_HttpErr),
       seed: () => MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieList_B,
         selectedMovieId: ThreeStateInt.value(d.selectedId_18),
         scrollOffset: 0,
         searchQuery: d.query_B,
@@ -204,7 +204,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
@@ -222,7 +222,7 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_OtherErr),
       seed: () => MovieListState(
-        movieList: MovieList.empty(),
+        movieCardDataList: MovieList.empty(),
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_A,
@@ -233,7 +233,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: MovieList.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
@@ -258,7 +258,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: d.movieList_A,
+          movieCardDataList: d.movieList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
@@ -276,7 +276,7 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_B),
       seed: () => MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -287,7 +287,7 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieList: d.movieList_B,
+          movieCardDataList: d.movieList_B,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_B,

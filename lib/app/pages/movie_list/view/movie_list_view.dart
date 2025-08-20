@@ -6,7 +6,6 @@ import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
-import 'package:flutter_demo/domain/entities/movie.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
@@ -16,6 +15,8 @@ import '../../../config/app_sizes.dart';
 import '../../../config/app_style.dart';
 import '../controller/movie_list_controller.dart';
 import 'components/movie_card.dart';
+import 'components/movie_card_data.dart';
+import 'components/movie_list_body.dart';
 
 class MovieListView extends CleanView {
   static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
@@ -67,13 +68,13 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               controller: _searchTextController,
               onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
             ),
-            AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
+            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
             IconButton(
               key: MovieListView.movieDetailsButtonKey,
               icon: Icon(Icons.movie_creation_outlined),
               onPressed: () => controller.fetchMovie(),
             ),
-            AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget * 5),
+            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget * 5),
             SizedBox(
               height: AppSizes.textFieldHeight * 1.4,
               child: IconButton(
@@ -90,12 +91,21 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 onPressed: () => _setLanguage(controller, ELanguage.en),
               ),
             ),
-            AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
+            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
           ],
         ),
         body: Column(
           children: <Widget>[
-            Expanded(child: _buildMovieList(context, controller)),
+            Expanded(
+              child: RepaintBoundary(
+                child: MovieListBody(
+                  movieList: controller.state.movieCardDataList ?? List.empty(),
+                  selectedMovieId: controller.state.selectedMovieId.value,
+                  scrollController: _scrollController,
+                  onTap: controller.setSelectedMovieId,
+                ),
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: Container(
@@ -110,7 +120,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                   .text(_txt.get.goto_two_buttons)
                   .width(AppSizes.navButtonWidth)
                   .build(),
-              AppSizes.horizontalSeparator()
+              AppStyle.horizontalSeparator()
             ],
           ),
         ),
@@ -118,39 +128,40 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     });
   }
 
-  Widget _buildMovieList(BuildContext context, MovieListController controller) {
-    List<Movie> movieList = controller.state.movieList?.results ?? List.empty();
-    int? selectedMovieId = controller.state.selectedMovieId.value;
-    return RepaintBoundary(
-      child: Scrollbar(
-        thumbVisibility: true,
-        controller: _scrollController,
-        child: ListView.builder(
-          key: MovieListView.listViewKey,
-          controller: _scrollController,
-          itemBuilder: (context, index) => Column(
-            children: [
-              MovieCard(
-                id: movieList[index].id,
-                title: movieList[index].title,
-                voteAverage: (movieList[index].voteAverage * 10).toInt(),
-                starRatingThreshold: _starRatingThreshold,
-                isSelected: movieList[index].id == selectedMovieId,
-                onTap: controller.setSelectedMovieId,
-              ),
-              AppStyle.listViewSeparatorBuilder(context, index),
-            ],
-          ),
-          itemCount: movieList.length,
-        ),
-      ),
-    );
-  }
+  // Widget _buildMovieList(BuildContext context, MovieListController controller) {
+  //   List<MovieCardData> movieList = controller.state.movieCardDataList ?? List.empty();
+  //   int? selectedMovieId = controller.state.selectedMovieId.value;
+  //   return RepaintBoundary(
+  //     child: Scrollbar(
+  //       thumbVisibility: true,
+  //       controller: _scrollController,
+  //       child: ListView.builder(
+  //         addRepaintBoundaries: true,
+  //         key: MovieListView.listViewKey,
+  //         controller: _scrollController,
+  //         itemCount: movieList.length * 2,
+  //         itemBuilder: (context, index) {
+  //           if (index.isEven) {
+  //             return RepaintBoundary(
+  //               child: MovieCard(
+  //                 movieCardData: movieList[index ~/ 2],
+  //                 onTap: controller.setSelectedMovieId,
+  //                 isSelected: movieList[index ~/ 2].id == selectedMovieId,
+  //               ),
+  //             );
+  //           } else {
+  //             return AppStyle.listViewSeparator();
+  //           }
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _navigateOrRestoreState(MovieListController controller, BuildContext context) {
     if (!controller.state.navCommand!.isConsumed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if(controller.state.navCommand is! NavProgressOff) _saveState(controller);
+        if (controller.state.navCommand is! NavProgressOff) _saveState(controller);
         getIt<MovieListNavigator>().go(context, controller.state.navCommand);
       });
     }

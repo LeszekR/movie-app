@@ -42,7 +42,7 @@ void main() {
     'show movie details => show progress',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieList: d.movieList_A,
+      movieCardDataList: d.movieList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
@@ -53,7 +53,7 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -61,7 +61,7 @@ void main() {
         restoreView: true,
       ),
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -78,7 +78,7 @@ void main() {
     'show movie details => none selected',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieList_B,
       selectedMovieId: ThreeStateInt.none(),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_B,
@@ -88,7 +88,7 @@ void main() {
     act: (controller) => controller.fetchMovie(),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
@@ -105,7 +105,7 @@ void main() {
     'show movie details => http error',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -116,7 +116,7 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
@@ -132,7 +132,7 @@ void main() {
     'show movie details => other error',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieList: d.movieList_A,
+      movieCardDataList: d.movieList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
@@ -143,7 +143,7 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -160,7 +160,7 @@ void main() {
     'show movie details => success',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_B3),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -171,7 +171,7 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_B3),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,

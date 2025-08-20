@@ -14,7 +14,7 @@ import '../app/pages/movie_list/controller/movie_list_state.dart';
 import '../app/pages/movie_list/presenter/movie_list_presenter.dart';
 import '../app/pages/two_buttons/controller/two_buttons_controller.dart';
 import '../app/pages/two_buttons/presenter/two_buttons_presenter.dart';
-import '../app/pages/two_buttons/two_buttons_navigation/two_buttons_navigator.dart';
+import '../app/pages/two_buttons/navigation/two_buttons_navigator.dart';
 import '../data/repositories/movie_repository/data_movie_repository.dart';
 import '../domain/entities/movie.dart';
 import '../domain/services/sorting/sorter.dart';

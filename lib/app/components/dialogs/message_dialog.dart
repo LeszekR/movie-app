@@ -2,10 +2,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../bootstrap/get_it_model.dart';
 import '../../../app/ui_localized_texts/txt.dart';
+import '../../../bootstrap/get_it_model.dart';
 import '../../config/app_colors.dart';
 import '../../config/app_sizes.dart';
+import '../../config/app_style.dart';
 import '../buttons/button_builder.dart';
 import 'dialog_params.dart';
 
@@ -95,33 +96,33 @@ class MessageDialog extends StatelessWidget {
   List<Widget> _makeButtonsRow(BuildContext context) {
     if (_params is DialogParamsOk) {
       return [
-        AppSizes.filler(),
+        AppStyle.filler(),
         ButtonBuilder(context).onTap(_onOk).text(_txt.get.ok).build(),
       ];
     }
     if (_params is DialogParamsOkCancel) {
       return [
-        AppSizes.filler(),
+        AppStyle.filler(),
         ButtonBuilder(context).onTap(_onOk).text(_txt.get.ok).build(),
-        AppSizes.horizontalSeparator(),
+        AppStyle.horizontalSeparator(),
         ButtonBuilder(context).onTap(_onCancel).text(_txt.get.cancel).build(),
       ];
     }
     if (_params is DialogParamsYesNo) {
       return [
-        AppSizes.filler(),
+        AppStyle.filler(),
         ButtonBuilder(context).onTap(_onYes).text(_txt.get.yes).build(),
-        AppSizes.horizontalSeparator(),
+        AppStyle.horizontalSeparator(),
         ButtonBuilder(context).onTap(_onNo).text(_txt.get.no).build(),
       ];
     }
     if (_params is DialogParamsYesNoCancel) {
       return [
-        AppSizes.filler(),
+        AppStyle.filler(),
         ButtonBuilder(context).onTap(_onYes).text(_txt.get.yes).build(),
-        AppSizes.horizontalSeparator(),
+        AppStyle.horizontalSeparator(),
         ButtonBuilder(context).onTap(_onNo).text(_txt.get.no).build(),
-        AppSizes.horizontalSeparator(),
+        AppStyle.horizontalSeparator(),
         ButtonBuilder(context).onTap(_onCancel).text(_txt.get.cancel).build(),
       ];
     }

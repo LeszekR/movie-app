@@ -5,21 +5,24 @@ import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter
 import 'package:flutter_demo/bootstrap/logger_messages.dart';
 import 'package:flutter_demo/bootstrap/logger_setup.dart';
 
+import '../../../../bootstrap/app_params.dart';
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../../domain/entities/movie.dart';
-import '../../../../domain/entities/movie_list.dart';
 import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
 import '../../../components/dialogs/e_dialog_msg.dart';
 import '../../../components/three_state_value.dart';
 import '../../../navigation/app_nav_commands.dart';
+import '../view/components/movie_card_data.dart';
 
 class MovieListController extends Controller {
   MovieListState state;
   final MovieListPresenter _movieListPresenter;
+  final int _starRatingThreshold;
 
   MovieListController()
       : state = getIt<MovieListState>(),
         _movieListPresenter = getIt<MovieListPresenter>(),
+        _starRatingThreshold = int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold)),
         super();
 
   @override
@@ -45,7 +48,6 @@ class MovieListController extends Controller {
 
   void fetchSearchedMovies(String query) {
     if (query.isEmpty) return;
-    if (query == state.searchQuery) return;
 
     _movieListPresenter.getSearchedMovies(query);
 
@@ -53,13 +55,13 @@ class MovieListController extends Controller {
     refreshUI();
   }
 
-  void _receiveMovieList(List<Movie> movies) async {
+  void _receiveMovieList(List<Movie> movies) {
     if (movies.isNotEmpty) {
       sortMovies(movies);
       return;
     }
     state.update(
-      movieList: MovieList.empty(),
+      movieCardDataList: List.empty(),
       selectedMovieId: const ThreeStateInt.none(),
       scrollOffset: 0,
       navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
@@ -71,9 +73,10 @@ class MovieListController extends Controller {
     _movieListPresenter.sortMovies(movies, state.sortCriteriaList!);
   }
 
-  void _updateMovieList(List<Movie> movies) {
+  void _updateMovieList(List<Movie> movies) async {
+    var movieCardDataList = await _makeMovieCardDataList(movies);
     state.update(
-      movieList: MovieList(totalResults: movies.length, results: movies),
+      movieCardDataList: movieCardDataList,
       selectedMovieId: const ThreeStateInt.none(),
       scrollOffset: 0,
       navCommand: NavProgressOff(),
@@ -83,7 +86,7 @@ class MovieListController extends Controller {
 
   void _dialogErrorMovieList(MovieRepositoryException e) {
     state.update(
-        movieList: MovieList.empty(),
+        movieCardDataList: List.empty(),
         selectedMovieId: const ThreeStateInt.none(),
         scrollOffset: 0,
         navCommand: NavErrorDialog(e));
@@ -141,5 +144,22 @@ class MovieListController extends Controller {
 
   void setViewRestored() {
     state.update(restoreView: false);
+  }
+
+  Future<List<MovieCardData>> _makeMovieCardDataList(List<Movie> movies) async {
+    return List<MovieCardData>.generate(
+      movies.length,
+      (index) => _makeMovieCardData(movies, index),
+    );
+  }
+
+  MovieCardData _makeMovieCardData(List<Movie> movies, int index) {
+    var movie = movies[index];
+    var voteAverage = (movie.voteAverage  * 10).toInt();
+    return MovieCardData(
+      movie.id, 
+      movie.title,
+      '$voteAverage%  ${voteAverage >= _starRatingThreshold ? "🌟" : "    "}',
+    );
   }
 }

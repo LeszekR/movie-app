@@ -31,7 +31,7 @@ void main() {
   controllerTest(
     'show two buttons view',
     seed: () => MovieListState(
-      movieList: d.movieList_A,
+      movieCardDataList: d.movieList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_A,
@@ -42,7 +42,7 @@ void main() {
     act: (controller) => controller.navTwoButtons(),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_A,

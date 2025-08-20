@@ -8,7 +8,8 @@ import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/app_sizes.dart';
-import '../two_buttons_navigation/two_buttons_navigator.dart';
+import '../../../config/app_style.dart';
+import '../navigation/two_buttons_navigator.dart';
 import 'components/button_two_states.dart';
 
 class TwoButtonsView extends CleanView {
@@ -73,7 +74,7 @@ class TwoButtonsViewState extends CleanViewState<TwoButtonsView, TwoButtonsContr
                   .text(_txt.get.goto_movie_list)
                   .width(AppSizes.navButtonWidth)
                   .build(),
-              AppSizes.horizontalSeparator()
+              AppStyle.horizontalSeparator()
             ],
           ),
         ),

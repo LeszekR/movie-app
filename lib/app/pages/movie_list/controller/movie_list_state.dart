@@ -1,13 +1,13 @@
 import 'package:flutter_demo/app/components/three_state_value.dart';
 
 import '../../../../domain/entities/movie.dart';
-import '../../../../domain/entities/movie_list.dart';
 import '../../../../domain/services/sorting/e_sort_direction.dart';
 import '../../../../domain/services/sorting/sort_criteria.dart';
 import '../../../navigation/navigation_command.dart';
+import '../view/components/movie_card_data.dart';
 
 final class MovieListState {
-  MovieList? movieList;
+  List<MovieCardData>? movieCardDataList;
   ThreeStateInt selectedMovieId;
   double scrollOffset;
   String? searchQuery;
@@ -21,7 +21,7 @@ final class MovieListState {
   ];
 
   MovieListState({
-    this.movieList,
+    this.movieCardDataList,
     this.selectedMovieId = const ThreeStateInt.none(),
     this.scrollOffset = 0,
     this.searchQuery,
@@ -31,7 +31,7 @@ final class MovieListState {
   });
 
   void update({
-    MovieList? movieList,
+    List<MovieCardData>? movieCardDataList,
     ThreeStateInt? selectedMovieId,
     double? scrollOffset,
     String? searchQuery,
@@ -39,7 +39,7 @@ final class MovieListState {
     NavigationCommand? navCommand,
     bool? restoreView,
   }) {
-    this.movieList = movieList ?? this.movieList;
+    this.movieCardDataList = movieCardDataList ?? this.movieCardDataList;
     this.selectedMovieId = selectedMovieId ?? this.selectedMovieId;
     this.scrollOffset = scrollOffset ?? this.scrollOffset;
     this.searchQuery = searchQuery ?? this.searchQuery;
