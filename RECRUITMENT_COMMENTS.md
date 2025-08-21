@@ -1,14 +1,14 @@
 Intro
 ===================================================================
 
-This file is here only for recruitment purposes. It would not exist in regular work task. It
-explains most important decisions in the project.
+This file is here only for recruitment skills presentation. It would not exist in regular work task.
+It explains most important decisions in the project.
 
 I implemented this app in 4 versions which are in 4 branches of the repo
 
 - **01_Riverpod_GoRouter_DotEnv_Mockito**
 - **02_FlutterCleanArch_GetIt_BackgroundUseCase**
-- **03_FlutterCleanArch_GetIt_fully_implemented**
+- **03_FlutterCleanArch_GetIt_GoRouter**
 - **04_BLoC_GetIt_Navigator**
 
 The first two deliver basic functionality. The last two deliver identical and full functionality -
@@ -18,10 +18,10 @@ used flutter packages - on purpose.
 The last two allow for easy comparison of approaches - differences are only where forced by the FCA
 or BLoC concepts - the rest is shared.
 
-I keep the 02 branch only to shows the use of `BackgroundUseCase` with factory pattern. Other than
-that FCA with main isolate usecases only is fully exploited in the 03 branch.
+I keep the 02 branch only to demonstrate the use of `BackgroundUseCase` with factory pattern. Other
+than that FCA with main isolate usecases only is fully exploited in the 03 branch.
 
-Branch: 03_FlutterCleanArch_GetIt_fully_implemented
+Branch: 03_FlutterCleanArch_GetIt_GoRouter
 ===================================================================
 
 Overview
@@ -32,8 +32,9 @@ Overview
 #### The defining external libraries
 
 - `flutter_clean_architecture`
-- `get_it`
 - `go_router`
+- 
+- `get_it`
 - `flutter_localizations`
 - `dotenv`
 - `flutter_test`
@@ -44,34 +45,70 @@ Overview
 
 #### Features and choices
 
+**Specific for this branch**
+
 - decided on inside-class `GetIt` lookup pattern instead of constructor-injection- for reasons
   explained below
 - introduced handling all exceptions by logging or rethrowing them to `Controllers` which then
   handle them
-- Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
-  returns from navigation only
 - attached `TwoButtonView` to navigation and refactored its logic to `flutter_clean_architecture`
-- used navigation triggered by `Controllers` via `NavigationCommand` field in the `view`'s `state`
-  as commented below
-- used `ListView.builder` in `MovieListView` instead of `ListFiew.separated` to speed up the build
-- introduced 'dotenv' file with app parameters (`AppConfig`)
-- introduced localization and dynamic change of UI language via `MovieAppController`
-- app starts with language declared in dotenv
-- created multi-column, stable, generic sorting class (`Sorter`) run via `SortMoviesUseCase` ready
-  for future implementation of dynamic sorting of the movie list
-- put string literals in constant strings to prevent typos and enable intellisense (
-  e.g. `navigation/go_router_const_strings.dart` and other)
 - created `controllerTest` blueprinted on `blocTest` for easy testing `Controllers'`
   reactions to calls to their methods (commented further down)
-- run FlutterDevTols and found jank in `ListView` build - hence optimized the code to speed up
-  building movies list:
-    - extracted calculation of rating strings in `MovieListController` before build,
+- created tests of `MovieListController` covering all possible state transitions
+- introduced localization and dynamic change of UI language via `MovieAppController`, app starts
+  with language declared in dotenv
+- sorting (see `Sorter` below) is run via `SortMoviesUseCase` ready for future implementation of
+  dynamic sorting of the movie list
+
+###
+
+**Shared by both fully-implemented branches 03 and 04**
+
+- extracted app navigation to hybrid pattern: local `MovieListNavigator`, global `AppNavigator` in
+  order to separate navigation concern from UI and business logic and keep feature-local navigation
+  separated from global navigation
+- used navigation triggered by `Controllers` via `NavigationCommand` field in the `view`'s `state`
+  as commented below
+- `NavigationCommand` follows single-use pattern to prevent unnecessary rebuilds
+- Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
+  returns from navigation only
+- used `ListView.builder` in `MovieListView` instead of `ListFiew.separated` to speed up the build
+  of large lists (even though slightly slower for small lists as in this app)
+- introduced 'dotenv' file with app parameters (`AppConfig`)
+- introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
+  by global `AppNavigator`
+- introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
+  uses custom `ButtonBuilder` and `DialogFactory` to create standardized buttons and
+  case-specialised dialogs with only minimal amount of code
+- introduced custom `Exceptions` that control specialized error-dialogs to separate business logic
+  from UI and precisely identify and show to the user app's failures'  causes
+- created multi-column, stable, generic sorting class (`Sorter`)
+- put string literals in constant strings to prevent typos and enable intellisense (
+  e.g. `navigation/go_router_const_strings.dart` and other)
+- centralized Widget sizes in single class `AppSizes`, colors in `AppColors`, styles in `AppStyle`
+  to control over the app's look from one place in the code
+- switched colors of `ButtonTwoStates` - because unless this was intentional (project decision to be
+  asked?) the colors were assigned counterintuitively for any user in our civilisation (**red** was
+  **ON** - **green** was **OFF** - now it is the opposite)
+- created a sample of unit tests (`Sorter` tests)
+- created a sample of tests using mocked dependencies and localized strings (`MovieListPage`,
+  `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
+  life)
+- created tests do NOT cover all that should be tested in the app - only because of sole skill
+  presentation purpose of this project
+- run FlutterDevTools and found jank in one frame of `ListView` build (from 20 to 100 ms) - since
+  there is no jank during scrolling - used this one to demonstrate the use of FlutterDevTools even
+  though jank in a single frame during a large rebuild on the user's demand is acceptable - hence
+  optimized the code to speed up building movies list:
+    - extracted calculation of rating strings into `MovieListController` async function run before
+      build, (even though async overhead in this case makes it slightly slower it is ready for large
+      lists that might cause new jank),
     - surrounded `ListView` with `RepaintBoundariy`,
     - replaced colored `Containers` serving as dividers with const `Dividers` ,
     - replaced `Column` used for each `MovieCard` + `Divider` with `Dividers` added as every odd
       element of the `ListView`,
     - replaced `Containers` with `SizedBoxes`,
-    - only the selected `MovieCard` is surounded with `ColoredBox`,
+    - only the one selected `MovieCard` builds surrounding `ColoredBox`,
 - created gitlab pipeline
 
 #
@@ -80,6 +117,37 @@ Overview
 
 Details
 ----------------------------------  
+
+###
+
+### Function `controllerTest` blueprinted on `blocTest`
+
+###
+
+Packages:
+
+- `test/test_tools/test_runner`
+- `test/app/pages/movie_list/controller`
+
+###
+
+#### Inspired by blocTest:
+
+- Like `blocTest` my `controllerTest` offers declarative test helper for FCA Controllers.
+- Sets mocks, registers seed state, builds controller, performs act, skips states to be ignored,
+  asserts expected states and verifications.
+- I decided to create it as possibly the easiest and most consistent way to transfer tests
+  between `BLoC` and `flutter_clean_architecture` implementations of the app
+
+###
+
+#### Additional params
+
+The `controllerTest` has extra params to adjust to `flutter_clean_architecture`
+
+- `asyncTicks`: total number of: `Futures`, `onNext(...)` calls and other `async`
+  calls - between each two states of the controller
+- `setMocks` - self explanatory
 
 ###
 
@@ -127,7 +195,8 @@ just as well one might decide on any other - depending on given app architecture
 - hence routing from `MovieListView` to `MovieDetailsView` or any dialog is done with the use of
   its `Controller.state.navCommand` field, which then triggers navigation from inside the `Widget`
   using `postFrameCallback`
-- This pattern maintains a clear separation between business logic and UI, and keeps the Controller
+- This pattern maintains a clear separation between business logic and UI, and keeps
+  the `Controller`
   testable and platform-independent.
 - with this solution necessary for some routes I had to choose: keep the routing path consistent
   across the whole app? - do other navigation calls the same way, or call such routing directly in a
@@ -135,42 +204,11 @@ just as well one might decide on any other - depending on given app architecture
 - I decided to keep the code consistent hence routing that is initiated by a `Widget` is done via
   the same chain - that is why navigation to `TwoButtonView` and back to `MovieDetailsView` is
   called this way
-- it is also possible in **flutter_clean_architecture** to invoke UI elements directly from the
+- it is also possible in `flutter_clean_architecture` to invoke UI elements directly from the
   `Controller` using `getState()`, yet I chose my approach for stricter adherence to Clean
-  Architecture principles and easier testing this solution is disputable though since it complicates
-  the code making it more difficult to read, so the choice of one of those solutions would be the
-  team's in a production project then to be followed by the dev
-
-###
-
-### Function `controllerTest` blueprinted on `blocTest`
-
-###
-
-Packages:
-
-- `test/test_tools/test_runner`
-- `test/app/pages/movie_list/controller`
-
-###
-
-#### Inspired by blocTest:
-
-- Like `blocTest` my `controllerTest` offers declarative test helper for FCA Controllers.
-- Sets mocks, registers seed state, builds controller, performs act, skips states to be ignored,
-  asserts expected states and verifications.
-- I decided it was possibly easiest and most consistent way to transfer tests between `BLoC`
-  and `flutter_clean_architecture` implementations of the app
-
-###
-
-#### Additional params
-
-The `controllerTest` has extra params to adjust to `flutter_clean_architecture`
-
-- `asyncTicks` - `asyncTicks`: total number of: `Futures`, `onNext(...)` calls and other `async`
-  calls - between each two states of the controller
-- `setMocks` - self explanatory
+  Architecture principles and easier testing. This solution is disputable though since it
+  complicates the code making it more difficult to read, so the choice of one of those solutions
+  would be the team's in a production project.
 
 ###
 
@@ -195,11 +233,9 @@ further down this file.
 
 Package: `domain/services/sorting`
 
-- Simplest sorting in single line of code would satisfy the task's basic requirement.
-- But it is standard in desktop UI lists that they are sortable by clicking column headers. To
-  achieve that the simple sorting would have to be refactored. Implementing it right away reduces
-  overall work intensity of the project.
-- Additionally 'SortableSorter' offers:
+- It is standard in desktop UI lists that they are sortable by clicking column headers. With
+  the `Sorter` class only minimum amount of code is necessary to implement it.
+- 'SortableSorter' offers:
     - hierarchical sorting by multiple columns
     - sorting is stable for child-criteria within parent-criteria
     - maintaining last sorting criteria on data refresh
@@ -217,7 +253,7 @@ Package: `domain/services/sorting`
 
 ###
 
-### Const strings in place of hardcoding strings
+### Const strings in place of hardcoded
 
 I always use static const string instead of hardcoded string ids because:
 

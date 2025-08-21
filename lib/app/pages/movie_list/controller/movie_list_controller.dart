@@ -73,10 +73,10 @@ class MovieListController extends Controller {
     _movieListPresenter.sortMovies(movies, state.sortCriteriaList!);
   }
 
-  void _updateMovieList(List<Movie> movies) {
+  void _updateMovieList(List<Movie> movies) async {
     var movieCardDataList = makeMovieCardDataList(movies);
     state.update(
-      movieCardDataList: movieCardDataList,
+      movieCardDataList: await movieCardDataList,
       selectedMovieId: const ThreeStateInt.none(),
       scrollOffset: 0,
       navCommand: NavProgressOff(),
@@ -143,7 +143,7 @@ class MovieListController extends Controller {
     );
   }
 
-  List<MovieCardData> makeMovieCardDataList(List<Movie> movies) {
+  Future<List<MovieCardData>> makeMovieCardDataList(List<Movie> movies) async {
     return List<MovieCardData>.generate(
       movies.length,
       (index) => _makeMovieCardData(movies, index),

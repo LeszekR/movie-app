@@ -5,7 +5,6 @@ import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
-import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
@@ -91,14 +90,14 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
             AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
           ],
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: RepaintBoundary(
+        body: RepaintBoundary(
+          child: Column(
+            children: <Widget>[
+              Expanded(
                 child: _buildMovieList(context, controller),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: Container(
           height: AppSizes.dialogBottomBarHeight,
@@ -122,7 +121,6 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
 
   Widget _buildMovieList(BuildContext context, MovieListController controller) {
     var movieList = controller.state.movieCardDataList ?? List.empty();
-    MovieCardData? movieData; // allocation is costly, do it once here
 
     return Scrollbar(
       thumbVisibility: true,
@@ -133,11 +131,11 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         itemCount: movieList.length * 2,
         itemBuilder: (context, index) {
           if (index.isEven) {
-            movieData = movieList[index ~/ 2];
+            var movieData = movieList[index ~/ 2];
             return MovieCard(
-              movieCardData: movieData!,
-              onTap: controller.setSelectedMovieId,
-              isSelected: movieData!.id == controller.state.selectedMovieId.value,
+              movieCardData: movieData,
+              onTap: () => controller.setSelectedMovieId(movieData.id),
+              isSelected: movieData.id == controller.state.selectedMovieId.value,
             );
           } else {
             return AppStyle.listViewDivider;

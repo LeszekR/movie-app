@@ -5,7 +5,7 @@ import 'movie_card_data.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieCardData movieCardData;
-  final void Function(int selectedMovieId) onTap;
+  final void Function() onTap;
   final bool isSelected;
 
   const MovieCard({
@@ -38,7 +38,7 @@ class MovieCard extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: () => onTap(movieCardData.id),
+      onTap: onTap,
       child: SizedBox(
         height: 48.0,
         child: isSelected

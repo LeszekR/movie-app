@@ -51,9 +51,9 @@ class MovieListTestData {
   List<MovieCardData> movieCardDataList_A = [];
   List<MovieCardData> movieCardDataList_B = [];
 
-  void init() {
+  void init() async {
     var movieListController = MovieListController();
-    movieCardDataList_A = movieListController.makeMovieCardDataList(movieList_A.results);
-    movieCardDataList_B = movieListController.makeMovieCardDataList(movieList_B.results);
+    movieCardDataList_A = await movieListController.makeMovieCardDataList(movieList_A.results);
+    movieCardDataList_B = await movieListController.makeMovieCardDataList(movieList_B.results);
   }
 }
