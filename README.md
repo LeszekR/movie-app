@@ -1,49 +1,200 @@
-# MovieBrowser
+Intro
+===================================================================
 
-This app is a part of recruitment task for a Flutter Developer position at Droids On Roids. It
-allows users to browse movie database and look for some interesting financial statistics. It uses
-The Movie Database API as a source of data about movies, its documentation is
-available [here](https://developers.themoviedb.org/3/getting-started/introduction).
+This file is here only for recruitment skills presentation. It would not exist in regular work task.
+It explains most important decisions in the project.
 
-## Recruitment task
+I implemented this app in 4 versions which are in 4 branches of the repo
 
-Right now, app consists of only one screen: movie list. It allows user to search movies in The Movie
-Database. Your task is to add some new features to this app:
+- **01_Riverpod_GoRouter_DotEnv_Mockito**
+- **02_FlutterCleanArch_GetIt_BackgroundUseCase**
+- **03_FlutterCleanArch_GetIt_GoRouter**
+- **04_BLoC_GetIt_Navigator**
 
-1. As a warm up, sort movies fetched from the api by vote average.
+The first two deliver basic functionality. The last two deliver identical and full functionality -
+with dialogs, progress indicators, dynamic language setting, additional page. They all differ in
+used flutter packages - on purpose.
 
-2. Next, implement navigation between movie list and movie details screen. To not spent too much
-   time on programming UI, we've already implemented movie details screen for you. It is available
-   as `MovieDetailsPage` class.
+The last two allow for easy comparison of approaches - differences are only where forced by the FCA
+or BLoC concepts - the rest is shared.
 
-3. After that, fetch detailed information about the selected movie and show its title (as a
-   navigation bar title), budget and revenue (formatted as values in dollars).
+I keep the 02 branch only to demonstrate the use of `BackgroundUseCase` with factory pattern. Other
+than that FCA with main isolate usecases only is fully exploited in the 03 branch.
 
-4. Finally, let's add some logic to the app. As you can see, there is one more label on the Movie
-   Details screen: the "Should I watch it today?" label. Let's say, that I should watch the movie
-   today, **if today is sunday and profit from the movie is bigger than $1000000** (by profit we
-   mean a difference between revenue and budget). So, under that label show value "Yes" if the
-   following criteria are met or "No", if they are not.
+Branch: 04_BLoC_GetIt_Navigator
+===================================================================
 
-## Tips
+Overview
+----------------------------------  
 
-1. Do not worry about making a good looking UI - that's what designers are for :) Focus on writing
-   clean and maintainable code - we value codebases that are scalable and easy to work with.
+###
 
-2. If you think you have a better way of implementing some of the features that are already in the
-   repo, or you think something is missing, we encourage you to do it your way. In fact - make the
-   whole solution as simple or complex as you wish, but be ready to explain to us the reasoning for
-   your architectural decisions.
+#### External libraries
 
-3. Feel free to use tools like Cursor or Copilot, but make sure you understand and can explain in
-   details all your AI-generated code.
+- `flutter_bloc`
+- 
+- `get_it`
+- `flutter_localizations`
+- `dotenv`
+- `flutter_test`
+- `integration_test`
+- `mockito`
 
-4. To regenerate JSON models, use the following command:
+###
 
-```
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+#### Features and choices
 
-5. If anything about the task is not clear don't be afraid to ask questions.
+**Specific for this branch**
 
-Good luck!
+- decided on constructor-injection pattern instead of inside-class `GetIt` lookup - for reasons
+  explained below
+- introduced handling all exceptions by logging or rethrowing them to `Bloc` which then handle them
+- attached `TwoButtonView` to navigation and refactored its logic to `fluttter_bloc` architecture
+- created tests of `MovieListBloc` covering all possible state transitions
+- introduced localization and dynamic change of UI language via `MovieAppCubit`, app starts with
+  language declared in dotenv
+
+###
+
+**Shared by both fully-implemented branches 03 and 04**
+
+- extracted app navigation to hybrid pattern: local `MovieListNavigator`, global `AppNavigator` in
+  order to separate navigation concern from UI and business logic and keep feature-local navigation
+  separated from global navigation
+- used navigation triggered by `Controllers` via `NavigationCommand` field in the `view`'s `state`
+  as commented below
+- `NavigationCommand` follows single-use pattern to prevent unnecessary rebuilds
+- Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
+  returns from navigation only
+- used `ListView.builder` in `MovieListView` instead of `ListFiew.separated` to speed up the build
+  of large lists (even though slightly slower for small lists as in this app)
+- introduced 'dotenv' file with app parameters (`AppConfig`)
+- introduced `CircularProgressIndicator` during async tasks, navigated to and from in `BlocListener`
+  by global `AppNavigator`
+- introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
+  uses custom `ButtonBuilder` and `DialogFactory` to create standardized buttons and
+  case-specialised dialogs with only minimal amount of code
+- introduced custom `Exceptions` that control specialized error-dialogs to separate business
+  logic from UI and precisely identify and show to the user app's failures'  causes
+- created multi-column, stable, generic sorting class (`Sorter`)
+- put string literals in constant strings to prevent typos and enable intellisense (
+  e.g. `navigation/go_router_const_strings.dart` and other)
+- centralized Widget sizes in single class `AppSizes`, colors in `AppColors`, styles in `AppStyle`
+  to control over the app's look from one place in the code
+- switched colors of `ButtonTwoStates` - because unless this was intentional (project decision to be
+  asked?) the colors were assigned counterintuitively for any user in our civilisation (**red** was
+  **ON** - **green** was **OFF** - now it is the opposite)
+- created a sample of unit tests (`Sorter` tests)
+- created a sample of tests using mocked dependencies and localized strings (`MovieListPage`,
+  `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
+  life)
+- created tests do NOT cover all that should be tested in the app - only because of sole skill
+  presentation purpose of this project
+- run FlutterDevTools and found jank in one frame of `ListView` build (from 20 to 100 ms) - since
+  there is no jank during scrolling - used this one to demonstrate the use of FlutterDevTools even
+  though jank in a single frame during a large rebuild on the user's demand is acceptable - hence
+  optimized the code to speed up building movies list:
+    - extracted calculation of rating strings into `MovieListController` async function run before
+      build, (even though async overhead in this case makes it slightly slower it is ready for large
+      lists that might cause new jank),
+    - surrounded `ListView` with `RepaintBoundariy`,
+    - replaced colored `Containers` serving as dividers with const `Dividers` ,
+    - replaced `Column` used for each `MovieCard` + `Divider` with `Dividers` added as every odd
+      element of the `ListView`,
+    - replaced `Containers` with `SizedBoxes`,
+    - only the one selected `MovieCard` builds surrounding `ColoredBox`,
+- created gitlab pipeline
+
+#
+
+------------------
+
+Details
+----------------------------------  
+
+###
+
+### Dependency injection via constructors
+
+#### Available options
+
+- DI via constructors
+- DI via `GetIt` lookup calls inside classes
+- hybrid mix of both
+
+There are reasons to use each of those choices.   
+I decided on the last since.  
+Whether it is the right choice it can be discussed. For presentation purposes used it here although
+just as well one might decide on any other - depending on given app architecture decisions.
+
+- DI via constructors is best for large, easily scalable, multi-team, large-codebase projects. Or in
+  other wards - real-life commercial projects. The rationale for this is just below.
+- objects created with `GetIt` factory must not be dependecies of singletons because this will lead
+  to different object returned by `GetIt` while building the singleton and new objects of the type
+  injected where the factory provides them at rebuilds of `Widgets` that consume them
+
+#### Benefits of constructors DI:
+
+- Explicit dependencies – you know exactly what the class relies on
+- Great for testability without relying on global state
+- Makes classes pure and portable (can be reused in non-get_it environments)
+- Encourages immutability and decoupling
+- Easier for static analysis / code review / documentation
+
+#### Downsides of constructors DI:
+
+- Verbose, especially for deep trees (dependencies need to be thread through layers)
+- Constructor signatures grow
+- Negative result: oversized boilerplate for small apps or features
+
+###
+
+##### Separate files for GoRouter and routing const strings
+
+(Package: `lib/routing`)
+
+I prefer const strings as keys/ids/etc instead of hardcoded string literals for reasons explained
+further down this file.
+
+- Two files separating `GoRouter` and its navigation string literals make `GoRouter` a bit easier to
+  maintain.
+- Reason: having 2 separate files while editing a growing number of routes allows the dev to just
+  toggle between two files, each scrolled to the relevant piece of code. With single file the dev
+  has to scroll up and down between the string declarations and currently implemented route code.
+  Impractical. Slow. Quicker to Ctrl+Tab between the 2 files.
+- (Scrolling will became necessary with just a few more routes.)
+
+###
+
+##### Sorting by multiple columns (class fields)
+
+(Package: `components/sorting`)
+
+- It is standard in desktop UI lists that they are sortable by clicking column headers. With
+  the `Sorter` class only minimum amount of code is necessary to implement it.
+- 'SortableSorter' offers:
+  - hierarchical sorting by multiple columns
+  - sorting is stable for child-criteria within parent-criteria
+  - maintaining last sorting criteria on data refresh
+
+###
+
+##### Error checks in SortableSorter
+
+- `Sorter` throws if `sortCriteriaList` is longer than the number of sortable fields in the sorted
+  type. This is to prevent unexpected behaviour when the same column is sorted twice making it
+  difficult to debug the sorting result.
+- `Sorter` throws on attempt to use `fieldKey` not existing in the `Sortable`
+  implementation. One scenario when this may happen is dev's error while declaring initial sorting
+  order by hand. This safe-check prevents debugging later.
+
+###
+
+### Const strings in place of hardcoded
+
+I always use static const string instead of hardcoded string ids because:
+
+- hardcoded string ids used in multiple code places WILL result in typo errors and waste of time for
+  debugging them
+- using variables in place of typing allows using intellisense for them
+
