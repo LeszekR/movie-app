@@ -63,6 +63,15 @@ Overview
   e.g. `navigation/go_router_const_strings.dart` and other)
 - created `controllerTest` blueprinted on `blocTest` for easy testing `Controllers'`
   reactions to calls to their methods (commented further down)
+- run FlutterDevTols and found jank in `ListView` build - hence optimized the code to speed up
+  building movies list:
+    - extracted calculation of rating strings in `MovieListController` before build,
+    - surrounded `ListView` with `RepaintBoundariy`,
+    - replaced colored `Containers` serving as dividers with const `Dividers` ,
+    - replaced `Column` used for each `MovieCard` + `Divider` with `Dividers` added as every odd
+      element of the `ListView`,
+    - replaced `Containers` with `SizedBoxes`,
+    - only the selected `MovieCard` is surounded with `ColoredBox`,
 - created gitlab pipeline
 
 #
@@ -199,9 +208,9 @@ Package: `domain/services/sorting`
 
 ##### Error checks in SortableSorter
 
-- `Sorter` throws if `sortCriteriaList` is longer than the number of sortable fields in the
-  sorted type. This is to prevent unexpected behaviour when the same column is sorted twice making
-  it difficult to debug the sorting result.
+- `Sorter` throws if `sortCriteriaList` is longer than the number of sortable fields in the sorted
+  type. This is to prevent unexpected behaviour when the same column is sorted twice making it
+  difficult to debug the sorting result.
 - `Sorter` throws on attempt to use `fieldKey` not existing in the `Sortable`
   implementation. One scenario when this may happen is dev's error while declaring initial sorting
   order by hand. This safe-check prevents debugging later.
