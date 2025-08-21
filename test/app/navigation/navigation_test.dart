@@ -71,7 +71,6 @@ void main() {
     // selecting one movie from the list
     await tester.tap(movieFinder);
     await tester.pump();
-    // await tester.scrollUntilVisible(movieFinder, 900, scrollable: listFinder);  // KEEP THIS LINE HERE! Flutter test tap can scroll the widget out!
     expect(movieFinder, findsOneWidget);
     expect(selectedMovieColor(tester, movieFinder), AppColors.selectedTableRowBackground);
 

@@ -109,7 +109,7 @@ class MovieListController extends Controller {
     } else {
       state.update(
         navCommand: NavMovieDetails(movie),
-        // restoreView: true,
+        
       );
     }
     refreshUI();
@@ -139,7 +139,7 @@ class MovieListController extends Controller {
       searchQuery: searchQuery,
       scrollOffset: scrollOffset,
       navCommand: state.navCommand,
-      // restoreView: true,
+      
     );
   }
 

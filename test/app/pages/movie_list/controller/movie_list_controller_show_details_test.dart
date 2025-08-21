@@ -48,7 +48,6 @@ void main() {
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
       navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
-      // restoreView: true,
     ),
     act: (controller) => controller.fetchMovie(),
     asyncTicks: 1,
@@ -59,7 +58,6 @@ void main() {
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavProgressOn(),
-        // restoreView: true,
       ),
       MovieListState(
         movieCardDataList: d.movieCardDataList_A,
@@ -67,7 +65,6 @@ void main() {
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-        // restoreView: true,
       )
     ],
     verify: () {
@@ -84,7 +81,6 @@ void main() {
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_B,
       navCommand: null,
-      // restoreView: false,
     ),
     act: (controller) => controller.fetchMovie(),
     expect: () => [
@@ -94,7 +90,6 @@ void main() {
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
         navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
-        // restoreView: true,
       ),
     ],
     verify: () {

@@ -15,10 +15,10 @@ void _movieListStateExpect(controller, expected) {
   var actualState = (controller as MovieListController).state;
   var expectedState = expected as MovieListState;
 
+  expect(actualState.movieCardDataList, expectedState.movieCardDataList);
   expect(actualState.selectedMovieId.value, expectedState.selectedMovieId.value);
   expect(actualState.scrollOffset, expectedState.scrollOffset);
   expect(actualState.searchQuery, expectedState.searchQuery);
   expect(listEquals(actualState.sortCriteriaList, expectedState.sortCriteriaList), true);
   expect(actualState.navCommand, expectedState.navCommand);
-  // expect(actualState.restoreView, expectedState.restoreView);
 }

@@ -62,12 +62,11 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: List.empty(),
+          movieCardDataList: null,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOn(),
-          // restoreView: true,
         ),
         MovieListState(
           movieCardDataList: d.movieCardDataList_A,
@@ -75,7 +74,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
-          // restoreView: true,
         ),
       ],
     );
@@ -109,7 +107,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -131,7 +128,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -153,7 +149,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -184,7 +179,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -213,7 +207,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -242,7 +235,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -267,7 +259,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
-          // restoreView: true,
         )
       ],
       verify: () {
@@ -285,7 +276,6 @@ void main() {
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-        // restoreView: true,
       ),
       skip: 1,
       asyncTicks: 1,
@@ -296,7 +286,6 @@ void main() {
           scrollOffset: 0,
           searchQuery: d.query_B,
           navCommand: NavProgressOff(),
-          // restoreView: true,
         )
       ],
       verify: () {

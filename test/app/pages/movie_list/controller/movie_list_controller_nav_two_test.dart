@@ -37,7 +37,6 @@ void main() {
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_A,
       navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-      // restoreView: false,
     ),
     build: () => MovieListController(),
     act: (controller) => controller.navTwoButtons(),
@@ -48,7 +47,6 @@ void main() {
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_A,
         navCommand: NavTwoButtons(),
-        // restoreView: true,
       ),
     ],
     verify: () {
