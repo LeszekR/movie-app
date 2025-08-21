@@ -24,6 +24,7 @@ main() {
     getIt.registerSingleton<AppParams>(mockAppParams);
     getIt.registerSingleton<DateTimeReader>(mockDateTimeReader);
     getIt.registerLazySingleton(() => MovieDetailsController(getIt<DateTimeReader>(), getIt<AppParams>()));
+    when(mockAppParams.param(AppParams.starRatingThreshold)).thenReturn('60');
   });
 
   tearDown(() {

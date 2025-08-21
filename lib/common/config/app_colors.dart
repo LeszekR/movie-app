@@ -11,5 +11,5 @@ class AppColors {
   static Color dialogBackground = Colors.amber.shade100;
   static Color textFieldBackground = Colors.white;
   static Color textFieldBorder = Colors.black.withValues(alpha: 0.1);
-  static Color separator = Colors.grey.shade300;
+  static const Color separator = Color(0xFFE0E0E0);
 }

@@ -3,14 +3,15 @@ import 'package:flutter_demo/pages/movie_details/model/movie.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/model/movie_list.dart';
+import 'package:flutter_demo/pages/movie_list/view/components/movie_card_data.dart';
 import 'package:flutter_demo/repositories/movie_repository_exception.dart';
 
 import '../../../test_tools/mocks/common_mocks.mocks.dart';
 
 
 class MovieListTestData {
-  MovieListBloc makeMovieListBloc(MockMovieRepository mockMovieRepository) =>
-      MovieListBloc(mockMovieRepository, Sorter<Movie>());
+  MovieListBloc makeMovieListBloc(MockAppParams mockAppParams, MockMovieRepository mockMovieRepository) =>
+      MovieListBloc(mockAppParams, mockMovieRepository, Sorter<Movie>());
 
   String query_A = 'QUERY_A';
   String query_B = 'QUERY_B';
@@ -50,4 +51,13 @@ class MovieListTestData {
         Movie(id: 5, budget: 155, revenue: 855, voteAverage: 5.2, title: 'TestMovie 5'),
         Movie(id: 6, budget: 166, revenue: 866, voteAverage: 6.2, title: 'TestMovie 6'),
       ], MovieListState.defaultSortCriteriaList)!);
+
+  List<MovieCardData> movieCardDataList_A = [];
+  List<MovieCardData> movieCardDataList_B = [];
+
+  void init(MockAppParams mockAppParams, MockMovieRepository mockMovieRepository) async {
+    var movieListBloc = makeMovieListBloc(mockAppParams, mockMovieRepository);
+    movieCardDataList_A = await movieListBloc.makeMovieCardDataList(movieList_A.results);
+    movieCardDataList_B = await movieListBloc.makeMovieCardDataList(movieList_B.results);
+  }
 }

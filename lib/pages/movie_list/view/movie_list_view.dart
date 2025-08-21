@@ -7,13 +7,11 @@ import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 
-import '../../../bootstrap/app_params.dart';
 import '../../../common/config/app_colors.dart';
 import '../../../common/config/app_style.dart';
 import '../../../common/ui_localized_texts/txt.dart';
 import '../../../components/search_box.dart';
 import '../../movie_app/bloc/movie_app_state.dart';
-import '../../movie_details/model/movie.dart';
 import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
@@ -23,14 +21,13 @@ class MovieListView extends StatefulWidget {
   static var languageEnButtonKey = Key('languageEnButtonKey');
   static var twoButButtonKey = Key("twoButtonsButtonKey");
   static var listViewKey = ValueKey('movieListKey');
+
   final Txt txt;
-  final AppParams appParams;
   final MovieListNavigator moviesNavigator;
 
   const MovieListView({
     super.key,
     required this.txt,
-    required this.appParams,
     required this.moviesNavigator,
   });
 
@@ -44,14 +41,12 @@ class _MovieListViewState extends State<MovieListView> {
   MovieListBloc get _bloc => context.read<MovieListBloc>();
   TextEditingController? _searchTextController;
   ScrollController? _scrollController;
-  int _starRatingThreshold = 0;
 
   @override
   void initState() {
     super.initState();
     _searchTextController = TextEditingController();
     _scrollController = ScrollController();
-    _starRatingThreshold = int.parse(widget.appParams.param(AppParams.starRatingThreshold));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _restoreViewState();
@@ -116,10 +111,12 @@ class _MovieListViewState extends State<MovieListView> {
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
             ],
           ),
-          body: Column(
-            children: <Widget>[
-              Expanded(child: _buildMovieList(context, state, _starRatingThreshold)),
-            ],
+          body: RepaintBoundary(
+            child: Column(
+              children: <Widget>[
+                Expanded(child: _buildMovieList(context, state)),
+              ],
+            ),
           ),
           bottomNavigationBar: Container(
               height: AppSizes.dialogBottomBarHeight,
@@ -141,25 +138,29 @@ class _MovieListViewState extends State<MovieListView> {
     );
   }
 
-  Widget _buildMovieList(BuildContext context, MovieListState state, int starRatingThreshold) {
-    List<Movie> movieList = state.movieList?.results ?? List.empty();
+  Widget _buildMovieList(BuildContext context, MovieListState state) {
     int? selectedMovieId = state.selectedMovieId.value;
+    var movieList = state.movieCardDataList ?? List.empty();
+
     return Scrollbar(
       thumbVisibility: true,
       controller: _scrollController,
-      child: ListView.separated(
+      child: ListView.builder(
         key: MovieListView.listViewKey,
         controller: _scrollController,
-        separatorBuilder: AppStyle.listViewSeparatorBuilder,
-        itemBuilder: (context, index) => MovieCard(
-          id: movieList[index].id,
-          title: movieList[index].title,
-          voteAverage: (movieList[index].voteAverage * 10).toInt(),
-          starRatingThreshold: starRatingThreshold,
-          isSelected: movieList[index].id == selectedMovieId,
-          onTap: (_) => _bloc.add(SelectMovieEvent(movieList[index].id)),
-        ),
-        itemCount: movieList.length,
+        itemCount: movieList.length * 2,
+        itemBuilder: (context, index) {
+          if (index.isEven) {
+            var movieCardData = movieList[index ~/ 2];
+            return MovieCard(
+              movieCardData: movieCardData,
+              onTap: () => _bloc.add(SelectMovieEvent(movieCardData.id)),
+              isSelected: movieCardData.id == selectedMovieId,
+            );
+          } else {
+            return AppStyle.listViewDivider;
+          }
+        },
       ),
     );
   }

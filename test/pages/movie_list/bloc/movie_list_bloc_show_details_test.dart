@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/components/three_state_value.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
@@ -11,8 +12,11 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
+  MockAppParams mockAppParams = MockAppParams();
   MockMovieRepository mockMovieRepository = MockMovieRepository();
   MovieListTestData d = MovieListTestData();
+  when(mockAppParams.param(AppParams.starRatingThreshold)).thenReturn('60');
+  d.init(mockAppParams, mockMovieRepository);
 
   setUp(() {
     when(mockMovieRepository.getMovie(d.movieId_A2))
@@ -29,9 +33,9 @@ void main() {
 
   blocTest(
     'show movie details => show progress',
-    build: () => d.makeMovieListBloc(mockMovieRepository),
+    build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieList: d.movieList_A,
+      movieCardDataList: d.movieCardDataList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
@@ -40,14 +44,14 @@ void main() {
     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavProgressOn(),
       ),
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_A,
@@ -61,9 +65,9 @@ void main() {
 
   blocTest(
     'show movie details => none selected',
-    build: () => d.makeMovieListBloc(mockMovieRepository),
+    build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.none(),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_B,
@@ -72,7 +76,7 @@ void main() {
     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_B,
@@ -87,9 +91,9 @@ void main() {
 
   blocTest(
     'show movie details => http error',
-    build: () => d.makeMovieListBloc(mockMovieRepository),
+    build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -98,7 +102,7 @@ void main() {
     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
@@ -113,9 +117,9 @@ void main() {
 
   blocTest(
     'show movie details => other error',
-    build: () => d.makeMovieListBloc(mockMovieRepository),
+    build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieList: d.movieList_A,
+      movieCardDataList: d.movieCardDataList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
@@ -124,7 +128,7 @@ void main() {
     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -139,9 +143,9 @@ void main() {
 
   blocTest(
     'show movie details => success',
-    build: () => d.makeMovieListBloc(mockMovieRepository),
+    build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_B3),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -150,7 +154,7 @@ void main() {
     act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
     expect: () => [
       MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_B3),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,

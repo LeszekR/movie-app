@@ -134,8 +134,11 @@ Container findTwoStateButtonContainer(WidgetTester tester, Key key) {
 Finder findTwoStateButton(Key key) => find.byKey(key);
 
 Color? selectedMovieColor(WidgetTester tester, Finder movieFinder) {
-  var ancestorContainer = tester.widget(find.ancestor(of: movieFinder, matching: find.byType(Container)));
-  return ((ancestorContainer as Container).decoration as BoxDecoration).color;
+  expect(movieFinder, findsOneWidget);
+  final ancestor = find.ancestor(of: movieFinder, matching: find.byType(ColoredBox));
+  expect(ancestor, findsOneWidget);
+  final coloredBox = tester.widget<ColoredBox>(ancestor);
+  return coloredBox.color;
 }
 
 Future<void> pumpUntilFound(

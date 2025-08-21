@@ -5,10 +5,10 @@ import '../../../components/sorting/sort_criteria.dart';
 import '../../../components/three_state_value.dart';
 import '../../../navigation/navigation_command.dart';
 import '../../movie_details/model/movie.dart';
-import '../model/movie_list.dart';
+import '../view/components/movie_card_data.dart';
 
 final class MovieListState extends Equatable {
-  final MovieList? movieList;
+  final List<MovieCardData>? movieCardDataList;
   final ThreeStateInt selectedMovieId;
   final double scrollOffset;
   final String? searchQuery;
@@ -22,7 +22,7 @@ final class MovieListState extends Equatable {
   ];
 
   const MovieListState({
-    this.movieList,
+    this.movieCardDataList,
     this.selectedMovieId = const ThreeStateInt.none(),
     this.scrollOffset = 0,
     this.searchQuery,
@@ -32,7 +32,7 @@ final class MovieListState extends Equatable {
   });
 
   MovieListState copyWith({
-    MovieList? movieList,
+    List<MovieCardData>? movieCardDataList,
     ThreeStateInt? selectedMovieId,
     double? scrollOffset,
     String? searchQuery,
@@ -41,19 +41,19 @@ final class MovieListState extends Equatable {
     bool? restoreView,
   }) {
     return MovieListState(
-      movieList: movieList ?? this.movieList,
+      movieCardDataList: movieCardDataList ?? this.movieCardDataList,
       selectedMovieId: selectedMovieId ?? this.selectedMovieId,
       scrollOffset: scrollOffset ?? this.scrollOffset,
       searchQuery: searchQuery ?? this.searchQuery,
       sortCriteriaList: sortCriteriaList ?? this.sortCriteriaList,
       navCommand: navCommand,
-      restoreView:  restoreView ?? false,
+      restoreView: restoreView ?? false,
     );
   }
 
   @override
   List<Object?> get props => [
-        movieList,
+        movieCardDataList,
         selectedMovieId,
         scrollOffset,
         searchQuery,

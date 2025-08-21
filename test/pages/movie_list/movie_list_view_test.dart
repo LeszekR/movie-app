@@ -37,7 +37,7 @@ main() {
 
     await prepareWidget(tester, getIt,
         widgetBuilder: () => BlocProvider(
-              create: (context) => MovieListBloc(getIt<MovieRepository>(), getIt<Sorter<Movie>>()),
+              create: (context) => MovieListBloc(getIt<AppParams>(), getIt<MovieRepository>(), getIt<Sorter<Movie>>()),
               child: getIt<MovieListView>(),
             ));
 

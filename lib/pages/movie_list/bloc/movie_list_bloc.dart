@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 
@@ -11,14 +12,18 @@ import '../../../components/sorting/sorter.dart';
 import '../../../components/three_state_value.dart';
 import '../../../repositories/movie_repository.dart';
 import '../../movie_details/model/movie.dart';
-import '../model/movie_list.dart';
+import '../view/components/movie_card_data.dart';
 import 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   final MovieRepository movieRepository;
   final Sorter<Movie> sorter;
+  final int _starRatingThreshold;
 
-  MovieListBloc(this.movieRepository, this.sorter) : super(MovieListState()) {
+  MovieListBloc(AppParams appParams, this.movieRepository, this.sorter)
+      : _starRatingThreshold = int.parse(appParams.param(AppParams.starRatingThreshold)),
+        super(MovieListState()) {
+
     on<StateRestoredMoviesEvent>(_setStateRestored);
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
@@ -37,7 +42,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       List<Movie>? movies = await movieRepository.getSearchedMovies(event.query!);
       if (movies.isEmpty) {
         emit(state.copyWith(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: const ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: query,
@@ -45,8 +50,9 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         ));
       } else {
         movies = sorter.sortColumns(movies, state.sortCriteriaList)!;
+        var movieCardDataList = makeMovieCardDataList(movies);
         emit(state.copyWith(
-          movieList: MovieList(totalResults: movies.length, results: movies),
+          movieCardDataList: await movieCardDataList,
           selectedMovieId: const ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: query,
@@ -57,7 +63,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
     } on Exception catch (e) {
       log.severe(logErrSearchMovies, e);
       emit(state.copyWith(
-        movieList: MovieList.empty(),
+        movieCardDataList: List.empty(),
         selectedMovieId: const ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: query,
@@ -113,5 +119,22 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   Future<void> _setStateRestored(StateRestoredMoviesEvent event, Emitter<MovieListState> emit) async {
     emit(state.copyWith(restoreView: false));
+  }
+
+  Future<List<MovieCardData>> makeMovieCardDataList(List<Movie> movies) async {
+    return List<MovieCardData>.generate(
+      movies.length,
+      (index) => _makeMovieCardData(movies, index),
+    );
+  }
+
+  MovieCardData _makeMovieCardData(List<Movie> movies, int index) {
+    var movie = movies[index];
+    var voteAverage = (movie.voteAverage * 10).toInt();
+    return MovieCardData(
+      movie.id,
+      movie.title,
+      '$voteAverage%  ${voteAverage >= _starRatingThreshold ? "🌟" : "    "}',
+    );
   }
 }

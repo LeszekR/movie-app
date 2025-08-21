@@ -1,10 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/components/three_state_value.dart';
 import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
-import 'package:flutter_demo/pages/movie_list/model/movie_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -12,8 +12,11 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
+  MockAppParams mockAppParams = MockAppParams();
   MockMovieRepository mockMovieRepository = MockMovieRepository();
   MovieListTestData d = MovieListTestData();
+  when(mockAppParams.param(AppParams.starRatingThreshold)).thenReturn('60');
+  d.init(mockAppParams, mockMovieRepository);
 
   setUp(() {
     when(mockMovieRepository.getSearchedMovies(d.query_A)).thenAnswer((_) => Future.value(d.movieList_A.results));
@@ -31,14 +34,14 @@ void main() {
     blocTest(
       'search show progress',
       seed: () => MovieListState(),
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_A)),
       expect: () => [
         MovieListState(
           navCommand: NavProgressOn(),
         ),
         MovieListState(
-          movieList: d.movieList_A,
+          movieCardDataList: d.movieCardDataList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
@@ -52,7 +55,7 @@ void main() {
   group('search movies - edge cases', () {
     blocTest(
       'search query null',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(null)),
       seed: () => MovieListState(),
       expect: () => [],
@@ -64,7 +67,7 @@ void main() {
 
     blocTest(
       'search query empty string',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent('')),
       seed: () => MovieListState(),
       expect: () => [],
@@ -78,13 +81,13 @@ void main() {
   group('empty list => search movies => failed', () {
     blocTest(
       'empty => search not found',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_NotFound)),
       skip: 1,
       seed: () => MovieListState(),
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
@@ -98,13 +101,13 @@ void main() {
 
     blocTest(
       'empty  => search http error',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_HttpErr)),
       skip: 1,
       seed: () => MovieListState(),
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
@@ -118,13 +121,13 @@ void main() {
 
     blocTest(
       'empty  => search other error',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_OtherErr)),
       skip: 1,
       seed: () => MovieListState(),
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
@@ -140,10 +143,10 @@ void main() {
   group('full list => search movies => failed', () {
     blocTest(
       'full => search not found',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_NotFound)),
       seed: () => MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_B,
@@ -152,7 +155,7 @@ void main() {
       skip: 1,
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
@@ -166,11 +169,11 @@ void main() {
 
     blocTest(
       'full => search http error',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_HttpErr)),
       skip: 1,
       seed: () => MovieListState(
-        movieList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.selectedId_18),
         scrollOffset: 0,
         searchQuery: d.query_B,
@@ -178,7 +181,7 @@ void main() {
       ),
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
@@ -192,11 +195,11 @@ void main() {
 
     blocTest(
       'full => search other error',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_OtherErr)),
       skip: 1,
       seed: () => MovieListState(
-        movieList: MovieList.empty(),
+        movieCardDataList: List.empty(),
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_A,
@@ -204,7 +207,7 @@ void main() {
       ),
       expect: () => [
         MovieListState(
-          movieList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
@@ -221,13 +224,13 @@ void main() {
   group('search movies => successful', () {
     blocTest(
       'empty list => search => successful',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_A)),
       seed: () => MovieListState(),
       skip: 1,
       expect: () => [
         MovieListState(
-          movieList: d.movieList_A,
+          movieCardDataList: d.movieCardDataList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
@@ -242,10 +245,10 @@ void main() {
 
     blocTest(
       'full list => search => successful',
-      build: () => d.makeMovieListBloc(mockMovieRepository),
+      build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
       act: (bloc) => bloc.add(SearchMoviesEvent(d.query_B)),
       seed: () => MovieListState(
-        movieList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
@@ -254,7 +257,7 @@ void main() {
       skip: 1,
       expect: () => [
         MovieListState(
-          movieList: d.movieList_B,
+          movieCardDataList: d.movieCardDataList_B,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_B,
