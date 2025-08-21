@@ -1,4 +1,6 @@
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/entities/movie_list.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
@@ -26,7 +28,7 @@ class MovieListTestData {
   var errMovieHttp = MovieDetailsHttpException(404);
   var errRepoOther = MovieListOtherException();
 
-  MovieList movieList_Empty = MovieList(totalResults: 0, results: List.empty());
+  // MovieList movieCardDataList_Empty = MovieList(totalResults: 0, results: List.empty());
 
   MovieList movieList_A = MovieList(
       totalResults: 4,
@@ -45,4 +47,13 @@ class MovieListTestData {
         Movie(id: 5, budget: 155, revenue: 855, voteAverage: 5.2, title: 'TestMovie 5'),
         Movie(id: 6, budget: 166, revenue: 866, voteAverage: 6.2, title: 'TestMovie 6'),
       ], MovieListState.defaultSortCriteriaList)!);
+
+  List<MovieCardData> movieCardDataList_A = [];
+  List<MovieCardData> movieCardDataList_B = [];
+
+  void init() {
+    var movieListController = MovieListController();
+    movieCardDataList_A = movieListController.makeMovieCardDataList(movieList_A.results);
+    movieCardDataList_B = movieListController.makeMovieCardDataList(movieList_B.results);
+  }
 }

@@ -13,7 +13,6 @@ final class MovieListState {
   String? searchQuery;
   List<SortCriteria>? sortCriteriaList;
   NavigationCommand? navCommand;
-  bool restoreView;
 
   static const defaultSortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
@@ -27,7 +26,6 @@ final class MovieListState {
     this.searchQuery,
     this.sortCriteriaList = defaultSortCriteriaList,
     this.navCommand,
-    this.restoreView = false,
   });
 
   void update({
@@ -37,14 +35,12 @@ final class MovieListState {
     String? searchQuery,
     List<SortCriteria>? sortCriteriaList,
     NavigationCommand? navCommand,
-    bool? restoreView,
   }) {
     this.movieCardDataList = movieCardDataList ?? this.movieCardDataList;
     this.selectedMovieId = selectedMovieId ?? this.selectedMovieId;
     this.scrollOffset = scrollOffset ?? this.scrollOffset;
     this.searchQuery = searchQuery ?? this.searchQuery;
     this.sortCriteriaList = sortCriteriaList ?? this.sortCriteriaList;
-    this.navCommand = navCommand ?? this.navCommand;
-    this.restoreView = restoreView ?? (navCommand != null || this.restoreView);
+    this.navCommand = navCommand;
   }
 }

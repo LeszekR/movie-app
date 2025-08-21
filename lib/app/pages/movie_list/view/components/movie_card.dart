@@ -5,7 +5,7 @@ import 'movie_card_data.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieCardData movieCardData;
-  final void Function(int) onTap;
+  final void Function(int selectedMovieId) onTap;
   final bool isSelected;
 
   const MovieCard({

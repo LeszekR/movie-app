@@ -3,9 +3,10 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/bootstrap/app_params.dart';
 
 import '../../../../bootstrap/get_it_model.dart';
 import '../../../components/buttons/button_builder.dart';
@@ -15,8 +16,6 @@ import '../../../config/app_sizes.dart';
 import '../../../config/app_style.dart';
 import '../controller/movie_list_controller.dart';
 import 'components/movie_card.dart';
-import 'components/movie_card_data.dart';
-import 'components/movie_list_body.dart';
 
 class MovieListView extends CleanView {
   static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
@@ -34,11 +33,9 @@ class MovieListView extends CleanView {
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   final Txt _txt;
 
-  final int _starRatingThreshold = int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold));
-
   final TextEditingController _searchTextController = TextEditingController();
   final ScrollController _scrollController =
-      ScrollController(initialScrollOffset: getIt<MovieListController>().state.scrollOffset);
+      ScrollController(initialScrollOffset: getIt<MovieListState>().scrollOffset);
 
   MovieListViewState()
       : _txt = getIt<Txt>(),
@@ -98,12 +95,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           children: <Widget>[
             Expanded(
               child: RepaintBoundary(
-                child: MovieListBody(
-                  movieList: controller.state.movieCardDataList ?? List.empty(),
-                  selectedMovieId: controller.state.selectedMovieId.value,
-                  scrollController: _scrollController,
-                  onTap: controller.setSelectedMovieId,
-                ),
+                child: _buildMovieList(context, controller),
               ),
             ),
           ],
@@ -128,35 +120,32 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     });
   }
 
-  // Widget _buildMovieList(BuildContext context, MovieListController controller) {
-  //   List<MovieCardData> movieList = controller.state.movieCardDataList ?? List.empty();
-  //   int? selectedMovieId = controller.state.selectedMovieId.value;
-  //   return RepaintBoundary(
-  //     child: Scrollbar(
-  //       thumbVisibility: true,
-  //       controller: _scrollController,
-  //       child: ListView.builder(
-  //         addRepaintBoundaries: true,
-  //         key: MovieListView.listViewKey,
-  //         controller: _scrollController,
-  //         itemCount: movieList.length * 2,
-  //         itemBuilder: (context, index) {
-  //           if (index.isEven) {
-  //             return RepaintBoundary(
-  //               child: MovieCard(
-  //                 movieCardData: movieList[index ~/ 2],
-  //                 onTap: controller.setSelectedMovieId,
-  //                 isSelected: movieList[index ~/ 2].id == selectedMovieId,
-  //               ),
-  //             );
-  //           } else {
-  //             return AppStyle.listViewSeparator();
-  //           }
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildMovieList(BuildContext context, MovieListController controller) {
+    var movieList = controller.state.movieCardDataList ?? List.empty();
+    MovieCardData? movieData; // allocation is costly, do it once here
+
+    return Scrollbar(
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: ListView.builder(
+        key: MovieListView.listViewKey,
+        controller: _scrollController,
+        itemCount: movieList.length * 2,
+        itemBuilder: (context, index) {
+          if (index.isEven) {
+            movieData = movieList[index ~/ 2];
+            return MovieCard(
+              movieCardData: movieData!,
+              onTap: controller.setSelectedMovieId,
+              isSelected: movieData!.id == controller.state.selectedMovieId.value,
+            );
+          } else {
+            return AppStyle.listViewDivider;
+          }
+        },
+      ),
+    );
+  }
 
   void _navigateOrRestoreState(MovieListController controller, BuildContext context) {
     if (!controller.state.navCommand!.isConsumed) {

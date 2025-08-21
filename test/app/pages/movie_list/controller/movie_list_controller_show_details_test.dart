@@ -23,6 +23,7 @@ void main() {
     await loadConfigFile();
     initGetIt();
     getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
+    d.init();
   });
 
   setUp(() {
@@ -42,31 +43,31 @@ void main() {
     'show movie details => show progress',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_A,
+      movieCardDataList: d.movieCardDataList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
       navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
-      restoreView: true,
+      // restoreView: true,
     ),
     act: (controller) => controller.fetchMovie(),
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavProgressOn(),
-        restoreView: true,
+        // restoreView: true,
       ),
       MovieListState(
-        movieCardDataList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-        restoreView: true,
+        // restoreView: true,
       )
     ],
     verify: () {
@@ -78,22 +79,22 @@ void main() {
     'show movie details => none selected',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.none(),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_B,
       navCommand: null,
-      restoreView: false,
+      // restoreView: false,
     ),
     act: (controller) => controller.fetchMovie(),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
         navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
-        restoreView: true,
+        // restoreView: true,
       ),
     ],
     verify: () {
@@ -105,7 +106,7 @@ void main() {
     'show movie details => http error',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -116,7 +117,7 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
@@ -132,7 +133,7 @@ void main() {
     'show movie details => other error',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_A,
+      movieCardDataList: d.movieCardDataList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
       scrollOffset: d.scrollOffset_230,
       searchQuery: d.query_A,
@@ -143,14 +144,13 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavErrorDialog(d.errRepoOther),
       ),
     ],
-
     verify: () {
       verify(mockDataMovieRepository.getMovie(d.movieId_ErrOther)).called(1);
     },
@@ -160,7 +160,7 @@ void main() {
     'show movie details => success',
     build: () => MovieListController(),
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_B,
+      movieCardDataList: d.movieCardDataList_B,
       selectedMovieId: ThreeStateInt.value(d.movieId_B3),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_B,
@@ -171,14 +171,13 @@ void main() {
     asyncTicks: 1,
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.movieId_B3),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_B,
         navCommand: NavMovieDetails(d.movieList_B.results[d.movieId_B3]),
       ),
     ],
-
     verify: () {
       verify(mockDataMovieRepository.getMovie(d.movieId_B3)).called(1);
     },

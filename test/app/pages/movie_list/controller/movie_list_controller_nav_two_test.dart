@@ -26,28 +26,29 @@ void main() {
     getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
     getItReplaceFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
     getItReplaceFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
+    d.init();
   });
 
   controllerTest(
     'show two buttons view',
     seed: () => MovieListState(
-      movieCardDataList: d.movieList_A,
+      movieCardDataList: d.movieCardDataList_A,
       selectedMovieId: ThreeStateInt.value(d.movieId_A2),
       scrollOffset: d.scrollOffset_8,
       searchQuery: d.query_A,
       navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-      restoreView: false,
+      // restoreView: false,
     ),
     build: () => MovieListController(),
     act: (controller) => controller.navTwoButtons(),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_8,
         searchQuery: d.query_A,
         navCommand: NavTwoButtons(),
-        restoreView: true,
+        // restoreView: true,
       ),
     ],
     verify: () {

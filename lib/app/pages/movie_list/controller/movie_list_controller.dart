@@ -73,8 +73,8 @@ class MovieListController extends Controller {
     _movieListPresenter.sortMovies(movies, state.sortCriteriaList!);
   }
 
-  void _updateMovieList(List<Movie> movies) async {
-    var movieCardDataList = await _makeMovieCardDataList(movies);
+  void _updateMovieList(List<Movie> movies) {
+    var movieCardDataList = makeMovieCardDataList(movies);
     state.update(
       movieCardDataList: movieCardDataList,
       selectedMovieId: const ThreeStateInt.none(),
@@ -109,7 +109,7 @@ class MovieListController extends Controller {
     } else {
       state.update(
         navCommand: NavMovieDetails(movie),
-        restoreView: true,
+        // restoreView: true,
       );
     }
     refreshUI();
@@ -138,15 +138,12 @@ class MovieListController extends Controller {
     state.update(
       searchQuery: searchQuery,
       scrollOffset: scrollOffset,
-      restoreView: true,
+      navCommand: state.navCommand,
+      // restoreView: true,
     );
   }
 
-  void setViewRestored() {
-    state.update(restoreView: false);
-  }
-
-  Future<List<MovieCardData>> _makeMovieCardDataList(List<Movie> movies) async {
+  List<MovieCardData> makeMovieCardDataList(List<Movie> movies) {
     return List<MovieCardData>.generate(
       movies.length,
       (index) => _makeMovieCardData(movies, index),
@@ -157,7 +154,7 @@ class MovieListController extends Controller {
     var movie = movies[index];
     var voteAverage = (movie.voteAverage  * 10).toInt();
     return MovieCardData(
-      movie.id, 
+      movie.id,
       movie.title,
       '$voteAverage%  ${voteAverage >= _starRatingThreshold ? "🌟" : "    "}',
     );

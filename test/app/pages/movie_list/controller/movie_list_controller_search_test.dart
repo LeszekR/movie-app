@@ -6,10 +6,10 @@ import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.da
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
-import 'package:flutter_demo/domain/entities/movie_list.dart';
 import 'package:flutter_demo/domain/services/sorting/sorter.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
@@ -23,17 +23,21 @@ import 'movie_list_controller_test_data.dart';
 
 void main() {
   MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
-  MovieListTestData d = MovieListTestData();
   MockMovieListNavigator mockMovieListNavigator = MockMovieListNavigator();
+  MovieListTestData d = MovieListTestData();
 
-  setUpAll(() {
+  setUpAll(() async {
+    await loadConfigFile();
+    getIt.registerSingleton(AppParams());
     getIt.registerFactory(() => Sorter<Movie>());
     getIt.registerFactory<DataMovieRepository>(() => mockDataMovieRepository);
     getIt.registerFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
     getIt.registerFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
     getIt.registerFactory<SortMoviesUseCase>(() => SortMoviesUseCase(getIt<Sorter<Movie>>()));
     getIt.registerFactory<MovieListPresenter>(() => MovieListPresenter());
+    getIt.registerLazySingleton(() => MovieListState());
     getIt.registerFactory<MovieListNavigator>(() => mockMovieListNavigator);
+    d.init();
   });
 
   setUp(() {
@@ -58,20 +62,20 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: d.movieList_Empty,
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOn(),
-          restoreView: true,
+          // restoreView: true,
         ),
         MovieListState(
-          movieCardDataList: d.movieList_A,
+          movieCardDataList: d.movieCardDataList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
-          restoreView: true,
+          // restoreView: true,
         ),
       ],
     );
@@ -100,12 +104,12 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -122,12 +126,12 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -144,12 +148,12 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -164,23 +168,23 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_NotFound),
       seed: () => MovieListState(
-        movieCardDataList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_B,
         navCommand: null,
-        restoreView: false,
+        // restoreView: false,
       ),
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_NotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -193,23 +197,23 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_HttpErr),
       seed: () => MovieListState(
-        movieCardDataList: d.movieList_B,
+        movieCardDataList: d.movieCardDataList_B,
         selectedMovieId: ThreeStateInt.value(d.selectedId_18),
         scrollOffset: 0,
         searchQuery: d.query_B,
         navCommand: null,
-        restoreView: false,
+        // restoreView: false,
       ),
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_HttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -222,23 +226,23 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_OtherErr),
       seed: () => MovieListState(
-        movieCardDataList: MovieList.empty(),
+        movieCardDataList: List.empty(),
         selectedMovieId: ThreeStateInt.none(),
         scrollOffset: 0,
         searchQuery: d.query_A,
         navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-        restoreView: false,
+        // restoreView: false,
       ),
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: MovieList.empty(),
+          movieCardDataList: List.empty(),
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_OtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -258,12 +262,12 @@ void main() {
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: d.movieList_A,
+          movieCardDataList: d.movieCardDataList_A,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_A,
           navCommand: NavProgressOff(),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
@@ -276,23 +280,23 @@ void main() {
       build: () => MovieListController(),
       act: (controller) => controller.fetchSearchedMovies(d.query_B),
       seed: () => MovieListState(
-        movieCardDataList: d.movieList_A,
+        movieCardDataList: d.movieCardDataList_A,
         selectedMovieId: ThreeStateInt.value(d.movieId_A2),
         scrollOffset: d.scrollOffset_230,
         searchQuery: d.query_A,
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-        restoreView: true,
+        // restoreView: true,
       ),
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: d.movieList_B,
+          movieCardDataList: d.movieCardDataList_B,
           selectedMovieId: ThreeStateInt.none(),
           scrollOffset: 0,
           searchQuery: d.query_B,
           navCommand: NavProgressOff(),
-          restoreView: true,
+          // restoreView: true,
         )
       ],
       verify: () {
