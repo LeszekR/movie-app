@@ -104,7 +104,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           color: AppColors.appBarBackground,
           child: Row(
             children: [
-              Expanded(child: SizedBox()),
+              Expanded(child: const SizedBox()),
               ButtonBuilder(context)
                   .onTap((context) => _navTwoButtons(controller))
                   .key(MovieListView.twoButButtonKey)

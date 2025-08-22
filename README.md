@@ -21,6 +21,11 @@ or BLoC concepts - the rest is shared.
 I keep the 02 branch only to demonstrate the use of `BackgroundUseCase` with factory pattern. Other
 than that FCA with main isolate usecases only is fully exploited in the 03 branch.
 
+## How to Run
+
+- Flutter version: ^3.29.0
+- Run: `flutter pub get`, then `flutter run` / `flutter test`
+
 Branch: 03_FlutterCleanArch_GetIt_GoRouter
 ===================================================================
 
@@ -31,9 +36,17 @@ Overview
 
 #### The defining external libraries
 
+###
+
+**branch-specific**
+
 - `flutter_clean_architecture`
 - `go_router`
-- 
+
+###
+
+**common for branches 03 and 04**
+
 - `get_it`
 - `flutter_localizations`
 - `dotenv`
@@ -69,7 +82,7 @@ Overview
   separated from global navigation
 - used navigation triggered by `Controllers` via `NavigationCommand` field in the `view`'s `state`
   as commented below
-- `NavigationCommand` follows single-use pattern to prevent unnecessary rebuilds
+- `NavigationCommand` follows a single-use pattern to prevent multiple navigation triggers
 - Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
   returns from navigation only
 - used `ListView.builder` in `MovieListView` instead of `ListFiew.separated` to speed up the build
@@ -109,6 +122,7 @@ Overview
       element of the `ListView`,
     - replaced `Containers` with `SizedBoxes`,
     - only the one selected `MovieCard` builds surrounding `ColoredBox`,
+    - used `const` constructors wherever possible
 - created gitlab pipeline
 
 #

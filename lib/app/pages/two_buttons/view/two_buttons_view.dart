@@ -67,7 +67,7 @@ class TwoButtonsViewState extends CleanViewState<TwoButtonsView, TwoButtonsContr
           color: AppColors.appBarBackground,
           child: Row(
             children: [
-              Expanded(child: SizedBox()),
+              Expanded(child: const SizedBox()),
               ButtonBuilder(context)
                   .onTap((context) => _twoButtonNavigator.navigate(context, NavMovieList()))
                   .key(TwoButtonsView.movieListButtonKey)
