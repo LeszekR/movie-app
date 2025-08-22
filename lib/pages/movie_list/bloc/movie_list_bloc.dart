@@ -24,11 +24,11 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       : _starRatingThreshold = int.parse(appParams.param(AppParams.starRatingThreshold)),
         super(MovieListState()) {
 
-    on<StateRestoredMoviesEvent>(_setStateRestored);
     on<SearchMoviesEvent>(_fetchSearchedMovies);
     on<SelectMovieEvent>(_selectMovie);
     on<ShowMovieDetailsEvent>(_fetchMovie);
     on<ShowTwoButtonsEvent>(_showTwoButtons);
+    on<StateRestoredMoviesEvent>(_setStateRestored);
   }
 
   Future<void> _fetchSearchedMovies(SearchMoviesEvent event, Emitter<MovieListState> emit) async {

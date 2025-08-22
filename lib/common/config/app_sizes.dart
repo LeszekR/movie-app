@@ -26,7 +26,7 @@ class AppSizes {
   static const double navButtonWidth = 200;
 
   static Widget filler() {
-    return Expanded(child: SizedBox());
+    return Expanded(child: const SizedBox());
   }
 
   static Widget horizontalSeparator({double? width}) {
@@ -34,6 +34,6 @@ class AppSizes {
   }
 
   static Widget vertSeparator() {
-    return SizedBox(height: separatorHeight);
+    return const SizedBox(height: separatorHeight);
   }
 }

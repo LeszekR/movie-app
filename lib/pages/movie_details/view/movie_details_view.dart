@@ -43,7 +43,7 @@ class MovieDetailsView extends StatelessWidget {
                 details[index].label,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
                 details[index].content,
                 style: Theme.of(context).textTheme.headlineSmall,

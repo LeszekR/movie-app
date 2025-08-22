@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -6,9 +5,9 @@ import 'app_sizes.dart';
 
 class AppStyle {
   static Widget movieDetailsSeparator(context, index) => Container(
-    height: AppSizes.separatorLineHeight,
-    color: AppColors.separator,
-  );
+        height: AppSizes.separatorLineHeight,
+        color: AppColors.separator,
+      );
 
   static const Widget listViewDivider = Divider(
     height: AppSizes.separatorLineHeight,
@@ -25,8 +24,8 @@ class AppStyle {
     return const SizedBox(width: AppSizes.separatorWidth);
   }
 
-  static Widget horizontalSeparatorOf({double? width}) {
-    return SizedBox(width: width ?? AppSizes.separatorWidth);
+  static Widget horizontalSeparatorOf({required double width}) {
+    return SizedBox(width: width);
   }
 
   static Widget vertSeparator() {
@@ -34,6 +33,6 @@ class AppStyle {
   }
 
   static Widget filler() {
-    return Expanded(child: SizedBox());
+    return Expanded(child: const SizedBox());
   }
 }

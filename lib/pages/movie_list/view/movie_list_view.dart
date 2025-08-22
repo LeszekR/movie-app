@@ -16,11 +16,11 @@ import '../bloc/movie_list_bloc.dart';
 import 'components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
-  static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
-  static var languagePlButtonKey = Key('languagePlButtonKey');
-  static var languageEnButtonKey = Key('languageEnButtonKey');
-  static var twoButButtonKey = Key("twoButtonsButtonKey");
-  static var listViewKey = ValueKey('movieListKey');
+  static const movieDetailsButtonKey = Key('movieDetailsButtonKey');
+  static const languagePlButtonKey = Key('languagePlButtonKey');
+  static const languageEnButtonKey = Key('languageEnButtonKey');
+  static const twoButButtonKey = Key("twoButtonsButtonKey");
+  static const listViewKey = ValueKey('movieListKey');
 
   final Txt txt;
   final MovieListNavigator moviesNavigator;
@@ -123,7 +123,7 @@ class _MovieListViewState extends State<MovieListView> {
               color: AppColors.appBarBackground,
               child: Row(
                 children: [
-                  Expanded(child: SizedBox()),
+                  Expanded(child: const SizedBox()),
                   ButtonBuilder(context)
                       .onTap(_showTwoButtons)
                       .key(MovieListView.twoButButtonKey)

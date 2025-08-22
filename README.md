@@ -21,6 +21,11 @@ or BLoC concepts - the rest is shared.
 I keep the 02 branch only to demonstrate the use of `BackgroundUseCase` with factory pattern. Other
 than that FCA with main isolate usecases only is fully exploited in the 03 branch.
 
+## How to Run
+
+- Flutter version: ^3.29.0
+- Run: `flutter pub get`, then `flutter run` / `flutter test`
+
 Branch: 04_BLoC_GetIt_Navigator
 ===================================================================
 
@@ -31,8 +36,16 @@ Overview
 
 #### External libraries
 
+###
+
+**branch-specific**
+
 - `flutter_bloc`
-- 
+
+###
+
+**common for branches 03 and 04**
+
 - `get_it`
 - `flutter_localizations`
 - `dotenv`
@@ -63,7 +76,7 @@ Overview
   separated from global navigation
 - used navigation triggered by `Controllers` via `NavigationCommand` field in the `view`'s `state`
   as commented below
-- `NavigationCommand` follows single-use pattern to prevent unnecessary rebuilds
+- `NavigationCommand` follows a single-use pattern to prevent multiple navigation triggers
 - Introduced `restoreView` field in `MovieListState` to reduce the number of `Widget's` rebuilds to
   returns from navigation only
 - used `ListView.builder` in `MovieListView` instead of `ListFiew.separated` to speed up the build
@@ -74,8 +87,8 @@ Overview
 - introduced proper `MessageDialog` class to communicate errors and messages to the user; the class
   uses custom `ButtonBuilder` and `DialogFactory` to create standardized buttons and
   case-specialised dialogs with only minimal amount of code
-- introduced custom `Exceptions` that control specialized error-dialogs to separate business
-  logic from UI and precisely identify and show to the user app's failures'  causes
+- introduced custom `Exceptions` that control specialized error-dialogs to separate business logic
+  from UI and precisely identify and show to the user app's failures'  causes
 - created multi-column, stable, generic sorting class (`Sorter`)
 - put string literals in constant strings to prevent typos and enable intellisense (
   e.g. `navigation/go_router_const_strings.dart` and other)
@@ -101,8 +114,9 @@ Overview
     - replaced colored `Containers` serving as dividers with const `Dividers` ,
     - replaced `Column` used for each `MovieCard` + `Divider` with `Dividers` added as every odd
       element of the `ListView`,
-    - replaced `Containers` with `SizedBoxes`,
+    - replaced `Containers` with `const SizedBoxes`,
     - only the one selected `MovieCard` builds surrounding `ColoredBox`,
+    - used `const` constructors wherever possible
 - created gitlab pipeline
 
 #
@@ -173,9 +187,9 @@ further down this file.
 - It is standard in desktop UI lists that they are sortable by clicking column headers. With
   the `Sorter` class only minimum amount of code is necessary to implement it.
 - 'SortableSorter' offers:
-  - hierarchical sorting by multiple columns
-  - sorting is stable for child-criteria within parent-criteria
-  - maintaining last sorting criteria on data refresh
+    - hierarchical sorting by multiple columns
+    - sorting is stable for child-criteria within parent-criteria
+    - maintaining last sorting criteria on data refresh
 
 ###
 

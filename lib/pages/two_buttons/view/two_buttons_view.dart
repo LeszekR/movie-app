@@ -63,7 +63,7 @@ class TwoButtonsView extends StatelessWidget {
               color: AppColors.appBarBackground,
               child: Row(
                 children: [
-                  Expanded(child: SizedBox()),
+                  Expanded(child: const SizedBox()),
                   ButtonBuilder(context)
                       .onTap(cubit.showMovieList)
                       .key(TwoButtonsView.movieListButtonKey)
