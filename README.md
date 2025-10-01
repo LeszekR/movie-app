@@ -1,49 +1,167 @@
-# MovieBrowser
+Intro
+===================================================================
 
-This app is a part of recruitment task for a Flutter Developer position at Droids On Roids. It
-allows users to browse movie database and look for some interesting financial statistics. It uses
-The Movie Database API as a source of data about movies, its documentation is
-available [here](https://developers.themoviedb.org/3/getting-started/introduction).
+1. This file is here only for recruitment purposes. It would not exist in regular work task.
+2. On **02.05.2025** feature implementation is completed but the solution is still under works -
+   remaining issues are listed in issues in GitLab repo.
+4. With current tiny size of the project some of my solutions are an overkill. But they prepare the
+   project for smooth codebase growth.
 
-## Recruitment task
+Overview
+----------------------------------  
 
-Right now, app consists of only one screen: movie list. It allows user to search movies in The Movie
-Database. Your task is to add some new features to this app:
+Additional features  
+(apart recruitment task requirements, features essential for any project):
 
-1. As a warm up, sort movies fetched from the api by vote average.
+- introduced `GoRouter`
+- introduced `Riverpod` for state management and DI (first used `Provider` then
+  refactored)
+- created multi-column, stable, generic sorting class (`Sorter`)
+- separated business logic from `Widget` ui-concerned code (classes: `MovieListManager`
+  , `MovieDetailsManager`)
+- wrapped web requests with error-handling (`ApiService`)
+- refactored string literals to constant strings to prevent typos and enable intellisense (
+  e.g. `lib/routing/go_router_const_strings.dart` and other)
+- introduced localization to prepare the app for dynamic change of UI language
+- introduced '.env' file with app parameters (`AppConfig`)
+- created some unit tests (`Sorter` tests)
+- created some tests using mocked dependencies and localized strings (`MovieListPage`
+  , `MovieDetailsPage`,' tests - created tests do NOT cover all functionality as they should in real
+  life)
+- created gitlab pipeline
 
-2. Next, implement navigation between movie list and movie details screen. To not spent too much
-   time on programming UI, we've already implemented movie details screen for you. It is available
-   as `MovieDetailsPage` class.
+#
 
-3. After that, fetch detailed information about the selected movie and show its title (as a
-   navigation bar title), budget and revenue (formatted as values in dollars).
+------------------
 
-4. Finally, let's add some logic to the app. As you can see, there is one more label on the Movie
-   Details screen: the "Should I watch it today?" label. Let's say, that I should watch the movie
-   today, **if today is sunday and profit from the movie is bigger than $1000000** (by profit we
-   mean a difference between revenue and budget). So, under that label show value "Yes" if the
-   following criteria are met or "No", if they are not.
+Details
+----------------------------------  
 
-## Tips
+###
 
-1. Do not worry about making a good looking UI - that's what designers are for :) Focus on writing
-   clean and maintainable code - we value codebases that are scalable and easy to work with.
+##### Widget state preserved on navigation in `MovieListPage`
 
-2. If you think you have a better way of implementing some of the features that are already in the
-   repo, or you think something is missing, we encourage you to do it your way. In fact - make the
-   whole solution as simple or complex as you wish, but be ready to explain to us the reasoning for
-   your architectural decisions.
+Noticed that navigating back from MovieDetails cleared movie list.
 
-3. Feel free to use tools like Cursor or Copilot, but make sure you understand and can explain in
-   details all your AI-generated code.
+To solve this I:
 
-4. To regenerate JSON models, use the following command:
+- introduced `Riverpod` to preserve the state of `MovieListPage`
+- added `TextEditingController` to `SearchBox`
+- added `ScrollController` to `ListView`
+- store state of them all in `MovieListState`
 
-```
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+This way on navigation back the following UI elements restore their last state:
 
-5. If anything about the task is not clear don't be afraid to ask questions.
+- list of movies: contents
+- list of movies: scrolling
+- list of movies: selection
+- search box: text
 
-Good luck!
+###
+
+##### Error handling in `ApiService`
+
+- Added error handling there
+- this needs to be complemented with custom exceptions
+- the exceptions should both: log errors (for devs) and show error dialogs (for the user to know
+  what and why happened).
+
+###
+
+##### `MovieDetails` as `StatelessWidget`
+
+- Since for now this page does not need `State` and it seems to me its task will not call for it in
+  the future - refactored to `StatelessWidget` to simplify the code.
+- Also extracted this page's logic to separate class. This is consistent with my approach
+  to `MovieListPage` and done for the same reasons.
+
+###
+
+##### Package go_router
+
+I used `GoRouter` in place of `Navigator` for the benefits it provides
+
+I am not sure whether navigation in `MovieListPage._onOpenMovieDetailsTap()` is correct. I
+implemented solution that prevents the use of `BuildContext` over async gap but probably in this
+case this is unnecessary. If so then I will refactor and simplify the code.
+
+###
+
+##### Separate files for GoRouter and routing const strings
+
+(Package: `lib/routing`)
+
+I prefer const strings as keys/ids/etc instead of hardcoded string literals for reasons explained
+further down this file.
+
+- Two files separating `GoRouter` and its navigation string literals make `GoRouter` a bit easier to
+  maintain.
+- Reason: having 2 separate files while editing a growing number of routes allows the dev to just
+  toggle between two files, each scrolled to the relevant piece of code. With single file the dev
+  has to scroll up and down between the string declarations and currently implemented route code.
+  Impractical. Slow. Quicker to Ctrl+Tab between the 2 files.
+- (Scrolling will became necessary with just a few more routes.)
+
+###
+
+##### Sorting by multiple columns (class fields)
+
+(Package: `lib/utils/sorting`)
+
+- Simplest sorting in single line of code would satisfy the task's basic requirement.
+- But it is standard in desktop UI lists that they are sortable by clicking column headers. To
+  achieve that the simple sorting would have to be refactored. Implementing it right away reduces
+  overall work intensity of the project.
+- Additionally 'SortableSorter' offers:
+    - hierarchical sorting by multiple columns
+    - sorting is stable for child-criteria within parent-criteria
+    - maintaining last sorting criteria on data refresh
+
+###
+
+##### Error checks in SortableSorter
+
+- SortableSorter throws if `sortCriteriaList` is longer than the number of sortable fields in the
+  sorted type. This is to prevent unexpected behaviour when the same column is sorted twice making
+  it difficult to debug the sorting result.
+- SortableSorter throws on attempt to use `fieldKey` not existing in the `Sortable`
+  implementation. One scenario when this may happen is dev's error while declaring initial sorting
+  order by hand. This safe-check prevents debugging later.
+
+###
+
+##### Const strings in place of hardcoding strings
+
+I always use static const string instead of hardcoded string ids because:
+
+- hardcoded string ids used in multiple code places WILL result in typo errors and waste of time for
+  debugging them
+- using variables in place of typing allows using intellisense for them
+
+###
+
+##### Naming - prefixes
+
+Rationale:
+
+- you can use intellisense quicker if name groups are prefixed with chars / words reducing
+  intellisense list.
+- code becomes this bit more readable with enums and interfaces immediately showing their genre
+
+Approach:
+
+- variable names prefixed with identyfying word (e.g.: `route...`, `param...`, 'key...')
+- enum names: preceded by letter "E"
+- interface names: preceded by letter "I"
+
+###
+
+##### Naming - suffixes
+
+- I prefer to add suffix to variables of type `List`, `Map`, etc.
+- It makes it easier for me to clearly see what variable I am looking at in any corner of the code.
+- This approach reduces variable-type dictionary otherwise necessary to be kept in dev's mind for
+  them to remember what hides behind the var name. Alternately it saves time on checking var
+  declarations.
+- Examples: `sortCriteriaList`, `getSortableFieldsMap`.
+
