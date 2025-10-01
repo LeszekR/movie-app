@@ -42,7 +42,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_get_movie => 'Failed to fetch movie from web.\n\n';
 
   @override
-  String get error_get_searched_movies => 'Failed to fetch searched movies.\n\n';
+  String get error_get_searched_movies =>
+      'Failed to fetch searched movies.\n\n';
 
   @override
   String get error_http => 'HTTP error: ';
@@ -51,10 +52,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_other => 'Server error.';
 
   @override
-  String get no_such_movie => 'Chosen movie details have not been found in the database.';
+  String get no_such_movie =>
+      'Chosen movie details have not been found in the database.';
 
   @override
-  String get no_searched_movies => 'No movies with similar title have been found.';
+  String get no_searched_movies =>
+      'No movies with similar title have been found.';
 
   @override
   String get no_movie_chosen => 'No movie was selected.';

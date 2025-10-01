@@ -42,7 +42,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get error_get_movie => 'Nie udało się pobrać filmu.\n\n';
 
   @override
-  String get error_get_searched_movies => 'Nie udało się pobrać listy szukanych filmów.\n\n';
+  String get error_get_searched_movies =>
+      'Nie udało się pobrać listy szukanych filmów.\n\n';
 
   @override
   String get error_http => 'Błąd HTTP: ';
