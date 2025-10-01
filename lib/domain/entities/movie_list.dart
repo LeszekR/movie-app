@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
