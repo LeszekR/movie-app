@@ -6,7 +6,7 @@ String _movieListString(List<TMovie> movieList) {
 }
 
 class TMovie extends Movie {
-  TMovie({required super.title, required super.voteAverage, required super.budget}) : super(id: 0, revenue: 0);
+  const TMovie({required super.title, required super.voteAverage, required super.budget}) : super(id: 0, revenue: 0);
 
   @override
   Map<String, dynamic> getSortableFieldsMap() {

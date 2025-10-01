@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/common/ui_localized_texts/app_localizations/app_localizations.dart';

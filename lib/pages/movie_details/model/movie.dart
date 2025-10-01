@@ -21,7 +21,7 @@ class Movie extends Equatable implements Sortable {
   static const String keyBudget = 'budget';
   static const String keyRevenue = 'revenue';
 
-  Movie({
+  const Movie({
     required this.id,
     required this.title,
     required this.voteAverage,
