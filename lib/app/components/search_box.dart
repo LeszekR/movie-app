@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../app/ui_localized_texts/txt.dart';
-import '../config/app_colors.dart';
-import '../config/app_sizes.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
 
 class SearchBox extends StatelessWidget {
   final Txt txt;

@@ -1,6 +1,6 @@
-import '../../domain/entities/movie.dart';
-import '../components/dialogs/e_dialog_msg.dart';
-import 'navigation_command.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/app/navigation/navigation_command.dart';
 
 final class NavProgressOn extends NavigationCommand {}
 

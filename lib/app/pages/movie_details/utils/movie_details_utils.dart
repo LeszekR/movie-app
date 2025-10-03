@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 
-import '../../../../app/ui_localized_texts/txt.dart';
-import '../../../../domain/utils/date_time_reader.dart';
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../../bootstrap/app_params.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/domain/utils/date_time_reader.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 
 class MovieDetailsUtils {
   final Txt _txt;

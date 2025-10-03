@@ -8,12 +8,12 @@ import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_locali
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../../bootstrap/logger_setup.dart';
-import '../../../navigation/go_router_const_strings.dart';
-import '../../movie_details/view/movie_details_view.dart';
-import '../../movie_list/view/movie_list_view.dart';
-import '../../two_buttons/view/two_buttons_view.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/bootstrap/logger_setup.dart';
+import 'package:flutter_demo/app/navigation/go_router_const_strings.dart';
+import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/app/pages/two_buttons/view/two_buttons_view.dart';
 
 part '../../../navigation/go_router.dart';
 

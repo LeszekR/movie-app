@@ -1,10 +1,10 @@
 import 'package:flutter_demo/app/components/three_state_value.dart';
 
-import '../../../../domain/entities/movie.dart';
-import '../../../../domain/services/sorting/e_sort_direction.dart';
-import '../../../../domain/services/sorting/sort_criteria.dart';
-import '../../../navigation/navigation_command.dart';
-import '../view/components/movie_card_data.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/services/sorting/e_sort_direction.dart';
+import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
+import 'package:flutter_demo/app/navigation/navigation_command.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 
 final class MovieListState {
   List<MovieCardData>? movieCardDataList;

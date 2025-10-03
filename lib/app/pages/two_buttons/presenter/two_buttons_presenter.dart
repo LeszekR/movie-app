@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-import '../../../../domain/usecases/two_buttons/click_two_button_usecase.dart';
-import '../../../../bootstrap/get_it_model.dart';
+import 'package:flutter_demo/domain/usecases/two_buttons/click_two_button_usecase.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class TwoButtonsPresenter extends Presenter {
   Function? clickButtonOnNext;

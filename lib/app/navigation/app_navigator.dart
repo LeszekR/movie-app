@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/app/navigation/navigation_command.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../bootstrap/get_it_model.dart';
-import '../components/dialogs/dialog_factory.dart';
-import '../components/dialogs/e_dialog_msg.dart';
-import '../config/app_colors.dart';
-import '../../app/ui_localized_texts/txt.dart';
-import 'go_router_const_strings.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart';
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/navigation/go_router_const_strings.dart';
 
 class AppNavigator {
   final Txt txt;

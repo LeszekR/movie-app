@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 
-import 'app_navigator.dart';
-import 'navigation_command.dart';
+import 'package:flutter_demo/app/navigation/app_navigator.dart';
+import 'package:flutter_demo/app/navigation/navigation_command.dart';
 
 abstract class FeatureNavigator {
   final AppNavigator appNavigator;

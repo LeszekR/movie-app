@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../app/ui_localized_texts/txt.dart';
-import '../../../bootstrap/get_it_model.dart';
-import '../../config/app_colors.dart';
-import '../../config/app_sizes.dart';
-import '../../config/app_style.dart';
-import '../buttons/button_builder.dart';
-import 'dialog_params.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
+import 'package:flutter_demo/app/config/app_style.dart';
+import 'package:flutter_demo/app/components/buttons/button_builder.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
 
 class MessageDialog extends StatelessWidget {
   final Txt _txt;

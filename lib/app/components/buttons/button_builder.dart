@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../config/app_sizes.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
 
 class ButtonBuilder {
   BuildContext context;

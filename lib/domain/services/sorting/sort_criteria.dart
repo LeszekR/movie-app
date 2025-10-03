@@ -1,4 +1,4 @@
-import 'e_sort_direction.dart';
+import 'package:flutter_demo/domain/services/sorting/e_sort_direction.dart';
 
 class SortCriteria {
   final String fieldKey;

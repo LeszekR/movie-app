@@ -7,22 +7,22 @@ import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dar
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:get_it/get_it.dart';
 
-import '../app/components/dialogs/dialog_factory.dart';
-import '../app/pages/movie_details/utils/movie_details_utils.dart';
-import '../app/pages/movie_list/controller/movie_list_controller.dart';
-import '../app/pages/movie_list/controller/movie_list_state.dart';
-import '../app/pages/movie_list/presenter/movie_list_presenter.dart';
-import '../app/pages/two_buttons/controller/two_buttons_controller.dart';
-import '../app/pages/two_buttons/presenter/two_buttons_presenter.dart';
-import '../app/pages/two_buttons/navigation/two_buttons_navigator.dart';
-import '../data/repositories/movie_repository/data_movie_repository.dart';
-import '../domain/entities/movie.dart';
-import '../domain/services/sorting/sorter.dart';
-import '../app/ui_localized_texts/txt.dart';
-import '../domain/usecases/movie_details/get_movie_details_usecase.dart';
-import '../domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import '../domain/usecases/two_buttons/click_two_button_usecase.dart';
-import 'app_params.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart';
+import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
+import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_controller.dart';
+import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter.dart';
+import 'package:flutter_demo/app/pages/two_buttons/navigation/two_buttons_navigator.dart';
+import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/services/sorting/sorter.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
+import 'package:flutter_demo/domain/usecases/two_buttons/click_two_button_usecase.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 
 GetIt getIt = GetIt.instance;
 

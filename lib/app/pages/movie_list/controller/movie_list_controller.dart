@@ -5,14 +5,14 @@ import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter
 import 'package:flutter_demo/bootstrap/logger_messages.dart';
 import 'package:flutter_demo/bootstrap/logger_setup.dart';
 
-import '../../../../bootstrap/app_params.dart';
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../../domain/entities/movie.dart';
-import '../../../../domain/repositories/movie_repository/movie_repository_exception.dart';
-import '../../../components/dialogs/e_dialog_msg.dart';
-import '../../../components/three_state_value.dart';
-import '../../../navigation/app_nav_commands.dart';
-import '../view/components/movie_card_data.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/app/components/three_state_value.dart';
+import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 
 class MovieListController extends Controller {
   MovieListState state;
@@ -27,21 +27,21 @@ class MovieListController extends Controller {
 
   @override
   void initListeners() {
-    _movieListPresenter.getSearchedMoviesOnNext = (movieList) => _receiveMovieList(movieList);
-    _movieListPresenter.getSearchedMoviesOnError = (e) => _logAndShowSearchedMoviesError(e);
+    _movieListPresenter.getSearchedMoviesOnNext = _receiveMovieList;
+    _movieListPresenter.getSearchedMoviesOnError = _logAndShowSearchedMoviesError;
 
-    _movieListPresenter.getMovieDetailsOnNext = (movie) => _showMovieDetails(movie);
-    _movieListPresenter.getMovieDetailsOnError = (e) => _logAndShowMovieDetailsError(e);
+    _movieListPresenter.getMovieDetailsOnNext = _showMovieDetails;
+    _movieListPresenter.getMovieDetailsOnError = _logAndShowMovieDetailsError;
 
-    _movieListPresenter.sortMoviesOnNext = (movieList) => _updateMovieList(movieList);
+    _movieListPresenter.sortMoviesOnNext = _updateMovieList;
   }
 
-  void _logAndShowMovieDetailsError(e) {
+  void _logAndShowMovieDetailsError(MovieRepositoryException e) {
     log.severe(logErrMovieDetails, e);
     _dialogErrorMovieDetails(e);
   }
 
-  void _logAndShowSearchedMoviesError(e) {
+  void _logAndShowSearchedMoviesError(MovieRepositoryException e) {
     log.severe(logErrSearchMovies, e);
     _dialogErrorMovieList(e);
   }

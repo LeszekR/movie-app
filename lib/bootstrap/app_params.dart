@@ -1,6 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'logger_setup.dart';
+import 'package:flutter_demo/bootstrap/logger_setup.dart';
 
 /// This class for all other purposes is unnecessary except it makes it possible to mock app params in tests. .
 class AppParams {

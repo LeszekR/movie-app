@@ -2,8 +2,8 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
 import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 
-import '../../entities/movie.dart';
-import '../../services/sorting/sorter.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/services/sorting/sorter.dart';
 
 class SortMoviesUseCase extends UseCase<SortMoviesUseCaseResponse, SortMoviesUseCaseParams> {
   final Sorter<Movie> _sorter;

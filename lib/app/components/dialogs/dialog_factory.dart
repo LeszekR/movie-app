@@ -1,9 +1,9 @@
-import '../../../domain/repositories/movie_repository/movie_repository_exception.dart';
-import '../../../app/ui_localized_texts/txt.dart';
-import '../../../bootstrap/get_it_model.dart';
-import 'dialog_params.dart';
-import 'e_dialog_msg.dart';
-import 'message_dialog.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/app/components/dialogs/message_dialog.dart';
 
 class DialogFactory {
   final Txt txt;

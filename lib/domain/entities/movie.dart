@@ -1,6 +1,5 @@
+import 'package:flutter_demo/domain/services/sorting/sortable.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../services/sorting/sortable.dart';
 
 part 'movie.g.dart';
 
@@ -31,7 +30,7 @@ class Movie implements Sortable {
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   @override
-  Map<String, dynamic> getSortableFieldsMap() {
+  Map<String, Comparable<dynamic>> getSortableFieldsMap() {
     return {keyTitle: title, keyVoteAverage: voteAverage};
   }
 

@@ -7,14 +7,14 @@ import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.da
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../components/buttons/button_builder.dart';
-import '../../../components/search_box.dart';
-import '../../../config/app_colors.dart';
-import '../../../config/app_sizes.dart';
-import '../../../config/app_style.dart';
-import '../controller/movie_list_controller.dart';
-import 'components/movie_card.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/components/buttons/button_builder.dart';
+import 'package:flutter_demo/app/components/search_box.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
+import 'package:flutter_demo/app/config/app_style.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
 
 class MovieListView extends CleanView {
   static var movieDetailsButtonKey = Key('movieDetailsButtonKey');

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-import 'app_sizes.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
 
 class AppStyle {
   static Widget movieDetailsSeparator(context, index) => Container(

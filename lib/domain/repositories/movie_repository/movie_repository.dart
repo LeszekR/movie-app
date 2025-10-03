@@ -1,4 +1,4 @@
-import '../../entities/movie.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
 
 abstract class MovieRepository {
   Future<List<Movie>> getSearchedMovies(String query);

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 
-import '../../../data/repositories/movie_repository/data_movie_repository.dart';
-import '../../utils/use_case_utils.dart';
+import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
+import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 
 class GetSearchedMoviesUseCase extends UseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {
   final DataMovieRepository _movieRepository;

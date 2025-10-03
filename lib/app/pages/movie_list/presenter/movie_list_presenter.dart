@@ -2,10 +2,10 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
 import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../../domain/entities/movie.dart';
-import '../../../../domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import '../../../../domain/usecases/movie_list/sort_movies_use_case.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
+import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dart';
 
 class MovieListPresenter extends Presenter {
   Function? getMovieDetailsOnNext;

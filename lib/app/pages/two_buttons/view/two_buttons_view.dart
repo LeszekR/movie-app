@@ -3,14 +3,14 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_controller.dart';
 
-import '../../../../app/ui_localized_texts/txt.dart';
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../components/buttons/button_builder.dart';
-import '../../../config/app_colors.dart';
-import '../../../config/app_sizes.dart';
-import '../../../config/app_style.dart';
-import '../navigation/two_buttons_navigator.dart';
-import 'components/button_two_states.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/components/buttons/button_builder.dart';
+import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
+import 'package:flutter_demo/app/config/app_style.dart';
+import 'package:flutter_demo/app/pages/two_buttons/navigation/two_buttons_navigator.dart';
+import 'package:flutter_demo/app/pages/two_buttons/view/components/button_two_states.dart';
 
 class TwoButtonsView extends CleanView {
   static var movieListButtonKey = Key("movieListButtonKey");
