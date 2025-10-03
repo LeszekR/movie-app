@@ -1,10 +1,9 @@
 import 'package:flutter_demo/app/components/three_state_value.dart';
-
+import 'package:flutter_demo/app/navigation/navigation_command.dart';
+import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/services/sorting/e_sort_direction.dart';
 import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
-import 'package:flutter_demo/app/navigation/navigation_command.dart';
-import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 
 final class MovieListState {
   List<MovieCardData>? movieCardDataList;
@@ -12,7 +11,7 @@ final class MovieListState {
   double scrollOffset;
   String? searchQuery;
   List<SortCriteria>? sortCriteriaList;
-  NavigationCommand? navCommand;
+  NavigationCommand<dynamic>? navCommand;
 
   static const defaultSortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
@@ -34,7 +33,7 @@ final class MovieListState {
     double? scrollOffset,
     String? searchQuery,
     List<SortCriteria>? sortCriteriaList,
-    NavigationCommand? navCommand,
+    NavigationCommand<dynamic>? navCommand,
   }) {
     this.movieCardDataList = movieCardDataList ?? this.movieCardDataList;
     this.selectedMovieId = selectedMovieId ?? this.selectedMovieId;

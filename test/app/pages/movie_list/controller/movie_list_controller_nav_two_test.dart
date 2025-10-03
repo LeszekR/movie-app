@@ -17,8 +17,8 @@ import '../../../../test_tools/test_utils.dart';
 import 'movie_list_controller_test_data.dart';
 
 void main() {
-  MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
-  MovieListTestData d = MovieListTestData();
+  final MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
+  final MovieListTestData d = MovieListTestData();
 
   setUpAll(() async {
     await loadConfigFile();
@@ -26,26 +26,26 @@ void main() {
     getItReplaceFactory<DataMovieRepository>(() => mockDataMovieRepository);
     getItReplaceFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
     getItReplaceFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
-    d.init();
+    await d.init();
   });
 
   controllerTest(
     'show two buttons view',
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_A,
-      selectedMovieId: ThreeStateInt.value(d.movieId_A2),
+      movieCardDataList: d.movieCardDataListA,
+      selectedMovieId: ThreeStateInt.value(d.movieIdA2),
       scrollOffset: d.scrollOffset_8,
-      searchQuery: d.query_A,
-      navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
+      searchQuery: d.queryA,
+      navCommand: NavMovieDetails(d.movieListA.results[d.movieIdA2]),
     ),
-    build: () => MovieListController(),
+    build: MovieListController.new,
     act: (controller) => controller.navTwoButtons(),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdA2),
         scrollOffset: d.scrollOffset_8,
-        searchQuery: d.query_A,
+        searchQuery: d.queryA,
         navCommand: NavTwoButtons(),
       ),
     ],

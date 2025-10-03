@@ -4,15 +4,15 @@ import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 class ClickTwoButtonUseCase extends UseCase<ClickButtonUseCaseResponse, ClickButtonUseCaseParams> {
   @override
   Future<Stream<ClickButtonUseCaseResponse?>> buildUseCaseStream(ClickButtonUseCaseParams? params) {
-    var buttonIndex = params!.clickedButtonIndex;
-    var newButtonState = !params.clickedButtonIsOn;
+    final buttonIndex = params!.clickedButtonIndex;
+    final newButtonState = !params.clickedButtonIsOn;
 
     return Future.value(sendInStream(
       payload: ClickButtonUseCaseResponse(
         buttonIndex,
-        newButtonState,
+        clickedButtonIsOn:newButtonState,
       ),
-    ));
+    ),);
   }
 }
 
@@ -20,12 +20,12 @@ class ClickButtonUseCaseParams {
   final int clickedButtonIndex;
   final bool clickedButtonIsOn;
 
-  const ClickButtonUseCaseParams(this.clickedButtonIndex, this.clickedButtonIsOn);
+  const ClickButtonUseCaseParams(this.clickedButtonIndex, {required this.clickedButtonIsOn});
 }
 
 class ClickButtonUseCaseResponse {
   final int clickedButtonIndex;
   final bool clickedButtonIsOn;
 
-  const ClickButtonUseCaseResponse(this.clickedButtonIndex, this.clickedButtonIsOn);
+  const ClickButtonUseCaseResponse(this.clickedButtonIndex, {required this.clickedButtonIsOn});
 }

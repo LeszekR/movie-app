@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/domain/entities/movie.dart';
-
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 
 class GetSearchedMoviesUseCase extends UseCase<GetSearchedMoviesUseCaseResponse?, GetSearchedMoviesUseCaseParams> {
@@ -16,7 +15,7 @@ class GetSearchedMoviesUseCase extends UseCase<GetSearchedMoviesUseCaseResponse?
   @override
   Future<Stream<GetSearchedMoviesUseCaseResponse?>> buildUseCaseStream(GetSearchedMoviesUseCaseParams? params) async {
     try {
-      List<Movie> movieList = await _movieRepository.getSearchedMovies(params!.searchText);
+      final List<Movie> movieList = await _movieRepository.getSearchedMovies(params!.searchText);
       return sendInStream(payload: GetSearchedMoviesUseCaseResponse(movieList));
     } on Exception catch (e) {
       return sendInStream(exception: e);

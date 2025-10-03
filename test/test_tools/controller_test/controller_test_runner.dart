@@ -41,13 +41,15 @@ import 'state_comparator.dart';
 ///   },
 /// );
 /// ```
+
+// ignore_for_file: avoid_print
 void controllerTest<C extends Controller, T extends Object>(
   String description, {
-  void Function()? setMocks,
   required T Function() seed,
   required C Function() build,
   required void Function(C) act,
   required List<T> Function() expect,
+  void Function()? setMocks,
   int skip = 0,
   int asyncTicks = 0,
   void Function()? verify,
@@ -66,7 +68,7 @@ void controllerTest<C extends Controller, T extends Object>(
 
       print('==> expect functions');
 
-      var expectedStates = expect();
+      final expectedStates = expect();
       for (int i = 0; i < expectedStates.length; i++) {
         if (i >= skip) {
           stateExpect(controller, expectedStates[i]);

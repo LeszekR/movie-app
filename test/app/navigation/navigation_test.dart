@@ -22,16 +22,16 @@ import '../../test_tools/test_utils.dart';
 import 'navigation_test_data.dart';
 
 void main() {
-  var mockDataMovieRepository = MockDataMovieRepository();
-  int selectedIndex = (nMovies * .8).toInt();
-  var selectedTitle = makeMovieTitle(selectedIndex);
-  var movieList = makeNavTestMovieList();
-  var searchQuery = 'Drama';
+  final mockDataMovieRepository = MockDataMovieRepository();
+  final int selectedIndex = (nMovies * .8).toInt();
+  final selectedTitle = makeMovieTitle(selectedIndex);
+  final movieList = makeNavTestMovieList();
+  const searchQuery = 'Drama';
 
   // must  either a) be late or b) finally complete not with just movie but Future.value(movie)
   // decided on b) explicit return of a Future - for code readability
   // late Completer<Movie> movieCompleter = Completer(); // version shorter but less explicit than completer.complete(Future.value(...))
-  Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
+  final Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
 
   setUpAll(() async {
     await loadConfigFile();
@@ -45,11 +45,11 @@ void main() {
     when(mockDataMovieRepository.getMovie(selectedIndex)).thenAnswer((_) => movieCompleter.future);
   });
 
-  testWidgets('all navigation transitions without errors', (final tester) async {
+  testWidgets('all navigation transitions without errors', (tester) async {
     await tester.pumpWidget(const MovieApp());
 
     // filling the search box
-    var searchBox = find.byKey(SearchBox.keySearchBox);
+    final searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);
     await tester.enterText(searchBox, searchQuery);
 
@@ -60,7 +60,7 @@ void main() {
     expect(find.text(makeMovieTitle(1)), findsOneWidget);
 
     // scrolling down
-    var movieListFinder = find.byKey(MovieListView.listViewKey);
+    final movieListFinder = find.byKey(MovieListView.listViewKey);
     final listFinder = find.descendant(of: movieListFinder, matching: find.byType(Scrollable));
     expect(listFinder, findsOneWidget);
     final movieFinder = find.text(selectedTitle);
@@ -134,7 +134,7 @@ Finder findTwoStateButton(Key key) {
 }
 
 Container findTwoStateButtonContainer(WidgetTester tester, Key key) {
-  var finder = find.descendant(of: findTwoStateButton(key), matching: find.byType(Container));
+  final finder = find.descendant(of: findTwoStateButton(key), matching: find.byType(Container));
   return tester.widget<Container>(finder);
 }
 

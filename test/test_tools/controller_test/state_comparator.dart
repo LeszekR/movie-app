@@ -12,8 +12,8 @@ void stateExpect<C, T>(C controller, T expected) {
 }
 
 void _movieListStateExpect(controller, expected) {
-  var actualState = (controller as MovieListController).state;
-  var expectedState = expected as MovieListState;
+  final actualState = (controller as MovieListController).state;
+  final expectedState = expected as MovieListState;
 
   expect(actualState.movieCardDataList, expectedState.movieCardDataList);
   expect(actualState.selectedMovieId.value, expectedState.selectedMovieId.value);

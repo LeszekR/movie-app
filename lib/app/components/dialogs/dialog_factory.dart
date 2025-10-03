@@ -1,9 +1,9 @@
-import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/app/components/dialogs/message_dialog.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
 
 class DialogFactory {
   final Txt txt;
@@ -39,4 +39,3 @@ class DialogFactory {
     return MessageDialog(DialogParamsOk(text, txt.get.dialog_title_error));
   }
 }
-

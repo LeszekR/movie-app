@@ -7,7 +7,7 @@ GoRouter goRouter() {
       GoRoute(
         name: routeHome,
         path: pathHome,
-        builder: (context, state) => MovieListView(),
+        builder: (context, state) => const MovieListView(),
       ),
       GoRoute(
         name: routeMovieDetails,
@@ -22,7 +22,7 @@ GoRouter goRouter() {
       GoRoute(
         name: routeTwoButtons,
         path: pathTwoButtons,
-        builder: (context, state) => TwoButtonsView(),
+        builder: (context, state) => const TwoButtonsView(),
       ),
     ],
   );

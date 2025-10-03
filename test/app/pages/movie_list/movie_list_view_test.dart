@@ -13,8 +13,8 @@ import '../../../test_tools/test_utils.dart';
 import '../../components/sorting/sorter_test.dart';
 
 
-main() {
-  MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
+void main() {
+  final MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
 
   setUp(() async {
     await loadConfigFile();
@@ -27,29 +27,29 @@ main() {
     getIt.reset();
   });
 
-  testWidgets('fetched movies are sorted', (final WidgetTester tester) async {
-    var fetchedMovieList = makeTestMovieList();
-    var fetchedFirstTitle = fetchedMovieList[0].title;
+  testWidgets('fetched movies are sorted', (WidgetTester tester) async {
+    final fetchedMovieList = makeTestMovieList();
+    final fetchedFirstTitle = fetchedMovieList[0].title;
 
     when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
-    await prepareWidget(tester, widgetBuilder: () => MovieListView());
+    await prepareWidget(tester, widgetBuilder: MovieListView.new);
 
-    var searchBox = find.byKey(SearchBox.keySearchBox);
+    final searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);
     await tester.enterText(searchBox, 'avatar');
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pump();
 
-    var movieCardTitleFinder = find.descendant(
+    final movieCardTitleFinder = find.descendant(
       of: find.byType(MovieCard).first,
       matching: find.byType(Text),
     );
-    var actualFirstTitle = tester.widget<Text>(movieCardTitleFinder.first).data!;
+    final actualFirstTitle = tester.widget<Text>(movieCardTitleFinder.first).data!;
 
     // title with highest rateAverage in makeTestMovieList()
     // assumption valid with MovieListPageManager first sortCriteria = SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
-    var expectedFirstTitle = 'ab';
+    const expectedFirstTitle = 'ab';
 
     expect(fetchedFirstTitle, isNot(equals(actualFirstTitle)));
     expect(expectedFirstTitle, actualFirstTitle);

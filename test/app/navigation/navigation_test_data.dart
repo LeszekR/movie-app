@@ -1,18 +1,18 @@
 import 'package:flutter_demo/domain/entities/movie.dart';
 
-var nMovies = 30;
+int nMovies = 30;
 
 List<Movie> makeNavTestMovieList() {
-  List<Movie> movies = [];
-  var indexList = List.generate(nMovies, (int i) => i + 1);
-  for (var i in indexList) {
+  final List<Movie> movies = [];
+  final indexList = List.generate(nMovies, (int i) => i + 1);
+  for (final i in indexList) {
     movies.add(Movie(
       id: i,
       title: makeMovieTitle(i),
       budget: makeBudget(i),
       revenue: makeRevenue(i),
       voteAverage: makeVoteAverage(i),
-    ));
+    ),);
   }
   return movies;
 }

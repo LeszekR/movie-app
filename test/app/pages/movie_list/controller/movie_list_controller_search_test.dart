@@ -22,30 +22,30 @@ import '../../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_controller_test_data.dart';
 
 void main() {
-  MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
-  MockMovieListNavigator mockMovieListNavigator = MockMovieListNavigator();
-  MovieListTestData d = MovieListTestData();
+  final MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
+  final MockMovieListNavigator mockMovieListNavigator = MockMovieListNavigator();
+  final MovieListTestData d = MovieListTestData();
 
   setUpAll(() async {
     await loadConfigFile();
     getIt.registerSingleton(AppParams());
-    getIt.registerFactory(() => Sorter<Movie>());
+    getIt.registerFactory(Sorter<Movie>.new);
     getIt.registerFactory<DataMovieRepository>(() => mockDataMovieRepository);
     getIt.registerFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
     getIt.registerFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
     getIt.registerFactory<SortMoviesUseCase>(() => SortMoviesUseCase(getIt<Sorter<Movie>>()));
-    getIt.registerFactory<MovieListPresenter>(() => MovieListPresenter());
-    getIt.registerLazySingleton(() => MovieListState());
+    getIt.registerFactory<MovieListPresenter>(MovieListPresenter.new);
+    getIt.registerLazySingleton(MovieListState.new);
     getIt.registerFactory<MovieListNavigator>(() => mockMovieListNavigator);
-    d.init();
+    await d.init();
   });
 
   setUp(() {
-    when(mockDataMovieRepository.getSearchedMovies(d.query_NotFound)).thenAnswer((_) => Future.value(List.empty()));
-    when(mockDataMovieRepository.getSearchedMovies(d.query_A)).thenAnswer((_) => Future.value(d.movieList_A.results));
-    when(mockDataMovieRepository.getSearchedMovies(d.query_B)).thenAnswer((_) => Future.value(d.movieList_B.results));
-    when(mockDataMovieRepository.getSearchedMovies(d.query_HttpErr)).thenThrow(d.errSearchHttp);
-    when(mockDataMovieRepository.getSearchedMovies(d.query_OtherErr)).thenThrow(d.errRepoOther);
+    when(mockDataMovieRepository.getSearchedMovies(d.queryNotFound)).thenAnswer((_) => Future.value(List.empty()));
+    when(mockDataMovieRepository.getSearchedMovies(d.queryA)).thenAnswer((_) => Future.value(d.movieListA.results));
+    when(mockDataMovieRepository.getSearchedMovies(d.queryB)).thenAnswer((_) => Future.value(d.movieListB.results));
+    when(mockDataMovieRepository.getSearchedMovies(d.queryHttpErr)).thenThrow(d.errSearchHttp);
+    when(mockDataMovieRepository.getSearchedMovies(d.queryOtherErr)).thenThrow(d.errRepoOther);
   });
 
   tearDown(() {
@@ -56,23 +56,18 @@ void main() {
   group('search movies - progress indicator', () {
     controllerTest(
       'search show progress',
-      seed: () => MovieListState(),
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_A),
+      seed: MovieListState.new,
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryA),
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: null,
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_A,
+          searchQuery: d.queryA,
           navCommand: NavProgressOn(),
         ),
         MovieListState(
-          movieCardDataList: d.movieCardDataList_A,
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_A,
+          movieCardDataList: d.movieCardDataListA,
+          searchQuery: d.queryA,
           navCommand: NavProgressOff(),
         ),
       ],
@@ -82,9 +77,9 @@ void main() {
   group('search movies - edge cases', () {
     controllerTest(
       'search query empty string',
-      build: () => MovieListController(),
+      build: MovieListController.new,
       act: (controller) => controller.fetchSearchedMovies(''),
-      seed: () => MovieListState(),
+      seed: MovieListState.new,
       expect: () => [MovieListState()],
       verify: () {
         verifyNever(mockDataMovieRepository.getSearchedMovies(any));
@@ -95,64 +90,58 @@ void main() {
   group('empty list => search movies => failed', () {
     controllerTest(
       'empty => search not found',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_NotFound),
-      seed: () => MovieListState(),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryNotFound),
+      seed: MovieListState.new,
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_NotFound,
+          searchQuery: d.queryNotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_NotFound)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryNotFound)).called(1);
       },
     );
 
     controllerTest(
       'empty  => search http error',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_HttpErr),
-      seed: () => MovieListState(),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryHttpErr),
+      seed: MovieListState.new,
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_HttpErr,
+          searchQuery: d.queryHttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_HttpErr)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryHttpErr)).called(1);
       },
     );
 
     controllerTest(
       'empty  => search other error',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_OtherErr),
-      seed: () => MovieListState(),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryOtherErr),
+      seed: MovieListState.new,
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_OtherErr,
+          searchQuery: d.queryOtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_OtherErr)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryOtherErr)).called(1);
       },
     );
   });
@@ -160,14 +149,11 @@ void main() {
   group('full list => search movies => failed', () {
     controllerTest(
       'full => search not found',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_NotFound),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryNotFound),
       seed: () => MovieListState(
-        movieCardDataList: d.movieCardDataList_B,
-        selectedMovieId: ThreeStateInt.none(),
-        scrollOffset: 0,
-        searchQuery: d.query_B,
-        navCommand: null,
+        movieCardDataList: d.movieCardDataListB,
+        searchQuery: d.queryB,
         // restoreView: false,
       ),
       skip: 1,
@@ -175,27 +161,23 @@ void main() {
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_NotFound,
+          searchQuery: d.queryNotFound,
           navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_NotFound)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryNotFound)).called(1);
       },
     );
 
     controllerTest(
       'full => search http error',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_HttpErr),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryHttpErr),
       seed: () => MovieListState(
-        movieCardDataList: d.movieCardDataList_B,
+        movieCardDataList: d.movieCardDataListB,
         selectedMovieId: ThreeStateInt.value(d.selectedId_18),
-        scrollOffset: 0,
-        searchQuery: d.query_B,
-        navCommand: null,
+        searchQuery: d.queryB,
         // restoreView: false,
       ),
       skip: 1,
@@ -203,27 +185,23 @@ void main() {
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_HttpErr,
+          searchQuery: d.queryHttpErr,
           navCommand: NavErrorDialog(d.errSearchHttp),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_HttpErr)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryHttpErr)).called(1);
       },
     );
 
     controllerTest(
       'full => search other error',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_OtherErr),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryOtherErr),
       seed: () => MovieListState(
         movieCardDataList: List.empty(),
-        selectedMovieId: ThreeStateInt.none(),
-        scrollOffset: 0,
-        searchQuery: d.query_A,
-        navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
+        searchQuery: d.queryA,
+        navCommand: NavMovieDetails(d.movieListA.results[d.movieIdA2]),
         // restoreView: false,
       ),
       skip: 1,
@@ -231,14 +209,12 @@ void main() {
       expect: () => [
         MovieListState(
           movieCardDataList: List.empty(),
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_OtherErr,
+          searchQuery: d.queryOtherErr,
           navCommand: NavErrorDialog(d.errRepoOther),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_OtherErr)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryOtherErr)).called(1);
       },
     );
   });
@@ -247,49 +223,45 @@ void main() {
   group('search movies => successful', () {
     controllerTest(
       'empty list => search => successful A',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_A),
-      seed: () => MovieListState(),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryA),
+      seed: MovieListState.new,
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: d.movieCardDataList_A,
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_A,
+          movieCardDataList: d.movieCardDataListA,
+          searchQuery: d.queryA,
           navCommand: NavProgressOff(),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_A)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryA)).called(1);
       },
     );
 
     controllerTest(
       'full list => search => successful B',
-      build: () => MovieListController(),
-      act: (controller) => controller.fetchSearchedMovies(d.query_B),
+      build: MovieListController.new,
+      act: (controller) => controller.fetchSearchedMovies(d.queryB),
       seed: () => MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdA2),
         scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_A,
+        searchQuery: d.queryA,
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
       ),
       skip: 1,
       asyncTicks: 1,
       expect: () => [
         MovieListState(
-          movieCardDataList: d.movieCardDataList_B,
-          selectedMovieId: ThreeStateInt.none(),
-          scrollOffset: 0,
-          searchQuery: d.query_B,
+          movieCardDataList: d.movieCardDataListB,
+          searchQuery: d.queryB,
           navCommand: NavProgressOff(),
-        )
+        ),
       ],
       verify: () {
-        verify(mockDataMovieRepository.getSearchedMovies(d.query_B)).called(1);
+        verify(mockDataMovieRepository.getSearchedMovies(d.queryB)).called(1);
       },
     );
   });

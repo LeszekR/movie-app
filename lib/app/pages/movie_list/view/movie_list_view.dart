@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
-import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
-import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
-import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
-import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/app/components/buttons/button_builder.dart';
 import 'package:flutter_demo/app/components/search_box.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_sizes.dart';
 import 'package:flutter_demo/app/config/app_style.dart';
+import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
+import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MovieListView extends CleanView {
-  static var movieDetailsButtonKey = Key('movieDetailsButtonKey');
-  static var languagePlButtonKey = Key('languagePlButtonKey');
-  static var languageEnButtonKey = Key('languageEnButtonKey');
-  static var twoButButtonKey = Key("twoButtonsButtonKey");
-  static var listViewKey = ValueKey('movieListKey');
+  static Key movieDetailsButtonKey = const Key('movieDetailsButtonKey');
+  static Key languagePlButtonKey = const Key('languagePlButtonKey');
+  static Key languageEnButtonKey = const Key('languageEnButtonKey');
+  static Key twoButButtonKey = const Key('twoButtonsButtonKey');
+  static ValueKey<String> listViewKey = const ValueKey('movieListKey');
 
   const MovieListView({super.key});
 
@@ -67,7 +66,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
             AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
             IconButton(
               key: MovieListView.movieDetailsButtonKey,
-              icon: Icon(Icons.movie_creation_outlined),
+              icon: const Icon(Icons.movie_creation_outlined),
               onPressed: () => controller.fetchMovie(),
             ),
             AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget * 5),
@@ -104,23 +103,23 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
           color: AppColors.appBarBackground,
           child: Row(
             children: [
-              Expanded(child: const SizedBox()),
+              const Expanded(child: SizedBox()),
               ButtonBuilder(context)
                   .onTap((context) => _navTwoButtons(controller))
                   .key(MovieListView.twoButButtonKey)
                   .text(_txt.get.goto_two_buttons)
                   .width(AppSizes.navButtonWidth)
                   .build(),
-              AppStyle.horizontalSeparator()
+              AppStyle.horizontalSeparator(),
             ],
           ),
         ),
       );
-    });
+    },);
   }
 
   Widget _buildMovieList(BuildContext context, MovieListController controller) {
-    var movieList = controller.state.movieCardDataList ?? List.empty();
+    final movieList = controller.state.movieCardDataList ?? List.empty();
 
     return Scrollbar(
       thumbVisibility: true,
@@ -131,7 +130,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
         itemCount: movieList.length * 2,
         itemBuilder: (context, index) {
           if (index.isEven) {
-            var movieData = movieList[index ~/ 2];
+            final movieData = movieList[index ~/ 2];
             return MovieCard(
               movieCardData: movieData,
               onTap: () => controller.setSelectedMovieId(movieData.id),

@@ -8,12 +8,13 @@ part 'sorter_test_movie_list.dart';
 
 void main() {
   group('sorts hierarchically by multi-column criteria', () {
-    Sorter<Movie> sorter = Sorter();
-    String expected, actual;
+    final Sorter<Movie> sorter = Sorter();
+    String expected;
+    String actual;
     List<TMovie> movieList;
 
-    List<_SorterTestCase> testCases = [
-      _SorterTestCase(
+    final List<_SorterTestCase> testCases = [
+      const _SorterTestCase(
         'voteAverage asc, title desc, budget asc',
         [
           SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
@@ -22,7 +23,7 @@ void main() {
         ],
         ['bb,1,5', 'aa,1,1', 'bb,5,2', 'ba,5,5', 'aa,5,0', 'ab,7,4'],
       ),
-      _SorterTestCase(
+      const _SorterTestCase(
         'budget desc, voteAverage desc, title asc',
         [
           SortCriteria(Movie.keyBudget, ESortDirection.desc),
@@ -31,7 +32,7 @@ void main() {
         ],
         ['ba,5,5', 'bb,1,5', 'ab,7,4', 'bb,5,2', 'aa,1,1', 'aa,5,0'],
       ),
-      _SorterTestCase(
+      const _SorterTestCase(
         'voteAverage asc, title asc',
         [
           SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
@@ -41,7 +42,7 @@ void main() {
       ),
     ];
 
-    for (var testCase in testCases) {
+    for (final testCase in testCases) {
       test(testCase.title, () {
         movieList = makeTestMovieList();
 
@@ -56,15 +57,15 @@ void main() {
   });
 
   test('throws on criteria field-key absent in sorted type', () {
-    Sorter<Movie> sorter = Sorter();
-    String badKey1 = 'bad_key_1';
-    String badKey2 = 'bad_key_2';
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    const String badKey1 = 'bad_key_1';
+    const String badKey2 = 'bad_key_2';
+    final List<TMovie> movieList = makeTestMovieList();
 
-    List<SortCriteria> sortCriteriaList = [
-      SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
-      SortCriteria(badKey1, ESortDirection.desc),
-      SortCriteria(badKey2, ESortDirection.desc),
+    final List<SortCriteria> sortCriteriaList = [
+      const SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
+      const SortCriteria(badKey1, ESortDirection.desc),
+      const SortCriteria(badKey2, ESortDirection.desc),
     ];
 
     expect(
@@ -73,18 +74,18 @@ void main() {
           (e) => e.message,
           'message',
           sorter.makeErrMsgForeignKeys(movieList[0], '$badKey1,$badKey2'),
-        )));
+        ),),);
   });
 
   test('throws on criteria-list longer than class-sortable-fields number', () {
-    Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    final List<TMovie> movieList = makeTestMovieList();
 
-    List<SortCriteria> sortCriteriaList = [
-      SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
-      SortCriteria(Movie.keyTitle, ESortDirection.desc),
-      SortCriteria(Movie.keyBudget, ESortDirection.asc),
-      SortCriteria(Movie.keyTitle, ESortDirection.asc),
+    final List<SortCriteria> sortCriteriaList = [
+      const SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
+      const SortCriteria(Movie.keyTitle, ESortDirection.desc),
+      const SortCriteria(Movie.keyBudget, ESortDirection.asc),
+      const SortCriteria(Movie.keyTitle, ESortDirection.asc),
     ];
 
     expect(() => sorter.sortColumns(movieList, sortCriteriaList), throwsAssertionError);
@@ -94,16 +95,16 @@ void main() {
           (e) => e.message,
           'message',
           sorter.makeErrMsgTooManyCriteria(movieList[0], 3, 4),
-        )));
+        ),),);
   });
 
   test('accepts empty and null list-to-sort', () {
-    Sorter<Movie> sorter = Sorter();
+    final Sorter<Movie> sorter = Sorter();
 
-    List<SortCriteria> sortCriteriaList = [
-      SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
-      SortCriteria(Movie.keyTitle, ESortDirection.desc),
-      SortCriteria(Movie.keyBudget, ESortDirection.asc),
+    final List<SortCriteria> sortCriteriaList = [
+      const SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
+      const SortCriteria(Movie.keyTitle, ESortDirection.desc),
+      const SortCriteria(Movie.keyBudget, ESortDirection.asc),
     ];
 
     // list to sort is empty
@@ -114,8 +115,8 @@ void main() {
   });
 
   test('accepts empty and null sort-criteria list', () {
-    Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    final List<TMovie> movieList = makeTestMovieList();
 
     // list to sort is empty
     sorter.sortColumns(movieList, []);

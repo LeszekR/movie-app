@@ -1,14 +1,13 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/components/buttons/button_builder.dart';
+import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_sizes.dart';
 import 'package:flutter_demo/app/config/app_style.dart';
-import 'package:flutter_demo/app/components/buttons/button_builder.dart';
-import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
+import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MessageDialog extends StatelessWidget {
   final Txt _txt;
@@ -24,7 +23,7 @@ class MessageDialog extends StatelessWidget {
     return Shortcuts(
       shortcuts: {
         LogicalKeySet(LogicalKeyboardKey.enter, LogicalKeyboardKey.numpadEnter):
-            kIsWeb ? ButtonActivateIntent() : ActivateIntent(),
+            kIsWeb ? const ButtonActivateIntent() : const ActivateIntent(),
         LogicalKeySet(LogicalKeyboardKey.escape): const CancelIntent(),
         LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyC): const CancelIntent(),
         LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyO): const OkIntent(),
@@ -63,7 +62,7 @@ class MessageDialog extends StatelessWidget {
   Widget _buildDialogContent(BuildContext context) {
     return Center(
       child: Container(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           maxWidth: AppSizes.dialogMaxWidth,
           maxHeight: AppSizes.dialogContentMaxHeight,
         ),
@@ -85,7 +84,7 @@ class MessageDialog extends StatelessWidget {
           ),
           bottomNavigationBar: Container(
             height: AppSizes.dialogBottomBarHeight,
-            padding: EdgeInsets.all(AppSizes.paddingForWidget),
+            padding: const EdgeInsets.all(AppSizes.paddingForWidget),
             child: Row(children: _makeButtonsRow(context)),
           ),
         ),
@@ -143,11 +142,11 @@ class MessageDialog extends StatelessWidget {
   }
 
   void _onYes(BuildContext context) {
-    _popAndThrow(context, "Dialog Yes button - callback not implemented");
+    _popAndThrow(context, 'Dialog Yes button - callback not implemented');
   }
 
   void _onNo(BuildContext context) {
-    _popAndThrow(context, "Dialog No button - callback not implemented");
+    _popAndThrow(context, 'Dialog No button - callback not implemented');
   }
 }
 

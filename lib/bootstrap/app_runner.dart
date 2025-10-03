@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_demo/app/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
@@ -12,7 +11,7 @@ Future<void> run() async {
   setLogger();
 
   if (!await loadConfigFile()) {
-    SystemNavigator.pop();
+    await SystemNavigator.pop();
     return;
   }
 

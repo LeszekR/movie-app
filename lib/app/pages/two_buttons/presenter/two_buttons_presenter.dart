@@ -1,10 +1,10 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-
-import 'package:flutter_demo/domain/usecases/two_buttons/click_two_button_usecase.dart';
+import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter_callbacks.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/domain/usecases/two_buttons/click_two_button_usecase.dart';
 
 class TwoButtonsPresenter extends Presenter {
-  Function? clickButtonOnNext;
+  ClickButtonOnNext? clickButtonOnNext;
 
   final ClickTwoButtonUseCase _clickButtonUseCase;
 
@@ -15,10 +15,10 @@ class TwoButtonsPresenter extends Presenter {
     _clickButtonUseCase.dispose();
   }
 
-  void clickButton(int clickedButtonIndex, bool clickedButtonIsOn) {
+  void clickButton(int clickedButtonIndex, {required bool clickedButtonIsOn}) {
     _clickButtonUseCase.execute(
       _TwoButtonsClickObserver(this),
-      ClickButtonUseCaseParams(clickedButtonIndex, clickedButtonIsOn),
+      ClickButtonUseCaseParams(clickedButtonIndex, clickedButtonIsOn: clickedButtonIsOn),
     );
   }
 }
@@ -34,12 +34,13 @@ class _TwoButtonsClickObserver extends Observer<ClickButtonUseCaseResponse> {
   }
 
   @override
-  void onError(e) {
+  void onError(dynamic e) {
     // no op
   }
 
   @override
   void onNext(ClickButtonUseCaseResponse? response) {
+    if (response == null) return;
     _presenter.clickButtonOnNext?.call(response);
   }
 }

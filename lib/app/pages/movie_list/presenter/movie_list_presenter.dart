@@ -1,24 +1,25 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
-import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
-
+import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter_callbacks.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
+import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
+import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
 import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
 import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dart';
 
 class MovieListPresenter extends Presenter {
-  Function? getMovieDetailsOnNext;
-  Function? getMovieDetailsOnComplete;
-  Function? getMovieDetailsOnError;
+  GetMovieDetailsOnNext? getMovieDetailsOnNext;
+  GetMovieDetailsOnComplete? getMovieDetailsOnComplete;
+  GetMovieDetailsOnError? getMovieDetailsOnError;
 
-  Function? getSearchedMoviesOnNext;
-  Function? getSearchedMoviesOnComplete;
-  Function? getSearchedMoviesOnError;
+  GetSearchedMoviesOnNext? getSearchedMoviesOnNext;
+  GetSearchedMoviesOnComplete? getSearchedMoviesOnComplete;
+  GetSearchedMoviesOnError? getSearchedMoviesOnError;
 
-  Function? sortMoviesOnNext;
-  Function? sortMoviesOnComplete;
-  Function? sortMoviesOnError;
+  SortMoviesOnNext? sortMoviesOnNext;
+  SortMoviesOnComplete? sortMoviesOnComplete;
+  SortMoviesOnError? sortMoviesOnError;
 
   final GetMovieDetailsUseCase _getMovieDetailsUseCase;
   final GetSearchedMoviesUseCase _getSearchedMoviesUseCase;
@@ -50,11 +51,11 @@ class MovieListPresenter extends Presenter {
       GetMovieDetailsUseCaseParams(movieId),
     );
   }
-  
+
   void sortMovies(List<Movie> movies, List<SortCriteria> sortCriteriaList) {
     _sortMoviesUseCase.execute(
       _SortMoviesObserver(this),
-      SortMoviesUseCaseParams(movies,sortCriteriaList),
+      SortMoviesUseCaseParams(movies, sortCriteriaList),
     );
   }
 }
@@ -75,8 +76,8 @@ class _GetMovieDetailsObserver extends Observer<GetMovieDetailsUseCaseResponse> 
   }
 
   @override
-  void onError(e) {
-    _presenter.getMovieDetailsOnError?.call(e);
+  void onError(dynamic e) {
+    _presenter.getMovieDetailsOnError?.call(e as MovieRepositoryException);
   }
 }
 
@@ -87,7 +88,8 @@ class _GetSearchedMoviesObserver extends Observer<GetSearchedMoviesUseCaseRespon
 
   @override
   void onNext(GetSearchedMoviesUseCaseResponse? response) {
-    _movieListPresenter.getSearchedMoviesOnNext?.call(response?.movies);
+    if (response == null) return;
+    _movieListPresenter.getSearchedMoviesOnNext?.call(response.movies);
   }
 
   @override
@@ -96,19 +98,20 @@ class _GetSearchedMoviesObserver extends Observer<GetSearchedMoviesUseCaseRespon
   }
 
   @override
-  void onError(e) {
-    _movieListPresenter.getSearchedMoviesOnError?.call(e);
+  void onError(dynamic e) {
+    _movieListPresenter.getSearchedMoviesOnError?.call(e as MovieRepositoryException);
   }
 }
 
-class _SortMoviesObserver extends Observer<SortMoviesUseCaseResponse>{
+class _SortMoviesObserver extends Observer<SortMoviesUseCaseResponse> {
   final MovieListPresenter _movieListPresenter;
 
   _SortMoviesObserver(this._movieListPresenter);
 
   @override
   void onNext(SortMoviesUseCaseResponse? response) {
-    _movieListPresenter.sortMoviesOnNext?.call(response?.movies);
+    if (response == null) return;
+    _movieListPresenter.sortMoviesOnNext?.call(response.movies);
   }
 
   @override
@@ -117,7 +120,7 @@ class _SortMoviesObserver extends Observer<SortMoviesUseCaseResponse>{
   }
 
   @override
-  void onError(e) {
-    _movieListPresenter.sortMoviesOnError?.call(e);
+  void onError(dynamic e) {
+    _movieListPresenter.sortMoviesOnError?.call(e as MovieRepositoryException);
   }
 }

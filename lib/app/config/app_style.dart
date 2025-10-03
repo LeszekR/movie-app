@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_sizes.dart';
 
 class AppStyle {
-  static Widget movieDetailsSeparator(context, index) => Container(
+  static Widget movieDetailsSeparator(BuildContext context, int index) => Container(
     height: AppSizes.separatorLineHeight,
     color: AppColors.separator,
   );
@@ -33,6 +32,6 @@ class AppStyle {
   }
 
   static Widget filler() {
-    return Expanded(child: const SizedBox());
+    return const Expanded(child: SizedBox());
   }
 }

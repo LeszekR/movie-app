@@ -1,7 +1,7 @@
-import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
 import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -11,44 +11,42 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../../test_tools/test_utils.dart';
 
 
-var mockAppConfig = MockAppConfig();
-var mockDateTimeReader = MockDateTimeReader();
-var budget = '100';
-var revenue = '200';
-var title = 'Avatar';
+MockAppConfig mockAppConfig = MockAppConfig();
+MockDateTimeReader mockDateTimeReader = MockDateTimeReader();
+String budget = '100';
+String revenue = '200';
+String title = 'Avatar';
 
-main() {
-  var getit = GetIt.instance;
+void main() {
+  final getIt = GetIt.instance;
 
   setUp(() {
-    getit.registerSingleton(Txt());
-    getit.registerSingleton<AppParams>(mockAppConfig);
-    getit.registerSingleton<DateTimeReader>(mockDateTimeReader);
-    getit.registerLazySingleton(() => MovieDetailsUtils());
+    getIt.registerSingleton(Txt());
+    getIt.registerSingleton<AppParams>(mockAppConfig);
+    getIt.registerSingleton<DateTimeReader>(mockDateTimeReader);
+    getIt.registerLazySingleton(MovieDetailsUtils.new);
   });
 
-  tearDown(() {
-    getit.reset();
-  });
+  tearDown(getIt.reset);
 
-  testWidgets('should recommend movie depending on conditions', (final WidgetTester tester) async {
-    var sunday = DateTime(2025, 5, 4);
-    var monday = DateTime(2025, 5, 5);
-    var thresholdLow = '50';
-    var thresholdHigh = '150';
+  testWidgets('should recommend movie depending on conditions', (WidgetTester tester) async {
+    final sunday = DateTime(2025, 5, 4);
+    final monday = DateTime(2025, 5, 5);
+    const thresholdLow = '50';
+    const thresholdHigh = '150';
 
     await prepareMovieDetailsWidget(tester, '1', sunday);
-    var yesString = getit<Txt>().get.yes;
-    var noString = getit<Txt>().get.no;
+    final yesString = getIt<Txt>().get.yes;
+    final noString = getIt<Txt>().get.no;
 
-    var testCaseList = [
+    final testCaseList = [
       _MovieDetailsTestCase('high profit / Sunday', thresholdLow, sunday, yesString),
       _MovieDetailsTestCase('high profit / Monday', thresholdLow, monday, noString),
       _MovieDetailsTestCase('low profit / Sunday', thresholdHigh, sunday, noString),
       _MovieDetailsTestCase('low profit / Monday', thresholdHigh, monday, noString),
     ];
 
-    for (var testCase in testCaseList) {
+    for (final testCase in testCaseList) {
       await prepareMovieDetailsWidget(tester, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }

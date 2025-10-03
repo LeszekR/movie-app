@@ -15,12 +15,10 @@ abstract class NavigationCommand<T> {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
-    return isConsumed == (other as NavigationCommand).isConsumed;
+    if (other is! NavigationCommand<T>) return false;
+    return isConsumed == other.isConsumed;
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, payload);
-// int get hashCode => Object.hash(runtimeType, this);
 }
-

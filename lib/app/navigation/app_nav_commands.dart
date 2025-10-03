@@ -1,12 +1,12 @@
-import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/app/navigation/navigation_command.dart';
+import 'package:flutter_demo/domain/entities/movie.dart';
 
-final class NavProgressOn extends NavigationCommand {}
+final class NavProgressOn extends NavigationCommand<void> {}
 
-final class NavProgressOff extends NavigationCommand {}
+final class NavProgressOff extends NavigationCommand<void> {}
 
-final class NavMovieList extends NavigationCommand {}
+final class NavMovieList extends NavigationCommand<void> {}
 
 final class NavTwoButtons extends NavigationCommand<Movie> {}
 
