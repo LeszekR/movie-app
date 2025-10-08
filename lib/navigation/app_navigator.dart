@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/components/dialogs/dialog_factory.dart';
+import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/navigation/navigation_command.dart';
+import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
+import 'package:flutter_demo/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
 import 'package:flutter_demo/pages/two_buttons/view/two_buttons_view.dart';
-
-import '../bootstrap/get_it_model.dart';
-import '../common/config/app_colors.dart';
-import '../common/ui_localized_texts/txt.dart';
-import '../components/dialogs/dialog_factory.dart';
-import '../components/dialogs/e_dialog_msg.dart';
-import '../pages/movie_list/navigation/movie_list_navigator.dart';
-import '../pages/two_buttons/two_button_navigation/two_button_navigator.dart';
-import 'navigation_command.dart';
 
 class AppNavigator {
   final Txt txt;
@@ -27,7 +26,7 @@ class AppNavigator {
 
   bool _isProgressVisible = false;
 
-  void throwOnMissingNav(NavigationCommand navCommand) {
+  void throwOnMissingNav(NavigationCommand<dynamic> navCommand) {
     throw UnimplementedError('No navigation implemented for NavCommand: ${navCommand.runtimeType}');
   }
 
@@ -38,7 +37,7 @@ class AppNavigator {
       context: context,
       barrierDismissible: false,
       barrierColor: AppColors.dialogBarrier(),
-      builder: (context) => Center(child: CircularProgressIndicator()),
+      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
   }
 

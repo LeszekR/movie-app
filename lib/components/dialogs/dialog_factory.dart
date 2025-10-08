@@ -1,9 +1,8 @@
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/components/dialogs/dialog_params.dart';
+import 'package:flutter_demo/components/dialogs/e_dialog_msg.dart';
+import 'package:flutter_demo/components/dialogs/message_dialog.dart';
 import 'package:flutter_demo/repositories/movie_repository_exception.dart';
-
-import '../../common/ui_localized_texts/txt.dart';
-import 'dialog_params.dart';
-import 'e_dialog_msg.dart';
-import 'message_dialog.dart';
 
 class DialogFactory {
   final Txt txt;
@@ -39,4 +38,3 @@ class DialogFactory {
     return MessageDialog(txt, DialogParamsOk(text, txt.get.dialog_title_error));
   }
 }
-

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_demo/pages/movie_details/model/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../movie_details/model/movie.dart';
 
 part 'movie_list.g.dart';
 

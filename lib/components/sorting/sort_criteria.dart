@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import 'e_sort_direction.dart';
+import 'package:flutter_demo/components/sorting/e_sort_direction.dart';
 
 class SortCriteria extends Equatable {
   final String fieldKey;

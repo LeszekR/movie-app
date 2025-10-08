@@ -12,19 +12,19 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
-  MockAppParams mockAppParams = MockAppParams();
-  MockMovieRepository mockMovieRepository = MockMovieRepository();
-  MovieListTestData d = MovieListTestData();
+  final MockAppParams mockAppParams = MockAppParams();
+  final MockMovieRepository mockMovieRepository = MockMovieRepository();
+  final MovieListTestData d = MovieListTestData();
   when(mockAppParams.param(AppParams.starRatingThreshold)).thenReturn('60');
   d.init(mockAppParams, mockMovieRepository);
 
   setUp(() {
-    when(mockMovieRepository.getMovie(d.movieId_A2))
-        .thenAnswer((_) => Future.value(d.movieList_A.results[d.movieId_A2]));
-    when(mockMovieRepository.getMovie(d.movieId_B3))
-        .thenAnswer((_) => Future.value(d.movieList_B.results[d.movieId_B3]));
-    when(mockMovieRepository.getMovie(d.movieId_ErrHttp)).thenThrow(d.errMovieHttp);
-    when(mockMovieRepository.getMovie(d.movieId_ErrOther)).thenThrow(d.errRepoOther);
+    when(mockMovieRepository.getMovie(d.movieIdA2))
+        .thenAnswer((_) => Future.value(d.movieListA.results[d.movieIdA2]));
+    when(mockMovieRepository.getMovie(d.movieIdB3))
+        .thenAnswer((_) => Future.value(d.movieListB.results[d.movieIdB3]));
+    when(mockMovieRepository.getMovie(d.movieIdErrHttp)).thenThrow(d.errMovieHttp);
+    when(mockMovieRepository.getMovie(d.movieIdErrOther)).thenThrow(d.errRepoOther);
   });
 
   tearDown(() {
@@ -35,31 +35,31 @@ void main() {
     'show movie details => show progress',
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_A,
-      selectedMovieId: ThreeStateInt.value(d.movieId_A2),
-      scrollOffset: d.scrollOffset_230,
-      searchQuery: d.query_A,
+      movieCardDataList: d.movieCardDataListA,
+      selectedMovieId: ThreeStateInt.value(d.movieIdA2),
+      scrollOffset: d.scrollOffset230,
+      searchQuery: d.queryA,
       navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
     ),
-    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
+    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset8)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
-        scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_A,
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdA2),
+        scrollOffset: d.scrollOffset230,
+        searchQuery: d.queryA,
         navCommand: NavProgressOn(),
       ),
       MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
-        scrollOffset: d.scrollOffset_8,
-        searchQuery: d.query_A,
-        navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
-      )
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdA2),
+        scrollOffset: d.scrollOffset8,
+        searchQuery: d.queryA,
+        navCommand: NavMovieDetails(d.movieListA.results[d.movieIdA2]),
+      ),
     ],
     verify: (bloc) {
-      verify(mockMovieRepository.getMovie(d.movieId_A2)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieIdA2)).called(1);
     },
   );
 
@@ -67,23 +67,19 @@ void main() {
     'show movie details => none selected',
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_B,
-      selectedMovieId: ThreeStateInt.none(),
-      scrollOffset: d.scrollOffset_230,
-      searchQuery: d.query_B,
-      navCommand: null,
+      movieCardDataList: d.movieCardDataListB,
+      scrollOffset: d.scrollOffset230,
+      searchQuery: d.queryB,
     ),
-    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_8)),
+    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset8)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_B,
-        selectedMovieId: ThreeStateInt.none(),
-        scrollOffset: d.scrollOffset_8,
-        searchQuery: d.query_B,
+        movieCardDataList: d.movieCardDataListB,
+        scrollOffset: d.scrollOffset8,
+        searchQuery: d.queryB,
         navCommand: NavMessageDialog(EDialogMsg.noMovieSelected),
       ),
     ],
-    skip: 0,
     verify: (bloc) {
       verifyNever(mockMovieRepository.getMovie(any));
     },
@@ -93,25 +89,24 @@ void main() {
     'show movie details => http error',
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_B,
-      selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
-      scrollOffset: d.scrollOffset_8,
-      searchQuery: d.query_B,
-      navCommand: null,
+      movieCardDataList: d.movieCardDataListB,
+      selectedMovieId: ThreeStateInt.value(d.movieIdErrHttp),
+      scrollOffset: d.scrollOffset8,
+      searchQuery: d.queryB,
     ),
-    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset230)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_B,
-        selectedMovieId: ThreeStateInt.value(d.movieId_ErrHttp),
-        scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_B,
+        movieCardDataList: d.movieCardDataListB,
+        selectedMovieId: ThreeStateInt.value(d.movieIdErrHttp),
+        scrollOffset: d.scrollOffset230,
+        searchQuery: d.queryB,
         navCommand: NavErrorDialog(d.errMovieHttp),
       ),
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMovieRepository.getMovie(d.movieId_ErrHttp)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieIdErrHttp)).called(1);
     },
   );
 
@@ -119,25 +114,24 @@ void main() {
     'show movie details => other error',
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_A,
-      selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
-      scrollOffset: d.scrollOffset_230,
-      searchQuery: d.query_A,
-      navCommand: null,
+      movieCardDataList: d.movieCardDataListA,
+      selectedMovieId: ThreeStateInt.value(d.movieIdErrOther),
+      scrollOffset: d.scrollOffset230,
+      searchQuery: d.queryA,
     ),
-    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset230)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_ErrOther),
-        scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_A,
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdErrOther),
+        scrollOffset: d.scrollOffset230,
+        searchQuery: d.queryA,
         navCommand: NavErrorDialog(d.errRepoOther),
       ),
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMovieRepository.getMovie(d.movieId_ErrOther)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieIdErrOther)).called(1);
     },
   );
 
@@ -145,25 +139,24 @@ void main() {
     'show movie details => success',
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_B,
-      selectedMovieId: ThreeStateInt.value(d.movieId_B3),
-      scrollOffset: d.scrollOffset_8,
-      searchQuery: d.query_B,
-      navCommand: null,
+      movieCardDataList: d.movieCardDataListB,
+      selectedMovieId: ThreeStateInt.value(d.movieIdB3),
+      scrollOffset: d.scrollOffset8,
+      searchQuery: d.queryB,
     ),
-    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset_230)),
+    act: (bloc) => bloc.add(ShowMovieDetailsEvent(d.scrollOffset230)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_B,
-        selectedMovieId: ThreeStateInt.value(d.movieId_B3),
-        scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_B,
-        navCommand: NavMovieDetails(d.movieList_B.results[d.movieId_B3]),
+        movieCardDataList: d.movieCardDataListB,
+        selectedMovieId: ThreeStateInt.value(d.movieIdB3),
+        scrollOffset: d.scrollOffset230,
+        searchQuery: d.queryB,
+        navCommand: NavMovieDetails(d.movieListB.results[d.movieIdB3]),
       ),
     ],
     skip: 1,
     verify: (bloc) {
-      verify(mockMovieRepository.getMovie(d.movieId_B3)).called(1);
+      verify(mockMovieRepository.getMovie(d.movieIdB3)).called(1);
     },
   );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../common/config/app_colors.dart';
-import 'movie_card_data.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
+import 'package:flutter_demo/pages/movie_list/view/components/movie_card_data.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieCardData movieCardData;
@@ -9,9 +9,7 @@ class MovieCard extends StatelessWidget {
   final bool isSelected;
 
   const MovieCard({
-    super.key,
-    required this.movieCardData,
-    required this.onTap,
+    required this.movieCardData, required this.onTap, super.key,
     this.isSelected = false,
   });
 

@@ -2,17 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/bootstrap/logger_messages.dart';
+import 'package:flutter_demo/bootstrap/logger_setup.dart';
+import 'package:flutter_demo/common/ui_localized_texts/app_localizations/app_localizations.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/pages/movie_app/bloc/movie_app_cubit.dart';
 import 'package:flutter_demo/pages/movie_app/bloc/movie_app_state.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_bloc.dart';
+import 'package:flutter_demo/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/pages/two_buttons/bloc/two_button_cubit.dart';
-
-import '../../../bootstrap/get_it_model.dart';
-import '../../../bootstrap/logger_messages.dart';
-import '../../../bootstrap/logger_setup.dart';
-import '../../../common/ui_localized_texts/app_localizations/app_localizations.dart';
-import '../../../common/ui_localized_texts/txt.dart';
-import '../../movie_list/view/movie_list_view.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
@@ -46,6 +45,6 @@ class MovieApp extends StatelessWidget {
               },
             ),
           ),
-        ));
+        ),);
   }
 }

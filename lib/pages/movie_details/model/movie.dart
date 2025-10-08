@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_demo/components/sorting/sortable.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../../components/sorting/sortable.dart';
 
 part 'movie.g.dart';
 
@@ -34,7 +33,7 @@ class Movie extends Equatable implements Sortable {
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 
   @override
-  Map<String, dynamic> getSortableFieldsMap() {
+  Map<String, Comparable<dynamic>> getSortableFieldsMap() {
     return {keyTitle: title, keyVoteAverage: voteAverage};
   }
 

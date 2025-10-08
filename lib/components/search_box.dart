@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
-
-import '../common/config/app_colors.dart';
-import '../common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 
 class SearchBox extends StatelessWidget {
   final Txt txt;
@@ -10,13 +9,10 @@ class SearchBox extends StatelessWidget {
   final void Function(String) onSubmitted;
 
   // key string - needed for tests
-  static final keySearchBox = Key('search_box');
+  static const keySearchBox = Key('search_box');
 
   const SearchBox({
-    super.key,
-    required this.txt, 
-    required this.controller,
-    required this.onSubmitted,
+    required this.txt, required this.controller, required this.onSubmitted, super.key,
   });
 
   @override
@@ -36,11 +32,11 @@ class SearchBox extends StatelessWidget {
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
             isDense: true,
-            contentPadding: EdgeInsets.all(AppSizes.paddingInText),
+            contentPadding: const EdgeInsets.all(AppSizes.paddingInText),
             border: InputBorder.none,
             hintText: txt.get.search_prompt,
           ),
-          onSubmitted: (text) => onSubmitted(text),
+          onSubmitted: onSubmitted,
         ),
       );
 }

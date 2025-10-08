@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_style.dart';
-
-import '../../../common/config/app_colors.dart';
-import '../../../common/ui_localized_texts/txt.dart';
-import '../utils/movie_details_controller.dart';
-import 'components/movie_details_content_line.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
+import 'package:flutter_demo/pages/movie_details/view/components/movie_details_content_line.dart';
 
 class MovieDetailsView extends StatelessWidget {
   final Txt txt;
@@ -24,18 +23,17 @@ class MovieDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var details = _makeMovieDetailsContentLine(controller, budget, revenue);
+    final details = _makeMovieDetailsContentLine(controller, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         backgroundColor: AppColors.appBarBackground,
-        automaticallyImplyLeading: true,
       ),
       body: ListView.separated(
         separatorBuilder: AppStyle.movieDetailsSeparator,
         itemBuilder: (context, index) => Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -57,10 +55,10 @@ class MovieDetailsView extends StatelessWidget {
   }
 
   List<MovieDetailsContentLine> _makeMovieDetailsContentLine(
-      MovieDetailsController controller, String budget, String revenue) {
-    var budgetInDollars = controller.formatDollarAmount(budget);
-    var revenueInDollars = controller.formatDollarAmount(revenue);
-    var recommendOrNo = controller.recommendOrNo(budget, revenue) ? txt.get.yes : txt.get.no;
+      MovieDetailsController controller, String budget, String revenue,) {
+    final budgetInDollars = controller.formatDollarAmount(budget);
+    final revenueInDollars = controller.formatDollarAmount(revenue);
+    final recommendOrNo = controller.recommendOrNo(budget, revenue) ? txt.get.yes : txt.get.no;
     return [
       MovieDetailsContentLine(label: txt.get.budget, content: budgetInDollars),
       MovieDetailsContentLine(label: txt.get.revenue, content: revenueInDollars),

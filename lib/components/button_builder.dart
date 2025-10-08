@@ -66,9 +66,9 @@ class ButtonBuilder {
       height: _height,
       child: ElevatedButton(
         key: _key,
-        style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+        style: ElevatedButton.styleFrom(shape: const RoundedRectangleBorder()),
         onPressed: () => _onTap!(context),
-        child: _text != null ? Text(_text!) : Icon(_iconData!),
+        child: _text != null ? Text(_text!) : Icon(_iconData),
       ),
     );
   }

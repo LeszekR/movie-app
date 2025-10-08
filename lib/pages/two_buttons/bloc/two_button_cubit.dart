@@ -1,18 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_demo/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/pages/two_buttons/bloc/two_button_state.dart';
-
-import '../../../navigation/app_nav_commands.dart';
 
 class TwoButtonCubit extends Cubit<TwoButtonState> {
 
   TwoButtonCubit(super.initialState);
 
   void toggleOn(int buttonIndex){
-    var prevButtonStates = state.buttonStates;
-    var buttonStates = [
-      buttonIndex == 0 ? !prevButtonStates[0] : prevButtonStates[0],
-      buttonIndex == 1 ? !prevButtonStates[1] : prevButtonStates[1],
+    final prevButtonStates = state.buttonStates;
+    final buttonStates = [
+      if (buttonIndex == 0) !prevButtonStates[0] else prevButtonStates[0],
+      if (buttonIndex == 1) !prevButtonStates[1] else prevButtonStates[1],
     ];
     emit(state.copyWith(buttonStates: buttonStates));
   }

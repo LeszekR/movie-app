@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_demo/common/config/app_colors.dart';
 import 'package:flutter_demo/common/config/app_sizes.dart';
+import 'package:flutter_demo/common/config/app_style.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/components/button_builder.dart';
+import 'package:flutter_demo/components/search_box.dart';
 import 'package:flutter_demo/pages/movie_app/bloc/movie_app_cubit.dart';
+import 'package:flutter_demo/pages/movie_app/bloc/movie_app_state.dart';
+import 'package:flutter_demo/pages/movie_list/bloc/movie_list_bloc.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_event.dart';
 import 'package:flutter_demo/pages/movie_list/bloc/movie_list_state.dart';
 import 'package:flutter_demo/pages/movie_list/navigation/movie_list_navigator.dart';
-
-import '../../../common/config/app_colors.dart';
-import '../../../common/config/app_style.dart';
-import '../../../common/ui_localized_texts/txt.dart';
-import '../../../components/search_box.dart';
-import '../../movie_app/bloc/movie_app_state.dart';
-import '../bloc/movie_list_bloc.dart';
-import 'components/movie_card.dart';
+import 'package:flutter_demo/pages/movie_list/view/components/movie_card.dart';
 
 class MovieListView extends StatefulWidget {
   static const movieDetailsButtonKey = Key('movieDetailsButtonKey');
   static const languagePlButtonKey = Key('languagePlButtonKey');
   static const languageEnButtonKey = Key('languageEnButtonKey');
-  static const twoButButtonKey = Key("twoButtonsButtonKey");
+  static const twoButButtonKey = Key('twoButtonsButtonKey');
   static const listViewKey = ValueKey('movieListKey');
 
   final Txt txt;
   final MovieListNavigator moviesNavigator;
 
   const MovieListView({
-    super.key,
-    required this.txt,
-    required this.moviesNavigator,
+    required this.txt, required this.moviesNavigator, super.key,
   });
 
   @override
@@ -80,12 +77,12 @@ class _MovieListViewState extends State<MovieListView> {
               SearchBox(
                 txt: widget.txt,
                 controller: _searchTextController!,
-                onSubmitted: (searchQuery) => _fetchSearchedMovies(searchQuery),
+                onSubmitted: _fetchSearchedMovies,
               ),
               AppSizes.horizontalSeparator(width: AppSizes.paddingForWidget),
               IconButton(
                 key: MovieListView.movieDetailsButtonKey,
-                icon: Icon(Icons.movie_creation_outlined),
+                icon: const Icon(Icons.movie_creation_outlined),
                 onPressed: () => _showMovieDetails(state),
               ),
               // AppSizes.filler(),
@@ -123,24 +120,24 @@ class _MovieListViewState extends State<MovieListView> {
               color: AppColors.appBarBackground,
               child: Row(
                 children: [
-                  Expanded(child: const SizedBox()),
+                  const Expanded(child: SizedBox()),
                   ButtonBuilder(context)
                       .onTap(_showTwoButtons)
                       .key(MovieListView.twoButButtonKey)
                       .text(widget.txt.get.goto_two_buttons)
                       .width(AppSizes.navButtonWidth)
                       .build(),
-                  AppSizes.horizontalSeparator()
+                  AppSizes.horizontalSeparator(),
                 ],
-              )),
+              ),),
         );
       },
     );
   }
 
   Widget _buildMovieList(BuildContext context, MovieListState state) {
-    int? selectedMovieId = state.selectedMovieId.value;
-    var movieList = state.movieCardDataList ?? List.empty();
+    final int? selectedMovieId = state.selectedMovieId.value;
+    final movieList = state.movieCardDataList ?? List.empty();
 
     return Scrollbar(
       thumbVisibility: true,
@@ -151,7 +148,7 @@ class _MovieListViewState extends State<MovieListView> {
         itemCount: movieList.length * 2,
         itemBuilder: (context, index) {
           if (index.isEven) {
-            var movieCardData = movieList[index ~/ 2];
+            final movieCardData = movieList[index ~/ 2];
             return MovieCard(
               movieCardData: movieCardData,
               onTap: () => _bloc.add(SelectMovieEvent(movieCardData.id)),
@@ -177,7 +174,7 @@ class _MovieListViewState extends State<MovieListView> {
 
   void _restoreViewState() {
     _bloc.add(StateRestoredMoviesEvent());
-    var state = _bloc.state;
+    final state = _bloc.state;
     _scrollController!.jumpTo(state.scrollOffset);
     _searchTextController!.text = state.searchQuery ?? '';
   }

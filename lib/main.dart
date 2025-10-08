@@ -1,6 +1,6 @@
-import 'bootstrap/app_runner.dart';
+import 'package:flutter_demo/bootstrap/app_runner.dart';
 
 
 void main() async {
-  run();
+  await run();
 }

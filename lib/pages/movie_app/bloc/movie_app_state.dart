@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../../bootstrap/get_it_model.dart';
-import '../../../bootstrap/app_params.dart';
+import 'package:flutter_demo/bootstrap/app_params.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 enum ELanguage { pl, en }
 

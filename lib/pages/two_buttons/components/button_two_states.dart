@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ButtonTwoStates extends StatefulWidget {
-  static var colorOn = Colors.green;
-  static var colorOff = Colors.red;
+  static MaterialColor colorOn = Colors.green;
+  static MaterialColor colorOff = Colors.red;
 
   final bool isOn;
   final int index;
   final ValueChanged<bool> onChange;
 
   const ButtonTwoStates({
-    super.key,
+    required this.index, required this.onChange, super.key,
     this.isOn = false,
-    required this.index,
-    required this.onChange,
   });
 
   @override

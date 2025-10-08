@@ -16,21 +16,21 @@ import '../../components/sorting/sorter_test.dart';
 import '../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../test_tools/test_utils.dart';
 
-main() {
+void main() {
   setUp(() async {
     await loadConfigFile();
     initGetIt();
     getIt.unregister<MovieRepository>();
-    getIt.registerLazySingleton<MovieRepository>(() => MockMovieRepository());
+    getIt.registerLazySingleton<MovieRepository>(MockMovieRepository.new);
   });
 
   tearDown(() {
     getIt.reset();
   });
 
-  testWidgets('fetched movies are sorted', (final WidgetTester tester) async {
-    var fetchedMovieList = makeBlocTestMovieList();
-    var fetchedFirstTitle = fetchedMovieList[0].title;
+  testWidgets('fetched movies are sorted', (WidgetTester tester) async {
+    final fetchedMovieList = makeBlocTestMovieList();
+    final fetchedFirstTitle = fetchedMovieList[0].title;
 
     when((getIt<MovieRepository>() as MockMovieRepository).getSearchedMovies(any))
         .thenAnswer((_) => Future.value(fetchedMovieList));
@@ -39,23 +39,23 @@ main() {
         widgetBuilder: () => BlocProvider(
               create: (context) => MovieListBloc(getIt<AppParams>(), getIt<MovieRepository>(), getIt<Sorter<Movie>>()),
               child: getIt<MovieListView>(),
-            ));
+            ),);
 
-    var searchBox = find.byKey(SearchBox.keySearchBox);
+    final searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);
     await tester.enterText(searchBox, 'avatar');
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pump();
 
-    var movieCardTitleFinder = find.descendant(
+    final movieCardTitleFinder = find.descendant(
       of: find.byType(MovieCard).first,
       matching: find.byType(Text),
     );
-    var actualFirstTitle = tester.widget<Text>(movieCardTitleFinder.first).data!;
+    final actualFirstTitle = tester.widget<Text>(movieCardTitleFinder.first).data!;
 
     // title with highest rateAverage in makeTestMovieList()
     // assumption valid with MovieListPageManager first sortCriteria = SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
-    var expectedFirstTitle = 'ab';
+    const expectedFirstTitle = 'ab';
 
     expect(fetchedFirstTitle, isNot(equals(actualFirstTitle)));
     expect(expectedFirstTitle, actualFirstTitle);

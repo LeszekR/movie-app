@@ -1,5 +1,5 @@
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
+import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/common/utils/date_time_reader.dart';
 import 'package:flutter_demo/pages/movie_details/utils/movie_details_controller.dart';
@@ -11,14 +11,14 @@ import 'package:mockito/mockito.dart';
 import '../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../test_tools/test_utils.dart';
 
-var mockAppParams = MockAppParams();
-var mockDateTimeReader = MockDateTimeReader();
-var budget = '100';
-var revenue = '200';
-var title = 'Avatar';
+MockAppParams mockAppParams = MockAppParams();
+MockDateTimeReader mockDateTimeReader = MockDateTimeReader();
+String budget = '100';
+String revenue = '200';
+String title = 'Avatar';
 
 
-main() {
+void main() {
   setUpAll(() {
     getIt.registerSingleton<Txt>(Txt());
     getIt.registerSingleton<AppParams>(mockAppParams);
@@ -31,25 +31,25 @@ main() {
     getIt.reset();
   });
 
-  testWidgets('should recommend model depending on conditions', (final WidgetTester tester) async {
-    var sunday = DateTime(2025, 5, 4);
-    var monday = DateTime(2025, 5, 5);
-    var thresholdLow = '50';
-    var thresholdHigh = '150';
+  testWidgets('should recommend model depending on conditions', (WidgetTester tester) async {
+    final sunday = DateTime(2025, 5, 4);
+    final monday = DateTime(2025, 5, 5);
+    const thresholdLow = '50';
+    const thresholdHigh = '150';
 
     await prepareMovieDetailsWidget(tester, getIt, '1', sunday);
-    var txt = getIt<Txt>();
-    var yesString = txt.get.yes;
-    var noString = txt.get.no;
+    final txt = getIt<Txt>();
+    final yesString = txt.get.yes;
+    final noString = txt.get.no;
 
-    var testCaseList = [
+    final testCaseList = [
       _MovieDetailsTestCase('high profit / Sunday', thresholdLow, sunday, yesString),
       _MovieDetailsTestCase('high profit / Monday', thresholdLow, monday, noString),
       _MovieDetailsTestCase('low profit / Sunday', thresholdHigh, sunday, noString),
       _MovieDetailsTestCase('low profit / Monday', thresholdHigh, monday, noString),
     ];
 
-    for (var testCase in testCaseList) {
+    for (final testCase in testCaseList) {
       await prepareMovieDetailsWidget(tester, getIt, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }
@@ -65,7 +65,7 @@ Future<void> prepareMovieDetailsWidget(
   when(mockAppParams.param(AppParams.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
   await prepareWidget(tester, getit,
-      widgetBuilder: () => MovieDetailsView(getit<Txt>(), title, budget, revenue, getit<MovieDetailsController>()));
+      widgetBuilder: () => MovieDetailsView(getit<Txt>(), title, budget, revenue, getit<MovieDetailsController>()),);
 }
 
 class _MovieDetailsTestCase {

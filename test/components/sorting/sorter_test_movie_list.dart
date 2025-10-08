@@ -9,7 +9,7 @@ class TMovie extends Movie {
   const TMovie({required super.title, required super.voteAverage, required super.budget}) : super(id: 0, revenue: 0);
 
   @override
-  Map<String, dynamic> getSortableFieldsMap() {
+  Map<String, Comparable<dynamic>> getSortableFieldsMap() {
     return {Movie.keyTitle: title, Movie.keyVoteAverage: voteAverage, Movie.keyBudget: budget};
   }
 
@@ -26,10 +26,10 @@ class _SorterTestCase {
 }
 
 List<TMovie> makeBlocTestMovieList() => [
-  TMovie(title: "aa", voteAverage: 1, budget: 1),
-  TMovie(title: "aa", voteAverage: 5, budget: 0),
-  TMovie(title: "ab", voteAverage: 7, budget: 4),
-  TMovie(title: "ba", voteAverage: 5, budget: 5),
-  TMovie(title: "bb", voteAverage: 1, budget: 5),
-  TMovie(title: "bb", voteAverage: 5, budget: 2),
+  const TMovie(title: 'aa', voteAverage: 1, budget: 1),
+  const TMovie(title: 'aa', voteAverage: 5, budget: 0),
+  const TMovie(title: 'ab', voteAverage: 7, budget: 4),
+  const TMovie(title: 'ba', voteAverage: 5, budget: 5),
+  const TMovie(title: 'bb', voteAverage: 1, budget: 5),
+  const TMovie(title: 'bb', voteAverage: 5, budget: 2),
 ];

@@ -9,10 +9,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> prepareWidget(
-  final WidgetTester tester,
-  final GetIt getIt, {
-  final Widget Function()? widgetBuilder,
-  final String language = "pl",
+  WidgetTester tester,
+  GetIt getIt, {
+  Widget Function()? widgetBuilder,
+  String language = 'pl',
 }) async {
   //
   dotenv.testLoad(fileInput: File(AppParams.configFilePath).readAsStringSync());

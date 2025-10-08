@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_demo/common/config/app_colors.dart';
+import 'package:flutter_demo/common/config/app_sizes.dart';
+import 'package:flutter_demo/common/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/components/button_builder.dart';
+import 'package:flutter_demo/pages/two_buttons/bloc/two_button_cubit.dart';
 import 'package:flutter_demo/pages/two_buttons/bloc/two_button_state.dart';
+import 'package:flutter_demo/pages/two_buttons/components/button_two_states.dart';
 import 'package:flutter_demo/pages/two_buttons/two_button_navigation/two_button_navigator.dart';
 
-import '../../../common/config/app_sizes.dart';
-import '../../../common/ui_localized_texts/txt.dart';
-import '../../../components/button_builder.dart';
-import '../bloc/two_button_cubit.dart';
-import '../components/button_two_states.dart';
-
 class TwoButtonsView extends StatelessWidget {
-  static var movieListButtonKey = Key("movieListButtonKey");
-  static var button1Key = Key('button1Key');
-  static var button2Key = Key('button2Key');
+  static Key movieListButtonKey = const Key('movieListButtonKey');
+  static Key button1Key = const Key('button1Key');
+  static Key button2Key = const Key('button2Key');
 
   final Txt txt;
   final TwoButtonNavigator twoButtonNavigator;
 
   const TwoButtonsView({
-    super.key,
-    required this.txt,
-    required this.twoButtonNavigator,
+    required this.txt, required this.twoButtonNavigator, super.key,
   });
 
   @override
@@ -63,18 +60,18 @@ class TwoButtonsView extends StatelessWidget {
               color: AppColors.appBarBackground,
               child: Row(
                 children: [
-                  Expanded(child: const SizedBox()),
+                  const Expanded(child: SizedBox()),
                   ButtonBuilder(context)
                       .onTap(cubit.showMovieList)
                       .key(TwoButtonsView.movieListButtonKey)
                       .text(txt.get.goto_movie_list)
                       .width(AppSizes.navButtonWidth)
                       .build(),
-                  AppSizes.horizontalSeparator()
+                  AppSizes.horizontalSeparator(),
                 ],
               ),
             ),
           );
-        });
+        },);
   }
 }

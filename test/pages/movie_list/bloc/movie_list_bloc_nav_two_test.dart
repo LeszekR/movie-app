@@ -10,35 +10,34 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_bloc_test_data.dart';
 
 void main() {
-  MockAppParams mockAppParams = MockAppParams();
-  MockMovieRepository mockMovieRepository = MockMovieRepository();
+  final MockAppParams mockAppParams = MockAppParams();
+  final MockMovieRepository mockMovieRepository = MockMovieRepository();
   when(mockAppParams.param(AppParams.starRatingThreshold)).thenReturn('60');
-  MovieListTestData d = MovieListTestData();
+  final MovieListTestData d = MovieListTestData();
   d.init(mockAppParams, mockMovieRepository);
 
   blocTest(
     'show two buttons view',
     seed: () => MovieListState(
-      movieCardDataList: d.movieCardDataList_A,
-      selectedMovieId: ThreeStateInt.value(d.movieId_A2),
-      scrollOffset: d.scrollOffset_8,
-      searchQuery: d.query_A,
-      navCommand: NavMovieDetails(d.movieList_A.results[d.movieId_A2]),
+      movieCardDataList: d.movieCardDataListA,
+      selectedMovieId: ThreeStateInt.value(d.movieIdA2),
+      scrollOffset: d.scrollOffset8,
+      searchQuery: d.queryA,
+      navCommand: NavMovieDetails(d.movieListA.results[d.movieIdA2]),
     ),
     build: () => d.makeMovieListBloc(mockAppParams, mockMovieRepository),
-    act: (bloc) => bloc.add(ShowTwoButtonsEvent(d.scrollOffset_230)),
+    act: (bloc) => bloc.add(ShowTwoButtonsEvent(d.scrollOffset230)),
     expect: () => [
       MovieListState(
-        movieCardDataList: d.movieCardDataList_A,
-        selectedMovieId: ThreeStateInt.value(d.movieId_A2),
-        scrollOffset: d.scrollOffset_230,
-        searchQuery: d.query_A,
+        movieCardDataList: d.movieCardDataListA,
+        selectedMovieId: ThreeStateInt.value(d.movieIdA2),
+        scrollOffset: d.scrollOffset230,
+        searchQuery: d.queryA,
         navCommand: NavTwoButtons(),
-      )
+      ),
     ],
     verify: (bloc) {
       verifyNever(mockMovieRepository.getMovie(any));
     },
   );
 }
-
