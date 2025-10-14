@@ -21,8 +21,8 @@ class MovieDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = getIt<MovieDetailsUtils>();
-    final details = makeMovieDetailsContentLine(context, controller, budget, revenue);
+    final utils = getIt<MovieDetailsUtils>();
+    final details = makeMovieDetailsContentLine(context, utils, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(

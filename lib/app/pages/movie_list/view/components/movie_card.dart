@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/config/app_sizes.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card_data.dart';
 
 class MovieCard extends StatelessWidget {
@@ -16,7 +16,7 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final content = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.movieCardInnerPadding),
       child: Row(
         children: [
           Expanded(
@@ -26,7 +26,7 @@ class MovieCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(width: 16.0),
+          const SizedBox(width: AppSizes.movieCardInnerPadding),
           Text(
             movieCardData.rating,
             style: Theme.of(context).textTheme.titleMedium,

@@ -24,4 +24,5 @@ class AppSizes {
 
   static const double navButtonWidth = 200;
 
+  static const double movieCardInnerPadding = 16;
 }

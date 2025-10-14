@@ -31,6 +31,10 @@ class AppStyle {
     return const SizedBox(height: AppSizes.separatorHeight);
   }
 
+  static Widget vertSeparatorOf({required double height}) {
+    return SizedBox(height: height);
+  }
+
   static Widget filler() {
     return const Expanded(child: SizedBox());
   }
