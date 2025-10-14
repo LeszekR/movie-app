@@ -2,40 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_sizes.dart';
 
-class AppStyle {
-  static Widget movieDetailsSeparator(BuildContext context, int index) => Container(
-    height: AppSizes.separatorLineHeight,
-    color: AppColors.separator,
-  );
+Widget movieDetailsSeparator(BuildContext context, int index) => Container(
+      height: AppSizes.separatorLineHeight,
+      color: AppColors.separator,
+    );
 
-  static const Widget listViewDivider = Divider(
-    height: AppSizes.separatorLineHeight,
-    thickness: 1,
-    color: AppColors.separator,
-  );
+class ListViewDivider extends Divider {
+  const ListViewDivider()
+      : super(
+          height: AppSizes.separatorLineHeight,
+          thickness: 1,
+          color: AppColors.separator,
+        );
+}
 
-  static const Widget listViewSeparator = SizedBox(
-    height: AppSizes.separatorLineHeight,
-    child: ColoredBox(color: AppColors.separator),
-  );
+class HorizontalSeparator extends SizedBox {
+  const HorizontalSeparator() : super(width: AppSizes.separatorWidth);
+  const HorizontalSeparator.of({required double width}) : super(width: width);
+}
 
-  static Widget horizontalSeparator() {
-    return const SizedBox(width: AppSizes.separatorWidth);
-  }
+class VerticalSeparator extends SizedBox {
+  const VerticalSeparator() : super(height: AppSizes.separatorHeight);
+  const VerticalSeparator.of({required double height}) : super(height: height);
+}
 
-  static Widget horizontalSeparatorOf({required double width}) {
-    return SizedBox(width: width);
-  }
-
-  static Widget vertSeparator() {
-    return const SizedBox(height: AppSizes.separatorHeight);
-  }
-
-  static Widget vertSeparatorOf({required double height}) {
-    return SizedBox(height: height);
-  }
-
-  static Widget filler() {
-    return const Expanded(child: SizedBox());
-  }
+class Filler extends Expanded {
+  const Filler() : super(child: const SizedBox());
 }

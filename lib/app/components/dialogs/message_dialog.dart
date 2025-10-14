@@ -94,33 +94,33 @@ class MessageDialog extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     if (_params is DialogParamsOk) {
       return [
-        AppStyle.filler(),
+        const Filler(),
         ButtonBuilder(context).onTap(_onOk).text(localizations.ok).build(),
       ];
     }
     if (_params is DialogParamsOkCancel) {
       return [
-        AppStyle.filler(),
+        const Filler(),
         ButtonBuilder(context).onTap(_onOk).text(localizations.ok).build(),
-        AppStyle.horizontalSeparator(),
+        const HorizontalSeparator(),
         ButtonBuilder(context).onTap(_onCancel).text(localizations.cancel).build(),
       ];
     }
     if (_params is DialogParamsYesNo) {
       return [
-        AppStyle.filler(),
+        const Filler(),
         ButtonBuilder(context).onTap(_onYes).text(localizations.yes).build(),
-        AppStyle.horizontalSeparator(),
+        const HorizontalSeparator(),
         ButtonBuilder(context).onTap(_onNo).text(localizations.no).build(),
       ];
     }
     if (_params is DialogParamsYesNoCancel) {
       return [
-        AppStyle.filler(),
+        const Filler(),
         ButtonBuilder(context).onTap(_onYes).text(localizations.yes).build(),
-        AppStyle.horizontalSeparator(),
+        const HorizontalSeparator(),
         ButtonBuilder(context).onTap(_onNo).text(localizations.no).build(),
-        AppStyle.horizontalSeparator(),
+        const HorizontalSeparator(),
         ButtonBuilder(context).onTap(_onCancel).text(localizations.cancel).build(),
       ];
     }

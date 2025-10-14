@@ -60,13 +60,13 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 controller: _searchTextController,
                 onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
               ),
-              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
+              HorizontalSeparator.of(width: AppSizes.paddingForWidget),
               IconButton(
                 key: MovieListView.movieDetailsButtonKey,
                 icon: const Icon(Icons.movie_creation_outlined),
                 onPressed: () => controller.fetchMovie(),
               ),
-              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget * 5),
+              HorizontalSeparator.of(width: AppSizes.paddingForWidget * 5),
               SizedBox(
                 height: AppSizes.textFieldHeight * 1.4,
                 child: IconButton(
@@ -83,7 +83,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                   onPressed: () => _setLanguage(controller, ELanguage.en),
                 ),
               ),
-              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
+              HorizontalSeparator.of(width: AppSizes.paddingForWidget),
             ],
           ),
           body: RepaintBoundary(
@@ -107,7 +107,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                     .text(localizations.goto_two_buttons)
                     .width(AppSizes.navButtonWidth)
                     .build(),
-                AppStyle.horizontalSeparator(),
+                const HorizontalSeparator(),
               ],
             ),
           ),
@@ -135,7 +135,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
               isSelected: movieData.id == controller.state.selectedMovieId.value,
             );
           } else {
-            return AppStyle.listViewDivider;
+            return const ListViewDivider();
           }
         },
       ),

@@ -30,7 +30,7 @@ class MovieDetailsView extends StatelessWidget {
         backgroundColor: AppColors.appBarBackground,
       ),
       body: ListView.separated(
-        separatorBuilder: AppStyle.movieDetailsSeparator,
+        separatorBuilder: movieDetailsSeparator,
         itemBuilder: (context, index) => Container(
           padding: const EdgeInsets.all(16.0),
           child: Column(

@@ -73,7 +73,7 @@ class TwoButtonsViewState extends CleanViewState<TwoButtonsView, TwoButtonsContr
                     .text(localizations.goto_movie_list)
                     .width(AppSizes.navButtonWidth)
                     .build(),
-                AppStyle.horizontalSeparator(),
+                const HorizontalSeparator(),
               ],
             ),
           ),
