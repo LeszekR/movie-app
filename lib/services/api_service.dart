@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_recruitment_task/models/movie.dart';
 import 'package:flutter_recruitment_task/models/movie_list.dart';
+import 'package:flutter_recruitment_task/services/movie_service_exception.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,7 +13,6 @@ part 'api_service.g.dart';
 ApiService apiService(Ref ref) => ApiService();
 
 class ApiService {
-
   static const apiKey = '052afdb6e0ab9af424e3f3c8edbb33fb';
   static const baseUrl = 'api.themoviedb.org';
 
@@ -27,18 +27,15 @@ class ApiService {
     try {
       final response = await http.get(endpoint);
       if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
         final movieList = MovieList.fromJson(json);
         return movieList.results;
       } else {
-        // TODO Throw a custom exception - for known HTTP error codes
-        print('HTTP error: ${response.statusCode}');
+        throw MovieListHttpException(response.statusCode);
       }
-    } catch (error) {
-      // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
-      print('Exception during movie fetch: $error');
+    } catch (e) {
+      throw MovieListOtherException();
     }
-    return Future.value([]);
   }
 
   Future<Movie?> movie(int movieId) async {
@@ -51,17 +48,14 @@ class ApiService {
     try {
       final response = await http.get(endpoint);
       if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        var fetchedMovie = Movie.fromJson(json);
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final fetchedMovie = Movie.fromJson(json);
         return fetchedMovie;
       } else {
-        // TODO Throw a custom exception - for known HTTP error codes
-        print('HTTP error: ${response.statusCode}');
+        throw MovieDetailsHttpException(response.statusCode);
       }
-    } catch (error) {
-      // TODO Throw a custom exception - for network errors, JSON parsing errors, etc.
-      print('Exception during movie fetch: $error');
+    } catch (e) {
+      throw MovieDetailsOtherException();
     }
-    return null;
   }
 }

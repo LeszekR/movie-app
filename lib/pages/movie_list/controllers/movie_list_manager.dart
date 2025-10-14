@@ -1,17 +1,16 @@
 // ignore_for_file: avoid_manual_providers_as_generated_provider_dependency
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_recruitment_task/models/movie.dart';
+import 'package:flutter_recruitment_task/models/movie_list.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/controllers/search_text_controller.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
-import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_recruitment_task/services/api_service.dart';
+import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
+import 'package:flutter_recruitment_task/utils/sorting/sort_criteria.dart';
+import 'package:flutter_recruitment_task/utils/sorting/sorter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../models/movie.dart';
-import '../../../models/movie_list.dart';
-import '../../../services/api_service.dart';
-import '../../../utils/sorting/sort_criteria.dart';
-import '../../../utils/sorting/e_sort_direction.dart';
-import '../../../utils/sorting/sorter.dart';
 
 part 'movie_list_manager.g.dart';
 
@@ -41,7 +40,7 @@ class MovieListManager {
     required this.searchController,
   });
 
-   final List<SortCriteria> _sortCriteriaList = [
+  final List<SortCriteria> _sortCriteriaList = [
     SortCriteria(Movie.keyVoteAverage, ESortDirection.desc),
     SortCriteria(Movie.keyTitle, ESortDirection.asc),
   ];
@@ -60,7 +59,7 @@ class MovieListManager {
   }
 
   void restoreScroll() {
-    double? lastScrollOffset = state!.getScrollOffset();
+    final double? lastScrollOffset = state!.getScrollOffset();
     if (lastScrollOffset == null) return;
     scrollController.jumpTo(lastScrollOffset);
   }

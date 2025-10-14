@@ -1,13 +1,12 @@
 import 'package:flutter_recruitment_task/utils/sorting/e_sort_direction.dart';
+import 'package:flutter_recruitment_task/utils/sorting/sort_criteria.dart';
 import 'package:flutter_recruitment_task/utils/sorting/sortable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'sort_criteria.dart';
 
 class Sorter<T extends Sortable> {
   List<SortCriteria>? _sortCriteriaList = [];
 
-  void sortColumns(List<T>? listToSort, final List<SortCriteria>? sortCriteriaList) {
+  void sortColumns(List<T>? listToSort, List<SortCriteria>? sortCriteriaList) {
     if (listToSort == null || listToSort.isEmpty) return;
 
     _sortCriteriaList = sortCriteriaList;
@@ -23,15 +22,16 @@ class Sorter<T extends Sortable> {
 
   int _compare(Sortable a, Sortable b) {
     int result;
-    dynamic firstValue, secondValue;
+    Comparable<dynamic> firstValue;
+    Comparable<dynamic> secondValue;
 
-    for (var sortCriteria in _sortCriteriaList!) {
+    for (final sortCriteria in _sortCriteriaList!) {
       if (sortCriteria.sortDirection == ESortDirection.asc) {
-        firstValue = a.getSortableFieldsMap()[sortCriteria.fieldKey];
-        secondValue = b.getSortableFieldsMap()[sortCriteria.fieldKey];
+        firstValue = a.getSortableFieldsMap()[sortCriteria.fieldKey]!;
+        secondValue = b.getSortableFieldsMap()[sortCriteria.fieldKey]!;
       } else {
-        firstValue = b.getSortableFieldsMap()[sortCriteria.fieldKey];
-        secondValue = a.getSortableFieldsMap()[sortCriteria.fieldKey];
+        firstValue = b.getSortableFieldsMap()[sortCriteria.fieldKey]!;
+        secondValue = a.getSortableFieldsMap()[sortCriteria.fieldKey]!;
       }
 
       result = firstValue.compareTo(secondValue);
@@ -40,35 +40,35 @@ class Sorter<T extends Sortable> {
     return 0;
   }
 
-  void _validateCriteriaListLength(Sortable sortedElement, final List<SortCriteria> sortCriteriaList) {
-    var nSortableFields = sortedElement.getSortableFieldsMap().length;
-    var nSortCriteria = sortCriteriaList.length;
+  void _validateCriteriaListLength(Sortable sortedElement, List<SortCriteria> sortCriteriaList) {
+    final nSortableFields = sortedElement.getSortableFieldsMap().length;
+    final nSortCriteria = sortCriteriaList.length;
 
-    String errorMsg = makeErrMsgTooManyCriteria(sortedElement, nSortableFields, nSortCriteria);
+    final String errorMsg = makeErrMsgTooManyCriteria(sortedElement, nSortableFields, nSortCriteria);
     assert(nSortCriteria <= nSortableFields, errorMsg);
   }
 
-  void _validateCriteriaUnique(Sortable sortedElement, final List<SortCriteria> sortCriteriaList) {
-    var sortedClassFieldNames = sortedElement.getSortableFieldsMap().keys;
-    var sortCriteriaFieldNames = sortCriteriaList.map((entry) => entry.fieldKey).toList();
+  void _validateCriteriaUnique(Sortable sortedElement, List<SortCriteria> sortCriteriaList) {
+    final sortedClassFieldNames = sortedElement.getSortableFieldsMap().keys;
+    final sortCriteriaFieldNames = sortCriteriaList.map((entry) => entry.fieldKey).toList();
 
-    List<String> absentFieldsList =
+    final List<String> absentFieldsList =
         sortCriteriaFieldNames.where((fieldName) => !sortedClassFieldNames.contains(fieldName)).toList();
 
     if (absentFieldsList.isEmpty) return;
 
-    String absentFieldNames = absentFieldsList.reduce((result, fieldName) => '$result,$fieldName').toString();
-    String errorMsg = makeErrMsgForeignKeys(sortedElement, absentFieldNames);
+    final String absentFieldNames = absentFieldsList.reduce((result, fieldName) => '$result,$fieldName');
+    final String errorMsg = makeErrMsgForeignKeys(sortedElement, absentFieldNames);
     assert(false, errorMsg);
   }
 
   String makeErrMsgTooManyCriteria(Sortable sortedElement, int nSortableFields, int nSortCriteria) =>
-      'Forbidden attempt at sorting list of ${sortedElement.runtimeType.toString()}'
+      'Forbidden attempt at sorting list of ${sortedElement.runtimeType}'
       ' having $nSortableFields sortable fields '
       'with $nSortCriteria sort criteria';
 
   String makeErrMsgForeignKeys(Sortable sortedElement, String foreignKeyNames) =>
-      'Attempt to sort by fields: "$foreignKeyNames" which are absent in class ${sortedElement.runtimeType.toString()}';
+      'Attempt to sort by fields: "$foreignKeyNames" which are absent in class ${sortedElement.runtimeType}';
 }
 
 // Riverpod fails to create generic class providers from annotation

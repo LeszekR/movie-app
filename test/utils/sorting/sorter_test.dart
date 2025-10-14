@@ -8,11 +8,12 @@ part 'sorter_test_movie_list.dart';
 
 void main() {
   group('sorts hierarchically by multi-column criteria', () {
-    Sorter<Movie> sorter = Sorter();
-    String expected, actual;
+    final Sorter<Movie> sorter = Sorter();
+    String expected;
+    String actual;
     List<TMovie> movieList;
 
-    List<_SorterTestCase> testCases = [
+    final List<_SorterTestCase> testCases = [
       _SorterTestCase(
         'voteAverage asc, title desc, budget asc',
         [
@@ -41,7 +42,7 @@ void main() {
       ),
     ];
 
-    for (var testCase in testCases) {
+    for (final testCase in testCases) {
       test(testCase.title, () {
         movieList = makeTestMovieList();
 
@@ -56,31 +57,34 @@ void main() {
   });
 
   test('throws on criteria field-key absent in sorted type', () {
-    Sorter<Movie> sorter = Sorter();
-    String badKey1 = 'bad_key_1';
-    String badKey2 = 'bad_key_2';
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    const String badKey1 = 'bad_key_1';
+    const String badKey2 = 'bad_key_2';
+    final List<TMovie> movieList = makeTestMovieList();
 
-    List<SortCriteria> sortCriteriaList = [
+    final List<SortCriteria> sortCriteriaList = [
       SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
-      SortCriteria(badKey1, ESortDirection.desc),
-      SortCriteria(badKey2, ESortDirection.desc),
+      const SortCriteria(badKey1, ESortDirection.desc),
+      const SortCriteria(badKey2, ESortDirection.desc),
     ];
 
     expect(
-        () => sorter.sortColumns(movieList, sortCriteriaList),
-        throwsA(isA<AssertionError>().having(
+      () => sorter.sortColumns(movieList, sortCriteriaList),
+      throwsA(
+        isA<AssertionError>().having(
           (e) => e.message,
           'message',
           sorter.makeErrMsgForeignKeys(movieList[0], '$badKey1,$badKey2'),
-        )));
+        ),
+      ),
+    );
   });
 
   test('throws on criteria-list longer than class-sortable-fields number', () {
-    Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    final List<TMovie> movieList = makeTestMovieList();
 
-    List<SortCriteria> sortCriteriaList = [
+    final List<SortCriteria> sortCriteriaList = [
       SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
       SortCriteria(Movie.keyTitle, ESortDirection.desc),
       SortCriteria(Movie.keyBudget, ESortDirection.asc),
@@ -89,18 +93,21 @@ void main() {
 
     expect(() => sorter.sortColumns(movieList, sortCriteriaList), throwsAssertionError);
     expect(
-        () => sorter.sortColumns(movieList, sortCriteriaList),
-        throwsA(isA<AssertionError>().having(
+      () => sorter.sortColumns(movieList, sortCriteriaList),
+      throwsA(
+        isA<AssertionError>().having(
           (e) => e.message,
           'message',
           sorter.makeErrMsgTooManyCriteria(movieList[0], 3, 4),
-        )));
+        ),
+      ),
+    );
   });
 
   test('accepts empty and null list-to-sort', () {
-    Sorter<Movie> sorter = Sorter();
+    final Sorter<Movie> sorter = Sorter();
 
-    List<SortCriteria> sortCriteriaList = [
+    final List<SortCriteria> sortCriteriaList = [
       SortCriteria(Movie.keyVoteAverage, ESortDirection.asc),
       SortCriteria(Movie.keyTitle, ESortDirection.desc),
       SortCriteria(Movie.keyBudget, ESortDirection.asc),
@@ -114,8 +121,8 @@ void main() {
   });
 
   test('accepts empty and null sort-criteria list', () {
-    Sorter<Movie> sorter = Sorter();
-    List<TMovie> movieList = makeTestMovieList();
+    final Sorter<Movie> sorter = Sorter();
+    final List<TMovie> movieList = makeTestMovieList();
 
     // list to sort is empty
     sorter.sortColumns(movieList, []);

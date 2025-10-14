@@ -8,9 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'routing/go_router.dart';
-
 part 'movie_app.g.dart';
+part 'routing/go_router.dart';
 
 class MovieApp extends ConsumerWidget {
   const MovieApp({super.key});
@@ -19,11 +18,12 @@ class MovieApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
     return MaterialApp.router(
-        title: 'Movie Browser',
-        theme: ThemeData(primarySwatch: Colors.amber),
-        routerConfig: ref.read(goRouterProvider),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: locale);
+      title: 'Movie Browser',
+      theme: ThemeData(primarySwatch: Colors.amber),
+      routerConfig: ref.read(goRouterProvider),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: locale,
+    );
   }
 }

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/movie_list_manager.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_recruitment_task/pages/movie_list/controllers/search_text_controller.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/movie_card.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/search_box.dart';
 import 'package:flutter_recruitment_task/pages/movie_list/state/movie_list_state.dart';
-import 'package:flutter_recruitment_task/pages/movie_list/controllers/scroll_controller.dart';
+import 'package:flutter_recruitment_task/routing/go_router_const_strings.dart';
 import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../routing/go_router_const_strings.dart';
-import 'controllers/movie_list_manager.dart';
-import 'controllers/search_text_controller.dart';
 
 class MovieListPage extends ConsumerStatefulWidget {
   const MovieListPage({super.key});
@@ -43,12 +42,12 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var movieListData = ref.watch(movieListStateProvider);
+    final movieListData = ref.watch(movieListStateProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.movie_creation_outlined),
+            icon: const Icon(Icons.movie_creation_outlined),
             onPressed: _onOpenMovieDetailsTap,
           ),
         ],
@@ -79,10 +78,10 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
         itemCount: movies.length,
       );
 
-  void _onSearchBoxSubmitted(String query) async {
+  Future<void> _onSearchBoxSubmitted(String query) async {
     if (query.isEmpty) return;
 
-    var fetchedMovieList = await _manager!.fetchMovieList(query);
+    final fetchedMovieList = await _manager!.fetchMovieList(query);
     if (fetchedMovieList == null) return;
     if (fetchedMovieList.isEmpty) return;
 
@@ -90,11 +89,11 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
     _manager!.updateMovieList(fetchedMovieList);
   }
 
-  void _onOpenMovieDetailsTap() async {
-    var selectedMovieId = _state!.getSelectedMovieId();
+  Future<void> _onOpenMovieDetailsTap() async {
+    final selectedMovieId = _state!.getSelectedMovieId();
     if (selectedMovieId == null) return;
 
-    var fetchedMovie = await _manager!.fetchMovie(selectedMovieId);
+    final fetchedMovie = await _manager!.fetchMovie(selectedMovieId);
     if (fetchedMovie == null) return;
 
     if (!mounted) return;
@@ -104,7 +103,7 @@ class MovieListPageState extends ConsumerState<MovieListPage> {
     context.goNamed(
       routeMovieDetails,
       pathParameters: {
-        paramMovieTitle: fetchedMovie.title.toString(),
+        paramMovieTitle: fetchedMovie.title,
         paramMovieBudget: fetchedMovie.budget.toString(),
         paramMovieRevenue: fetchedMovie.revenue.toString(),
       },

@@ -14,7 +14,7 @@ class TwoButtonsPageState extends State<TwoButtonsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('2-state buttons'),
+          title: const Text('2-state buttons'),
           centerTitle: true,
         ),
         body: Center(

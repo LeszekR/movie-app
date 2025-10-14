@@ -8,4 +8,3 @@ final movieListScrollControllerProvider = Provider<ScrollController>((ref) {
   ref.onDispose(controller.dispose);
   return controller;
 });
-

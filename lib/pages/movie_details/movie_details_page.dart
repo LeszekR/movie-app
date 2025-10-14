@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recruitment_task/models/movie_details.dart';
 import 'package:flutter_recruitment_task/pages/movie_details/controller/movie_details_manager.dart';
+import 'package:flutter_recruitment_task/ui_localized_texts/provider/txt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../ui_localized_texts/provider/txt.dart';
 
 class MovieDetailsPage extends ConsumerWidget {
   final String title;
@@ -19,8 +18,8 @@ class MovieDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var manager = ref.read(movieDetailsManagerProvider);
-    var details = makeMovieDetails(manager, budget, revenue);
+    final manager = ref.read(movieDetailsManagerProvider);
+    final details = makeMovieDetails(manager, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +32,7 @@ class MovieDetailsPage extends ConsumerWidget {
           color: Colors.grey.shade300,
         ),
         itemBuilder: (context, index) => Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -41,7 +40,7 @@ class MovieDetailsPage extends ConsumerWidget {
                 details[index].label,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
                 details[index].content,
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -55,9 +54,9 @@ class MovieDetailsPage extends ConsumerWidget {
   }
 
   List<MovieDetails> makeMovieDetails(MovieDetailsManager manager, String budget, String revenue) {
-    var budgetInDollars = manager.formatDollarAmount(budget);
-    var revenueInDollars = manager.formatDollarAmount(revenue);
-    var recommendOrNo = manager.recommendOrNo(budget, revenue);
+    final budgetInDollars = manager.formatDollarAmount(budget);
+    final revenueInDollars = manager.formatDollarAmount(revenue);
+    final recommendOrNo = manager.recommendOrNo(budget, revenue);
     return [
       MovieDetails(label: Txt.get.budget, content: budgetInDollars),
       MovieDetails(label: Txt.get.revenue, content: revenueInDollars),

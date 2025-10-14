@@ -6,10 +6,10 @@ class ButtonTwoStates extends StatefulWidget {
   final ValueChanged<bool> onChange;
 
   const ButtonTwoStates({
-    super.key,
-    this.isOn = false,
     required this.index,
     required this.onChange,
+    super.key,
+    this.isOn = false,
   });
 
   @override

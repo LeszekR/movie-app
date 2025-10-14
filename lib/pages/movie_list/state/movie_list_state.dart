@@ -1,7 +1,6 @@
+import 'package:flutter_recruitment_task/models/movie_list.dart';
+import 'package:flutter_recruitment_task/models/movie_list_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../models/movie_list.dart';
-import '../../../models/movie_list_view.dart';
 
 part 'movie_list_state.g.dart';
 

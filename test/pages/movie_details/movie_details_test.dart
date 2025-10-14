@@ -9,32 +9,32 @@ import 'package:mockito/mockito.dart';
 import '../../test_utils.dart';
 import 'movie_details_test.mocks.dart';
 
-var mockAppConfig = MockAppConfig();
-var mockDateTimeReader = MockDateTimeReader();
-var budget = '100';
-var revenue = '200';
-var title = 'Avatar';
+MockAppConfig mockAppConfig = MockAppConfig();
+MockDateTimeReader mockDateTimeReader = MockDateTimeReader();
+String budget = '100';
+String revenue = '200';
+String title = 'Avatar';
 
 @GenerateMocks([AppConfig, DateTimeReader])
-main() {
-  testWidgets('should recommend movie depending on conditions', (final WidgetTester tester) async {
-    var sunday = DateTime(2025, 5, 4);
-    var monday = DateTime(2025, 5, 5);
-    var thresholdLow = '50';
-    var thresholdHigh = '150';
+void main() {
+  testWidgets('should recommend movie depending on conditions', (WidgetTester tester) async {
+    final sunday = DateTime(2025, 5, 4);
+    final monday = DateTime(2025, 5, 5);
+    const thresholdLow = '50';
+    const thresholdHigh = '150';
 
     await prepareMovieDetailsWidget(tester, '1', sunday);
-    var yesString = Txt.get.yes;
-    var noString = Txt.get.no;
+    final yesString = Txt.get.yes;
+    final noString = Txt.get.no;
 
-    var testCaseList = [
+    final testCaseList = [
       _MovieDetailsTestCase('high profit / Sunday', thresholdLow, sunday, yesString),
       _MovieDetailsTestCase('high profit / Monday', thresholdLow, monday, noString),
       _MovieDetailsTestCase('low profit / Sunday', thresholdHigh, sunday, noString),
       _MovieDetailsTestCase('low profit / Monday', thresholdHigh, monday, noString),
     ];
 
-    for (var testCase in testCaseList) {
+    for (final testCase in testCaseList) {
       await prepareMovieDetailsWidget(tester, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }
@@ -45,10 +45,14 @@ Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProf
   when(mockAppConfig.param(AppConfig.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
   //
-  await prepareWidget(tester, widgetBuilder: () => MovieDetailsPage(title, budget, revenue), overrides: [
-    appConfigProvider.overrideWith((ref) => mockAppConfig),
-    dateTimeReaderProvider.overrideWith((ref) => mockDateTimeReader),
-  ]);
+  await prepareWidget(
+    tester,
+    widgetBuilder: () => MovieDetailsPage(title, budget, revenue),
+    overrides: [
+      appConfigProvider.overrideWith((ref) => mockAppConfig),
+      dateTimeReaderProvider.overrideWith((ref) => mockDateTimeReader),
+    ],
+  );
 }
 
 class _MovieDetailsTestCase {

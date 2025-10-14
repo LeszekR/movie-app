@@ -8,10 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> prepareWidget(
-  final WidgetTester tester, {
-  final Widget Function()? widgetBuilder,
-  final List<Override>? overrides,
-  final String language = "pl",
+  WidgetTester tester, {
+  Widget Function()? widgetBuilder,
+  List<Override>? overrides,
+  String language = 'pl',
 }) async {
   //
   dotenv.testLoad(fileInput: File('assets/.env').readAsStringSync());
