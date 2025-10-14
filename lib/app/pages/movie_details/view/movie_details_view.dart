@@ -3,26 +3,26 @@ import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_style.dart';
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/components/movie_details_content_line.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MovieDetailsView extends StatelessWidget {
-  final Txt _txt;
   final String title;
   final String budget;
   final String revenue;
 
-  MovieDetailsView(
+  const MovieDetailsView(
     this.title,
     this.budget,
     this.revenue, {
     super.key,
-  }) : _txt = getIt<Txt>();
+  })
+  ;
 
   @override
   Widget build(BuildContext context) {
     final controller = getIt<MovieDetailsUtils>();
-    final details = makeMovieDetailsContentLine(controller, budget, revenue);
+    final details = makeMovieDetailsContentLine(context, controller, budget, revenue);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,14 +54,20 @@ class MovieDetailsView extends StatelessWidget {
   }
 
   List<MovieDetailsContentLine> makeMovieDetailsContentLine(
-      MovieDetailsUtils controller, String budget, String revenue,) {
+    BuildContext context,
+    MovieDetailsUtils controller,
+    String budget,
+    String revenue,
+  ) {
+    final localizations = AppLocalizations.of(context)!;
     final budgetInDollars = controller.formatDollarAmount(budget);
     final revenueInDollars = controller.formatDollarAmount(revenue);
     final recommendOrNo = controller.recommendOrNo(budget, revenue);
+    final content = recommendOrNo ? localizations.yes : localizations.no;
     return [
-      MovieDetailsContentLine(label: _txt.get.budget, content: budgetInDollars),
-      MovieDetailsContentLine(label: _txt.get.revenue, content: revenueInDollars),
-      MovieDetailsContentLine(label: _txt.get.should_i_watch_today, content: recommendOrNo),
+      MovieDetailsContentLine(label: localizations.budget, content: budgetInDollars),
+      MovieDetailsContentLine(label: localizations.revenue, content: revenueInDollars),
+      MovieDetailsContentLine(label: localizations.should_i_watch_today, content: content),
     ];
   }
 }

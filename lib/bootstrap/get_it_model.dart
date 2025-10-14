@@ -11,7 +11,6 @@ import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_contro
 import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_state.dart';
 import 'package:flutter_demo/app/pages/two_buttons/navigation/two_buttons_navigator.dart';
 import 'package:flutter_demo/app/pages/two_buttons/presenter/two_buttons_presenter.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
@@ -30,7 +29,6 @@ void initGetIt() {
   getIt.registerFactory(DataMovieRepository.new);
 
   // app
-  getIt.registerSingleton(Txt());
   getIt.registerSingleton(AppParams());
   getIt.registerSingleton(MovieAppState());
   getIt.registerSingleton(MovieAppController());

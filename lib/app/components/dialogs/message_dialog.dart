@@ -6,17 +6,15 @@ import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
 import 'package:flutter_demo/app/config/app_sizes.dart';
 import 'package:flutter_demo/app/config/app_style.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 
 class MessageDialog extends StatelessWidget {
-  final Txt _txt;
   final DialogParams _params;
 
-  MessageDialog(
+  const MessageDialog(
     this._params, {
     super.key,
-  }) : _txt = getIt<Txt>();
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,36 +91,37 @@ class MessageDialog extends StatelessWidget {
   }
 
   List<Widget> _makeButtonsRow(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     if (_params is DialogParamsOk) {
       return [
         AppStyle.filler(),
-        ButtonBuilder(context).onTap(_onOk).text(_txt.get.ok).build(),
+        ButtonBuilder(context).onTap(_onOk).text(localizations.ok).build(),
       ];
     }
     if (_params is DialogParamsOkCancel) {
       return [
         AppStyle.filler(),
-        ButtonBuilder(context).onTap(_onOk).text(_txt.get.ok).build(),
+        ButtonBuilder(context).onTap(_onOk).text(localizations.ok).build(),
         AppStyle.horizontalSeparator(),
-        ButtonBuilder(context).onTap(_onCancel).text(_txt.get.cancel).build(),
+        ButtonBuilder(context).onTap(_onCancel).text(localizations.cancel).build(),
       ];
     }
     if (_params is DialogParamsYesNo) {
       return [
         AppStyle.filler(),
-        ButtonBuilder(context).onTap(_onYes).text(_txt.get.yes).build(),
+        ButtonBuilder(context).onTap(_onYes).text(localizations.yes).build(),
         AppStyle.horizontalSeparator(),
-        ButtonBuilder(context).onTap(_onNo).text(_txt.get.no).build(),
+        ButtonBuilder(context).onTap(_onNo).text(localizations.no).build(),
       ];
     }
     if (_params is DialogParamsYesNoCancel) {
       return [
         AppStyle.filler(),
-        ButtonBuilder(context).onTap(_onYes).text(_txt.get.yes).build(),
+        ButtonBuilder(context).onTap(_onYes).text(localizations.yes).build(),
         AppStyle.horizontalSeparator(),
-        ButtonBuilder(context).onTap(_onNo).text(_txt.get.no).build(),
+        ButtonBuilder(context).onTap(_onNo).text(localizations.no).build(),
         AppStyle.horizontalSeparator(),
-        ButtonBuilder(context).onTap(_onCancel).text(_txt.get.cancel).build(),
+        ButtonBuilder(context).onTap(_onCancel).text(localizations.cancel).build(),
       ];
     }
     throw UnimplementedError();

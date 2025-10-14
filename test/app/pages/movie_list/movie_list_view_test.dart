@@ -12,7 +12,6 @@ import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../../test_tools/test_utils.dart';
 import '../../components/sorting/sorter_test.dart';
 
-
 void main() {
   final MockDataMovieRepository mockDataMovieRepository = MockDataMovieRepository();
 
@@ -33,7 +32,7 @@ void main() {
 
     when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
-    await prepareWidget(tester, widgetBuilder: MovieListView.new);
+    await prepareWidget(tester, language: 'pl', widgetBuilder: MovieListView.new);
 
     final searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);

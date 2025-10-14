@@ -31,7 +31,8 @@ void main() {
   // must  either a) be late or b) finally complete not with just movie but Future.value(movie)
   // decided on b) explicit return of a Future - for code readability
   // late Completer<Movie> movieCompleter = Completer(); // version shorter but less explicit than completer.complete(Future.value(...))
-  final Completer<Movie> movieCompleter = Completer(); // verbose version requiring completer.complete(Future.value(...))
+  final Completer<Movie> movieCompleter =
+      Completer(); // verbose version requiring completer.complete(Future.value(...))
 
   setUpAll(() async {
     await loadConfigFile();

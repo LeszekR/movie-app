@@ -12,7 +12,7 @@ import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controll
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MovieListView extends CleanView {
@@ -29,15 +29,11 @@ class MovieListView extends CleanView {
 }
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
-  final Txt _txt;
-
   final TextEditingController _searchTextController = TextEditingController();
   final ScrollController _scrollController =
       ScrollController(initialScrollOffset: getIt<MovieListState>().scrollOffset);
 
-  MovieListViewState()
-      : _txt = getIt<Txt>(),
-        super(getIt<MovieListController>());
+  MovieListViewState() : super(getIt<MovieListController>());
 
   @override
   void dispose() {
@@ -48,74 +44,76 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
 
   @override
   Widget get view {
-    return ControlledWidgetBuilder<MovieListController>(builder: (context, controller) {
-      if (controller.state.navCommand != null) {
-        _navigateOrRestoreState(controller, context);
-      }
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(_txt.get.movie_list_title),
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.appBarBackground,
-          actions: [
-            SearchBox(
-              txt: _txt,
-              controller: _searchTextController,
-              onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
-            ),
-            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
-            IconButton(
-              key: MovieListView.movieDetailsButtonKey,
-              icon: const Icon(Icons.movie_creation_outlined),
-              onPressed: () => controller.fetchMovie(),
-            ),
-            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget * 5),
-            SizedBox(
-              height: AppSizes.textFieldHeight * 1.4,
-              child: IconButton(
-                key: MovieListView.languagePlButtonKey,
-                icon: Image.asset('assets/icons/PL_flag.png'),
-                onPressed: () => _setLanguage(controller, ELanguage.pl),
+    return ControlledWidgetBuilder<MovieListController>(
+      builder: (context, controller) {
+        final localizations = AppLocalizations.of(context);
+        if (controller.state.navCommand != null) {
+          _navigateOrRestoreState(controller, context);
+        }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(localizations!.movie_list_title),
+            automaticallyImplyLeading: false,
+            backgroundColor: AppColors.appBarBackground,
+            actions: [
+              SearchBox(
+                controller: _searchTextController,
+                onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
               ),
-            ),
-            SizedBox(
-              height: AppSizes.textFieldHeight * 1.4,
-              child: IconButton(
-                key: MovieListView.languageEnButtonKey,
-                icon: Image.asset('assets/icons/EN_flag.png'),
-                onPressed: () => _setLanguage(controller, ELanguage.en),
+              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
+              IconButton(
+                key: MovieListView.movieDetailsButtonKey,
+                icon: const Icon(Icons.movie_creation_outlined),
+                onPressed: () => controller.fetchMovie(),
               ),
-            ),
-            AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
-          ],
-        ),
-        body: RepaintBoundary(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: _buildMovieList(context, controller),
+              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget * 5),
+              SizedBox(
+                height: AppSizes.textFieldHeight * 1.4,
+                child: IconButton(
+                  key: MovieListView.languagePlButtonKey,
+                  icon: Image.asset('assets/icons/PL_flag.png'),
+                  onPressed: () => _setLanguage(controller, ELanguage.pl),
+                ),
               ),
+              SizedBox(
+                height: AppSizes.textFieldHeight * 1.4,
+                child: IconButton(
+                  key: MovieListView.languageEnButtonKey,
+                  icon: Image.asset('assets/icons/EN_flag.png'),
+                  onPressed: () => _setLanguage(controller, ELanguage.en),
+                ),
+              ),
+              AppStyle.horizontalSeparatorOf(width: AppSizes.paddingForWidget),
             ],
           ),
-        ),
-        bottomNavigationBar: Container(
-          height: AppSizes.dialogBottomBarHeight,
-          color: AppColors.appBarBackground,
-          child: Row(
-            children: [
-              const Expanded(child: SizedBox()),
-              ButtonBuilder(context)
-                  .onTap((context) => _navTwoButtons(controller))
-                  .key(MovieListView.twoButButtonKey)
-                  .text(_txt.get.goto_two_buttons)
-                  .width(AppSizes.navButtonWidth)
-                  .build(),
-              AppStyle.horizontalSeparator(),
-            ],
+          body: RepaintBoundary(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: _buildMovieList(context, controller),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    },);
+          bottomNavigationBar: Container(
+            height: AppSizes.dialogBottomBarHeight,
+            color: AppColors.appBarBackground,
+            child: Row(
+              children: [
+                const Expanded(child: SizedBox()),
+                ButtonBuilder(context)
+                    .onTap((context) => _navTwoButtons(controller))
+                    .key(MovieListView.twoButButtonKey)
+                    .text(localizations.goto_two_buttons)
+                    .width(AppSizes.navButtonWidth)
+                    .build(),
+                AppStyle.horizontalSeparator(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildMovieList(BuildContext context, MovieListController controller) {

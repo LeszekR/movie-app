@@ -1,18 +1,15 @@
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:intl/intl.dart';
 
 class MovieDetailsUtils {
-  final Txt _txt;
   final AppParams _appConfig;
   final DateTimeReader _dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
   MovieDetailsUtils()
-      : _txt = getIt<Txt>(),
-        _appConfig = getIt<AppParams>(),
+      : _appConfig = getIt<AppParams>(),
         _dateTimeReader = getIt<DateTimeReader>();
 
   String formatDollarAmount(String amountString) {
@@ -21,7 +18,7 @@ class MovieDetailsUtils {
     return _dollarFormatter.format(amount);
   }
 
-  String recommendOrNo(String budgeString, String revenueString) {
+  bool recommendOrNo(String budgeString, String revenueString) {
     final isSunday = _dateTimeReader.now().weekday == 7;
 
     final revenue = int.parse(revenueString);
@@ -29,6 +26,6 @@ class MovieDetailsUtils {
     final profitThreshold = int.parse(_appConfig.param(AppParams.recommendationProfitThreshold));
     final isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
-    return isSunday && isProfitSatisfactory ? _txt.get.yes : _txt.get.no;
+    return isSunday && isProfitSatisfactory;
   }
 }

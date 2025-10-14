@@ -1,41 +1,41 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/components/dialogs/dialog_params.dart';
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/app/components/dialogs/message_dialog.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
 
 class DialogFactory {
-  final Txt txt;
+  const DialogFactory();
 
-  DialogFactory() : txt = getIt<Txt>();
-
-  MessageDialog message(EDialogMsg type) {
+  MessageDialog message(BuildContext context, EDialogMsg type) {
+    final localizations = AppLocalizations.of(context)!;
     DialogParams params;
     switch (type) {
       case EDialogMsg.searchQueryNotFound:
-        params = DialogParamsOk(txt.get.no_searched_movies);
+        params = DialogParamsOk(localizations.no_searched_movies);
       case EDialogMsg.noMovieSelected:
-        params = DialogParamsOk(txt.get.no_movie_chosen);
+        params = DialogParamsOk(localizations.no_movie_chosen);
       case EDialogMsg.noSuchMovie:
-        params = DialogParamsOk(txt.get.no_such_movie);
+        params = DialogParamsOk(localizations.no_such_movie);
     }
     return MessageDialog(params);
   }
 
-  MessageDialog error(Exception e) {
+  MessageDialog error(BuildContext context, Exception e) {
+    final localizations = AppLocalizations.of(context)!;
     String? text;
     if (e is MovieListHttpException) {
-      text = '${txt.get.error_get_searched_movies}${txt.get.error_http}${e.statusCode}';
+      text = '${localizations.error_get_searched_movies}${localizations.error_http}${e.statusCode}';
     } else if (e is MovieListOtherException) {
-      text = '${txt.get.error_get_searched_movies}${txt.get.error_other}';
+      text = '${localizations.error_get_searched_movies}${localizations.error_other}';
     } else if (e is MovieDetailsHttpException) {
-      text = '${txt.get.error_get_movie}${txt.get.error_http}${e.statusCode}';
+      text = '${localizations.error_get_movie}${localizations.error_http}${e.statusCode}';
     } else if (e is MovieDetailsOtherException) {
-      text = '${txt.get.error_get_movie}${txt.get.error_other}';
+      text = '${localizations.error_get_movie}${localizations.error_other}';
     } else {
       throw UnimplementedError('Not implemented error dialog case for: ${e.runtimeType}');
     }
-    return MessageDialog(DialogParamsOk(text, txt.get.dialog_title_error));
+    return MessageDialog(DialogParamsOk(text, localizations.dialog_title_error));
   }
 }

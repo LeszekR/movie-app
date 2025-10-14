@@ -9,7 +9,6 @@ import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dar
 import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/app/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/bootstrap/logger_setup.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +46,6 @@ class _MovieAppState extends CleanViewState<MovieApp, MovieAppController> {
           locale: locale,
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
-            getIt<Txt>().setLanguage(context);
             return child!;
           },
         );

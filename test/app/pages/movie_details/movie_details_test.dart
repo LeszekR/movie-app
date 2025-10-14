@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart';
+import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,8 +12,7 @@ import 'package:mockito/mockito.dart';
 import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../../test_tools/test_utils.dart';
 
-
-MockAppConfig mockAppConfig = MockAppConfig();
+MockAppParams mockAppConfig = MockAppParams();
 MockDateTimeReader mockDateTimeReader = MockDateTimeReader();
 String budget = '100';
 String revenue = '200';
@@ -21,7 +22,6 @@ void main() {
   final getIt = GetIt.instance;
 
   setUp(() {
-    getIt.registerSingleton(Txt());
     getIt.registerSingleton<AppParams>(mockAppConfig);
     getIt.registerSingleton<DateTimeReader>(mockDateTimeReader);
     getIt.registerLazySingleton(MovieDetailsUtils.new);
@@ -34,10 +34,12 @@ void main() {
     final monday = DateTime(2025, 5, 5);
     const thresholdLow = '50';
     const thresholdHigh = '150';
+    const language = 'pl';
 
-    await prepareMovieDetailsWidget(tester, '1', sunday);
-    final yesString = getIt<Txt>().get.yes;
-    final noString = getIt<Txt>().get.no;
+    await prepareMovieDetailsWidget(tester, language, '1', sunday);
+    final l10n = await AppLocalizations.delegate.load(const Locale(language));
+    final yesString = l10n.yes;
+    final noString = l10n.no;
 
     final testCaseList = [
       _MovieDetailsTestCase('high profit / Sunday', thresholdLow, sunday, yesString),
@@ -47,16 +49,21 @@ void main() {
     ];
 
     for (final testCase in testCaseList) {
-      await prepareMovieDetailsWidget(tester, testCase.profitThresh, testCase.day);
+      await prepareMovieDetailsWidget(tester, language, testCase.profitThresh, testCase.day);
       expect(find.text(testCase.expected), findsOneWidget);
     }
   });
 }
 
-Future<void> prepareMovieDetailsWidget(WidgetTester tester, String recommendProfitThreshold, DateTime mockDay) async {
+Future<void> prepareMovieDetailsWidget(
+  WidgetTester tester,
+  String language,
+  String recommendProfitThreshold,
+  DateTime mockDay,
+) async {
   when(mockAppConfig.param(AppParams.recommendationProfitThreshold)).thenReturn(recommendProfitThreshold);
   when(mockDateTimeReader.now()).thenReturn(mockDay);
-  await prepareWidget(tester, widgetBuilder: () => MovieDetailsView(title, budget, revenue));
+  await prepareWidget(tester, language: language, widgetBuilder: () => MovieDetailsView(title, budget, revenue));
 }
 
 class _MovieDetailsTestCase {

@@ -175,7 +175,7 @@ The `controllerTest` has extra params to adjust to `flutter_clean_architecture`
 - DI via `GetIt` lookup calls inside classes
 - hybrid mix of both
 
-There are reasons to use each of those choices. I decided on the last since.  
+There are reasons to use each of those choices. I decided on the last.  
 Whether it is the right choice it can be discussed. For presentation purposes used it here although
 just as well one might decide on any other - depending on given app architecture decisions.
 

@@ -3,24 +3,23 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i10;
-import 'dart:ui' as _i15;
+import 'dart:async' as _i9;
+import 'dart:ui' as _i14;
 
-import 'package:flutter/material.dart' as _i5;
-import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart' as _i3;
-import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart' as _i13;
-import 'package:flutter_demo/bootstrap/app_params.dart' as _i6;
-import 'package:flutter_demo/app/navigation/app_navigator.dart' as _i4;
-import 'package:flutter_demo/app/navigation/navigation_command.dart' as _i12;
+import 'package:flutter/material.dart' as _i4;
+import 'package:flutter_demo/app/components/dialogs/dialog_factory.dart' as _i2;
+import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart' as _i12;
+import 'package:flutter_demo/app/navigation/app_navigator.dart' as _i3;
+import 'package:flutter_demo/app/navigation/navigation_command.dart' as _i11;
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart'
-    as _i14;
+    as _i13;
+import 'package:flutter_demo/bootstrap/app_params.dart' as _i5;
 import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart'
-    as _i9;
-import 'package:flutter_demo/domain/entities/movie.dart' as _i11;
-import 'package:flutter_demo/app/ui_localized_texts/txt.dart' as _i2;
-import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i8;
+    as _i8;
+import 'package:flutter_demo/domain/entities/movie.dart' as _i10;
+import 'package:flutter_demo/domain/utils/date_time_reader.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -41,52 +40,47 @@ class _FakeDateTime_0 extends _i1.SmartFake implements DateTime {
     : super(parent, parentInvocation);
 }
 
-class _FakeTxt_1 extends _i1.SmartFake implements _i2.Txt {
-  _FakeTxt_1(Object parent, Invocation parentInvocation)
+class _FakeDialogFactory_1 extends _i1.SmartFake implements _i2.DialogFactory {
+  _FakeDialogFactory_1(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDialogFactory_2 extends _i1.SmartFake implements _i3.DialogFactory {
-  _FakeDialogFactory_2(Object parent, Invocation parentInvocation)
+class _FakeAppNavigator_2 extends _i1.SmartFake implements _i3.AppNavigator {
+  _FakeAppNavigator_2(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAppNavigator_3 extends _i1.SmartFake implements _i4.AppNavigator {
-  _FakeAppNavigator_3(Object parent, Invocation parentInvocation)
+class _FakeScrollPosition_3 extends _i1.SmartFake
+    implements _i4.ScrollPosition {
+  _FakeScrollPosition_3(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeScrollPosition_4 extends _i1.SmartFake
-    implements _i5.ScrollPosition {
-  _FakeScrollPosition_4(Object parent, Invocation parentInvocation)
+class _FakeTextSelection_4 extends _i1.SmartFake implements _i4.TextSelection {
+  _FakeTextSelection_4(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeTextSelection_5 extends _i1.SmartFake implements _i5.TextSelection {
-  _FakeTextSelection_5(Object parent, Invocation parentInvocation)
+class _FakeTextEditingValue_5 extends _i1.SmartFake
+    implements _i4.TextEditingValue {
+  _FakeTextEditingValue_5(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeTextEditingValue_6 extends _i1.SmartFake
-    implements _i5.TextEditingValue {
-  _FakeTextEditingValue_6(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeTextSpan_7 extends _i1.SmartFake implements _i5.TextSpan {
-  _FakeTextSpan_7(Object parent, Invocation parentInvocation)
+class _FakeTextSpan_6 extends _i1.SmartFake implements _i4.TextSpan {
+  _FakeTextSpan_6(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 
   @override
-  String toString({_i5.DiagnosticLevel? minLevel = _i5.DiagnosticLevel.info}) =>
+  String toString({_i4.DiagnosticLevel? minLevel = _i4.DiagnosticLevel.info}) =>
       super.toString();
 }
 
-/// A class which mocks [AppConfig].
+/// A class which mocks [AppParams].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfig extends _i1.Mock implements _i6.AppParams {
-  MockAppConfig() {
+class MockAppParams extends _i1.Mock implements _i5.AppParams {
+  MockAppParams() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -94,7 +88,7 @@ class MockAppConfig extends _i1.Mock implements _i6.AppParams {
   String param(String? paramName) =>
       (super.noSuchMethod(
             Invocation.method(#param, [paramName]),
-            returnValue: _i7.dummyValue<String>(
+            returnValue: _i6.dummyValue<String>(
               this,
               Invocation.method(#param, [paramName]),
             ),
@@ -105,7 +99,7 @@ class MockAppConfig extends _i1.Mock implements _i6.AppParams {
 /// A class which mocks [DateTimeReader].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDateTimeReader extends _i1.Mock implements _i8.DateTimeReader {
+class MockDateTimeReader extends _i1.Mock implements _i7.DateTimeReader {
   MockDateTimeReader() {
     _i1.throwOnMissingStub(this);
   }
@@ -123,96 +117,88 @@ class MockDateTimeReader extends _i1.Mock implements _i8.DateTimeReader {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDataMovieRepository extends _i1.Mock
-    implements _i9.DataMovieRepository {
+    implements _i8.DataMovieRepository {
   MockDataMovieRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i10.Future<List<_i11.Movie>> getSearchedMovies(String? query) =>
+  _i9.Future<List<_i10.Movie>> getSearchedMovies(String? query) =>
       (super.noSuchMethod(
             Invocation.method(#getSearchedMovies, [query]),
-            returnValue: _i10.Future<List<_i11.Movie>>.value(<_i11.Movie>[]),
+            returnValue: _i9.Future<List<_i10.Movie>>.value(<_i10.Movie>[]),
           )
-          as _i10.Future<List<_i11.Movie>>);
+          as _i9.Future<List<_i10.Movie>>);
 
   @override
-  _i10.Future<_i11.Movie?> getMovie(int? movieId) =>
+  _i9.Future<_i10.Movie?> getMovie(int? movieId) =>
       (super.noSuchMethod(
             Invocation.method(#getMovie, [movieId]),
-            returnValue: _i10.Future<_i11.Movie?>.value(),
+            returnValue: _i9.Future<_i10.Movie?>.value(),
           )
-          as _i10.Future<_i11.Movie?>);
+          as _i9.Future<_i10.Movie?>);
 }
 
 /// A class which mocks [AppNavigator].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppNavigator extends _i1.Mock implements _i4.AppNavigator {
+class MockAppNavigator extends _i1.Mock implements _i3.AppNavigator {
   MockAppNavigator() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.Txt get txt =>
-      (super.noSuchMethod(
-            Invocation.getter(#txt),
-            returnValue: _FakeTxt_1(this, Invocation.getter(#txt)),
-          )
-          as _i2.Txt);
-
-  @override
-  _i3.DialogFactory get dialogFactory =>
+  _i2.DialogFactory get dialogFactory =>
       (super.noSuchMethod(
             Invocation.getter(#dialogFactory),
-            returnValue: _FakeDialogFactory_2(
+            returnValue: _FakeDialogFactory_1(
               this,
               Invocation.getter(#dialogFactory),
             ),
           )
-          as _i3.DialogFactory);
+          as _i2.DialogFactory);
 
   @override
-  void throwOnMissingNav(_i12.NavigationCommand<dynamic>? navCommand) =>
+  void throwOnMissingNav(_i11.NavigationCommand<dynamic>? navCommand) =>
       super.noSuchMethod(
         Invocation.method(#throwOnMissingNav, [navCommand]),
         returnValueForMissingStub: null,
       );
 
   @override
-  void showProgress(_i5.BuildContext? context) => super.noSuchMethod(
+  void showProgress(_i4.BuildContext? context) => super.noSuchMethod(
     Invocation.method(#showProgress, [context]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void popProgress(_i5.BuildContext? context) => super.noSuchMethod(
+  void popProgress(_i4.BuildContext? context) => super.noSuchMethod(
     Invocation.method(#popProgress, [context]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void dialogMessage(_i5.BuildContext? context, _i13.EDialogMsg? dialogType) =>
+  void dialogMessage(_i4.BuildContext? context, _i12.EDialogMsg? dialogType) =>
       super.noSuchMethod(
         Invocation.method(#dialogMessage, [context, dialogType]),
         returnValueForMissingStub: null,
       );
 
   @override
-  void dialogError(_i5.BuildContext? context, Exception? e) =>
+  void dialogError(_i4.BuildContext? context, Exception? e) =>
       super.noSuchMethod(
         Invocation.method(#dialogError, [context, e]),
         returnValueForMissingStub: null,
       );
 
   @override
-  void movieList(_i5.BuildContext? context) => super.noSuchMethod(
+  void movieList(_i4.BuildContext? context) => super.noSuchMethod(
     Invocation.method(#movieList, [context]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void twoButtons(_i5.BuildContext? context) => super.noSuchMethod(
+  void twoButtons(_i4.BuildContext? context) => super.noSuchMethod(
     Invocation.method(#twoButtons, [context]),
     returnValueForMissingStub: null,
   );
@@ -222,26 +208,26 @@ class MockAppNavigator extends _i1.Mock implements _i4.AppNavigator {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMovieListNavigator extends _i1.Mock
-    implements _i14.MovieListNavigator {
+    implements _i13.MovieListNavigator {
   MockMovieListNavigator() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.AppNavigator get appNavigator =>
+  _i3.AppNavigator get appNavigator =>
       (super.noSuchMethod(
             Invocation.getter(#appNavigator),
-            returnValue: _FakeAppNavigator_3(
+            returnValue: _FakeAppNavigator_2(
               this,
               Invocation.getter(#appNavigator),
             ),
           )
-          as _i4.AppNavigator);
+          as _i3.AppNavigator);
 
   @override
   void navigate(
-    _i5.BuildContext? context,
-    _i12.NavigationCommand<dynamic>? navCommand,
+    _i4.BuildContext? context,
+    _i11.NavigationCommand<dynamic>? navCommand,
   ) => super.noSuchMethod(
     Invocation.method(#navigate, [context, navCommand]),
     returnValueForMissingStub: null,
@@ -249,8 +235,8 @@ class MockMovieListNavigator extends _i1.Mock
 
   @override
   void go(
-    _i5.BuildContext? context,
-    _i12.NavigationCommand<dynamic>? navCommand,
+    _i4.BuildContext? context,
+    _i11.NavigationCommand<dynamic>? navCommand,
   ) => super.noSuchMethod(
     Invocation.method(#go, [context, navCommand]),
     returnValueForMissingStub: null,
@@ -260,7 +246,7 @@ class MockMovieListNavigator extends _i1.Mock
 /// A class which mocks [ScrollController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockScrollController extends _i1.Mock implements _i5.ScrollController {
+class MockScrollController extends _i1.Mock implements _i4.ScrollController {
   MockScrollController() {
     _i1.throwOnMissingStub(this);
   }
@@ -282,12 +268,12 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
           as double);
 
   @override
-  Iterable<_i5.ScrollPosition> get positions =>
+  Iterable<_i4.ScrollPosition> get positions =>
       (super.noSuchMethod(
             Invocation.getter(#positions),
-            returnValue: <_i5.ScrollPosition>[],
+            returnValue: <_i4.ScrollPosition>[],
           )
-          as Iterable<_i5.ScrollPosition>);
+          as Iterable<_i4.ScrollPosition>);
 
   @override
   bool get hasClients =>
@@ -295,15 +281,15 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
           as bool);
 
   @override
-  _i5.ScrollPosition get position =>
+  _i4.ScrollPosition get position =>
       (super.noSuchMethod(
             Invocation.getter(#position),
-            returnValue: _FakeScrollPosition_4(
+            returnValue: _FakeScrollPosition_3(
               this,
               Invocation.getter(#position),
             ),
           )
-          as _i5.ScrollPosition);
+          as _i4.ScrollPosition);
 
   @override
   double get offset =>
@@ -316,10 +302,10 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
           as bool);
 
   @override
-  _i10.Future<void> animateTo(
+  _i9.Future<void> animateTo(
     double? offset, {
     required Duration? duration,
-    required _i5.Curve? curve,
+    required _i4.Curve? curve,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -327,10 +313,10 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
               [offset],
               {#duration: duration, #curve: curve},
             ),
-            returnValue: _i10.Future<void>.value(),
-            returnValueForMissingStub: _i10.Future<void>.value(),
+            returnValue: _i9.Future<void>.value(),
+            returnValueForMissingStub: _i9.Future<void>.value(),
           )
-          as _i10.Future<void>);
+          as _i9.Future<void>);
 
   @override
   void jumpTo(double? value) => super.noSuchMethod(
@@ -339,13 +325,13 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
   );
 
   @override
-  void attach(_i5.ScrollPosition? position) => super.noSuchMethod(
+  void attach(_i4.ScrollPosition? position) => super.noSuchMethod(
     Invocation.method(#attach, [position]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void detach(_i5.ScrollPosition? position) => super.noSuchMethod(
+  void detach(_i4.ScrollPosition? position) => super.noSuchMethod(
     Invocation.method(#detach, [position]),
     returnValueForMissingStub: null,
   );
@@ -357,10 +343,10 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
   );
 
   @override
-  _i5.ScrollPosition createScrollPosition(
-    _i5.ScrollPhysics? physics,
-    _i5.ScrollContext? context,
-    _i5.ScrollPosition? oldPosition,
+  _i4.ScrollPosition createScrollPosition(
+    _i4.ScrollPhysics? physics,
+    _i4.ScrollContext? context,
+    _i4.ScrollPosition? oldPosition,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#createScrollPosition, [
@@ -368,7 +354,7 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
               context,
               oldPosition,
             ]),
-            returnValue: _FakeScrollPosition_4(
+            returnValue: _FakeScrollPosition_3(
               this,
               Invocation.method(#createScrollPosition, [
                 physics,
@@ -377,7 +363,7 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
               ]),
             ),
           )
-          as _i5.ScrollPosition);
+          as _i4.ScrollPosition);
 
   @override
   void debugFillDescription(List<String>? description) => super.noSuchMethod(
@@ -386,13 +372,13 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
   );
 
   @override
-  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -408,7 +394,7 @@ class MockScrollController extends _i1.Mock implements _i5.ScrollController {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTextEditingController extends _i1.Mock
-    implements _i5.TextEditingController {
+    implements _i4.TextEditingController {
   MockTextEditingController() {
     _i1.throwOnMissingStub(this);
   }
@@ -417,7 +403,7 @@ class MockTextEditingController extends _i1.Mock
   String get text =>
       (super.noSuchMethod(
             Invocation.getter(#text),
-            returnValue: _i7.dummyValue<String>(this, Invocation.getter(#text)),
+            returnValue: _i6.dummyValue<String>(this, Invocation.getter(#text)),
           )
           as String);
 
@@ -428,38 +414,38 @@ class MockTextEditingController extends _i1.Mock
   );
 
   @override
-  set value(_i5.TextEditingValue? newValue) => super.noSuchMethod(
+  set value(_i4.TextEditingValue? newValue) => super.noSuchMethod(
     Invocation.setter(#value, newValue),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i5.TextSelection get selection =>
+  _i4.TextSelection get selection =>
       (super.noSuchMethod(
             Invocation.getter(#selection),
-            returnValue: _FakeTextSelection_5(
+            returnValue: _FakeTextSelection_4(
               this,
               Invocation.getter(#selection),
             ),
           )
-          as _i5.TextSelection);
+          as _i4.TextSelection);
 
   @override
-  set selection(_i5.TextSelection? newSelection) => super.noSuchMethod(
+  set selection(_i4.TextSelection? newSelection) => super.noSuchMethod(
     Invocation.setter(#selection, newSelection),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i5.TextEditingValue get value =>
+  _i4.TextEditingValue get value =>
       (super.noSuchMethod(
             Invocation.getter(#value),
-            returnValue: _FakeTextEditingValue_6(
+            returnValue: _FakeTextEditingValue_5(
               this,
               Invocation.getter(#value),
             ),
           )
-          as _i5.TextEditingValue);
+          as _i4.TextEditingValue);
 
   @override
   bool get hasListeners =>
@@ -467,9 +453,9 @@ class MockTextEditingController extends _i1.Mock
           as bool);
 
   @override
-  _i5.TextSpan buildTextSpan({
-    required _i5.BuildContext? context,
-    _i5.TextStyle? style,
+  _i4.TextSpan buildTextSpan({
+    required _i4.BuildContext? context,
+    _i4.TextStyle? style,
     required bool? withComposing,
   }) =>
       (super.noSuchMethod(
@@ -478,7 +464,7 @@ class MockTextEditingController extends _i1.Mock
               #style: style,
               #withComposing: withComposing,
             }),
-            returnValue: _FakeTextSpan_7(
+            returnValue: _FakeTextSpan_6(
               this,
               Invocation.method(#buildTextSpan, [], {
                 #context: context,
@@ -487,7 +473,7 @@ class MockTextEditingController extends _i1.Mock
               }),
             ),
           )
-          as _i5.TextSpan);
+          as _i4.TextSpan);
 
   @override
   void clear() => super.noSuchMethod(
@@ -502,13 +488,13 @@ class MockTextEditingController extends _i1.Mock
   );
 
   @override
-  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
