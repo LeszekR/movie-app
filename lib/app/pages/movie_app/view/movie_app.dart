@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
@@ -10,7 +8,6 @@ import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/app/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/bootstrap/logger_setup.dart';
 import 'package:go_router/go_router.dart';
 
 part '../../../navigation/go_router.dart';
@@ -30,12 +27,6 @@ class _MovieAppState extends CleanViewState<MovieApp, MovieAppController> {
     return ControlledWidgetBuilder<MovieAppController>(
       builder: (context, controller) {
         final locale = Locale(controller.state.languageId);
-
-        // catch unhandled errors other than framework errors (those will be logged by the framework)
-        PlatformDispatcher.instance.onError = (error, stack) {
-          log.severe(null, error, stack);
-          return true;
-        };
 
         return MaterialApp.router(
           title: 'Movie Browser',
