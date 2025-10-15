@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/app/components/search_box.dart';
+import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
-import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../test_tools/controller_test/utils.dart';
 import '../../../test_tools/mocks/common_mocks.mocks.dart';
 import '../../../test_tools/test_utils.dart';
 import '../../components/sorting/sorter_test.dart';
@@ -17,9 +17,7 @@ void main() {
 
   setUp(() async {
     await loadConfigFile();
-    initGetIt();
-    getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() => mockDataMovieRepository);
+    getIt.registerLazySingleton(MovieListState.new);
   });
 
   tearDown(() {
@@ -32,7 +30,7 @@ void main() {
 
     when(mockDataMovieRepository.getSearchedMovies(any)).thenAnswer((_) => Future.value(fetchedMovieList));
 
-    await prepareWidget(tester, language: 'pl', widgetBuilder: MovieListView.new);
+    await prepareWidget(tester, language: 'pl', widgetBuilder: () => makeMovieListView(mockDataMovieRepository));
 
     final searchBox = find.byKey(SearchBox.keySearchBox);
     await tester.tap(searchBox);

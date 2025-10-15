@@ -9,25 +9,23 @@ import 'package:flutter_demo/app/pages/two_buttons/controller/two_buttons_contro
 import 'package:flutter_demo/app/pages/two_buttons/navigation/two_buttons_navigator.dart';
 import 'package:flutter_demo/app/pages/two_buttons/view/components/button_two_states.dart';
 import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class TwoButtonsView extends CleanView {
   static Key movieListButtonKey = const Key('movieListButtonKey');
   static Key button1Key = const Key('button1Key');
   static Key button2Key = const Key('button2Key');
+  final TwoButtonsController twoButtonsController;
+  final TwoButtonsNavigator twoButtonNavigator;
 
-  const TwoButtonsView({super.key});
+  const TwoButtonsView(this.twoButtonsController, this.twoButtonNavigator, {super.key});
 
   @override
-  TwoButtonsViewState createState() => TwoButtonsViewState();
+  // ignore: no_logic_in_create_state
+  TwoButtonsViewState createState() => TwoButtonsViewState(twoButtonsController);
 }
 
 class TwoButtonsViewState extends CleanViewState<TwoButtonsView, TwoButtonsController> {
-  final TwoButtonsNavigator _twoButtonNavigator;
-
-  TwoButtonsViewState()
-      : _twoButtonNavigator = getIt<TwoButtonsNavigator>(),
-        super(getIt<TwoButtonsController>());
+  TwoButtonsViewState(super.controller);
 
   @override
   Widget get view {
@@ -68,7 +66,7 @@ class TwoButtonsViewState extends CleanViewState<TwoButtonsView, TwoButtonsContr
               children: [
                 const Expanded(child: SizedBox()),
                 ButtonBuilder(context)
-                    .onTap((context) => _twoButtonNavigator.navigate(context, NavMovieList()))
+                    .onTap((context) => widget.twoButtonNavigator.navigate(context, NavMovieList()))
                     .key(TwoButtonsView.movieListButtonKey)
                     .text(localizations.goto_movie_list)
                     .width(AppSizes.navButtonWidth)

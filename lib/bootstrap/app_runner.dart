@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
@@ -25,5 +26,5 @@ Future<void> run() async {
 
   initGetIt();
 
-  runApp(const MovieApp());
+  runApp(MovieApp(getIt<MovieAppController>()));
 }

@@ -1,23 +1,15 @@
 import 'package:flutter_demo/app/components/dialogs/e_dialog_msg.dart';
 import 'package:flutter_demo/app/components/three_state_value.dart';
 import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
-import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
-import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/nav_commands.dart';
-import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
-import 'package:flutter_demo/domain/entities/movie.dart';
-import 'package:flutter_demo/domain/services/sorting/sorter.dart';
-import 'package:flutter_demo/domain/usecases/movie_details/get_movie_details_usecase.dart';
-import 'package:flutter_demo/domain/usecases/movie_list/get_searched_movies_usecase.dart';
-import 'package:flutter_demo/domain/usecases/movie_list/sort_movies_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../test_tools/controller_test/controller_test_runner.dart';
+import '../../../../test_tools/controller_test/utils.dart';
 import '../../../../test_tools/mocks/common_mocks.mocks.dart';
 import 'movie_list_controller_test_data.dart';
 
@@ -28,15 +20,7 @@ void main() {
 
   setUpAll(() async {
     await loadConfigFile();
-    getIt.registerSingleton(AppParams());
-    getIt.registerFactory(Sorter<Movie>.new);
-    getIt.registerFactory<DataMovieRepository>(() => mockDataMovieRepository);
-    getIt.registerFactory<GetSearchedMoviesUseCase>(() => GetSearchedMoviesUseCase(mockDataMovieRepository));
-    getIt.registerFactory<GetMovieDetailsUseCase>(() => GetMovieDetailsUseCase(mockDataMovieRepository));
-    getIt.registerFactory<SortMoviesUseCase>(() => SortMoviesUseCase(getIt<Sorter<Movie>>()));
-    getIt.registerFactory<MovieListPresenter>(MovieListPresenter.new);
     getIt.registerLazySingleton(MovieListState.new);
-    getIt.registerFactory<MovieListNavigator>(() => mockMovieListNavigator);
     await d.init();
   });
 
@@ -57,7 +41,7 @@ void main() {
     controllerTest(
       'search show progress',
       seed: MovieListState.new,
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryA),
       asyncTicks: 1,
       expect: () => [
@@ -77,7 +61,7 @@ void main() {
   group('search movies - edge cases', () {
     controllerTest(
       'search query empty string',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(''),
       seed: MovieListState.new,
       expect: () => [MovieListState()],
@@ -90,7 +74,7 @@ void main() {
   group('empty list => search movies => failed', () {
     controllerTest(
       'empty => search not found',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryNotFound),
       seed: MovieListState.new,
       skip: 1,
@@ -109,7 +93,7 @@ void main() {
 
     controllerTest(
       'empty  => search http error',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryHttpErr),
       seed: MovieListState.new,
       skip: 1,
@@ -128,7 +112,7 @@ void main() {
 
     controllerTest(
       'empty  => search other error',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryOtherErr),
       seed: MovieListState.new,
       skip: 1,
@@ -149,7 +133,7 @@ void main() {
   group('full list => search movies => failed', () {
     controllerTest(
       'full => search not found',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryNotFound),
       seed: () => MovieListState(
         movieCardDataList: d.movieCardDataListB,
@@ -172,11 +156,11 @@ void main() {
 
     controllerTest(
       'full => search http error',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryHttpErr),
       seed: () => MovieListState(
         movieCardDataList: d.movieCardDataListB,
-        selectedMovieId: ThreeStateInt.value(d.selectedId_18),
+        selectedMovieId: ThreeStateInt.value(d.selectedId18),
         searchQuery: d.queryB,
         // restoreView: false,
       ),
@@ -196,7 +180,7 @@ void main() {
 
     controllerTest(
       'full => search other error',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryOtherErr),
       seed: () => MovieListState(
         movieCardDataList: List.empty(),
@@ -223,7 +207,7 @@ void main() {
   group('search movies => successful', () {
     controllerTest(
       'empty list => search => successful A',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryA),
       seed: MovieListState.new,
       skip: 1,
@@ -242,12 +226,12 @@ void main() {
 
     controllerTest(
       'full list => search => successful B',
-      build: MovieListController.new,
+      build: () => makeMovieListController(mockDataMovieRepository),
       act: (controller) => controller.fetchSearchedMovies(d.queryB),
       seed: () => MovieListState(
         movieCardDataList: d.movieCardDataListA,
         selectedMovieId: ThreeStateInt.value(d.movieIdA2),
-        scrollOffset: d.scrollOffset_230,
+        scrollOffset: d.scrollOffset230,
         searchQuery: d.queryA,
         navCommand: NavMessageDialog(EDialogMsg.searchQueryNotFound),
       ),

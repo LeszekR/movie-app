@@ -4,24 +4,23 @@ import 'package:flutter_demo/app/config/app_style.dart';
 import 'package:flutter_demo/app/pages/movie_details/utils/movie_details_utils.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/components/movie_details_content_line.dart';
 import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MovieDetailsView extends StatelessWidget {
   final String title;
   final String budget;
   final String revenue;
+  final MovieDetailsUtils utils;
 
   const MovieDetailsView(
     this.title,
     this.budget,
-    this.revenue, {
+    this.revenue,
+    this.utils, {
     super.key,
-  })
-  ;
+  });
 
   @override
   Widget build(BuildContext context) {
-    final utils = getIt<MovieDetailsUtils>();
     final details = makeMovieDetailsContentLine(context, utils, budget, revenue);
 
     return Scaffold(

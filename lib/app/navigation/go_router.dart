@@ -7,7 +7,11 @@ GoRouter goRouter() {
       GoRoute(
         name: routeHome,
         path: pathHome,
-        builder: (context, state) => const MovieListView(),
+        builder: (context, state) => MovieListView(
+          getIt<MovieAppController>(),
+          getIt<MovieListController>(),
+          getIt<MovieListNavigator>(),
+        ),
       ),
       GoRoute(
         name: routeMovieDetails,
@@ -16,13 +20,13 @@ GoRouter goRouter() {
           final String title = state.pathParameters[paramMovieTitle]!;
           final String budget = state.pathParameters[paramMovieBudget]!;
           final String revenue = state.pathParameters[paramMovieRevenue]!;
-          return MovieDetailsView(title, budget, revenue);
+          return MovieDetailsView(title, budget, revenue, getIt<MovieDetailsUtils>());
         },
       ),
       GoRoute(
         name: routeTwoButtons,
         path: pathTwoButtons,
-        builder: (context, state) => const TwoButtonsView(),
+        builder: (context, state) => TwoButtonsView(getIt<TwoButtonsController>(), getIt<TwoButtonsNavigator>()),
       ),
     ],
   );

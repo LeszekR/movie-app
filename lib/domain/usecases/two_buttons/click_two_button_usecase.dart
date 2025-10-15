@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/domain/utils/use_case_utils.dart';
 
-class ClickTwoButtonUseCase extends UseCase<ClickButtonUseCaseResponse, ClickButtonUseCaseParams> {
+class ClickButtonUseCase extends UseCase<ClickButtonUseCaseResponse, ClickButtonUseCaseParams> {
   @override
   Future<Stream<ClickButtonUseCaseResponse?>> buildUseCaseStream(ClickButtonUseCaseParams? params) {
     final buttonIndex = params!.clickedButtonIndex;

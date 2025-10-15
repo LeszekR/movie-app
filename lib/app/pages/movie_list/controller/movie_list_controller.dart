@@ -18,10 +18,9 @@ class MovieListController extends Controller {
   final MovieListPresenter _movieListPresenter;
   final int _starRatingThreshold;
 
-  MovieListController()
+  MovieListController(AppParams appParams, this._movieListPresenter)
       : state = getIt<MovieListState>(),
-        _movieListPresenter = getIt<MovieListPresenter>(),
-        _starRatingThreshold = int.parse(getIt<AppParams>().param(AppParams.starRatingThreshold)),
+        _starRatingThreshold = int.parse(appParams.param(AppParams.starRatingThreshold)),
         super();
 
   @override

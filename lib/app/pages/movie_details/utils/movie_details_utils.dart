@@ -1,16 +1,13 @@
 import 'package:flutter_demo/bootstrap/app_params.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/domain/utils/date_time_reader.dart';
 import 'package:intl/intl.dart';
 
 class MovieDetailsUtils {
-  final AppParams _appConfig;
+  final AppParams _appParams;
   final DateTimeReader _dateTimeReader;
   final _dollarFormatter = NumberFormat.simpleCurrency(locale: 'en_US', decimalDigits: 0);
 
-  MovieDetailsUtils()
-      : _appConfig = getIt<AppParams>(),
-        _dateTimeReader = getIt<DateTimeReader>();
+  MovieDetailsUtils(this._appParams, this._dateTimeReader);
 
   String formatDollarAmount(String amountString) {
     final amount = int.parse(amountString);
@@ -23,7 +20,7 @@ class MovieDetailsUtils {
 
     final revenue = int.parse(revenueString);
     final budget = int.parse(budgeString);
-    final profitThreshold = int.parse(_appConfig.param(AppParams.recommendationProfitThreshold));
+    final profitThreshold = int.parse(_appParams.param(AppParams.recommendationProfitThreshold));
     final isProfitSatisfactory = (revenue - budget) > profitThreshold;
 
     return isSunday && isProfitSatisfactory;

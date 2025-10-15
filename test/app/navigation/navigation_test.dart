@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/app/components/search_box.dart';
 import 'package:flutter_demo/app/config/app_colors.dart';
+import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/view/movie_app.dart';
 import 'package:flutter_demo/app/pages/movie_details/view/movie_details_view.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/movie_list_view.dart';
@@ -11,8 +12,8 @@ import 'package:flutter_demo/app/pages/two_buttons/view/components/button_two_st
 import 'package:flutter_demo/app/pages/two_buttons/view/two_buttons_view.dart';
 import 'package:flutter_demo/bootstrap/app_params.dart';
 import 'package:flutter_demo/bootstrap/get_it_model.dart';
-import 'package:flutter_demo/data/repositories/movie_repository/data_movie_repository.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
+import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -37,8 +38,7 @@ void main() {
   setUpAll(() async {
     await loadConfigFile();
     initGetIt();
-    getIt.unregister<DataMovieRepository>();
-    getIt.registerLazySingleton<DataMovieRepository>(() => mockDataMovieRepository);
+    getItReplaceLazySingleton<MovieRepository>(() => mockDataMovieRepository);
 
     dotenv.testLoad(fileInput: File(AppParams.configFilePath).readAsStringSync());
 
@@ -47,7 +47,7 @@ void main() {
   });
 
   testWidgets('all navigation transitions without errors', (tester) async {
-    await tester.pumpWidget(const MovieApp());
+    await tester.pumpWidget(MovieApp(getIt<MovieAppController>()));
 
     // filling the search box
     final searchBox = find.byKey(SearchBox.keySearchBox);

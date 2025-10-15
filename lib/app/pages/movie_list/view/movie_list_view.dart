@@ -9,11 +9,9 @@ import 'package:flutter_demo/app/navigation/app_nav_commands.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_controller.dart';
 import 'package:flutter_demo/app/pages/movie_app/controller/movie_app_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_controller.dart';
-import 'package:flutter_demo/app/pages/movie_list/controller/movie_list_state.dart';
 import 'package:flutter_demo/app/pages/movie_list/navigation/movie_list_navigator.dart';
 import 'package:flutter_demo/app/pages/movie_list/view/components/movie_card.dart';
 import 'package:flutter_demo/app/ui_localized_texts/app_localizations/app_localizations.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 
 class MovieListView extends CleanView {
   static Key movieDetailsButtonKey = const Key('movieDetailsButtonKey');
@@ -22,18 +20,23 @@ class MovieListView extends CleanView {
   static Key twoButButtonKey = const Key('twoButtonsButtonKey');
   static ValueKey<String> listViewKey = const ValueKey('movieListKey');
 
-  const MovieListView({super.key});
+  final MovieAppController movieAppController;
+  final MovieListController movieListController;
+  final MovieListNavigator movieListNavigator;
+
+  const MovieListView(this.movieAppController, this.movieListController, this.movieListNavigator, {super.key});
 
   @override
-  MovieListViewState createState() => MovieListViewState();
+  // ignore: no_logic_in_create_state
+  MovieListViewState createState() => MovieListViewState(movieListController);
 }
 
 class MovieListViewState extends CleanViewState<MovieListView, MovieListController> {
   final TextEditingController _searchTextController = TextEditingController();
-  final ScrollController _scrollController =
-      ScrollController(initialScrollOffset: getIt<MovieListState>().scrollOffset);
+  final ScrollController _scrollController;
 
-  MovieListViewState() : super(getIt<MovieListController>());
+  MovieListViewState(super.controller)
+      : _scrollController = ScrollController(initialScrollOffset: controller.state.scrollOffset);
 
   @override
   void dispose() {
@@ -60,13 +63,13 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                 controller: _searchTextController,
                 onSubmitted: (searchQuery) => controller.fetchSearchedMovies(searchQuery),
               ),
-              HorizontalSeparator.of(width: AppSizes.paddingForWidget),
+              const HorizontalSeparator.of(width: AppSizes.paddingForWidget),
               IconButton(
                 key: MovieListView.movieDetailsButtonKey,
                 icon: const Icon(Icons.movie_creation_outlined),
                 onPressed: () => controller.fetchMovie(),
               ),
-              HorizontalSeparator.of(width: AppSizes.paddingForWidget * 5),
+              const HorizontalSeparator.of(width: AppSizes.paddingForWidget * 5),
               SizedBox(
                 height: AppSizes.textFieldHeight * 1.4,
                 child: IconButton(
@@ -83,7 +86,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
                   onPressed: () => _setLanguage(controller, ELanguage.en),
                 ),
               ),
-              HorizontalSeparator.of(width: AppSizes.paddingForWidget),
+              const HorizontalSeparator.of(width: AppSizes.paddingForWidget),
             ],
           ),
           body: RepaintBoundary(
@@ -146,7 +149,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
     if (!controller.state.navCommand!.isConsumed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (controller.state.navCommand is! NavProgressOff) _saveState(controller);
-        getIt<MovieListNavigator>().go(context, controller.state.navCommand);
+        widget.movieListNavigator.go(context, controller.state.navCommand);
       });
     }
     if (controller.state.navCommand!.isConsumed || controller.state.navCommand is NavProgressOff) {
@@ -160,7 +163,7 @@ class MovieListViewState extends CleanViewState<MovieListView, MovieListControll
 
   void _setLanguage(MovieListController controller, ELanguage eLanguage) {
     _saveState(controller);
-    getIt<MovieAppController>().setLanguage(eLanguage);
+    widget.movieAppController.setLanguage(eLanguage);
   }
 
   void _saveState(MovieListController controller) =>

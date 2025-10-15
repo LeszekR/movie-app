@@ -1,6 +1,5 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_demo/app/pages/movie_list/presenter/movie_list_presenter_callbacks.dart';
-import 'package:flutter_demo/bootstrap/get_it_model.dart';
 import 'package:flutter_demo/domain/entities/movie.dart';
 import 'package:flutter_demo/domain/repositories/movie_repository/movie_repository_exception.dart';
 import 'package:flutter_demo/domain/services/sorting/sort_criteria.dart';
@@ -25,11 +24,11 @@ class MovieListPresenter extends Presenter {
   final GetSearchedMoviesUseCase _getSearchedMoviesUseCase;
   final SortMoviesUseCase _sortMoviesUseCase;
 
-  MovieListPresenter()
-      : _getMovieDetailsUseCase = getIt<GetMovieDetailsUseCase>(),
-        _getSearchedMoviesUseCase = getIt<GetSearchedMoviesUseCase>(),
-        _sortMoviesUseCase = getIt<SortMoviesUseCase>(),
-        super();
+  MovieListPresenter(
+    this._getMovieDetailsUseCase,
+    this._getSearchedMoviesUseCase,
+    this._sortMoviesUseCase,
+  ) : super();
 
   @override
   void dispose() {
